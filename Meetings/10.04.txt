@@ -2,7 +2,5 @@
 - Phan cong do an:
    + Tim free template: Moi thanh vien tim 2 free template
 - Milestone:
-   + 10/04: Lam deadline toi nay (Lab02)
-   + 11/04: 
-   +
+   + 11/04: Deadline free template
 
