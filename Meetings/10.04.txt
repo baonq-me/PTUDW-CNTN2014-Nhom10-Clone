@@ -1,5 +1,8 @@
 - Huong dan Huy va Hien dung Git
 - Phan cong do an:
-   + Tim free template: Bao
+   + Tim free template: Moi thanh vien tim 2 free template
+- Milestone:
+   + Lam deadline toi nay (Lab02)
    + 
+   +
 
