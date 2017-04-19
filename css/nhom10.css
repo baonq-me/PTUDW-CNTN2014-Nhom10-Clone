@@ -1,0 +1,287 @@
+body{
+	font-family: Arial, "san-serif";
+	font-size: 15px;
+}
+
+.container{
+	border: 1px ridge #A4A4A4 ;
+}
+
+h3{
+	margin-top: 0px ;
+	color: #00b0ff;
+	font-weight: bold;
+}
+
+
+/*Header*/
+#header{
+	background-color: #fff;
+}
+.logo{
+	float: left;
+}
+.logo img{
+	width: 300px;
+	height: 100px;
+
+}
+
+
+/*Top-menu*/
+.top-menu ul{
+	list-style-type: none;
+}
+
+#top-menu ul li{
+	color: #000;
+	margin-right: 5px;
+}
+.navbar-right {
+    margin-right: 130px;
+}
+
+.nav>li>a{
+	padding-right: 15px ;
+	padding-left: 0px ;
+}
+#top-menu a ,#main-menu a{
+	text-decoration: none;
+	color: #000 ;
+}
+
+#top-menu a:hover ,#main-menu a:hover{
+	color:  #00b0ff ;
+}
+/*Cart*/
+.cart{
+	background-color: #00b0ff;
+	position: absolute;
+	top: 15px;
+	right: 70px;
+}
+
+.cart a{
+	color: #fff ;
+}
+
+.cart a:hover{
+	background-color: #FF1493;
+	text-decoration: none;
+}
+
+/*Search*/
+
+.search-form .form-group {
+  float: right !important;
+  transition: all 0.35s, border-radius 0s;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+.search-form .form-group input.form-control {
+  padding-right: 20px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+}
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+}
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+}
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+}
+.search-form .form-group:hover,
+.search-form .form-group.hover {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
+}
+.search-form .form-group span.form-control-feedback {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #3596e0;
+  left: initial;
+  font-size: 14px;
+}
+
+.search-form {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+}
+
+/*Main-menu*/
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+	color: #00b0ff;
+	background-color: #fff;
+}
+
+.navbar .navbar-inverse .nav .navbar-nav #main-menu li .active a{
+	color:  #FF1493 ;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+	background-color: #fff;
+	color: #00b0ff;
+}
+
+.navbar-inverse .navbar-toggle {
+	background-color: #00b0ff; 
+}
+
+#main-menu{
+	clear: both;
+	
+}
+
+ #main-menu a .active{
+	color: #FF1493 !important;
+}
+
+@media screen and (min-width: 1000px){
+	#main-menu{
+		margin-right: 200px;
+		float:right;
+	}
+}
+
+.navbar {
+	background-color: #fff ;
+}
+
+.navbar-inverse .navbar-nav>.active>a{
+	border-radius: 10px;
+	color: #FF1493 !important;
+}
+.nav .navbar-nav ul #main-menu li {
+	border:2px solid black;
+	background-color: #00ff7f ;
+	padding: 5px 10px;
+	color:#000 ;
+	margin-left: 5px ;
+}
+
+.nav>li>a {
+	margin-left: 10px ;
+}
+
+/*Category*/
+#content .btn-group-vertical .btn-info {
+	background-color: #00b0ff ;
+	color: #fff ;
+	border-radius: 10px ;
+	text-align: left ;
+}
+
+#category{
+	margin-top: 30px;
+	width: 90%;
+}
+
+.btn-group-vertical .btn-category{
+	margin-bottom: 5px;
+}
+
+.btn-group-vertical a:hover{
+	background-color: #FF1493 !important;
+
+}
+
+
+/*Content*/
+
+#content{
+	border-top: 1px dotted;
+clear: both;
+}
+
+.main{
+	padding: 20px 10px 10px 10px;
+}
+
+.old-price{
+	text-decoration: line-through;
+}
+
+.thumbnail a{
+	text-decoration: none;
+
+}
+.thumbnail a:hover{
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.thumbnail img{
+	width: 100%;
+}
+
+.caption{
+	text-align: center;
+	color: #00b0ff !important;
+}
+
+
+.read-more a{
+	color: #00b0ff ;
+	text-align: right ;
+}
+
+.read-more a:hover{
+	color: #FF1493 !important;
+}
+
+.promotional-product{
+	clear: both;
+}
+
+
+/*Footer*/
+
+#footer{
+	clear: both;
+}
+
+.input-feedback{
+	margin: 5px;
+}
+
+.p-feedback{
+	margin: 10px;
+}
+
+.btn-send{
+	margin-left: 70px;
+}
+
+.copy-right{
+	clear: both;
+	background-color: #A4A4A4;
+	text-align: center;
+}
+
+.pLienHe{
+	text-align: center;
+	font-weight: bold;
+	font-size: 25px;
+	color: #00b0ff;
+}
