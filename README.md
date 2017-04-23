@@ -1,8 +1,8 @@
 # PTUDW-CNTN2014-Nhom10
 ## Danh sách thành viên nhóm 10
-* 1412661 - Nguyễn Quốc Bảo
-* 1412209 - Nguyễn Văn Huy
 * 1412170 - Nguyễn Thị Thu Hiền
+* 1412209 - Nguyễn Văn Huy
+* 1412661 - Nguyễn Quốc Bảo
 
 ## Luật sử dụng Github
 * Các thành viên làm việc trên branch của mình
@@ -24,7 +24,7 @@ Huy (chưa setup)
 * Địa chỉ: huy.nhom10.gomakers.vn
 * Tài khoản: huy:S3cureHCMUS-huy
 
-Tài khoản chung:
+Tài khoản chung
 * Địa chỉ: http://nhom10.gomakers.vn
 * Tài khoản: nhom10:nhom10
 
