@@ -1,5 +1,5 @@
 # PTUDW-CNTN2014-Nhom10
-## Danh sách thành viên nhóm 10
+## Danh sách thành viên Nhóm 10
 * 1412170 - Nguyễn Thị Thu Hiền
 * 1412209 - Nguyễn Văn Huy
 * 1412661 - Nguyễn Quốc Bảo
@@ -13,15 +13,15 @@
 
 ## Tài khoản FTP (chưa setup)
 Hiền (chưa setup)
-* Địa chỉ: hien.nhom10.gomakers.vn
+* Địa chỉ: http://hien.nhom10.gomakers.vn
 * Tài khoản: hien:S3cureHCMUS-hien
 
 Bảo (chưa setup)
-* Địa chỉ: bao.nhom10.gomakers.vn
+* Địa chỉ: http://bao.nhom10.gomakers.vn
 * Tài khoản: bao:S3cureHCMUS-bao
 
 Huy (chưa setup)
-* Địa chỉ: huy.nhom10.gomakers.vn
+* Địa chỉ: http://huy.nhom10.gomakers.vn
 * Tài khoản: huy:S3cureHCMUS-huy
 
 Tài khoản chung
@@ -33,3 +33,4 @@ Tài khoản chung
 
 ## Checklist
 Địa chỉ: http://checklist.nhom10.gomakers.vn
+<code>abc</code>
