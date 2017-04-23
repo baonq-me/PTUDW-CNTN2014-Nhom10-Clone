@@ -27,3 +27,6 @@ Huy (chưa setup)
 Tài khoản FTP chung của nhóm:
 * Địa chỉ: http://nhom10.gomakers.vn
 * Tài khoản: nhom10:nhom10
+
+## Trang quản lí công việc Trello
+Địa chỉ: http://trello.nhom10.gomakers.vn
