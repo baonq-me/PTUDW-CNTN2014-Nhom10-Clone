@@ -32,4 +32,4 @@ Tài khoản chung:
 Địa chỉ: http://trello.nhom10.gomakers.vn
 
 ## Checklist
-Địa chỉ: checklist.nhom10.gomakers.vn
+Địa chỉ: http://checklist.nhom10.gomakers.vn
