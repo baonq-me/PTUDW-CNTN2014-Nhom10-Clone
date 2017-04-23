@@ -14,23 +14,22 @@
 ## Tài khoản FTP (chưa setup)
 Hiền (chưa setup)
 * Địa chỉ: http://hien.nhom10.gomakers.vn
-* Tài khoản: hien:S3cureHCMUS-hien
+* Tài khoản: <code>hien:S3cureHCMUS-hien</code>
 
 Bảo (chưa setup)
 * Địa chỉ: http://bao.nhom10.gomakers.vn
-* Tài khoản: bao:S3cureHCMUS-bao
+* Tài khoản: <code>bao:S3cureHCMUS-bao</code>
 
 Huy (chưa setup)
 * Địa chỉ: http://huy.nhom10.gomakers.vn
-* Tài khoản: huy:S3cureHCMUS-huy
+* Tài khoản: <code>huy:S3cureHCMUS-huy</code>
 
 Tài khoản chung
 * Địa chỉ: http://nhom10.gomakers.vn
-* Tài khoản: nhom10:nhom10
+* Tài khoản: <code>nhom10:nhom10</code>
 
 ## Trang quản lí công việc (Trello)
 Địa chỉ: http://trello.nhom10.gomakers.vn
 
 ## Checklist
 Địa chỉ: http://checklist.nhom10.gomakers.vn
-<code>abc</code>
