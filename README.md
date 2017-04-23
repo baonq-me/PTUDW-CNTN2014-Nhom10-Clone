@@ -11,4 +11,3 @@ Luật sử dụng Github:
 - Bảo chịu trách nhiệm kiểm tra và merge code vào branch develop.
 - Sau khi merge code vào branch develop, Bảo tiến hành kiểm tra. Nếu không có lỗi, code sẽ được merge vào branch master.
 
-Hi
