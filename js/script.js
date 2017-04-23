@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
 	$(window).scroll(function(){
 		if($(window).scrollTop() > $(".top-menu").outerHeight())
@@ -30,4 +28,3 @@ $(document).ready(function(){
 		$("#content .sidebar").css("top", position + "px");
 	});
 });
-
