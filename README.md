@@ -19,9 +19,14 @@ Hiền (chưa setup)
 Bảo (chưa setup)
 * Địa chỉ: bao.nhom10.gomakers.vn
 * Tài khoản: bao:S3cureHCMUS-bao
-Huy:
+
+Huy (chưa setup)
 * Địa chỉ: huy.nhom10.gomakers.vn
 * Tài khoản: huy:S3cureHCMUS-huy
+
+Tài khoản chung:
+* Địa chỉ: http://nhom10.gomakers.vn
+* Tài khoản: nhom10:nhom10
 
 ## Trang quản lí công việc (Trello)
 Địa chỉ: http://trello.nhom10.gomakers.vn
