@@ -12,15 +12,15 @@
 * Sau khi merge code vào branch develop, Bảo tiến hành kiểm tra. Nếu không có lỗi, code sẽ được merge vào branch master.
 
 ## Tài khoản FTP (chưa setup)
-Hiền (chưa setup)
+Hiền
 * Địa chỉ: http://hien.nhom10.gomakers.vn
 * Tài khoản: <code>hien:S3cureHCMUS-hien</code>
 
-Bảo (chưa setup)
+Bảo
 * Địa chỉ: http://bao.nhom10.gomakers.vn
 * Tài khoản: <code>bao:S3cureHCMUS-bao</code>
 
-Huy (chưa setup)
+Huy
 * Địa chỉ: http://huy.nhom10.gomakers.vn
 * Tài khoản: <code>huy:S3cureHCMUS-huy</code>
 
