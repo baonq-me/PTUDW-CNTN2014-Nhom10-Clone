@@ -256,6 +256,15 @@ body{
     outline: none;
     border-color: #00b0ff;
 }
+
+#content .filter-product input[type=text]{
+	border-radius: 5px;
+	border: 1px #00b0ff solid;
+	height: 40px;
+	outline: none;
+	margin-bottom: 10px;
+	padding: 10px;
+}
 #content .filter-product input[type=submit]{
 	background: #00b0ff;
 	color: #fff;
