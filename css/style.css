@@ -325,10 +325,12 @@ body{
 
 #content{
 	clear: both;
+	position: relative;
 }
 
 #content .sidebar{
 	position: relative;
+	transition: all 0.7s ease;
 	top: 0px;
 }
 
@@ -340,7 +342,6 @@ body{
 .slider .carousel-inner > .item > a > img {
     width: 100%;
     margin: auto;
-
 }
 
 

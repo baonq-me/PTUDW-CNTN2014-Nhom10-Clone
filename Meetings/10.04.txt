@@ -1,6 +1,0 @@
-- Huong dan Huy va Hien dung Git
-- Phan cong do an:
-   + Tim free template: Moi thanh vien tim 2 free template
-- Milestone:
-   + 11/04: Deadline free template
-
