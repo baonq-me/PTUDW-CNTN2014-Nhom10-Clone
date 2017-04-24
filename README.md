@@ -12,24 +12,27 @@
 * Sau khi merge code vào branch develop, Bảo tiến hành kiểm tra. Nếu không có lỗi, code sẽ được merge vào branch master.
 
 ## Tài khoản FTP (chưa setup)
-Hiền
+### Hiền
 * Địa chỉ: http://hien.nhom10.gomakers.vn
 * Tài khoản: <code>hien:S3cureHCMUS-hien</code>
 
-Bảo
+### Bảo
 * Địa chỉ: http://bao.nhom10.gomakers.vn
 * Tài khoản: <code>bao:S3cureHCMUS-bao</code>
 
-Huy
+### Huy
 * Địa chỉ: http://huy.nhom10.gomakers.vn
 * Tài khoản: <code>huy:S3cureHCMUS-huy</code>
 
-Tài khoản chung
+### Tài khoản chung
 * Địa chỉ: http://nhom10.gomakers.vn
 * Tài khoản: <code>nhom10:S3cureHCMUS-nhom10</code>
 
-FTP Client: [File Zilla](https://filezilla-project.org/download.php?type=client)
-Cài đặt File [
+### FTP Client
+Link tải: [File Zilla](https://filezilla-project.org/download.php?type=client)
+
+Cài đặt File Zilla:
+![FileZillaConfig](https://s23.postimg.org/os0rkey7v/Kazam_screenshot_00011.png)
 
 ## Trang quản lí công việc (Trello)
 Địa chỉ: http://trello.nhom10.gomakers.vn
