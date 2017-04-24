@@ -26,7 +26,10 @@ Huy
 
 Tài khoản chung
 * Địa chỉ: http://nhom10.gomakers.vn
-* Tài khoản: <code>nhom10:nhom10</code>
+* Tài khoản: <code>nhom10:S3cureHCMUS-nhom10</code>
+
+FTP Client: [File Zilla](https://filezilla-project.org/download.php?type=client)
+Cài đặt File [
 
 ## Trang quản lí công việc (Trello)
 Địa chỉ: http://trello.nhom10.gomakers.vn
