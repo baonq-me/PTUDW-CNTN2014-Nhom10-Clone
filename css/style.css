@@ -256,6 +256,15 @@ body{
     outline: none;
     border-color: #00b0ff;
 }
+
+#content .filter-product input[type=text]{
+	border-radius: 5px;
+	border: 1px #00b0ff solid;
+	height: 40px;
+	outline: none;
+	margin-bottom: 10px;
+	padding: 10px;
+}
 #content .filter-product input[type=submit]{
 	background: #00b0ff;
 	color: #fff;
@@ -287,7 +296,7 @@ body{
 	bottom: 20px;
 	background: rgba(0, 176, 255, 0.7);
 }
-#content .caption .porduct-name{
+#content .caption .product-name{
 	border-bottom: 1px solid;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -318,18 +327,19 @@ body{
 	cursor: pointer;
 }
 
-#content .product{
-	overflow: auto;
+#content .product {
 	clear: both;
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 #content{
 	clear: both;
+	position: relative;
 }
 
 #content .sidebar{
 	position: relative;
+	transition: all 0.7s ease;
 	top: 0px;
 }
 
@@ -341,8 +351,6 @@ body{
 .slider .carousel-inner > .item > a > img {
     width: 100%;
     margin: auto;
-    height: 300px;
-
 }
 
 
@@ -435,3 +443,61 @@ body{
 #footer .contact-info{
 	margin-bottom: 50px;
 }
+
+
+/*Trang thông tin chi tiết sản phẩm*/
+
+
+#content .product_detail{
+	margin: 30px 10px;
+}
+
+#content .product_detail #hinh_anh_chi_tiet{
+}
+#content .product_detail #hinh_anh_chi_tiet img{
+	height: 100%;
+	margin: 20px;
+	background-color: transparent;
+	border-radius: 5px;
+	border: 2px solid #f0f0f0;
+
+	padding: 20px;
+}
+
+#content .heading_product_detail{
+	font-weight: bold;
+	color: #00b0ff;
+}
+
+#content .product_detail #thong_tin .quantity.buttons_added{
+	
+	margin-top: 5px;
+}
+
+#content .product_detail #thong_tin .quantity.buttons_added input{
+	text-align: center;
+}
+
+#content .product_detail #thong_tin .add_to_cart_button{
+	background: #00b0ff;
+	border-radius: 5px;
+	color: #fff;
+	border: 1px #e6e6e6;
+	height: 40px;
+    font-size: 18px;
+}
+
+#content .product.related-product{
+	background-color: #f7f7f7;
+	margin-bottom: 0px;
+	padding-bottom: 40px;
+	padding-top: 20px;
+}
+
+
+
+/* Button styles: */
+i.fb,       span.fb{        color: #3b5998; }
+i.tw,       span.tw{        color: #00aced; }
+i.google,   span.google{    color: #dd4b39; }
+i.linkin,   span.linkin{    color: #007bb6; }
