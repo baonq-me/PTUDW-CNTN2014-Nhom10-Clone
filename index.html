@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	
@@ -24,7 +25,45 @@
 				</div>
 				<ul class="sign-in">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<!--<li class="dropdown">
+						<a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a>
+					</li>-->
+					<li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng nhập <b class="caret"></b></a>
+                     <ul class="dropdown-menu" style="padding: 15px; min-width: 250px;">
+                        <li>
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                    <div class="form-group">
+                                       <label class="sr-only" for="exampleInputEmail2">Tên đăng nhập</label>
+                                       <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required style ="width: 100%">
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="sr-only" for="exampleInputPassword2">Mật khẩu</label>
+                                       <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required style ="width: 100%">
+                                    </div>
+                                    <div class="checkbox">
+                                       <label>
+                                       <input type="checkbox"> Lưu thông tin
+                                       </label>
+                                    </div>
+                                    <div class="form-group">
+                                       <button type="submit" class="btn btn-success btn-block" id="btn-login" >Đăng nhập</button>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                           <input style ="width: 100%" class="btn btn-primary btn-block" type="button" id="sign-in-google" value="Đăng nhập với Google">
+                           <input style ="width: 100%" class="btn btn-primary btn-block" type="button" id="sign-in-facebook" value="Đăng nhập với Facebook">
+                        </li>
+                     </ul>
+
+                  </li>
+
 					<div class="cart pull-right">
 				    	<a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> 0</a>
 				    </div>
@@ -50,7 +89,7 @@
 					    <div class="collapse navbar-collapse" id="myNavbar">
 					      
 					      
-					      <form action="" class="search-form clearfix pull-right col-md-4 visible-sm visible-md visible-lg" method="GET">
+					     <form action="" class="search-form clearfix pull-right col-md-4 visible-sm visible-md visible-lg" method="GET">
 			                <div class="form-group has-feedback">
 			            		<label for="search" class="sr-only">Tìm kiếm</label>
 			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
