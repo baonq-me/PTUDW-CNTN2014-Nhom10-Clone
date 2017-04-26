@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
 	$(window).scroll(function(){
 		if($(window).scrollTop() > $(".top-menu").outerHeight())
@@ -27,4 +29,18 @@ $(document).ready(function(){
 
 		$("#content .sidebar").css("top", position + "px");
 	});
+
+
+
+
+// Popup
+    $(".popup .close-popup").click(function(){
+    	$(this).parents(".popup").css("display", "none");
+    });
+
+    $(".show-popup-login").click(function(){
+    	$(".popup-login").css("display", "block");
+    });
+
 });
+

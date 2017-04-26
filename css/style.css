@@ -256,15 +256,6 @@ body{
     outline: none;
     border-color: #00b0ff;
 }
-
-#content .filter-product input[type=text]{
-	border-radius: 5px;
-	border: 1px #00b0ff solid;
-	height: 40px;
-	outline: none;
-	margin-bottom: 10px;
-	padding: 10px;
-}
 #content .filter-product input[type=submit]{
 	background: #00b0ff;
 	color: #fff;
@@ -276,7 +267,13 @@ body{
 #content .filter-product input[type=submit]:hover{
 	background: #FF1493;
 }
-
+#content .filter-product input[type=text]{
+	margin: 5px;
+	height: 40px;
+	border: 1px #00b0ff solid;
+	padding: 0px 10px;
+	border-radius: 5px;
+}
 #content h2{
 	text-transform: uppercase;
 	font-size: 20px;
@@ -327,9 +324,10 @@ body{
 	cursor: pointer;
 }
 
-#content .product {
+#content .product{
+	overflow: auto;
 	clear: both;
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 }
 
 #content{
@@ -351,6 +349,8 @@ body{
 .slider .carousel-inner > .item > a > img {
     width: 100%;
     margin: auto;
+    height: 400px;
+
 }
 
 
@@ -501,3 +501,151 @@ i.fb,       span.fb{        color: #3b5998; }
 i.tw,       span.tw{        color: #00aced; }
 i.google,   span.google{    color: #dd4b39; }
 i.linkin,   span.linkin{    color: #007bb6; }
+
+
+
+
+
+/********** Popup đăng nhập ***********************/
+.popup a { text-decoration: none; color: #00b0ff; }
+.popup .container-popup{
+	position: fixed;
+	width: 90%;
+	background: #fff;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	z-index: 99999;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.popup .overflow{
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	background: rgba(0,0,0,0.7);
+	z-index: 99998;
+}
+.popup .header-popup{
+	background: #f0f2f1;
+	padding: 15px;
+	position: relative;
+}
+.popup .header-popup:after{
+	content: "";
+	position: absolute;
+	bottom: 0px;
+	border: 10px solid #f0f2f1;
+	left: 50%;
+	transform: translateX(-50%) translateY(100%);
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+}
+.popup .header-popup h2{
+	margin: 0 0 10px 0;
+	font-size: 20px;
+	text-transform: uppercase;
+	text-align: center;
+	color: #00b0ff;
+	font-weight: bold;
+}
+.popup .header-popup p{
+	text-align: center;
+}
+.popup .body-popup{
+	background: #fff;
+	overflow: auto;
+	padding: 15px;
+	padding-top: 40px;
+}
+.popup .body-popup .left-content, .popup .body-popup .right-content { margin-bottom: 30px; }
+@media screen and (min-width: 767px){
+	.popup .body-popup .left-content{
+		padding-right: 30px;
+	}
+	.popup .body-popup .right-content{
+		padding-left: 30px;
+	}
+}
+.popup .footer-popup{
+	background: #f0f2f1;
+	overflow: auto;
+	padding: 15px;
+	text-align: center;
+}
+.popup .container-popup .close-popup-icon{
+	position: absolute;
+	right: 0px;
+	top: 	0px;
+	cursor: pointer;
+	padding: 10px;
+	z-index: 100000;
+}
+
+
+.popup-login .container-popup{
+	max-width: 850px;
+}
+
+.popup-login .social-login{
+	margin-bottom: 10px;
+}
+.popup-login .social-login a{
+	color: #fff;
+	border-radius: 0;
+	text-transform: uppercase;
+	box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+	display: block;
+	padding: 6px 12px;
+	text-align: center;
+	text-decoration: none;
+}
+.popup-login .social-login a i{
+	font-size: 20px;
+	float: left;
+	border-right: 1px solid;
+}
+.popup-login .social-login a.facebook-login{
+	background: #3b5998;
+}
+.popup-login .social-login a.facebook-login:hover{
+	background: #24468c;
+}
+.popup-login .social-login a.facebook-login i{
+	padding-right: 20px;
+}
+.popup-login .social-login a.twitter-login{
+	background: #00aced;
+}
+.popup-login .social-login a.twitter-login:hover{
+	background: #01a4e2;
+}
+.popup-login .social-login a.twitter-login i{
+	padding-right: 14px;
+}
+.popup-login .social-login a.google-login{
+	background: #c32f10;
+}
+.popup-login .social-login a.google-login:hover{
+	background: #ab2206;
+}
+.popup-login .social-login a.google-login i{
+	padding-right: 8px;
+}
+
+.popup-login .input-group{ margin-bottom: 15px; }
+.popup-login .form-control, .popup-login .input-group-addon{ border-radius: 0; border-color: #00b0ff; }
+.popup-login .input-group-addon{ background: #00b0ff; color: #fff; }
+.popup-login input[type=submit]{
+	width: 100%;
+	color: #fff;
+	text-transform: uppercase;
+	border: none;
+	border-radius: 0;
+	background: #00b0ff;
+	padding: 6px;
+	margin-top: 15px;
+}
