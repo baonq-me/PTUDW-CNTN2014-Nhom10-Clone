@@ -36,10 +36,18 @@ body{
 	float: right;
 	padding: 5px 0px;
 	margin: 0px;
+	margin-right: 20px;
 }
 #header .top-menu .sign-in li{
 	display: inline-block;
 }
+#header .top-menu .sign-in li #sign-in-google{
+	background-color: #c32f10;
+}
+#header .top-menu .sign-in #btn_login{
+	background-color: #00b0ff;
+}
+
 #header .top-menu .sign-in li a{
 	color: #fff;
 	text-decoration: none;
@@ -47,7 +55,7 @@ body{
 	font-size: 13px;
 }
 #header .top-menu .sign-in li a:hover{
-	color: #FF1493
+	color: #FF1493;
 }
 /*Cart*/
 .cart{
@@ -504,6 +512,7 @@ i.linkin,   span.linkin{    color: #007bb6; }
 
 
 
+<<<<<<< HEAD
 
 
 /********** Popup đăng nhập ***********************/
@@ -649,3 +658,5 @@ i.linkin,   span.linkin{    color: #007bb6; }
 	padding: 6px;
 	margin-top: 15px;
 }
+=======
+>>>>>>> b08fd74382ccadb76664463f4e88653777c2d0bc
