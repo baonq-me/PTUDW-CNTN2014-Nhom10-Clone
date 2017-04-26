@@ -11,7 +11,7 @@
 * Bảo chịu trách nhiệm kiểm tra và merge code vào branch develop.
 * Sau khi merge code vào branch develop, Bảo tiến hành kiểm tra. Nếu không có lỗi, code sẽ được merge vào branch master.
 
-## Tài khoản FTP (chưa setup)
+## Tài khoản FTP
 ### Hiền
 * Địa chỉ: http://hien.nhom10.gomakers.vn
 * Tài khoản: <code>hien:S3cureHCMUS-hien</code>
