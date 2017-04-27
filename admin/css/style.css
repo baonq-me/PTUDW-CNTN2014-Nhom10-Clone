@@ -55,8 +55,11 @@ a:hover {
 }
 #site-container {
 	position: relative;
-	margin-top: 30px;
+	margin-top: 25px;
 }
+
+
+/*  Left menu */
 #site-container .left-menu {
 	background: #23282d;
 	position: absolute;
