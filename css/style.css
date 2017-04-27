@@ -29,7 +29,7 @@ body{
 	font-size: 13px;
 }
 #header .top-menu .contact a:hover{
-	color: #FF1493
+	color: #FF1493;
 }
 
 #header .top-menu .sign-in{
@@ -727,3 +727,22 @@ legend{
 	width: 100px;
 }
 
+/*************Trang quên password**********************/
+.message_forget_password p{
+	margin: 5px 0px 10px 0px;
+	color: #333;
+}
+
+#form_forget_pass_code{
+	clear: both;
+}
+
+.forget_pass_link{
+	color: #00b0ff;
+	text-align: center;
+	margin: 10px;
+}
+
+#forget_pass_links a:hover{
+	color:#FF1493
+}
