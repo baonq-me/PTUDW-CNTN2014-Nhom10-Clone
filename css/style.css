@@ -661,6 +661,7 @@ i.linkin,   span.linkin{    color: #007bb6; }
 }
 fieldset{
 	min-width: 300px;
+
 }
 legend{
 	text-align: center;
@@ -718,5 +719,11 @@ legend{
 	color: #FF1493;
 	background-color: #fff;
 
+}
+
+/************ Trang thay đổi password của member **********/
+#member_changepass_btn_confirm{
+	float: right;
+	width: 100px;
 }
 
