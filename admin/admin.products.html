@@ -56,7 +56,6 @@
 		</div>
 		<div class="content-footer">
 			<div class="content">
-				<!-- Tổng số sản phẩm đang bán + Tổng số loại hoa + Tổng số đơn hàng trong tháng + tổng user | 5 loại hoa mới cập nhật gần đây | Danh sách các sản phẩm hết hàng | Các user được thêm gần đây | Các hoa vừa được bán -->
 				<div class="base-info">
 					<div class="col-md-3 col-sm-6 col-xs-12">
 						<div class="item item-loai-hoa">
@@ -99,7 +98,7 @@
 							<div class="col-md-5 col-sm-12 col-xs-12">
 								<div class="row">
 									<div class="count-top">
-										<i class="fa fa-users"></i><span class="dashboard-quickview"></span>
+										<i class="fa fa-users"></i><span class="dashboard-quickview">.</span>
 									</div>
 								</div>
 							</div>
@@ -115,30 +114,70 @@
 					</div>
 					<div class="box-content">
 						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
-						<table class="list-product">
-							<thead>
-								<tr>
-									<td>Thumbnails</td>
-									<td>Tên sản phẩm</td>
-									<td>SKU</td>
-									<td>Số lượng</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="#"><b>Hoa hồng</b></a></td>
-									<td>0</td>
-								</tr>
-								<tr>
-									<td><a href="#"><b>Hoa hướng dương</b></a></td>
-									<td>0</td>
-								</tr>
-								<tr>
-									<td><a href="#"><b>Hoa cúc</b></a></td>
-									<td>1</td>
-								</tr>
-							</tbody>
-						</table>
+						<!-- Responsive table -->
+						<div style="overflow-x:auto;">
+							<table class="product-table">
+								<thead>
+									<tr>
+										<td style="width: 10%">Thumbnails</td>
+										<td style="width: 15%">Tên sản phẩm</td>
+										<!-- https://vi.wikipedia.org/wiki/SKU -->
+										<td style="width: 5%">SKU</td>
+										<td style="width: 5%">Số lượng</td>
+										<td style="width: 10%">Giá</td>
+										<td style="width: 15%">Nhóm</td>
+										<td style="width: 10%">Ngày</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><img src="../images/thank_product/pro1.jpg" class="img-thumbnail"></td>
+										<td>Hoa hồng</td>
+										<td>Bông</td>
+										<td>200</td>
+										<td>15000</td>
+										<td>Hoa tình yêu</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><img src="../images/thank_product/pro2.jpg" class="img-thumbnail"></td>
+										<td>Hoa cúc</td>
+										<td>Bông</td>
+										<td>500</td>
+										<td>5000</td>
+										<td>Hoa trang trí, Hoa thường</td>
+										<td>Đã sửa 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><img src="../images/thank_product/pro3.jpg" class="img-thumbnail"></td>
+										<td>Hoa huệ</td>
+										<td>Bó</td>
+										<td>50</td>
+										<td>45000</td>
+										<td>Hoa trang trí</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><img src="../images/thank_product/pro4.jpg" class="img-thumbnail"></td>
+										<td>Hoa mai</td>
+										<td>Bó</td>
+										<td>50</td>
+										<td>100000</td>
+										<td>Hoa Tết</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><img src="../images/thank_product/pro5.jpg" class="img-thumbnail"></td>
+										<td>Hoa đào</td>
+										<td>Bông</td>
+										<td>20</td>
+										<td>30000</td>
+										<td>Hoa thường</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
