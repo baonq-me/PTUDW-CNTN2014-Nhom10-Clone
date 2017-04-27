@@ -5,11 +5,10 @@
 * 1412661 - Nguyễn Quốc Bảo
 
 ## Luật sử dụng Github
-* Các thành viên làm việc trên branch của mình
-* Trước mỗi phiên làm việc, phải đồng bộ branch của mình với branch master
-* Sau khi cập nhật code lên branch của mình, tạo một pull request đến branch develop và báo cho Bảo biết
-* Bảo chịu trách nhiệm kiểm tra và merge code vào branch develop.
-* Sau khi merge code vào branch develop, Bảo tiến hành kiểm tra. Nếu không có lỗi, code sẽ được merge vào branch master.
+* Branch master là branch chính để làm việc
+* Bắt đầu một task bằng cách tạo một branch mới từ branch master
+* Sau khi hoàn thành task, merge branch bạn đã tạo vào branch master và test. Nếu có lỗi phải kiểm tra lại ngay.
+* Sau khi merge thành công và không có lỗi, xoá branch bạn đã tạo để làm task của mình.
 
 ## Tài khoản FTP (chưa setup)
 ### Hiền
