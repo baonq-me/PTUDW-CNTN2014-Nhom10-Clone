@@ -233,3 +233,18 @@ a:hover {
 {
 	margin-top: 5px;
 }
+
+.product-table
+{
+	boder: 1px black;
+}
+
+.product-table tr:nth-child(even)
+{
+	background-color: #f2f2f2;
+}
+
+.product-table thead {
+    background-color: #4CAF50;
+    color: white;
+}
