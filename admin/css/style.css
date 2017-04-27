@@ -220,11 +220,16 @@ a:hover {
 
 .count
 {
-	margin-top: 5px;
+	margin-top: 10px;
 }
 
 .count-top
 {
 	padding-top: 10px !important;
 	padding-bottom: 5px !important;
+}
+
+.dashboard-quickview
+{
+	margin-top: 5px;
 }
