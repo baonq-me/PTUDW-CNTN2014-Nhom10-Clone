@@ -10,7 +10,7 @@
 * Sau khi hoàn thành task, merge branch bạn đã tạo vào branch master và test. Nếu có lỗi phải kiểm tra lại ngay.
 * Sau khi merge thành công và không có lỗi, xoá branch bạn đã tạo để làm task của mình.
 
-## Tài khoản FTP (chưa setup)
+## Tài khoản FTP
 ### Hiền
 * Địa chỉ: http://hien.nhom10.gomakers.vn
 * Tài khoản: <code>hien:S3cureHCMUS-hien</code>
