@@ -236,17 +236,17 @@ a:hover {
 	margin-top: 5px;
 }
 
-.product-table
+.box-content table
 {
 	boder: 1px black;
 }
 
-.product-table tr:nth-child(even)
+.box-content table tr:nth-child(even)
 {
 	background-color: #f2f2f2;
 }
 
-.product-table thead
+.box-content table thead
 {
     background-color: #4CAF50;
     color: white;
@@ -257,7 +257,7 @@ a:hover {
 	margin-bottom: 60px;
 }
 
-.product-filter .btn-group
+.box-title .btn-group
 {
 	margin-right: 20px;
 	margin-left: 5px;
@@ -289,4 +289,14 @@ a:hover {
 tr td img.img-thumbnail
 {
 	max-width: 120px;
+}
+
+.order-table tbody tr td p.payment-method
+{
+	color: #999;
+}
+
+.order-table tbody tr td.delivery-address
+{
+	color: #999;
 }
