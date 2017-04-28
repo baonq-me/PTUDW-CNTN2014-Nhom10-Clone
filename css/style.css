@@ -497,14 +497,9 @@ body{
 
 
 /* Button styles: */
-i.fb,       span.fb{        color: #3b5998; }
-i.tw,       span.tw{        color: #00aced; }
-i.google,   span.google{    color: #dd4b39; }
-i.linkin,   span.linkin{    color: #007bb6; }
-
-
-
-
+i.fb {color: #3b5998; }
+i.tw {color: #00aced; }
+i.google {color: #dd4b39; }
 
 /********** Popup đăng nhập ***********************/
 .popup a { text-decoration: none; color: #00b0ff; }
@@ -689,6 +684,11 @@ legend{
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
+}
+
+#result_strength_pass, #sign_up_msg_reenter_pass{
+	color: red;
+	font-size: 14px;
 }
 /*************Trang chủ của phân hệ member*********/
 
