@@ -285,3 +285,8 @@ a:hover {
 	float: right;
 }
 /* [END] Float setting */
+
+tr td img.img-thumbnail
+{
+	max-width: 120px;
+}
