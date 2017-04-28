@@ -62,7 +62,7 @@ a:hover {
 /*  Left menu */
 #site-container .left-menu {
 	background: #23282d;
-	position: absolute;
+	position: fixed;
 	top: 0px;
 	bottom: 0px;
 }
@@ -81,10 +81,11 @@ a:hover {
 	background: #191e23;
 }
 #site-container .left-menu .logo {
+	margin-top: 15px;
 	padding: 20px;
 }
 #site-container .left-menu .fa{
-	font-size: 17px;
+	font-size: 1.4em;
 }
 #site-container .left-menu span {
 	margin-left: 10px;
@@ -217,7 +218,7 @@ a:hover {
 	padding: 8px 18px;
 }
 
-
+/* [BEGIN] Fix size of big sub-panel */
 .count
 {
 	margin-top: 10px;
@@ -228,6 +229,7 @@ a:hover {
 	padding-top: 10px !important;
 	padding-bottom: 5px !important;
 }
+/* [END] Fix size of big sub-panel */
 
 .dashboard-quickview
 {
@@ -244,7 +246,47 @@ a:hover {
 	background-color: #f2f2f2;
 }
 
-.product-table thead {
+.product-table thead
+{
     background-color: #4CAF50;
     color: white;
+}
+
+.product-info
+{
+	margin-bottom: 60px;
+}
+
+.product-filter .btn-group
+{
+	margin-right: 20px;
+	margin-left: 5px;
+}
+
+/* Small fix */
+.box-title a
+{
+	margin: 0px 2px;
+}
+
+/* [BEGIN] Float setting */
+.clear
+{
+	clear: both;
+}
+
+.float-left
+{
+	float: left;
+}
+
+.float-right
+{
+	float: right;
+}
+/* [END] Float setting */
+
+tr td img.img-thumbnail
+{
+	max-width: 120px;
 }
