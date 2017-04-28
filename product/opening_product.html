@@ -4,14 +4,14 @@
 <head>
 	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
 	<meta charset="utf-8">
-	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-
-	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/script.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<script type="text/javascript" src="../js/script.js"></script>
 
 </head>
 <body>
@@ -23,8 +23,8 @@
 					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
 				</div>
 				<ul class="sign-in">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<li><a href="../sign_up.html"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+					<li class="show-popup-login" id="popup-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
 					<div class="cart pull-right">
 				    	<a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> 0</a>
 				    </div>
@@ -43,14 +43,14 @@
 					        	<span class="icon-bar"></span> 
 					      	</button>
 						    <div class="logo">
-								<a href="index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="images/logo.png"></a>
+								<a href="../index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="../images/logo.png"></a>
 							</div>
 					    </div>
 
 					    <div class="collapse navbar-collapse" id="myNavbar">
 					      
 					      
-					      <form action="search.html" class="search-form clearfix pull-right visible-sm visible-md visible-lg">
+					      <form action="../search.html" class="search-form clearfix pull-right visible-sm visible-md visible-lg">
 			                <div class="form-group has-feedback">
 			            		<label for="search" class="sr-only">Tìm kiếm</label>
 			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
@@ -59,7 +59,7 @@
 			            </form>
 					     
 					      <ul class="nav navbar-nav" id="main-menu">
-					        <li class="active"><a href="index.html">Trang chủ</a></li>
+					        <li class="active"><a href="../index.html">Trang chủ</a></li>
 					        <li><a href="#">Giới thiệu</a></li>
 					        <li class="dropdown">
 						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
@@ -68,7 +68,7 @@
 							        <li><a href="new_product.html">Sản phẩm mới</a></li>
 						        	<li><a href="promo_product.html">Sản phẩm khuyến mãi</a></li>
 							        <li><a href="congra_product.html">Hoa chúc mừng</a></li>
-							        <li><a href="love_product.html">Hoa tình yêu</a></li>				
+							        <li><a href="love_product.html">Hoa tình yêu</a></li>			
 									<li><a href="thank_product.html">Hoa cảm ơn</a></li>
 									<li><a href="opening_product.html">Hoa khai trương</a></li>
 									<li><a href="wedding_product.html">Hoa cưới</a></li>
@@ -106,7 +106,7 @@
 
 				<div class="main col-md-9 col-lg-9">
 					<div class="filter-product">
-						<form action="search.html">
+						<form action="../search.html">
 							<input type="text" name="tieu_chi">
 							<select id="cat_product" style="width: 155px;" name="loai_hoa">
 								<option value="0">Chọn tiêu chí...</option>
@@ -117,13 +117,13 @@
 							<input type="submit" name="submit" value="Tìm kiếm">
 						</form>
 					</div>
-					<div class ="product congra-product">
-						<h2>Hoa chúc mừng</h2>
+					<div class ="product opening-product">
+						<h2>Hoa khai trương</h2>
 						  	
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro1.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro1.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -136,7 +136,7 @@
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro2.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro2.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -149,7 +149,7 @@
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro3.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro3.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -162,7 +162,7 @@
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro4.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro8.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -175,7 +175,7 @@
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro5.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro5.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -188,7 +188,7 @@
 					 	<div class="col-xs-12 col-sm-6 col-md-4">
 						    <div class="thumbnail">
 						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="images/congra_product/pro6.jpg" alt="Image">
+						        	<img class="img-responsive" src="../images/love_product/pro6.jpg" alt="Image">
 						      	</a>
 						        <div class="caption">
 						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
@@ -238,5 +238,63 @@
 			<p class="center">Copy right &copy 2017. Nhóm 10</p>
 		</div>
 	</div>
+
+	<!-- Popup -->
+	<div class="popup-login popup" style="display: none;">
+		<div class="overflow close-popup"></div>
+		<div class="container-popup">
+			<div class="close-popup close-popup-icon"><i class="glyphicon glyphicon-remove"></i></div>
+			<div class="content-popup">
+				<div class="login">
+					<div class="header-popup">
+						<h2>Đăng nhập</h2>
+						<p>Chào mừng bạn đến với shop hoa Khoa học tự nhiên</p>
+					</div>
+					<div class="body-popup">
+						<div class="col-xs-12 col-sm-6 col-md-6 left-content">
+							<div><p>Đăng nhập với tài khoản mạng xã hội</p></div>
+							 <div class="social-login">
+						        <a href="#" class="login_btn-facebook facebook-login">
+							        <i class="fa fa-facebook"></i>
+							        <span>Facebook</span>
+						        </a>
+					        </div>
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-twitter twitter-login">
+							        <i class="fa fa-twitter"></i>
+							        <span>Twitter</span>
+						        </a>
+					        </div>	
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-google google-login">
+							        <i class="fa fa-google-plus"></i>
+							        <span>Google+</span>
+						        </a>
+					        </div>	
+
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 right-content">
+							<form action="" method="POST">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<input id="username" type="text" class="form-control" name="username" placeholder="Tên đăng nhập">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<input id="password" type="password" class="form-control" name="password" placeholder="Mật khẩu">
+								</div>
+								<a href="../forget_pass/forget_password.html" class="pull-right">Quên mật khẩu?</a>
+								<input type="submit" value="Đăng nhập">
+							</form>
+						</div>
+					</div>
+					<div class="footer-popup">
+						<a href="../sign_up.html">Đăng ký tài khoản miễn phí.</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- End Popup -->
 </body>
 </html>
