@@ -62,7 +62,7 @@ a:hover {
 /*  Left menu */
 #site-container .left-menu {
 	background: #23282d;
-	position: absolute;
+	position: fixed;
 	top: 0px;
 	bottom: 0px;
 }
@@ -81,10 +81,11 @@ a:hover {
 	background: #191e23;
 }
 #site-container .left-menu .logo {
+	margin-top: 15px;
 	padding: 20px;
 }
 #site-container .left-menu .fa{
-	font-size: 17px;
+	font-size: 1.4em;
 }
 #site-container .left-menu span {
 	margin-left: 10px;
@@ -243,7 +244,7 @@ a:hover {
 .product-table tr:nth-child(even)
 {
 	background-color: #f2f2f2;
-} 
+}
 
 .product-table thead
 {
@@ -256,9 +257,10 @@ a:hover {
 	margin-bottom: 60px;
 }
 
-.product-filter .form-group .dropdown button
+.product-filter .btn-group
 {
-	margin-right: 15px;
+	margin-right: 20px;
+	margin-left: 5px;
 }
 
 /* Small fix */
