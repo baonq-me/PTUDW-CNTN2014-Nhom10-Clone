@@ -29,7 +29,7 @@ body{
 	font-size: 13px;
 }
 #header .top-menu .contact a:hover{
-	color: #FF1493
+	color: #FF1493;
 }
 
 #header .top-menu .sign-in{
@@ -648,4 +648,101 @@ i.linkin,   span.linkin{    color: #007bb6; }
 	background: #00b0ff;
 	padding: 6px;
 	margin-top: 15px;
+}
+
+/************** Trang Đăng ký ****************/
+#sign_up_logo img{
+	height: 100px;
+	margin: 0 auto;
+	display: block;
+}
+#sign_up_logo{
+	margin-bottom: 30px;
+}
+fieldset{
+	min-width: 300px;
+
+}
+legend{
+	text-align: center;
+	color: #00b0ff;
+	text-transform: uppercase;
+	margin-top: 10px;
+	font-size: 28px;
+}
+
+#sign_up_btn_create{
+	float: right;
+	width: 100px;
+}
+
+#sign_up_has_acc{
+	text-align: center;
+}
+
+#sign_up_footer{
+	text-align: center;
+	background-color: #A4A4A4;
+	color: #fff;
+	height: 60px;
+	padding-top: 20px;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+/*************Trang chủ của phân hệ member*********/
+
+#header .top-menu .member-profile{
+	float: right;
+	padding: 5px 0px;
+	margin: 0px;
+}
+#header .top-menu .member-profile li{
+	display: inline-block;
+}
+#header .top-menu .member-profile li a{
+	color: #fff;
+	text-decoration: none;
+	padding-right: 10px;
+	font-size: 13px;
+}
+#header .top-menu .member-profile li a:hover{
+	color: #FF1493;
+}
+
+#header .top-menu .member-profile li #profile-menu a{
+	color: #333;
+	margin-top: 5px;
+}
+
+#header .top-menu .member-profile li #profile-menu a:hover{
+	color: #FF1493;
+	background-color: #fff;
+
+}
+
+/************ Trang thay đổi password của member **********/
+#member_changepass_btn_confirm{
+	float: right;
+	width: 100px;
+}
+
+/*************Trang quên password**********************/
+.message_forget_password p{
+	margin: 5px 0px 10px 0px;
+	color: #333;
+}
+
+#form_forget_pass_code{
+	clear: both;
+}
+
+.forget_pass_link{
+	color: #00b0ff;
+	text-align: center;
+	margin: 10px;
+}
+
+#forget_pass_links a:hover{
+	color:#FF1493
 }
