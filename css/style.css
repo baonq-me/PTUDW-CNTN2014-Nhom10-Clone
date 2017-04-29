@@ -658,33 +658,23 @@ fieldset{
 	min-width: 300px;
 
 }
-fieldset h2{
-	margin: 40px 0px 20px 0 !important;
-	font-size: 20px;
-	text-transform: uppercase;
+legend{
 	text-align: center;
 	color: #00b0ff;
-	font-weight: bold;
+	text-transform: uppercase;
+	margin-top: 10px;
+	font-size: 28px;
 }
 
 #sign_up_btn_create{
-    width: 100%;
-    color: #fff;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 0;
-    background: #00b0ff;
-    padding: 6px;
-    margin-top: 15px;
-    margin-bottom: 40px;
+	float: right;
+	width: 100px;
 }
 
 #sign_up_has_acc{
 	text-align: center;
-	margin-bottom: 40px;
 }
-#sign_up_has_acc a{ color: #00b0ff; text-decoration: none; }
-#sign_up_has_acc a:hover{ color: #FF1493 }
+
 #sign_up_footer{
 	text-align: center;
 	background-color: #A4A4A4;
@@ -700,17 +690,8 @@ fieldset h2{
 	color: red;
 	font-size: 14px;
 }
-form[name=sign_up_form] .input-group{
-	margin-bottom: 15px;
-}
-form[name=sign_up_form] .input-group-addon{
-	background: #00b0ff;
-	color: #fff;
-}
-form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addon {
-	border-radius: 0;
-	border-color: #00b0ff;
-}
+
+
 
 
 
