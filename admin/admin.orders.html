@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--<meta http-equiv="refresh" content="1; URL=admin.orders.html">-->
+
+	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+	<title>Admin - Shop hoa Khoa học tự nhiên</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+	<header id="header">
+		<ul class="top-menu pull-left">
+			<li class="visit-site">
+				<a href="#">
+					<i class="fa fa-home"></i><span class="hidden-xs">Website</span>
+				</a>
+			</li>
+			<li class="add-product">
+				<a href="#">
+					<i class="fa fa-plus"></i><span class="hidden-xs">Thêm sản phẩm</span>
+				</a>
+			</li>
+			<li class="notification">
+				<a href="#">
+					<i class="fa fa-comment"></i><span class="hidden-xs">Thông báo</span>
+				</a>
+			</li>
+		</ul>
+		<div class="account pull-right">
+			<a class="info-account" href="#">
+				<span class="name">Nhóm 10</span>
+				<img src="images/avatar.jpg" class="avatar">
+			</a>
+		</div>
+	</header>
+	<div class="clearfix"></div>
+	<div id="site-container" class="menu-full">
+		<div class="left-menu">
+			<img src="images/logo.png" class="logo">
+			<ul>
+				<li><a href="index.html"><i class="fa fa-dashboard"></i><span>Tổng quan</span></a></li>
+				<li><a href="admin.orders.html"><i class="fa fa-yelp"></i><span>Sản phẩm</span></a></li>
+				<li><a href="admin.groups.html"><i class="fa fa-tags"></i><span>Nhóm sản phẩm</span></a></li>
+				<li class="active"><a href="admin.orders.html"><i class="fa fa-clone"></i><span>Đơn hàng</span></a></li>
+				<li><a href="admin.statistic.html"><i class="fa fa-line-chart"></i><span>Thống kê</span></a></li>
+				<li><a href="admin.account.html"><i class="fa fa-users"></i><span>Tài khoản</span></a></li>
+				<li><a href="admin.settings.html"><i class="fa fa-wrench"></i><span>Cài đặt</span></a></li>
+				<li class="toggle"><a href="#"><i class="fa fa-toggle"></i><span>Thu nhỏ</span></a></li>
+			</ul>
+		</div>
+		<div class="content-footer">
+			<div class="content">
+				<!-- Big sub-panel -->
+				<div class="base-info">
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-loai-hoa">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<i class="fa fa-pagelines"></i><span class="dashboard-quickview">Tổng số</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">157<small>đơn hàng</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-san-pham">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<i class="fa fa-yelp"></i><span class="dashboard-quickview">Chưa thanh toán</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">14<small>đơn</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-don-hang">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<i class="fa fa-clone"></i><span class="dashboard-quickview">Huỷ</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">2<small>đơn</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-nguoi-dung">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<i class="fa fa-users"></i><span class="dashboard-quickview">Doanh thu tuần</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><small>1.235.000 đ</small></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box">
+					<div class="box-title">
+						<h1>Đơn hàng <a href="admin.orders.html" class="btn btn-info">Add</a></h1>
+
+						<div class="product-info">
+
+						<a href="admin.orders.html" class="float-left"><h2>Tất cả (53)</h2></a>
+						<a href="admin.orders.html" class="float-left">Thùng rác (13)</a>
+						<a href="admin.orders.html" class="float-left">Đang xử lí (13)</a>
+						<a href="admin.orders.html" class="float-left">Đã hoàn tất (13)</a>
+						<a href="admin.orders.html" class="float-left">Đã huỷ (40)</a>
+						<div class="form-group">
+							<a href="admin.orders.html" class="btn btn-info float-right">Tìm kiếm</a>
+							<div class="col-xs-2 float-right">
+							<input type="search" id="product-search" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="clear"></div>
+
+						<div class="btn btn-info">Xử lí loạt</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-primary">Tác vụ</button>
+						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Bỏ vào thùng rác đơn hàng</a></li>
+						    <li><a href="#">Đánh dấu Chờ thanh toán</a></li>
+								<li><a href="#">Đánh dấu Huỷ</a></li>
+								<li><a href="#">Đánh dấu Chờ giao hàng</a></li>
+								<li><a href="#">Đánh dấu Hoàn tiền</a></li>
+								<li><a href="#">Đánh dấu COD</a></li>
+								<li><a href="#">Đánh dấu Chờ xử lí</a></li>
+						  </ul>
+						</div>
+
+						<div class="btn btn-info">Thời gian</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-primary">Tất cả</button>
+						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Tháng 4, 2017</a></li>
+						    <li><a href="#">Tháng 3, 2017</a></li>
+								<li><a href="#">Tháng 2, 2017</a></li>
+								<li><a href="#">Tháng 1, 2017</a></li>
+								<li><a href="#">Tháng 12, 2017</a></li>
+						  </ul>
+						</div>
+
+						<div class="btn btn-info">Phân loại</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-primary">Tất cả</button>
+						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Hoa tình yêu</a></li>
+						    <li><a href="#">Hoa Tết</a></li>
+								<li><a href="#">Hoa cưới</a></li>
+								<li><a href="#">Hoa thường</a></li>
+								<li><a href="#">Hoa trang trí</a></li>
+								<li><a href="#">Hoa cưa gái</a></li>
+						  </ul>
+						</div>
+
+						<a href="admin.orders.html" class="btn btn-info float-right">Trang tiếp</a>
+						<a href="admin.orders.html" class="btn btn-info float-right">10</a>
+						<a href="admin.orders.html" class="btn btn-info float-right">......</a>
+						<a href="admin.orders.html" class="btn btn-info float-right">3</a>
+						<a href="admin.orders.html" class="btn btn-info float-right">2</a>
+						<a href="admin.orders.html" class="btn btn-info float-right">1</a>
+
+						<div class="clear"></div>
+					</div>
+					<div class="box-content">
+						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
+						<!-- Responsive table -->
+						<div style="overflow-x:auto;">
+							<table class="order-table">
+								<thead>
+									<tr>
+										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
+										<td style="width: 1%">Tình trạng</td>
+										<td style="width: 10%">Đơn hàng</td>
+										<!-- https://vi.wikipedia.org/wiki/SKU -->
+										<td style="width: 5%">Số lượng</td>
+										<td style="width: 15%">Địa chỉ giao hàng</td>
+										<td style="width: 5%">Ghi chú</td>
+										<td style="width: 10%">Thời gian</td>
+										<td style="width: 10%">Thanh toán</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok"></span></button></td>
+										<td><strong>#2572</strong> bởi Trung Hieu Tran tranhieu1001@gmail.com</td>
+										<td>2 mục</td>
+										<td class="delivery-address">44/10 Nguyễn Văn Đậu, P6, Q.Bình Thạnh, TPHCM</td>
+										<td>Gọi trước khi giao</td>
+										<td>15:12 27/02/2017</td>
+										<td><p><strong>100,000 ₫</strong></p><p class="payment-method">Qua Thanh toán bằng thẻ ATM nội địa<p></td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span></button></td>
+										<td><strong>#2573</strong> bởi Thanh Tuyen mariemisen9116@gmail.com</td>
+										<td>5 mục</td>
+										<td class="delivery-address">312 Lạc Long Quân, P12, Q.5, TPHCM</td>
+										<td></td>
+										<td>15:12 28/02/2017</td>
+										<td><p><strong>200,000 ₫</strong></p><p class="payment-method">Qua Thanh toán bằng thẻ VISA<p></td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok"></span></button></td>
+										<td><strong>#2574</strong> bởi Quoc-Bao Nguyen quocbao747@gmail.com</td>
+										<td>2 mục</td>
+										<td class="delivery-address">18/11 Phù Đổng Thiên Vương, P.11, Q.5</td>
+										<td>Giao hàng buổi sáng</td>
+										<td>7:38 29/03/2017</td>
+										<td><p><strong>150,000 ₫</strong></p><p class="payment-method">Qua Thanh toán COD<p></td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-ok"></span></button></td>
+										<td><strong>#2575</strong> bởi Hien Nguyen thuhien11@gmail.com</td>
+										<td>1 mục</td>
+										<td class="delivery-address">12/5/3 Nguyễn Văn Trỗi, P.1, Q.1</td>
+										<td></td>
+										<td>15:12 03/04/2017</td>
+										<td><p><strong>500,000 ₫</strong></p><p class="payment-method">Qua Chuyển khoản Agribank<p></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
