@@ -4,13 +4,13 @@
 <head>
 	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon" />
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+
 	<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<script type="text/javascript" src="../js/script.js"></script>
 
 </head>
@@ -59,23 +59,23 @@
 			            </form>
 					     
 					      <ul class="nav navbar-nav" id="main-menu">
-					        <li class="active"><a href="../index.html">Trang chủ</a></li>
+					        <li ><a href="../index.html">Trang chủ</a></li>
 					        <li><a href="#">Giới thiệu</a></li>
 					        <li class="dropdown">
 						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
 						        <span class="caret"></span></a>
 						        <ul class="dropdown-menu">
-							        <li><a href="new_product.html">Sản phẩm mới</a></li>
-						        	<li><a href="promo_product.html">Sản phẩm khuyến mãi</a></li>
-							        <li><a href="congra_product.html">Hoa chúc mừng</a></li>
-							        <li><a href="love_product.html">Hoa tình yêu</a></li>			
-									<li><a href="thank_product.html">Hoa cảm ơn</a></li>
-									<li><a href="opening_product.html">Hoa khai trương</a></li>
-									<li><a href="wedding_product.html">Hoa cưới</a></li>
-									<li><a href="funeral_product.html">Hoa tang lễ</a></li>
+							        <li><a href="../product/new_product.html">Sản phẩm mới</a></li>
+						        	<li><a href="../product/promo_product.html">Sản phẩm khuyến mãi</a></li>
+							        <li><a href="../product/congra_product.html">Hoa chúc mừng</a></li>
+							        <li><a href="../product/love_product.html">Hoa tình yêu</a></li>			
+									<li><a href="../product/thank_product.html">Hoa cảm ơn</a></li>
+									<li><a href="../product/opening_product.html">Hoa khai trương</a></li>
+									<li><a href="../product/wedding_product.html">Hoa cưới</a></li>
+									<li><a href="../product/funeral_product.html">Hoa tang lễ</a></li>
 						        </ul>
 						     </li>
-					        <li><a href="../meaning_flowers.html">Hoa và cuộc sống</a></li>  
+					        <li class="active"><a href="../meaning_flowers.html">Hoa và cuộc sống</a></li> 
 					        <li><a href="#">Hỗ trợ</a></li> 
 					        <li><a href="#">Liên hệ</a></li> 
 					      </ul>
@@ -89,124 +89,53 @@
 	
 	<!--Body -->
 	<div id="content">
-		<div class="container">
-			<div class="row">
-				<div class="btn-group-vertical sidebar col-md-3 col-lg-3 visible-md visible-lg" id="category">
-					<a href="#" class="btn btn-info disabled btn-category">Danh mục sản phẩm</a>
-					<a href="new_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-glass"></span>   Sản phẩm mới</a>
-					<a href="promo_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-heart"></span>   Sản phẩm khuyến mãi</a>
-					<a href="congra_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-glass"></span>   Hoa chúc mừng</a>
-					<a href="love_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-heart"></span>   Hoa tình yêu</a>
-					<a href="thank_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-gift"></span>   Hoa cảm ơn</a>
-					<a href="opening_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-star"></span>  Hoa khai trương</a>
-					<a href="wedding_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-asterisk"></span>   Hoa cưới</a>
-					<a href="funeral_product.html" class="btn btn-info btn-category"><span class="glyphicon glyphicon-leaf"></span>   Hoa tang lễ</a>
+		<div class="product_detail">
+			<div class="container">
+				<div class="col-md-5 col-lg-5" id="hinh_anh_chi_tiet">
+					<img src="../images/meaning_flowers/huong_duong.jpg">
 				</div>
 
+				<div class="col-md-7 col-lg-7" id="thong_tin">
+					<h2>Ý nghĩa hoa hướng dương</h2>
+					<br>
+					<p>Những đóa hoa hướng dương hệt như ánh mặt trời rực rỡ - chính vậy mà hướng dương được xem là loài hoa tượng trưng cho sự đam mê mãnh liệt.Một loài hoa tươi sáng và vui vẻ, mạnh mẽ nhưng cũng đầy dịu dàng và đam mê -Hướng Dương chính là một món quà bày tỏ sự quan tâm ấm áp nhất.</p>
+					<br>
 
-				<div class="main col-md-9 col-lg-9">
-					<div class="filter-product">
-						<form action="../search.html">
-							<input type="text" name="tieu_chi">
-							<select id="cat_product" style="width: 155px;" name="loai_hoa">
-								<option value="0">Chọn tiêu chí...</option>
-								<option value="hoa-hong">Loại hoa</option>
-								<option value="hoa-cam-chuong">Giá</option>
-								<option value="hoa-ly">Danh mục</option>								
-							</select>
-							<input type="submit" name="submit" value="Tìm kiếm">
-						</form>
+					<div class="social_network">
+				  	 	<div class="btn-group">
+					        <button class="btn btn-default btn-lg disabled">Share:</button> 
+					        <a class="btn btn-default btn-lg" target="_blank" title="Like On Facebook" href="http://www.facebook.com/plugins/like.php?href=product_detail.html">
+					            <span class="fa fa-thumbs-o-up fa-lg fb"></span>
+					        </a>
+					        <a class="btn btn-default btn-lg" target="_blank" title="On Facebook" href="http://www.facebook.com/sharer.php?u=product_detail.html&amp;t=Social%20Buttons%20in%20HTML%20only%20using%20Twitter%20Bootstrap%203%20and%20Font%20Awesome%20Icons">
+					            <i class="fa fa-facebook fa-lg fb"></i>
+					        </a>
+					        <a class="btn btn-default btn-lg" target="_blank" title="On Twitter" href="http://twitter.com/share?url=http%3A%2F%2Fostr.io/code/html-social-like-share-buttons-no-javascript.html&amp;text=Social%20Buttons%20in%20HTML%20only%20using%20Twitter%20Bootstrap%203%20and%20Font%20Awesome%20Icons">
+					            <i class="fa fa-twitter fa-lg tw"></i>
+					        </a>
+					        <a class="btn btn-default btn-lg" target="_blank" title="On Google Plus" href="https://plusone.google.com/_/+1/confirm?hl=en&amp;url=http%3A%2F%2Fostr.io/code/html-social-like-share-buttons-no-javascript.html">
+					            <i class="fa fa-google-plus fa-lg google"></i>
+					        </a>
+				    	</div>
 					</div>
-					<div class ="product promo-product">
-						<h2>Sản phẩm khuyến mãi</h2>
-						  	
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro1.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
+					<br>
+					<h2>Thông tin chi tiết</h2>
+					<div class="meaning_flowers_detail">
+						<p><b>Hoa hướng dương</b> xuất hiện đầu tiên tại châu Mỹ vào khoảng năm 1000 trước Công Nguyên và sau đó được lan rộng ra khắp thế giới. Không chỉ là loài hoa được trân quý vì cung cấp nguồn lương thực quý báu là hạt và dầu, mà ngay từ thời xa xưa ấy, hoa hướng dương đã được người dân bản địa tôn sùng vì vẻ đẹp lộng lẫy, mạnh mẽ của nó. Có một số vùng còn chọn hoa hướng dương là loài hoa đặc trưng cho tôn giáo của họ. Nhiều nghệ sĩ thời xưa cũng rất sùng bái vẻ đẹp của hoa hương dương, và đến thời kì trường phái ấn tượng, hướng dương lại càng gây ám ảnh mạnh mẽ.</p>
 
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro2.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
+						<p>Với đặc tính hướng quang - luôn hướng về phía mặt trời- hoa hướng dương biểu trưng cho lòng trung thành, tính kiên định. Với tình yêu, đó là biểu tượng của sự chung thủy, sắt son..</p>
 
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro3.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
+						<p>Và, hình dáng những cánh hoa vàng rực rỡ như ánh mặt trời, khiến người nhìn cảm thấy tràn đầy năng lượng ấy- là biểu hiện của sự quan tâm chân thành, ấm áp và là niềm vui, hạnh phúc lan tỏa.</p>
 
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro4.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
+						<p>Bên cạnh đó, hoa hướng dương còn có ý nghĩa là sự ngưỡng mộ, tôn sùng và sự bền vững lâu dài. Chính vì vậy, hoa hướng dương thích hợp để bày tỏ tình yêu dài lâu, cũng như những dịp chúc mừng, kỉ niệm để gửi đi thông điệp về sự hân hoan, phấn khởi.</p>
 
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro5.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
-
-					 	<div class="col-xs-12 col-sm-6 col-md-4">
-						    <div class="thumbnail">
-						      	<a href="product_detail.html">
-						        	<img class="img-responsive" src="../images/promo_product/pro6.jpg" alt="Image">
-						      	</a>
-						        <div class="caption">
-						         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-									<p class="price">100.000 đồng</p>
-									<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-						        </div>
-						    </div>
-					  	</div>
-
-						<div class="read-more pull-right">
-							<a href="#">Xem thêm ...</a>
-						</div>
 
 					</div>
-				</div>
+				
 			</div>
+		</div>	
 		</div>
-	</div>
+	</div>		
 		
 	<!--Footer -->
 	<div id="footer">

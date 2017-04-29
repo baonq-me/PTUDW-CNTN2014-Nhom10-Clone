@@ -497,14 +497,9 @@ body{
 
 
 /* Button styles: */
-i.fb,       span.fb{        color: #3b5998; }
-i.tw,       span.tw{        color: #00aced; }
-i.google,   span.google{    color: #dd4b39; }
-i.linkin,   span.linkin{    color: #007bb6; }
-
-
-
-
+i.fb {color: #3b5998; }
+i.tw {color: #00aced; }
+i.google {color: #dd4b39; }
 
 /********** Popup đăng nhập ***********************/
 .popup a { text-decoration: none; color: #00b0ff; }
@@ -690,6 +685,17 @@ legend{
 	bottom: 0px;
 	width: 100%;
 }
+
+#result_strength_pass, #sign_up_msg_reenter_pass{
+	color: red;
+	font-size: 14px;
+}
+
+
+
+
+
+
 /*************Trang chủ của phân hệ member*********/
 
 #header .top-menu .member-profile{
@@ -941,4 +947,15 @@ legend{
 .cart-pay .form-pay-info .pay-info .cart-img{
 	padding: 0px 15px;
 	margin-top: 10px;
+}
+/**********Trang set lại mật khẩu ***********/
+#set_new_pass_result_strength_pass, #set_new_pass_msg_reenter_pass{
+	color: red;
+	font-size: 14px;
+}
+
+#set_new_pass_btn{
+	float: right;
+	width: 180px;
+
 }
