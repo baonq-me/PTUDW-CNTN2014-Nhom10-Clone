@@ -24,10 +24,9 @@ function validateFormSetNewPass(){
 
 $(document).ready(function(){
 	$(window).scroll(function(){
-		if ($("#footer").offset().top + $("#footer").outerHeight() - $(window).height() > $("#primary-menu").outerHeight() )
-			if($(window).scrollTop() > $(".top-menu").outerHeight())
-				$("#primary-menu").addClass("sticky");
-			else $("#primary-menu").removeClass("sticky");
+		if($(window).scrollTop() > $(".top-menu").outerHeight())
+			$("#primary-menu").addClass("sticky");
+		else $("#primary-menu").removeClass("sticky");
 	});
 	$(window).scroll(function(){
 		var p1 = $("#primary-menu").offset().top + $("#primary-menu").outerHeight();
@@ -88,7 +87,7 @@ $(document).ready(function(){
 		if (password.length < 8) { 
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('short')
-			return '<div style="color:red">Quá ngắn!</div>'
+			return 'Quá ngắn!' 
 		}
 		
 		//length is ok, lets continue.
@@ -115,19 +114,19 @@ $(document).ready(function(){
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('weak')
-			return '<div style="color:#f7aa25">Yếu!</div>'			
+			return 'Yếu!'			
 		}
 		else if (strength == 2 )
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('good')
-			return '<div style="color:#2285da">Khá!</div>'		
+			return 'Khá!'		
 		}
 		else
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('strong')
-			return '<div style="color:#19bd1b">Mạnh!</div>'
+			return 'Mạnh!'
 		}
 	}
 
