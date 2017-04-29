@@ -690,6 +690,12 @@ legend{
 	color: red;
 	font-size: 14px;
 }
+
+
+
+
+
+
 /*************Trang chủ của phân hệ member*********/
 
 #header .top-menu .member-profile{
@@ -745,4 +751,15 @@ legend{
 
 #forget_pass_links a:hover{
 	color:#FF1493
+}
+
+/**********Trang set lại mật khẩu ***********/
+#set_new_pass_result_strength_pass, #set_new_pass_msg_reenter_pass{
+	color: red;
+	font-size: 14px;
+}
+
+#set_new_pass_btn{
+	float: right;
+	width: 180px;
 }
