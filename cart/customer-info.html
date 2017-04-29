@@ -6,14 +6,19 @@
 	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon" />
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
-	<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
-	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
-	
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap-datetimepicker.css">
   	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+	<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
+
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/moment-with-locales.js"></script>
+	<script type="text/javascript" src="../js/bootstrap-datetimepicker.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<script type="text/javascript" src="../js/script.js"></script>
 
 </head>
@@ -99,54 +104,60 @@
 					<li><span>3</span><strong>Thông tin thanh toán</strong></li>
 					<li><span>4</span><strong>Hoàn thành</strong></li>
 				</ul>
-				<div class="table-responsive list-cart">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th style="text-align: center;">STT</th>
-								<th style="text-align: center;">Hình ảnh</th>
-								<th>Thông tin</th>
-								<th style="text-align: center;">Số lượng</th>
-								<th style="text-align: center;">Tổng giá</th>
-								<th style="text-align: center;">Công cụ</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="stt">1</td>
-								<td class="img"><a href="../product/product_detail.html""><img src="../images/new_product/pro3.jpg"></a></td>
-								<td class="info">
-									<a href="../product/product_detail.html">Hoa hướng dương</a>
-									<span class="old-cost">Giá: 200.000 đ</span>
-									<span class="cost">Giảm: 100.000 đ</span>
-								</td>
-								<td class="count" cost="100000"><input type="number" name="count-product" value="1"></td>
-								<td class="total-cost">100.000 đ</td>
-								<td class="delete"><i class="fa fa-close"></i></td>
-							</tr>
-
-							<tr>
-								<td class="stt">2</td>
-								<td class="img"><a href="../product/product_detail.html""><img src="../images/new_product/pro4.jpg"></a></td>
-								<td class="info">
-									<a href="../product/product_detail.html">Hoa hồng</a>
-									<span class="cost">Giảm: 10.000 đ</span>
-								</td>
-								<td class="count" cost="100000"><input type="number" name="count-product" value="10"></td>
-								<td class="total-cost">100.000 đ</td>
-								<td class="delete"><i class="fa fa-close"></i></td>
-							</tr>
-
-							<tr>
-								<td colspan="4" class="lb-sum">Tổng cộng</td>
-								<td class="cost-sum">200.000 đ</td>
-								<td> </td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div><a href="cart-info.html" class="prev-step">Bước trước</a></div>
-				<div><a href="billing-info.html" class="next-step">Bước tiếp theo</a></div>
+				<form action="billing-info.html" method="GET">
+					<div class="form-receiver-info clearfix">
+						<h3>Thông tin người nhận</h3>
+						<div class="col-lg-6 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<div class='input-group name'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type='text' name="name" class="form-control" placeholder="Họ và Tên" required />
+								</div>
+								<div class='input-group phone'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+									<input type='text' name="phone" class="form-control" placeholder="Số điện thoại" required />
+								</div>
+								<div class='input-group date' id='datetimepicker1'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type='datetime' name="date" class="form-control" placeholder="Ngày giờ giao hàng" required />
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-sm-12 col-xs-12">
+							<div class="form-group add-info">
+								<div class="warning">
+									<span>Lưu ý: vui lòng chọn chính xác địa chỉ, để chúng tôi giao hàng nhanh.</span>
+								</div>
+								<div class="col-lg-12 col-sm-12 col-xs-12">
+									<div class='input-group base-add'>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+										<input type='text' name="base-add" class="form-control" placeholder="Địa chỉ" required />
+									</div>
+								</div>
+								<div class="col-lg-6 col-sm-6 col-xs-6">
+									<div class='input-group district-add'>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+										<input type='text' name="district-add" class="form-control" placeholder="Quận/Huyện" required />
+									</div>
+								</div>
+								<div class="col-lg-6 col-sm-6 col-xs-6">
+									<div class='input-group city-add'>
+										<span class="input-group-addon"></span>
+										<input type='text' name="city-add" class="form-control" placeholder="Tỉnh" required />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div><a href="cart-info.html" class="prev-step">Bước trước</a></div>
+					<input type="submit" value="Bước tiếp theo" class="next-step">
+				</form>
+				<script type="text/javascript">
+					$(function () {
+						$('#datetimepicker1').datetimepicker();
+					});
+				</script>
 			</div>
 		</div>
 

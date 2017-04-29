@@ -884,3 +884,61 @@ legend{
 .cart-pay .next-step:hover, .cart-pay .prev-step:hover{
 	background: #FF1493;
 }
+
+.cart-pay .form-receiver-info{
+	background-image: url(../images/page_tt_new.png);
+	background-repeat: repeat-x;
+	margin-bottom: 40px;
+}
+.cart-pay .form-receiver-info h3{
+	text-transform: uppercase;
+	font-size: 20px;
+}
+.cart-pay .form-receiver-info .add-info{
+	border: 1px dashed #FF1493;
+	overflow: auto;
+	background: rgba(255, 20, 147, 0.02)
+}
+.cart-pay .form-receiver-info .input-group{
+	margin-bottom: 15px;
+}
+.cart-pay .form-receiver-info .form-group .warning span{
+	color: #FF1493;
+	font-size: 13px;
+	padding: 10px 15px;
+	display: block;
+}
+
+
+
+.cart-pay .form-pay-info{
+	background-image: url(../images/page_tt_new.png);
+	background-repeat: repeat-x;
+	margin-bottom: 40px;
+}
+.cart-pay .form-pay-info h3{
+	text-transform: uppercase;
+	font-size: 20px;
+}
+.cart-pay .form-pay-info .customer-info div{
+	margin-bottom: 10px; 
+}
+.cart-pay .form-pay-info .pay-info{
+	border: 1px dashed #FF1493;
+	overflow: auto;
+	background: rgba(255, 20, 147, 0.02);
+	padding: 15px 0px;
+}
+.cart-pay .form-pay-info .pay-info h4{
+	color: #333;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.cart-pay .form-pay-info .pay-info .form-control{
+	margin-bottom: 15px;
+}
+.cart-pay .form-pay-info .pay-info .cart-img{
+	padding: 0px 15px;
+	margin-top: 10px;
+}
