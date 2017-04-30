@@ -47,12 +47,11 @@ body{
 	font-size: 13px;
 }
 #header .top-menu .sign-in li a:hover{
-	color: #FF1493
+	color: #FF1493;
 }
 /*Cart*/
 .cart{
 	background-color: #00b0ff;
-
 }
 
 .cart a{
@@ -696,8 +695,8 @@ fieldset h2{
 	color: red;
 	font-size: 14px;
 }
-form[name=sign_up_form] .input-group{
-	margin-bottom: 15px;
+form[name=sign_up_form] .input-group {
+	margin-top: 15px;
 }
 form[name=sign_up_form] .input-group-addon{
 	background: #00b0ff;
@@ -744,9 +743,30 @@ form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addo
 
 /************ Trang thay đổi password của member **********/
 #member_changepass_btn_confirm{
-	float: right;
-	width: 100px;
+	width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background: #00b0ff;
+    padding: 6px;
+    margin-top: 15px;
+    margin-bottom: 40px;
 }
+
+
+form[name=change_pass] .input-group {
+	margin-top: 15px;
+}
+form[name=change_pass] .input-group-addon{
+	background: #00b0ff;
+	color: #fff;
+}
+form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon {
+	border-radius: 0;
+	border-color: #00b0ff;
+}
+
 
 /*************Trang quên password**********************/
 .message_forget_password p{
@@ -765,7 +785,7 @@ form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addo
 }
 
 #forget_pass_links a:hover{
-	color:#FF1493
+	color:#FF1493;
 }
 
 /**********Trang set lại mật khẩu ***********/
@@ -777,6 +797,43 @@ form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addo
 #set_new_pass_btn{
 	float: right;
 	width: 180px;
+}
+
+
+/***************** Trang thay đổi thông tin cá nhân ************/
+#content #avatar_member img{
+	width: 80%;
+	margin: 20px;
+	background-color: transparent;
+	border-radius: 5px;
+	border: 2px solid #f0f0f0;
+	padding: 20px;
+}
+
+#content #thong_tin h2{
+	text-align: center;
+}	
+
+#content #thong_tin #change_profile{
+	margin-left: 150px;
+}
+
+
+#content #thong_tin #change_profile .input-group{
+	margin-bottom: 10px;
+}
+
+#content #thong_tin #change_profile #change_profile_btn{
+	/*width: 100%;*/
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background: #00b0ff;
+    padding: 6px;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    text-align: center;
 }
 
 
