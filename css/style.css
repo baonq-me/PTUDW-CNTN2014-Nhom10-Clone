@@ -47,12 +47,11 @@ body{
 	font-size: 13px;
 }
 #header .top-menu .sign-in li a:hover{
-	color: #FF1493
+	color: #FF1493;
 }
 /*Cart*/
 .cart{
 	background-color: #00b0ff;
-
 }
 
 .cart a{
@@ -451,16 +450,12 @@ body{
 #content .product_detail{
 	margin: 30px 10px;
 }
-
-#content .product_detail #hinh_anh_chi_tiet{
-}
-#content .product_detail #hinh_anh_chi_tiet img{
-	height: 100%;
+#content .product_detail .hinh_anh_chi_tiet img{
+	width: 90%;
 	margin: 20px;
 	background-color: transparent;
 	border-radius: 5px;
 	border: 2px solid #f0f0f0;
-
 	padding: 20px;
 }
 
@@ -658,23 +653,33 @@ fieldset{
 	min-width: 300px;
 
 }
-legend{
+fieldset h2{
+	margin: 40px 0px 20px 0 !important;
+	font-size: 20px;
+	text-transform: uppercase;
 	text-align: center;
 	color: #00b0ff;
-	text-transform: uppercase;
-	margin-top: 10px;
-	font-size: 28px;
+	font-weight: bold;
 }
 
 #sign_up_btn_create{
-	float: right;
-	width: 100px;
+    width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background: #00b0ff;
+    padding: 6px;
+    margin-top: 15px;
+    margin-bottom: 40px;
 }
 
 #sign_up_has_acc{
 	text-align: center;
+	margin-bottom: 40px;
 }
-
+#sign_up_has_acc a{ color: #00b0ff; text-decoration: none; }
+#sign_up_has_acc a:hover{ color: #FF1493 }
 #sign_up_footer{
 	text-align: center;
 	background-color: #A4A4A4;
@@ -690,8 +695,17 @@ legend{
 	color: red;
 	font-size: 14px;
 }
-
-
+form[name=sign_up_form] .input-group {
+	margin-top: 15px;
+}
+form[name=sign_up_form] .input-group-addon{
+	background: #00b0ff;
+	color: #fff;
+}
+form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addon {
+	border-radius: 0;
+	border-color: #00b0ff;
+}
 
 
 
@@ -729,9 +743,30 @@ legend{
 
 /************ Trang thay đổi password của member **********/
 #member_changepass_btn_confirm{
-	float: right;
-	width: 100px;
+	width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background: #00b0ff;
+    padding: 6px;
+    margin-top: 15px;
+    margin-bottom: 40px;
 }
+
+
+form[name=change_pass] .input-group {
+	margin-top: 15px;
+}
+form[name=change_pass] .input-group-addon{
+	background: #00b0ff;
+	color: #fff;
+}
+form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon {
+	border-radius: 0;
+	border-color: #00b0ff;
+}
+
 
 /*************Trang quên password**********************/
 .message_forget_password p{
@@ -750,7 +785,7 @@ legend{
 }
 
 #forget_pass_links a:hover{
-	color:#FF1493
+	color:#FF1493;
 }
 
 /**********Trang set lại mật khẩu ***********/
@@ -762,4 +797,238 @@ legend{
 #set_new_pass_btn{
 	float: right;
 	width: 180px;
+}
+
+
+/***************** Trang thay đổi thông tin cá nhân ************/
+#content #avatar_member img{
+	width: 80%;
+	margin: 20px;
+	background-color: transparent;
+	border-radius: 5px;
+	border: 2px solid #f0f0f0;
+	padding: 20px;
+}
+
+#content #thong_tin h2{
+	text-align: center;
+}	
+
+#content #thong_tin #change_profile{
+	margin-left: 150px;
+}
+
+
+#content #thong_tin #change_profile .input-group{
+	margin-bottom: 10px;
+}
+
+#content #thong_tin #change_profile #change_profile_btn{
+	/*width: 100%;*/
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    background: #00b0ff;
+    padding: 6px;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+
+/****************************************  Cart and Pay *****************/
+.cart-pay{ margin-bottom: 40px; }
+.cart-pay ul.tab-pay{
+	text-align: center;
+	padding-bottom: 20px;
+	padding-top: 50px;
+}
+.cart-pay ul.tab-pay li {
+	display: inline-block;
+	text-align: center;
+	padding: 0 20px;
+}
+.cart-pay ul.tab-pay li span{
+	background: #fff;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	font-size: 24px;
+	color: #666;
+	border: 5px solid #eee;
+	display: inline-block;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	box-sizing: content-box;
+}
+.cart-pay ul.tab-pay li.active span{
+	border: 5px solid #FF1493;
+	color: #FF1493;
+}
+.cart-pay ul.tab-pay li strong {
+	display: block;
+	padding-top: 2px;
+}
+.cart-pay ul.tab-pay li.active strong {
+	color: #FF1493;
+}
+.cart-pay .list-cart thead{
+	background: #f9f9f9;
+	border: 1px solid #eee;
+}
+.cart-pay .list-cart tbody tr{
+	border: 1px solid #eee;
+}
+.cart-pay .list-cart tbody td{
+	vertical-align: middle;
+}
+.cart-pay .list-cart .stt{
+	text-align: center;
+	width: 80px;
+}
+.cart-pay .list-cart .img{ width: 100px; }
+.cart-pay .list-cart .img img{
+	width: 80px;
+	height: 80px;
+}
+.cart-pay .list-cart .info{
+	background: none !important;
+}
+.cart-pay .list-cart .info a{
+	color: #00b0ff;
+	font-weight: bold;
+	display: block;
+	text-decoration: none;
+}
+.cart-pay .list-cart .info a:hover{
+	color: #FF1493;
+}
+.cart-pay .list-cart .info .old-cost{
+	display: block;
+	color: #333;
+	text-decoration: line-through;
+	font-size: 13px;
+}
+.cart-pay .list-cart .info .cost{
+	display: block;
+	font-weight: bold;
+	color: red;
+	font-size: 13px;
+}
+.cart-pay .list-cart .count { width: 100px; text-align: center; }
+.cart-pay .list-cart .count input{
+	border: 1px solid #eee;
+	text-align: center;
+	width: 50px;
+	padding: 5px;
+	color: #333;
+}
+.cart-pay .list-cart .total-cost{
+	color: red;
+	font-weight: bold;
+	width: 140px;
+	text-align: center;
+}
+.cart-pay .list-cart .delete{
+	text-align: center;
+	color: red;
+	width: 100px;
+	text-align: center;
+}
+.cart-pay .list-cart .delete i {
+	padding: 2px;
+	border: 1px dotted;
+	cursor: pointer;
+}
+.cart-pay .list-cart .lb-sum{
+	text-align: right;
+}
+.cart-pay .list-cart .cost-sum{
+	text-align: center;
+	color: red;
+	font-weight: bold;
+}
+
+.cart-pay .next-step{
+	background: #00b0ff;
+	color: #fff;
+	height: 40px;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	float: right;
+}
+.cart-pay .prev-step{
+	background: #00b0ff;
+	color: #fff;
+	height: 40px;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	float: left;
+}
+.cart-pay .next-step:hover, .cart-pay .prev-step:hover{
+	background: #FF1493;
+}
+
+.cart-pay .form-receiver-info{
+	background-image: url(../images/page_tt_new.png);
+	background-repeat: repeat-x;
+	margin-bottom: 40px;
+}
+.cart-pay .form-receiver-info h3{
+	text-transform: uppercase;
+	font-size: 20px;
+}
+.cart-pay .form-receiver-info .add-info{
+	border: 1px dashed #FF1493;
+	overflow: auto;
+	background: rgba(255, 20, 147, 0.02)
+}
+.cart-pay .form-receiver-info .input-group{
+	margin-bottom: 15px;
+}
+.cart-pay .form-receiver-info .form-group .warning span{
+	color: #FF1493;
+	font-size: 13px;
+	padding: 10px 15px;
+	display: block;
+}
+
+
+
+.cart-pay .form-pay-info{
+	background-image: url(../images/page_tt_new.png);
+	background-repeat: repeat-x;
+	margin-bottom: 40px;
+}
+.cart-pay .form-pay-info h3{
+	text-transform: uppercase;
+	font-size: 20px;
+}
+.cart-pay .form-pay-info .customer-info div{
+	margin-bottom: 10px; 
+}
+.cart-pay .form-pay-info .pay-info{
+	border: 1px dashed #FF1493;
+	overflow: auto;
+	background: rgba(255, 20, 147, 0.02);
+	padding: 15px 0px;
+}
+.cart-pay .form-pay-info .pay-info h4{
+	color: #333;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.cart-pay .form-pay-info .pay-info .form-control{
+	margin-bottom: 15px;
+}
+.cart-pay .form-pay-info .pay-info .cart-img{
+	padding: 0px 15px;
+	margin-top: 10px;
 }
