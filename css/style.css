@@ -119,6 +119,10 @@ body{
 	margin: 0;
 }
 
+#header #primary-menu #myNavbar #main-menu li a:hover{
+	color:  #FF1493;
+}
+
 
 
 /*Search*/
