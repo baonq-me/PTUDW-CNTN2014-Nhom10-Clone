@@ -695,14 +695,14 @@ fieldset h2{
 	color: red;
 	font-size: 14px;
 }
-form[name=sign_up_form] .input-group {
+.form-box .input-group {
 	margin-top: 15px;
 }
-form[name=sign_up_form] .input-group-addon{
+.form-box .input-group-addon{
 	background: #00b0ff;
 	color: #fff;
 }
-form[name=sign_up_form] .form-control, form[name=sign_up_form] .input-group-addon {
+.form-box .form-control, .form-box .input-group-addon {
 	border-radius: 0;
 	border-color: #00b0ff;
 }
@@ -770,7 +770,7 @@ form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon 
 
 /*************Trang quên password**********************/
 .message_forget_password p{
-	margin: 5px 0px 10px 0px;
+	margin: 10px 0px 10px 0px;
 	color: #333;
 }
 
@@ -782,8 +782,10 @@ form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon 
 	color: #00b0ff;
 	text-align: center;
 	margin: 10px;
+	overflow: auto;
+	margin-bottom: 40px;
 }
-
+#forget_pass_links a {text-decoration: none;}
 #forget_pass_links a:hover{
 	color:#FF1493;
 }
