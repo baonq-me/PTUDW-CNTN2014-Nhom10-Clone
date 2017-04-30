@@ -21,6 +21,17 @@ function validateFormSetNewPass(){
 	}
 };
 
+/*Kiểm tra tính đúng đắn của form thay đổi password*/
+function validateFormChangePass(){
+	var password1 = document.forms["change_pass"]["changepass_pass1"].value;
+	var password2 = document.forms["change_pass"]["changepass_pass2"].value;
+
+	if(password1 != password2){
+		document.getElementById("sign_up_msg_reenter_pass").innerHTML = "Mật khẩu nhập lại không trùng khớp!!!"
+		return false;
+	}
+};
+
 
 $(document).ready(function(){
 	$(window).scroll(function(){
@@ -76,6 +87,12 @@ $(document).ready(function(){
     $('#set_new_pass_pass1').keyup(function()
 	{
 		$('#set_new_pass_result_strength_pass').html(checkStrength($('#set_new_pass_pass1').val()))
+	});
+
+	//Kiểm tra độ mạnh của password ở trang thay đổi mật khẩu
+    $('#changepass_pass1').keyup(function()
+	{
+		$('#result_strength_pass').html(checkStrength($('#changepass_pass1').val()))
 	});
 	
 	
