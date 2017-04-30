@@ -34,6 +34,11 @@ function validateFormChangePass(){
 
 
 $(document).ready(function(){
+	if($("body").outerHeight() <  $(window).height()){
+		var min_height = $(window).height() - $("#header").outerHeight() - $("#footer").outerHeight();
+		min_height = "" + min_height + "px";
+		$("#content").css("min-height",min_height);
+	}
 	$(window).scroll(function(){
 		if ($("#footer").offset().top + $("#footer").outerHeight() - $(window).height() > $("#primary-menu").outerHeight() )
 			if($(window).scrollTop() > $(".top-menu").outerHeight())
