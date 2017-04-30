@@ -3,13 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--<meta http-equiv="refresh" content="1; URL=admin.products.html">-->
+	<!--<meta http-equiv="refresh" content="1; URL=admin.account.html">-->
 
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
 	<title>Admin - Shop hoa Khoa học tự nhiên</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/admin.account.css">
 
 	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -47,7 +48,7 @@
 			<img src="images/logo.png" class="logo">
 			<ul>
 				<li><a href="index.html"><i class="fa fa-dashboard"></i><span>Tổng quan</span></a></li>
-				<li><a href="admin.products.html"><i class="fa fa-yelp"></i><span>Sản phẩm</span></a></li>
+				<li><a href="admin.account.html"><i class="fa fa-yelp"></i><span>Sản phẩm</span></a></li>
 				<li><a href="admin.groups.html"><i class="fa fa-tags"></i><span>Nhóm sản phẩm</span></a></li>
 				<li><a href="admin.orders.html"><i class="fa fa-clone"></i><span>Đơn hàng</span></a></li>
 				<li><a href="admin.statistic.html"><i class="fa fa-line-chart"></i><span>Thống kê</span></a></li>
@@ -60,26 +61,26 @@
 			<div class="content">
 				<div class="box">
 					<div class="box-title">
-						<h1>Tài khoản<a href="admin.products.html" class="btn btn-info">Thêm</a></h1>
+						<h1>Tài khoản<a href="admin.account.add.html" class="btn btn-default">Thêm</a></h1>
 
 						<div class="product-info">
-							<a href="admin.products.html" class="float-left"><h2>Tất cả  (12)</h2></a>
-							<a href="admin.products.html" class="float-left">Quản trị (1)</a>
-							<a href="admin.products.html" class="float-left">Bán hàng (2)</a>
-							<a href="admin.products.html" class="float-left">Mua hàng (9)</a>
+							<a href="admin.account.html" class="float-left"><h2>Tất cả  (12)</h2></a>
+							<a href="admin.account.html" class="float-left">Quản trị (1)</a>
+							<a href="admin.account.html" class="float-left">Bán hàng (2)</a>
+							<a href="admin.account.html" class="float-left">Mua hàng (9)</a>
 
 							<div class="form-group">
-								<a href="admin.products.html" class="btn btn-info float-right">Tìm kiếm</a>
+								<a href="admin.account.html" class="btn btn-default float-right">Tìm kiếm</a>
 								<div class="col-xs-2 float-right">
 								<input type="search" id="product-search" class="form-control">
 								</div>
 							</div>
 						</div>
 
-						<div class="btn btn-info">Xử lí loạt</a></div>
+						<div class="btn btn-default">Xử lí loạt</a></div>
 						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tác vụ</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						  <button type="button" class="btn btn-default">Tác vụ</button>
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
@@ -89,10 +90,10 @@
 						  </ul>
 						</div>
 
-						<div class="btn btn-info">Lọc</a></div>
+						<div class="btn btn-default">Lọc</a></div>
 						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Lọc tài khoản</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						  <button type="button" class="btn btn-default">Lọc tài khoản</button>
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
@@ -102,15 +103,13 @@
 						  </ul>
 						</div>
 
-						<a href="admin.products.html" class="btn btn-info float-right">3</a>
-						<a href="admin.products.html" class="btn btn-info float-right">2</a>
-						<a href="admin.products.html" class="btn btn-info float-right">1</a>
+						<!--<a href="admin.account.html" class="btn btn-default float-right">3</a>
+						<a href="admin.account.html" class="btn btn-default float-right">2</a>-->
+						<a href="admin.account.html" class="btn btn-default float-right">1</a>
 
 						<div class="clear"></div>
 					</div>
 					<div class="box-content">
-						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
-						<!-- Responsive table -->
 						<div style="overflow-x:auto;">
 							<table class="account-table">
 								<thead>

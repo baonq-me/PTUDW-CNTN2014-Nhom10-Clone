@@ -259,7 +259,7 @@ a:hover {
 
 .box-title .btn-group
 {
-	margin-right: 20px;
+	margin-right: 25px;
 	margin-left: 5px;
 }
 
@@ -289,66 +289,4 @@ a:hover {
 tr td img.img-thumbnail
 {
 	max-width: 120px;
-}
-
-.order-table tbody tr td p.payment-method
-{
-	color: #999;
-}
-
-.order-table tbody tr td.delivery-address
-{
-	color: #999;
-}
-
-.account-table tbody tr td img
-{
-	margin-right: 20px;
-}
-
-.account-admin
-{
-	font-weight: bold;
-	color: red !important;
-}
-
-.account-seller
-{
-	font-weight: bold;
-	color: green !important;
-}
-
-.account-customer
-{
-	font-weight: bold;
-	color: orange !important;
-}
-
-#account-profile table tbody tr th
-{
-	width: 170px;
-	padding-left: 15px;
-}
-
-#account-profile table tbody tr td input
-{
-	width: 400px;
-}
-
-#account-profile table tbody tr td textarea
-{
-	width: 400px;
-}
-
-.kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-shadow: none;
-    text-align: center;
-}
-.kv-avatar .file-input
-{
-    display: table-cell;
-    max-width: 220px;
 }
