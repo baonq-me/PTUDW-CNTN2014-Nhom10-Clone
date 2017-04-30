@@ -24,18 +24,17 @@
 					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
 				</div>
 				<ul class="member-profile">
-					<li class="dropdown">
+					<li class="dropdown active">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Hello, Nhóm 10
 						<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="profile-menu">
-							<li><a href="member/member_change_profile.html">Thay đổi thông tin cá nhân</a></li>
-							<li><a href="member/member_change_password.html">Thay đổi mật khẩu</a></li>
-							<li><a href="member/member_orders.html">Đơn hàng của bạn</a></li>
+							<li><a href="member_change_profile.html">Thay đổi thông tin cá nhân</a></li>
+							<li><a href="member_change_password.html">Thay đổi mật khẩu</a></li>
 							<li><a href="">Đăng xuất</a></li>
 						</ul>
 					</li>
 					<div class="cart pull-right">
-				    	<a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> 0</a>
+				    	<a href="../cart/cart-info.html"><span class="glyphicon glyphicon-shopping-cart"></span> 2</a>
 				    </div>
 				</ul>
 			</div>
@@ -68,8 +67,7 @@
 			            </form>
 					     
 					      <ul class="nav navbar-nav" id="main-menu">
-					        <li class="active"><a href="member_index.html">Trang chủ</a></li>
-					        <li><a href="#">Giới thiệu</a></li>
+					        <li><a href="member_index.html">Trang chủ</a></li>
 					        <li class="dropdown">
 						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
 						        <span class="caret"></span></a>
@@ -84,9 +82,8 @@
 									<li><a href="../product/funeral_product.html">Hoa tang lễ</a></li>
 						        </ul>
 						     </li>
-					        <li><a href="#">Hoa và cuộc sống</a></li> 
-					        <li><a href="#">Hỗ trợ</a></li> 
-					        <li><a href="#">Liên hệ</a></li> 
+					       	<li><a href="../meaning_flowers.html">Hoa và cuộc sống</a></li> 
+					        <li><a href="../index.html#contact">Liên hệ</a></li> 
 					      </ul>
 					    </div>
 					  </div>
@@ -417,11 +414,11 @@
 							<form action="" method="POST">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-									<input id="username" type="text" class="form-control" name="username" placeholder="Tên đăng nhập">
+									<input id="username" type="text" required class="form-control" name="username" placeholder="Tên đăng nhập">
 								</div>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-									<input id="password" type="password" class="form-control" name="password" placeholder="Mật khẩu">
+									<input id="password" type="password" required class="form-control" name="password" placeholder="Mật khẩu">
 								</div>
 								<a href="#" class="pull-right">Quên mật khẩu?</a>
 								<input type="submit" value="Đăng nhập">

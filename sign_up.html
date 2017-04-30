@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Đăng ký - Hoa KHTN</title>
+	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
@@ -12,83 +13,192 @@
 	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
+
+
 </head>
 <body>
-	<div class="container">
-		<div id="sign_up_logo">
-			<img src="images/logo.png">
+	<div id="header">
+		<div class="top-menu">
+			<div class="container">
+				<div class="contact hidden-xs">
+					<a href="tel:0123456789"><span class="glyphicon glyphicon-earphone"></span> 0123456789</a>
+					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
+				</div>
+				<ul class="sign-in">
+					<li><a href="sign_up.html"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+					<li class="show-popup-login" id="popup-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<div class="cart pull-right">
+				    	<a href="cart/cart-info.html"><span class="glyphicon glyphicon-shopping-cart"></span> 2</a>
+				    </div>
+				</ul>
+			</div>
 		</div>
+		<div id="primary-menu" >
+			<div class="container">
+				<div class="row">
+					<nav class="navbar navbar-inverse">
+					  <div class="container-fluid">
+					    <div class="navbar-header">
+					      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span> 
+					      	</button>
+						    <div class="logo">
+						    	<a href="index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><a href="index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="images/logo.png"></a></a>
+							</div>
+					    </div>
 
-		<form class="form-horizontal" name="sign_up_form" onsubmit="return validateFormSignUp()" method="POST">
-			<fieldset>
-
-			<!-- Form Name -->
-			<legend> Đăng ký tài khoản</legend>
-
-			<!-- Text input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="name">Họ Tên</label>  
-			  <div class="col-md-4">
-			  <input id="name" name="name" type="text" placeholder="" class="form-control input-md" required="">
-			    
-			  </div>
+					    <div class="collapse navbar-collapse" id="myNavbar">
+					      
+					      
+					      <form action="search.html" class="search-form clearfix pull-right visible-sm visible-md visible-lg" method="GET">
+			                <div class="form-group has-feedback">
+			            		<label for="search" class="sr-only">Tìm kiếm</label>
+			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
+			              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			            	</div>
+			            </form>
+					     
+					      <ul class="nav navbar-nav" id="main-menu">
+					        <li class="active"><a href="index.html">Trang chủ</a></li>
+					        <li class="dropdown">
+						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+						        <span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+							        <li><a href="product/new_product.html">Sản phẩm mới</a></li>
+						        	<li><a href="product/promo_product.html">Sản phẩm khuyến mãi</a></li>
+							        <li><a href="product/congra_product.html">Hoa chúc mừng</a></li>
+							        <li><a href="product/love_product.html">Hoa tình yêu</a></li>			
+									<li><a href="product/thank_product.html">Hoa cảm ơn</a></li>
+									<li><a href="product/opening_product.html">Hoa khai trương</a></li>
+									<li><a href="product/wedding_product.html">Hoa cưới</a></li>
+									<li><a href="product/funeral_product.html">Hoa tang lễ</a></li>
+						        </ul>
+						     </li>
+						     <li><a href="meaning_flowers.html">Hoa và cuộc sống</a></li>
+					        <li><a href="index.html#contact">Liên hệ</a></li> 
+					      </ul>
+					    </div>
+					  </div>
+					</nav>
+				</div>
 			</div>
-
-			<!-- Text input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="sign_up_email">Email</label>  
-			  <div class="col-md-4">
-			  <input id="sign_up_email" name="sign_up_email" type="text" placeholder="" class="form-control input-md" required="">
-			    
-			  </div>
-			</div>
-
-			<!-- Password input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="sign_up_password">Password</label>
-			  <div class="col-md-4">
-			    <input id="sign_up_password" name="sign_up_password" type="password" placeholder="Gồm ít nhất 8 ký tự" class="form-control input-md" required="">
-			    <span id="result_strength_pass"></span>
-			  </div>
-			</div>
-
-			<!-- Password input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="sign_up_reenter_password">Nhập lại Password</label>
-			  <div class="col-md-4">
-			    <input id="sign_up_reenter_password" name="sign_up_reenter_password" type="password" placeholder="" class="form-control input-md" required="">
-			    <span id="sign_up_msg_reenter_pass"></span>
-			  </div>
-			</div>
-
-			<!-- Text input-->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="sign_up_addr">Địa chỉ</label>  
-			  <div class="col-md-4">
-			  <input id="sign_up_addr" name="sign_up_addr" type="text" placeholder="" class="form-control input-md" required="">
-			    
-			  </div>
-			</div>
-
-			<!-- Button -->
-			<div class="form-group">
-			  <label class="col-md-4 control-label" for="sign_up_btn_create"></label>
-			  <div class="col-md-4">
-			    <button id="sign_up_btn_create" name="sign_up_btn_create" class="btn btn-primary" type="submit">Đăng ký</button>
-			  </div>
-			</div>
-
-			<!--Divider -->
-			<div class="sep"></div>
-			<div id="sign_up_has_acc">
-				<p>Bạn đã có tài khoản? <a href="index.html#popup-login">Đăng nhập</a></p>
-			</div>
-
-			</fieldset>
-		</form>
-
+		</div>
 	</div>
-	<footer id="sign_up_footer">Copyright &copy 2017. Nhóm 10</footer>
-</body>
+	<!--Body -->
+	<div id="content">
+		<div class="container">
+			<form class="form-horizontal form-box col-sm-6 col-sm-offset-3" name="sign_up_form" onsubmit="return validateFormSignUp()" method="POST">
+				<fieldset>
 
+				<!-- Form Name -->
+				<h2> Đăng ký tài khoản</h2>
+
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<input id="name" name="name" type="text" placeholder="Họ và Tên" class="form-control input-md" required="">
+				</div>
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+					<input id="sign_up_email" name="sign_up_email" type="email" placeholder="Email" class="form-control input-md" required="">
+				</div>
+				<!-- Password input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+					<input id="sign_up_password" name="sign_up_password" type="password" placeholder="Mật khẩu" class="form-control input-md" required="">
+				</div><span id="result_strength_pass"></span>
+				<!-- Password input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-ok"></i></span>
+					<input id="sign_up_reenter_password" name="sign_up_reenter_password" type="password" placeholder="Nhập lại mật khẩu" class="form-control input-md" required="">
+				</div><span id="sign_up_msg_reenter_pass"></span>
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+					<input id="sign_up_addr" name="sign_up_addr" type="text" placeholder="Địa chỉ" class="form-control input-md" required="">
+				</div>
+				<button id="sign_up_btn_create" name="sign_up_btn_create" class="btn btn-primary" type="submit">Đăng ký</button>
+
+				<!--Divider -->
+				<div class="sep"></div>
+				<div id="sign_up_has_acc">
+					<p>Bạn đã có tài khoản? <a class="show-popup-login" href="#">Đăng nhập</a></p>
+				</div>
+
+				</fieldset>
+			</form>
+
+		</div>
+	</div>
+	<!--Footer -->
+	<div id="footer">
+		<div class="copy-right">
+			<p class="center">Copy right &copy 2017. Nhóm 10</p>
+		</div>
+	</div>
+
+
+
+<!-- Popup -->
+	<div class="popup-login popup" style="display: none;">
+		<div class="overflow close-popup"></div>
+		<div class="container-popup">
+			<div class="close-popup close-popup-icon"><i class="glyphicon glyphicon-remove"></i></div>
+			<div class="content-popup">
+				<div class="login">
+					<div class="header-popup">
+						<h2>Đăng nhập</h2>
+						<p>Chào mừng bạn đến với shop hoa Khoa học tự nhiên</p>
+					</div>
+					<div class="body-popup">
+						<div class="col-xs-12 col-sm-6 col-md-6 left-content">
+							<div><p>Đăng nhập với tài khoản mạng xã hội</p></div>
+							 <div class="social-login">
+						        <a href="#" class="login_btn-facebook facebook-login">
+							        <i class="fa fa-facebook"></i>
+							        <span>Facebook</span>
+						        </a>
+					        </div>
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-twitter twitter-login">
+							        <i class="fa fa-twitter"></i>
+							        <span>Twitter</span>
+						        </a>
+					        </div>	
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-google google-login">
+							        <i class="fa fa-google-plus"></i>
+							        <span>Google+</span>
+						        </a>
+					        </div>	
+
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 right-content">
+							<form action="" method="POST">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<input id="username" type="text" required class="form-control" name="username" placeholder="Tên đăng nhập">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<input id="password" type="password" required class="form-control" name="password" placeholder="Mật khẩu">
+								</div>
+								<a href="forget_pass/forget_password.html" class="pull-right">Quên mật khẩu?</a>
+								<input type="submit" value="Đăng nhập">
+							</form>
+						</div>
+					</div>
+					<div class="footer-popup">
+						<a href="sign_up.html">Đăng ký tài khoản miễn phí.</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- End Popup -->
+</body>
 </html>
+

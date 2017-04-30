@@ -21,12 +21,29 @@ function validateFormSetNewPass(){
 	}
 };
 
+/*Kiểm tra tính đúng đắn của form thay đổi password*/
+function validateFormChangePass(){
+	var password1 = document.forms["change_pass"]["changepass_pass1"].value;
+	var password2 = document.forms["change_pass"]["changepass_pass2"].value;
+
+	if(password1 != password2){
+		document.getElementById("sign_up_msg_reenter_pass").innerHTML = "Mật khẩu nhập lại không trùng khớp!!!"
+		return false;
+	}
+};
+
 
 $(document).ready(function(){
+	if($("body").outerHeight() <  $(window).height()){
+		var min_height = $(window).height() - $("#header").outerHeight() - $("#footer").outerHeight();
+		min_height = "" + min_height + "px";
+		$("#content").css("min-height",min_height);
+	}
 	$(window).scroll(function(){
-		if($(window).scrollTop() > $(".top-menu").outerHeight())
-			$("#primary-menu").addClass("sticky");
-		else $("#primary-menu").removeClass("sticky");
+		if ($("#footer").offset().top + $("#footer").outerHeight() - $(window).height() > $("#primary-menu").outerHeight() )
+			if($(window).scrollTop() > $(".top-menu").outerHeight())
+				$("#primary-menu").addClass("sticky");
+			else $("#primary-menu").removeClass("sticky");
 	});
 	$(window).scroll(function(){
 		var p1 = $("#primary-menu").offset().top + $("#primary-menu").outerHeight();
@@ -76,6 +93,12 @@ $(document).ready(function(){
 	{
 		$('#set_new_pass_result_strength_pass').html(checkStrength($('#set_new_pass_pass1').val()))
 	});
+
+	//Kiểm tra độ mạnh của password ở trang thay đổi mật khẩu
+    $('#changepass_pass1').keyup(function()
+	{
+		$('#result_strength_pass').html(checkStrength($('#changepass_pass1').val()))
+	});
 	
 	
 	function checkStrength(password)
@@ -87,7 +110,7 @@ $(document).ready(function(){
 		if (password.length < 8) { 
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('short')
-			return 'Quá ngắn!' 
+			return '<div style="color:red">Quá ngắn!</div>'
 		}
 		
 		//length is ok, lets continue.
@@ -114,27 +137,68 @@ $(document).ready(function(){
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('weak')
-			return 'Yếu!'			
+			return '<div style="color:#f7aa25">Yếu!</div>'			
 		}
 		else if (strength == 2 )
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('good')
-			return 'Khá!'		
+			return '<div style="color:#2285da">Khá!</div>'		
 		}
 		else
 		{
 			$('#result_strength_pass').removeClass()
 			$('#result_strength_pass').addClass('strong')
-			return 'Mạnh!'
+			return '<div style="color:#19bd1b">Mạnh!</div>'
 		}
 	}
 
+    // Set Bill info
+    setBillingInfo();
+
+    // Set Phương thức thanh toán
+	$(".cart-pay .form-pay-info .pay-info").slideUp(0);
+	$(".cart-pay input[name=pay-method]").change(function(){
+		if($(".cart-pay input[name=pay-method]:checked").val() === "by-card"){
+			$(".cart-pay .form-pay-info .pay-info").slideDown(500);
+			setNoneValFormPayInfo();
+		}
+		else{
+			$(".cart-pay .form-pay-info .pay-info").slideUp(500);
+			setDefaultFormPayInfo();
+		}
+	});
 });
+function setNoneValFormPayInfo(){
+	var form = document.forms["bill-info"];
+	form['name'].value = form['card-id'].value = form['cvv'].value 
+		= form['email'].value = form['address'].value = form['city'].value = "";
+}
+function setDefaultFormPayInfo(){
+	var form = document.forms["bill-info"];
+	form['name'].value = form['card-id'].value = form['cvv'].value 
+		= form['email'].value = form['address'].value = form['city'].value = "default";
+}
 
+function getPramJs(param) {
+	var query = window.location.search.substring(1);
+	var parms = query.split('&');
+	for (var i=0; i<parms.length; i++) {
+	var pos = parms [ i ].indexOf('=');
+	if (pos > 0) {
+	var key = parms [ i ].substring(0,pos).toLowerCase();
+	var val = parms [ i ].substring(pos+1);
+	if(key == param.toLowerCase())
+	return val;
+	}
+	}
+	return null;
+}
 
-
-
-
-
-
+function setBillingInfo(){
+	$(".cart-pay .customer-info .name i").text(getPramJs("name"));
+	$(".cart-pay .customer-info .phone i").text(getPramJs("phone"));
+	$(".cart-pay .customer-info .date i").text(decodeURIComponent(getPramJs("date")));
+	var tmp = getPramJs("base-add") + ", Quận " + getPramJs("district-add") + ", Tỉnh " + getPramJs("city-add");
+	$(".cart-pay .customer-info .address i").text(tmp);
+}

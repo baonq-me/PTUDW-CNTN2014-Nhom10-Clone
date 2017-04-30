@@ -1,0 +1,39 @@
+.account-table tbody tr td img
+{
+	margin-right: 20px;
+}
+
+.account-admin
+{
+	font-weight: bold;
+	color: red;
+}
+
+.account-seller
+{
+	font-weight: bold;
+	color: green;
+}
+
+.account-customer
+{
+	font-weight: bold;
+	color: orange;
+}
+
+#account-profile table tbody tr th
+{
+	width: 170px;
+	padding-left: 15px;
+}
+
+#account-profile table tbody tr td input
+{
+	width: 400px;
+}
+
+#account-profile table tbody tr td textarea
+{
+	width: 400px;
+	resize: vertical;
+}

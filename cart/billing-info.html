@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap-datetimepicker.css">
+  	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+
+	<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
+
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/moment-with-locales.js"></script>
+	<script type="text/javascript" src="../js/bootstrap-datetimepicker.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<script type="text/javascript" src="../js/script.js"></script>
+
+</head>
+<body>
+	<div id="header">
+		<div class="top-menu">
+			<div class="container">
+				<div class="contact hidden-xs">
+					<a href="tel:0123456789"><span class="glyphicon glyphicon-earphone"></span> 0123456789</a>
+					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
+				</div>
+				<ul class="sign-in">
+					<li><a href="../sign_up.html"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+					<li class="show-popup-login" id="popup-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<div class="cart pull-right">
+				    	<a href="cart-info.html"><span class="glyphicon glyphicon-shopping-cart"></span> 2</a>
+				    </div>
+				</ul>
+			</div>
+		</div>
+		<div id="primary-menu" >
+			<div class="container">
+				<div class="row">
+					<nav class="navbar navbar-inverse">
+					  <div class="container-fluid">
+					    <div class="navbar-header">
+					      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span> 
+					      	</button>
+						    <div class="logo">
+								<a href="../index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="../images/logo.png"></a>
+							</div>
+					    </div>
+
+					    <div class="collapse navbar-collapse" id="myNavbar">
+					      
+					      
+					      <form action="../search.html" class="search-form clearfix pull-right visible-sm visible-md visible-lg">
+			                <div class="form-group has-feedback">
+			            		<label for="search" class="sr-only">Tìm kiếm</label>
+			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
+			              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			            	</div>
+			            </form>
+					     
+					      <ul class="nav navbar-nav" id="main-menu">
+					        <li><a href="../index.html">Trang chủ</a></li>
+					        <li class="dropdown">
+						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+						        <span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+							        <li><a href="../product/new_product.html">Sản phẩm mới</a></li>
+						        	<li><a href="../product/promo_product.html">Sản phẩm khuyến mãi</a></li>
+							        <li><a href="../product/congra_product.html">Hoa chúc mừng</a></li>
+							        <li><a href="../product/love_product.html">Hoa tình yêu</a></li>			
+									<li><a href="../product/thank_product.html">Hoa cảm ơn</a></li>
+									<li><a href="../product/opening_product.html">Hoa khai trương</a></li>
+									<li><a href="../product/wedding_product.html">Hoa cưới</a></li>
+									<li><a href="../product/funeral_product.html">Hoa tang lễ</a></li>
+						        </ul>
+						     </li>
+						     <li><a href="../meaning_flowers.html">Hoa và cuộc sống</a></li> 
+					        <li><a href="../index.html#contact">Liên hệ</a></li> 
+					      </ul>
+					    </div>
+					  </div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--Body -->
+	<div id="content">
+		<div class="cart-pay">
+			<div class="container">
+				<ul class="tab-pay">
+					<li><span>1</span><strong>Thông tin giỏ hàng</strong></li>
+					<li><span>2</span><strong>Thông tin khách hàng</strong></li>
+					<li class="active"><span>3</span><strong>Thông tin thanh toán</strong></li>
+					<li><span>4</span><strong>Hoàn thành</strong></li>
+				</ul>
+				<form action="done-buy.html" method="POST" name="bill-info">
+					<div class="form-pay-info clearfix">
+						<div class="col-lg-5 col-sm-6 col-xs-12">
+							<div class="customer-info">
+								<h3 style="margin-bottom: 20px;">Thông tin người nhận</h3>
+								<div class="name"><strong>Họ và tên: </strong><i></i></div>
+								<div class="phone"><strong>Số điện thoại: </strong><i></i></div>
+								<div class="date"><strong>Ngày giao hàng: </strong><i></i></div>
+								<div class="address"><strong>Địa chỉ giao: </strong><i></i></div>
+							</div>
+						</div>
+
+						<div class="col-lg-7 col-sm-12 col-xs-12">
+							<h3 style="margin-bottom: 20px;">Thanh toán</h3>
+							<h4 style="font-size: 15px; font-weight: bold;">Hình thức nhận hàng</h4>
+							<div class="radio">
+								<label><input type="radio" name="recieve" value="in-house" checked>Nhận hàng tại địa chỉ người nhận</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="recieve" value="in-store">Nhận hàng tại của hàng</label>
+							</div>
+							<h4 style="font-size: 15px; font-weight: bold;">Hình thức thanh toán</h4>
+							<div class="radio">
+								<label><input type="radio" name="pay-method" value="face-to-face" checked>Thanh toán trực tiếp</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="pay-method" value="by-card">Thanh toán qua thẻ</label>
+							</div>
+							<div class="form-group pay-info">
+								<h4>Thông tin thẻ</h4>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" name="name" class="form-control" placeholder="Tên chủ thẻ"></div>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" name="card-id" class="form-control" placeholder="Số thẻ"></div>
+								<div class="col-lg-3 col-sm-3 col-xs-6" style="padding-right: 5px;">
+									<select class="form-control" name="month-expired"> 
+										<option value="00">Tháng hết hạn</option> <option value="01">01</option> <option value="02">02</option> <option value="03">03</option> <option value="04">04</option> <option value="05">05</option> <option value="06">06</option> <option value="07">07</option> <option value="08">08</option> <option value="09">09</option> <option value="10">10</option> <option value="11">11</option> <option value="12">12</option>
+									</select>
+								</div>
+								<div class="col-lg-3 col-sm-3 col-xs-6" style="padding-left: 5px;">
+									<select class="form-control" name="year-expired"> 
+										<option value="00">Năm hết hạn</option> <option value="2017">2017</option> <option value="2018">2018</option> <option value="2019">2019</option> <option value="2020">2020</option> <option value="2021">2021</option> <option value="2022">2022</option> <option value="2023">2023</option> <option value="2020">2024</option> <option value="2021">2025</option> <option value="2022">2026</option> <option value="2023">2027</option> <option value="2021">2028</option> <option value="2022">2029</option> <option value="2023">2030</option>
+									</select>
+								</div>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" class="form-control" name="cvv" placeholder="CVV/CVC"></div>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" class="form-control" name="email" placeholder="Email"></div>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" class="form-control" name="address" placeholder="Địa chỉ"></div>
+								<div class="col-lg-6 col-sm-6 col-xs-12"><input type="text" class="form-control" name="city" placeholder="Tỉnh/Thành Phố"></div>
+								<div class="col-lg-6 col-sm-6 col-xs-12">
+									<select class="form-control" name="country">
+										<option value="AF">Afghanistan AF</option> <option value="AX">Aland Islands AX</option> <option value="AL">Albania AL</option> <option value="DZ">Algeria DZ</option> <option value="AS">American Samoa (US) AS</option> <option value="AD">Andorra AD</option> <option value="AO">Angola AO</option> <option value="AI">Anguilla (UK) AI</option> <option value="AQ">Antarctica AQ</option> <option value="AG">Antigua and Barbuda AG</option> <option value="AR">Argentina AR</option> <option value="AM">Armenia AM</option> <option value="AW">Aruba AW</option> <option value="AU">Australia AU</option> <option value="AT">Austria AT</option> <option value="AZ">Azerbaijan AZ</option> <option value="BS">Bahamas BS</option> <option value="BH">Bahrain BH</option> <option value="BD">Bangladesh BD</option> <option value="BB">Barbados BB</option> <option value="BY">Belarus BY</option> <option value="BE">Belgium BE</option> <option value="BZ">Belize BZ</option> <option value="BJ">Benin BJ</option> <option value="BM">Bermuda (UK) BM</option> <option value="BT">Bhutan BT</option> <option value="BO">Bolivia BO</option> <option value="BQ">Bonaire, Sint Eustatius and Saba BQ</option> <option value="BA">Bosnia and Herzegovina BA</option> <option value="BW">Botswana BW</option> <option value="BV">Bouvet Island BV</option> <option value="BR">Brazil BR</option> <option value="IO">British Indian Ocean Territory IO</option> <option value="VG">British Virgin Islands (UK) VG</option> <option value="BN">Brunei Darussalam BN</option> <option value="BG">Bulgaria BG</option> <option value="BF">Burkina Faso BF</option> <option value="BI">Burundi BI</option> <option value="KH">Cambodia KH</option> <option value="CM">Cameroon CM</option> <option value="CA">Canada CA</option> <option value="CV">Cape Verde CV</option> <option value="KY">Cayman Islands (UK) KY</option> <option value="CF">Central African Republic CF</option> <option value="TD">Chad TD</option> <option value="CL">Chile  CL</option> <option value="CN">China CN</option> <option value="CX">Christmas Island (AU) CX</option> <option value="CC">Cocos (Keeling) Islands (AU) CC</option> <option value="CO">Colombia CO</option> <option value="KM">Comoros KM</option> <option value="CD">Congo, Democratic Republic of the CD</option> <option value="CG">Congo, Republic of the CG</option> <option value="CK">Cook Islands (NZ) CK</option> <option value="CR">Costa Rica CR</option> <option value="CI">Côte D'Ivoire CI</option> <option value="HR">Croatia HR</option> <option value="CU">Cuba CU</option> <option value="CW">Curaçao CW</option> <option value="CY">Cyprus CY</option> <option value="CZ">Czech Republic CZ</option> <option value="DK">Denmark DK</option> <option value="DJ">Djibouti DJ</option> <option value="DM">Dominica DM</option> <option value="DO">Dominican Republic DO</option> <option value="EC">Ecuador EC</option> <option value="EG">Egypt EG</option> <option value="SV">El Salvador SV</option> <option value="GQ">Equatorial Guinea GQ</option> <option value="ER">Eritrea ER</option> <option value="EE">Estonia EE</option> <option value="ET">Ethiopia ET</option> <option value="FK">Falkland Islands (UK) FK</option> <option value="FO">Faroe Islands (DK) FO</option> <option value="FJ">Fiji FJ</option> <option value="FI">Finland FI</option> <option value="FR">France FR</option> <option value="GF">French Guiana (FR) GF</option> <option value="PF">French Polynesia (FR) PF</option> <option value="TF">French Southern Territories TF</option> <option value="GA">Gabon GA</option> <option value="GM">Gambia GM</option> <option value="GE">Georgia GE</option> <option value="DE">Germany DE</option> <option value="GH">Ghana GH</option> <option value="GI">Gibraltar (UK) GI</option> <option value="GR">Greece GR</option> <option value="GL">Greenland (DK) GL</option> <option value="GD">Grenada GD</option> <option value="GP">Guadeloupe (FR) GP</option> <option value="GU">Guam (US) GU</option> <option value="GT">Guatemala GT</option> <option value="GG">Guernsey GG</option> <option value="GN">Guinea GN</option> <option value="GW">Guinea-Bissau GW</option> <option value="GY">Guyana GY</option> <option value="HT">Haiti HT</option> <option value="HM">Heard Island and McDonald Islands HM</option> <option value="VA">Holy See (Vatican City) VA</option> <option value="HN">Honduras HN</option> <option value="HK">Hong Kong (CN) HK</option> <option value="HU">Hungary HU</option> <option value="IS">Iceland IS</option> <option value="IN">India IN</option> <option value="ID">Indonesia ID</option> <option value="IR">Iran IR</option> <option value="IQ">Iraq IQ</option> <option value="IE">Ireland IE</option> <option value="IM">Isle of Man IM</option> <option value="IL">Israel IL</option> <option value="IT">Italy IT</option> <option value="JM">Jamaica JM</option> <option value="JP">Japan JP</option> <option value="JE">Jersey JE</option> <option value="JO">Jordan JO</option> <option value="KZ">Kazakhstan KZ</option> <option value="KE">Kenya KE</option> <option value="KI">Kiribati KI</option> <option value="KP">Korea, Democratic People's Republic (North) KP</option> <option value="KR">Korea, Republic of (South) KR</option> <option value="KW">Kuwait KW</option> <option value="KG">Kyrgyzstan KG</option> <option value="LA">Laos LA</option> <option value="LV">Latvia LV</option> <option value="LB">Lebanon LB</option> <option value="LS">Lesotho LS</option> <option value="LR">Liberia LR</option> <option value="LY">Libya LY</option> <option value="LI">Liechtenstein LI</option> <option value="LT">Lithuania LT</option> <option value="LU">Luxembourg LU</option> <option value="MO">Macau (CN) MO</option> <option value="MK">Macedonia MK</option> <option value="MG">Madagascar MG</option> <option value="MW">Malawi MW</option> <option value="MY">Malaysia MY</option> <option value="MV">Maldives MV</option> <option value="ML">Mali ML</option> <option value="MT">Malta MT</option> <option value="MH">Marshall Islands MH</option> <option value="MQ">Martinique (FR) MQ</option> <option value="MR">Mauritania MR</option> <option value="MU">Mauritius MU</option> <option value="YT">Mayotte (FR) YT</option> <option value="MX">Mexico MX</option> <option value="FM">Micronesia, Federated States of FM</option> <option value="MD">Moldova Republic of MD</option> <option value="MC">Monaco MC</option> <option value="MN">Mongolia MN</option> <option value="ME">Montenegro ME</option> <option value="MS">Montserrat (UK) MS</option> <option value="MA">Morocco MA</option> <option value="MZ">Mozambique MZ</option> <option value="MM">Myanmar MM</option> <option value="NA">Namibia NA</option> <option value="NR">Nauru NR</option> <option value="NP">Nepal NP</option> <option value="NL">Netherlands NL</option> <option value="AN">Netherlands Antilles (NL) AN</option> <option value="NC">New Caledonia (FR) NC</option> <option value="NZ">New Zealand NZ</option> <option value="NI">Nicaragua NI</option> <option value="NE">Niger NE</option> <option value="NG">Nigeria NG</option> <option value="NU">Niue NU</option> <option value="NF">Norfolk Island (AU) NF</option> <option value="MP">Northern Mariana Islands (US) MP</option> <option value="NO">Norway NO</option> <option value="OM">Oman OM</option> <option value="PK">Pakistan PK</option> <option value="PW">Palau PW</option> <option value="PS">Palestinian Territories PS</option> <option value="PA">Panama PA</option> <option value="PG">Papua New Guinea PG</option> <option value="PY">Paraguay PY</option> <option value="PE">Peru PE</option> <option value="PH">Philippines PH</option> <option value="PN">Pitcairn Islands (UK) PN</option> <option value="PL">Poland PL</option> <option value="PT">Portugal PT</option> <option value="PR">Puerto Rico (US) PR</option> <option value="QA">Qatar QA</option> <option value="RE">Reunion (FR) RE</option> <option value="RO">Romania RO</option> <option value="RU">Russia RU</option> <option value="RW">Rwanda RW</option> <option value="BL">Saint Barthelemy BL</option> <option value="SH">Saint Helena (UK) SH</option> <option value="KN">Saint Kitts and Nevis KN</option> <option value="LC">Saint Lucia LC</option> <option value="MF">Saint Martin (French Part) MF</option> <option value="PM">Saint Pierre &amp; Miquelon (FR) PM</option> <option value="VC">Saint Vincent and the Grenadines VC</option> <option value="WS">Samoa WS</option> <option value="SM">San Marino SM</option> <option value="ST">Sao Tome and Principe ST</option> <option value="SA">Saudi Arabia SA</option> <option value="SN">Senegal SN</option> <option value="RS">Serbia RS</option> <option value="SC">Seychelles SC</option> <option value="SL">Sierra Leone SL</option> <option value="SG">Singapore SG</option> <option value="SX">Sint Maarten (Dutch Part)  SX</option> <option value="SK">Slovakia SK</option> <option value="SI">Slovenia SI</option> <option value="SB">Solomon Islands SB</option> <option value="SO">Somalia SO</option> <option value="ZA">South Africa ZA</option> <option value="GS">South Georgia &amp; South Sandwich Islands (UK) GS</option> <option value="SS">South Sudan  SS</option> <option value="ES">Spain ES</option> <option value="LK">Sri Lanka LK</option> <option value="SD">Sudan SD</option> <option value="SR">Suriname SR</option> <option value="SJ">Svalbard and Jan Mayen SJ</option> <option value="SZ">Swaziland SZ</option> <option value="SE">Sweden SE</option> <option value="CH">Switzerland CH</option> <option value="SY">Syria SY</option> <option value="TW">Taiwan TW</option> <option value="TJ">Taj ikistan TJ</option> <option value="TZ">Tanzania TZ</option> <option value="TH">Thailand TH</option> <option value="TL">Timor-Leste TL</option> <option value="TG">Togo TG</option> <option value="TK">Tokelau TK</option> <option value="TO">Tonga TO</option> <option value="TT">Trinidad and Tobago TT</option> <option value="TN">Tunisia TN</option> <option value="TR">Turkey TR</option> <option value="TM">Turkmenistan TM</option> <option value="TC">Turks and Caicos Islands (UK) TC</option> <option value="TV">Tuvalu TV</option> <option value="UG">Uganda UG</option> <option value="UA">Ukraine UA</option> <option value="AE">United Arab Emirates AE</option> <option value="GB">United Kingdom GB</option> <option value="US">United States US</option> <option value="UM">United States Minor Outlying Islands UM</option> <option value="UY">Uruguay UY</option> <option value="UZ">Uzbekistan UZ</option> <option value="VU">Vanuatu VU</option> <option value="VE">Venezuela VE</option> <option selected="selected" value="VN">Vietnam VN</option> <option value="VI">Virgin Islands (US) VI</option> <option value="WF">Wallis and Futuna (FR) WF</option> <option value="EH">Western Sahara EH</option> <option value="YE">Yemen YE</option> <option value="ZM">Zambia ZM</option> <option value="ZW">Zimbabwe ZW</option>
+									</select>
+								</div>
+								<img class="cart-img" src="../images/cart/the-1.png">
+								<img class="cart-img" src="../images/cart/the-2.png">
+								<img class="cart-img" src="../images/cart/the-3.png">
+							</div>
+						</div>
+					</div>
+					<div><a href="customer-info.html" class="prev-step">Bước trước</a></div>
+					<input type="submit" value="Thanh toán" class="next-step">
+				</form>
+				<script type="text/javascript">
+					$(function () {
+						$('#datetimepicker1').datetimepicker();
+					});
+				</script>
+			</div>
+		</div>
+
+		<div class="product related-product">
+			<div class="container">
+				<h2> Sản phẩm liên quan </h2>
+				<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+				</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			</div>
+		</div>
+	</div>		
+		
+	<!--Footer -->
+	<div id="footer">
+		<div class="contact">
+			<div class="container">
+				<h2 class="pLienHe">LIÊN HỆ</h2>
+				<div class="row">
+					<div class="contact col-xs-12 col-sm-6 col-md-6">
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6343350735315!2d106.67983811435032!3d10.7626390923309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6pu!5e0!3m2!1svi!2s!4v1492621822684" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="contact-info">
+							<p>Địa chỉ: 227 Nguyễn Văn Cừ, phường 4, quận 5, TPHCM</p>
+							<p>Email: contact@shophoa.com</p>
+							<p>Số điện thoại: 0123456789</p>
+						</div>
+						<form class="form-contact">
+							<input type="text" name="name" placeholder="Họ & Tên">
+							<input type="text" name="email" placeholder="Email">
+							<input type="text" name="phone" placeholder="Số điện thoại">
+							<input type="submit" value="ĐĂNG KÝ TƯ VẤN" >
+						</form>
+					</div>
+					
+				</div>
+			</div>	
+		</div>
+		<div class="copy-right">
+			<p class="center">Copy right &copy 2017. Nhóm 10</p>
+		</div>
+	</div>
+
+	<!-- Popup -->
+	<div class="popup-login popup" style="display: none;">
+		<div class="overflow close-popup"></div>
+		<div class="container-popup">
+			<div class="close-popup close-popup-icon"><i class="glyphicon glyphicon-remove"></i></div>
+			<div class="content-popup">
+				<div class="login">
+					<div class="header-popup">
+						<h2>Đăng nhập</h2>
+						<p>Chào mừng bạn đến với shop hoa Khoa học tự nhiên</p>
+					</div>
+					<div class="body-popup">
+						<div class="col-xs-12 col-sm-6 col-md-6 left-content">
+							<div><p>Đăng nhập với tài khoản mạng xã hội</p></div>
+							 <div class="social-login">
+						        <a href="#" class="login_btn-facebook facebook-login">
+							        <i class="fa fa-facebook"></i>
+							        <span>Facebook</span>
+						        </a>
+					        </div>
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-twitter twitter-login">
+							        <i class="fa fa-twitter"></i>
+							        <span>Twitter</span>
+						        </a>
+					        </div>	
+				        	<div class="social-login">
+						        <a href="#" class="login_btn-google google-login">
+							        <i class="fa fa-google-plus"></i>
+							        <span>Google+</span>
+						        </a>
+					        </div>	
+
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 right-content">
+							<form action="" method="POST">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<input id="username" type="text" required class="form-control" name="username" placeholder="Tên đăng nhập">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<input id="password" type="password" required class="form-control" name="password" placeholder="Mật khẩu">
+								</div>
+								<a href="../forget_pass/forget_password.html" class="pull-right">Quên mật khẩu?</a>
+								<input type="submit" value="Đăng nhập">
+							</form>
+						</div>
+					</div>
+					<div class="footer-popup">
+						<a href="../sign_up.html">Đăng ký tài khoản miễn phí.</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- End Popup -->
+</body>
+</html>

@@ -259,7 +259,7 @@ a:hover {
 
 .box-title .btn-group
 {
-	margin-right: 20px;
+	margin-right: 25px;
 	margin-left: 5px;
 }
 
@@ -289,14 +289,4 @@ a:hover {
 tr td img.img-thumbnail
 {
 	max-width: 120px;
-}
-
-.order-table tbody tr td p.payment-method
-{
-	color: #999;
-}
-
-.order-table tbody tr td.delivery-address
-{
-	color: #999;
 }
