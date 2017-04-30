@@ -49,11 +49,11 @@
 			<img src="images/logo.png" class="logo">
 			<ul>
 				<li><a href="index.html"><span class="fa fa-dashboard"></span><span>Tổng quan</span></a></li>
-				<li class="active"><a href="admin.products.html"><span class="fa fa-yelp"></span><span>Sản phẩm</span></a></li>
+				<li><a href="admin.products.html"><span class="fa fa-yelp"></span><span>Sản phẩm</span></a></li>
 				<li><a href="admin.groups.html"><span class="fa fa-tags"></span><span>Nhóm sản phẩm</span></a></li>
 				<li><a href="admin.orders.html"><span class="fa fa-clone"></span><span>Đơn hàng</span></a></li>
 				<li><a href="admin.statistic.html"><span class="fa fa-line-chart"></span><span>Thống kê</span></a></li>
-				<li><a href="admin.account.html"><span class="fa fa-users"></span><span>Tài khoản</span></a></li>
+				<li class="active"><a href="admin.account.html"><span class="fa fa-users"></span><span>Tài khoản</span></a></li>
 				<li><a href="admin.settings.html"><span class="fa fa-wrench"></span><span>Cài đặt</span></a></li>
 				<li class="toggle"><a href="#"><span class="fa fa-toggle"></span><span>Thu nhỏ</span></a></li>
 			</ul>
@@ -62,56 +62,72 @@
 			<div class="content">
 				<div class="box">
 					<div class="box-title">
-						<h1>Thêm sản phẩm</h1>
-						<a href="admin.products.html" class="btn btn-primary">Quản lí sản phẩm</a>
+						<h1>Thêm tài khoản</h1>
+						<a href="admin.account.html" class="btn btn-primary">Quản lí tài khoản</a>
 					</div>
 					<div class="box-content">
 						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
 						<!-- Responsive table -->
-						<form id="account-profile" action="admin.products.html" method="post">
+						<form id="account-profile" action="admin.account.html" method="post">
+							<p><h2>Tên</h2></p>
 							<table>
 								<tbody>
 									<tr>
-										<th><label for="product-add-name">Tên sản phẩm</label></th>
-										<td><input class="form-control" type="text" id="product-add-name" value=""></td>
-									</tr>
-									<tr>
-										<th><label for="product-add-groups">Nhóm</label></th>
+										<th>Username</th>
 										<td>
-											<div class="btn-group">
-											  <button id="product-add-groups" type="button" class="btn btn-default">Hoa thường</button>
-											  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											    <span class="caret"></span>
-											  </button>
-											  <ul class="dropdown-menu" role="menu">
-											    <li><a href="#">Hoa tình yêu</a></li>
-											    <li><a href="#">Hoa Tết</a></li>
-													<li><a href="#">Hoa trang trí</a></li>
-													<li><a href="#">Hoa cưới</a></li>
-											  	</ul>
-											</div>
+											<input class="form-control" type="text"><br/>
 										</td>
 									</tr>
 									<tr>
-										<th><label for="product-add-image">Link ảnh</label></th>
-										<td><input class="form-control" type="text" id="product-add-image" value=""></td>
+										<th><label for="account-add-name">Tên người dùng</label></th>
+										<td><input class="form-control" type="text" id="account-add-name" value=""></td>
 									</tr>
 									<tr>
-										<th><label for="product-add-description">Mô tả</label></th>
-										<td><input class="form-control" type="text" id="product-add-description" value=""></td>
+										<th><label for="account-add-nickname">Nickname</label></th>
+										<td><input class="form-control" type="text" id="account-add-nickname" value=""></td>
 									</tr>
-									<tr>
-										<th><label for="product-add-sku">SKU</label></th>
-										<td><input class="form-control" type="text" id="product-add-sku" value=""></td>
-									</tr>
-									<tr>
-										<th><label for="product-add-quantity">Số lượng</label></th>
-										<td><input class="form-control" type="text" id="product-add-quantity" value=""></td>
-									</tr>
-
 								</tbody>
 							</table>
-							<input type="submit" class="btn btn-primary" value="Thêm sản phẩm">
+							<p><h2>Thông tin liên lạc</h2></p>
+							<table>
+								<tbody>
+									<tr>
+										<th><label for="account-add-email">Email</label></th>
+										<td><input class="form-control" type="text" id="account-add-email" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="account-add-website">Website</label></th>
+										<td><input class="form-control" type="text" id="account-add-website" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="account-add-phone">Điện thoại</label></th>
+										<td><input class="form-control" type="text" id="account-add-phone" value=""></td>
+									</tr>
+								</tbody>
+							</table>
+							<p><h2>Cá nhân</h2></p>
+							<table>
+								<tbody>
+									<tr>
+										<th><label for="account-add-bio">Về bản thân</label></th>
+										<td><textarea class="form-control" id="account-add-bio" placeholder=""></textarea></td>
+									</tr>
+								</tbody>
+							</table>
+							<p><h2>Quản lí tài khoản</h2></p>
+							<table>
+								<tbody>
+									<tr>
+										<th><label for="account-add-pwd">Mật khẩu</label></th>
+										<td>
+											<p><input type="password" class="form-control" id="account-add-pwd1" placeholder="Mật khẩu"></p>
+											<p><input type="password" class="form-control" id="account-add-pwd2" placeholder="Nhập lại mật khẩu"></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<input type="submit" class="btn btn-primary" value="Thêm tài khoản">
 						</form>
 					</div>
 				</div>

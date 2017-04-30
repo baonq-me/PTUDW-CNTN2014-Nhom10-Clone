@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--<meta http-equiv="refresh" content="1; URL=admin.groups.html">-->
+	<!--<meta http-equiv="refresh" content="1; URL=admin.products.html">-->
 
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
 	<title>Admin - Shop hoa Khoa học tự nhiên</title>
@@ -47,8 +47,8 @@
 			<img src="images/logo.png" class="logo">
 			<ul>
 				<li><a href="index.html"><span class="fa fa-dashboard"></span><span>Tổng quan</span></a></li>
-				<li><a href="admin.products.html"><span class="fa fa-yelp"></span><span>Sản phẩm</span></a></li>
-				<li class="active"><a href="admin.groups.html"><span class="fa fa-tags"></span><span>Nhóm sản phẩm</span></a></li>
+				<li class="active"><a href="admin.products.html"><span class="fa fa-yelp"></span><span>Sản phẩm</span></a></li>
+				<li><a href="admin.groups.html"><span class="fa fa-tags"></span><span>Nhóm sản phẩm</span></a></li>
 				<li><a href="admin.orders.html"><span class="fa fa-clone"></span><span>Đơn hàng</span></a></li>
 				<li><a href="admin.statistic.html"><span class="fa fa-line-chart"></span><span>Thống kê</span></a></li>
 				<li><a href="admin.account.html"><span class="fa fa-users"></span><span>Tài khoản</span></a></li>
@@ -58,16 +58,67 @@
 		</div>
 		<div class="content-footer">
 			<div class="content">
+				<!-- Big sub-panel -->
+				<div class="base-info">
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-loai-hoa">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-pagelines"></span><span class="dashboard-quickview">Đang bán</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">6<small>nhóm</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-san-pham">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-yelp"></span><span class="dashboard-quickview">SP tuần này</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">53<small>hoa</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-don-hang">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-clone"></span><span class="dashboard-quickview">Bán chạy</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><small>Hoa hồng (Hoa tình yêu)</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="item item-nguoi-dung">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-users"></span><span class="dashboard-quickview">.</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12">.<small>.</small>.</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="box">
 					<div class="box-title">
-						<h1>Nhóm sản phẩm <a href="admin.groups.add.html" class="btn btn-primary">Thêm</a></h1>
+						<h1>Danh sách sản phẩm <a href="admin.products.add.html" class="btn btn-primary">Thêm</a></h1>
 
 						<div class="product-info">
-
-							<a href="admin.products.html" class="float-left"><h2>All (6)</h2></a>
-							<a href="admin.products.html" class="float-left">Còn hàng (0)</a>
-							<a href="admin.products.html" class="float-left">Hết hàng (0)</a>
-							<a href="admin.products.html" class="float-left">Đã xoá (1)</a>
+							<a href="admin.products.html" class="float-left"><h2>All (53)</h2></a>
+							<a href="admin.products.html" class="float-left">Còn hàng (13)</a>
+							<a href="admin.products.html" class="float-left">Hết hàng (40)</a>
+							<a href="admin.products.html" class="float-left">Đã xoá (5)</a>
 
 							<div class="form-group">
 								<a href="admin.products.html" class="btn btn-primary float-right">Tìm kiếm</a>
@@ -78,7 +129,6 @@
 						</div>
 
 						<div class="clear"></div>
-
 							<div class="btn btn-default">Xử lí loạt</a></div>
 							<div class="btn-group">
 							  <button type="button" class="btn btn-primary">Xoá</button>
@@ -102,12 +152,29 @@
 						  </ul>
 						</div>
 
-						<!--<a href="admin.products.html" class="btn btn-default float-right">Trang tiếp</a>
-						<a href="admin.products.html" class="btn btn-default float-right">5</a>
+						<div class="btn btn-default">Phân loại</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-primary">Tất cả</button>
+						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Hoa tình yêu</a></li>
+						    <li><a href="#">Hoa Tết</a></li>
+								<li><a href="#">Hoa cưới</a></li>
+								<li><a href="#">Hoa thường</a></li>
+								<li><a href="#">Hoa trang trí</a></li>
+								<li><a href="#">Hoa cưa gái</a></li>
+						  </ul>
+						</div>
+
+						<a href="admin.products.html" class="btn btn-default float-right">Trang tiếp</a>
+						<a href="admin.products.html" class="btn btn-default float-right">10</a>
 						<a href="admin.products.html" class="btn btn-default float-right">......</a>
-						<a href="admin.products.html" class="btn btn-default float-right">3</a>-->
+						<a href="admin.products.html" class="btn btn-default float-right">3</a>
 						<a href="admin.products.html" class="btn btn-default float-right">2</a>
 						<a href="admin.products.html" class="btn btn-default float-right">1</a>
+
 
 						<div class="clear"></div>
 					</div>
@@ -120,53 +187,65 @@
 									<tr>
 										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
 										<td style="width: 10%">Thumbnails</td>
-										<td style="width: 15%">Nhóm sản phẩm</td>
+										<td style="width: 15%">Tên sản phẩm</td>
 										<!-- https://vi.wikipedia.org/wiki/SKU -->
-										<td style="width: 5%">Số sản phẩm</td>
-										<td style="width: 5%">Cân bằng</td> <!-- Phương sai/độ lệnh chuẩn của số lượng từng sản phẩm -->
+										<td style="width: 5%">SKU</td>
+										<td style="width: 5%">Số lượng</td>
+										<td style="width: 10%">Giá</td>
+										<td style="width: 15%">Nhóm</td>
 										<td style="width: 10%">Thời gian</td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
-										<td><img src="../images/promo_product/pro1.jpg" class="img-thumbnail"></td>
+										<td><img src="../images/thank_product/pro1.jpg" class="img-thumbnail"></td>
+										<td>Hoa hồng</td>
+										<td>Bông</td>
+										<td>200</td>
+										<td>15000</td>
 										<td>Hoa tình yêu</td>
-										<td>3</td>
-										<td>0.51</td>
-										<td>Đã thêm 27/01/2017</td>
+										<td>Đã thêm 27/07/2017</td>
 									</tr>
 									<tr>
 										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/promo_product/pro2.jpg" class="img-thumbnail"></td>
-										<td>Hoa cưới</td>
-										<td>5</td>
-										<td>6.41</td>
-										<td>Đã thêm 23/07/2017</td>
+										<td><img src="../images/thank_product/pro2.jpg" class="img-thumbnail"></td>
+										<td>Hoa cúc</td>
+										<td>Bông</td>
+										<td>500</td>
+										<td>5000</td>
+										<td>Hoa trang trí, Hoa thường</td>
+										<td>Đã sửa 27/07/2017</td>
 									</tr>
 									<tr>
 										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/promo_product/pro3.jpg" class="img-thumbnail"></td>
-										<td>Hoa Tết</td>
-										<td>5</td>
-										<td>2.41</td>
-										<td>Đã thêm 15/07/2016</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/promo_product/pro4.jpg" class="img-thumbnail"></td>
-										<td>Hoa thường</td>
-										<td>12</td>
-										<td>3.52</td>
-										<td>Đã thêm 15/02/2016</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/promo_product/pro5.jpg" class="img-thumbnail"></td>
+										<td><img src="../images/thank_product/pro3.jpg" class="img-thumbnail"></td>
+										<td>Hoa huệ</td>
+										<td>Bó</td>
+										<td>50</td>
+										<td>45000</td>
 										<td>Hoa trang trí</td>
-										<td>1</td>
-										<td>0</td>
-										<td>Đã thêm 12/5/2015</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
+										<td><img src="../images/thank_product/pro4.jpg" class="img-thumbnail"></td>
+										<td>Hoa mai</td>
+										<td>Bó</td>
+										<td>50</td>
+										<td>100000</td>
+										<td>Hoa Tết</td>
+										<td>Đã thêm 27/07/2017</td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
+										<td><img src="../images/thank_product/pro5.jpg" class="img-thumbnail"></td>
+										<td>Hoa đào</td>
+										<td>Bông</td>
+										<td>20</td>
+										<td>30000</td>
+										<td>Hoa thường</td>
+										<td>Đã thêm 27/07/2017</td>
 									</tr>
 								</tbody>
 							</table>
