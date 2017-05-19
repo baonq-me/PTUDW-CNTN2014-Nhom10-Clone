@@ -66,11 +66,11 @@
 						  	<% content.newProducts.forEach(function(newProduct){ %>
 								<div class="col-xs-12 col-sm-6 col-md-4">
 								    <div class="thumbnail">
-								      	<a href="<%= newProduct.slug %>">
+								      	<a href="/product/<%= newProduct.slug %>">
 								        	<img class="img-responsive" src="<%= newProduct.imagePath %>" alt="Image">
 								      	</a>
 								        <div class="caption">
-								         	<a href="<%= newProduct.slug %>"><h3 class="product-name"><%= newProduct.name %></h3></a>
+								         	<a href="/product/<%= newProduct.slug %>"><h3 class="product-name"><%= newProduct.name %></h3></a>
 											<p class="price"><%= newProduct.price %></p>
 											<span class="glyphicon glyphicon-shopping-cart add-cart" data-id="<%= newProduct.id %>"> Thêm</span>
 								        </div>
@@ -88,11 +88,11 @@
 						  	<% content.promotionProducts.forEach(function(promotionProduct){ %>
 								<div class="col-xs-12 col-sm-6 col-md-4">
 								    <div class="thumbnail">
-								      	<a href="<%= promotionProduct.slug %>">
+								      	<a href="/product/<%= promotionProduct.slug %>">
 								        	<img class="img-responsive" src="<%= promotionProduct.imagePath %>" alt="Image">
 								      	</a>
 								        <div class="caption">
-								         	<a href="<%= promotionProduct.slug %>"><h3 class="product-name"><%= promotionProduct.name %></h3></a>
+								         	<a href="/product/<%= promotionProduct.slug %>"><h3 class="product-name"><%= promotionProduct.name %></h3></a>
 											<p class="price"><%= promotionProduct.newPrice %></p>
 											<p class="old-price"><%= promotionProduct.price %></p>
 											<span class="glyphicon glyphicon-shopping-cart add-cart" data-id="<%= promotionProduct.id %>"> Thêm</span>

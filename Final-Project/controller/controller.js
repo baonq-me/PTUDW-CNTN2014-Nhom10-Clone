@@ -49,6 +49,23 @@ module.exports = function(app) {
 		});
 	});
 
+	var setContentCategory = function(catSlug, callback){
+		dao.getProductsByCategory(catSlug, 9, function(products){
+			callback({"products": products});
+		});
+	}
+	app.get("/category/:slug", function(req, res){
+		setHeader(function(header){
+			setSidebar(function(sidebar){
+				setFooter(function(footer){
+					setContentCategory(req.params.slug, function(content){
+						res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+					});
+				});
+			});
+		});
+	});
+
 
 
 
