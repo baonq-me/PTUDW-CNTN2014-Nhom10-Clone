@@ -48,4 +48,18 @@ module.exports = function(app) {
 			});
 		});
 	});
+
+
+
+
+
+
+
+	app.get("*", function(req, res){
+		setHeader(function(header){
+			setFooter(function(footer){
+				res.render("404", {"header": header, "footer": footer});
+			});
+		});
+	});
 }
