@@ -1,9 +1,44 @@
 var dao = {
-	
+	mongoose : require ('mongoose'),
+	dbName: 'do_an_web',
+	dbUser: 'nhom10',
+	dbPass: 'nhom10',
+	connStr: 'mongodb://nhom10:nhom10@ds157439.mlab.com:57439/do_an_web',
 
+	model: {
+		categorys: null
+	},
 
+	//Hàm lấy/tạo Category model
+	getCategoryModel: function(){
+		//nếu đã tồn tại Category model thì return lại
+		if (this.model.categorys !== null)
+			return this.model.categorys;
+		//Ngược lại, tạo model Category mới
+		//Tạo Schema category 
+	  	var categorySchema = this.mongoose.Schema({
+	  		name: String,
+	  		slug: String,
+	  		icon: String
+	  	});
 
+	  	//Tạo model từ Schema và có tên collection là 'categorys'
+	  	this.model.categorys = this.mongoose.model('categorys', categorySchema);
+	  	return this.model.categorys;
+	},
 
+	//Hàm connect database
+	connect: function(callback){
+		console.log('Connecting to database. Please wait....');
+		this.mongoose.connect(this.connStr);
+		var db = this.mongoose.connection;
+		db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
+		db.once('open', function(){
+			console.log('Connected to MongoDB hien-test database!');
+			//After connected database, then excute callback
+			callback();
+		});
+	},
 
 	/*	Lấy tất cả category
 	*	@param callback(data) được gọi khi lất tất cả category xong
@@ -14,33 +49,16 @@ var dao = {
 	*			- icon: icon cho category
 	*/
 	getAllCategory: function(callback){
-		callback([
-			{
-				'name': "Hoa chúc mừng",
-				'slug': "/hoa-chuc-mung",
-				'icon': "glyphicon glyphicon-glass"
-			},
-			{
-				'name': "Hoa chúc mừng",
-				'slug': "/hoa-chuc-mung",
-				'icon': "glyphicon glyphicon-glass"
-			},
-			{
-				'name': "Hoa chúc mừng",
-				'slug': "/hoa-chuc-mung",
-				'icon': "glyphicon glyphicon-glass"
-			},
-			{
-				'name': "Hoa chúc mừng",
-				'slug': "/hoa-chuc-mung",
-				'icon': "glyphicon glyphicon-glass"
-			},
-			{
-				'name': "Hoa chúc mừng",
-				'slug': "/hoa-chuc-mung",
-				'icon': "glyphicon glyphicon-glass"
-			},
-		]);
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		//Câu truy vấn lấy DB
+		categoryModel.find(function(err, data){
+			if (err) throw err;
+			//Test
+			console.log(data);
+			callback(data);
+		});
 	},
 
 	/*	Lấy sản phẩm mới
