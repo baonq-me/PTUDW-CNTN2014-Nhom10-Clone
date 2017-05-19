@@ -112,7 +112,7 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	promotionProducts: function(count, callback){
+	getPromotionProduct: function(count, callback){
 		callback([
 			{
 				id: 1,
