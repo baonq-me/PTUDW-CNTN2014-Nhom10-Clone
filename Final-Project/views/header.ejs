@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shop hoa tươi Khoa Học Tự Nhiên</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+
+
+</head>
+<body>
+	<div id="header">
+		<div class="top-menu">
+			<div class="container">
+				<div class="contact hidden-xs">
+					<a href="tel:0123456789"><span class="glyphicon glyphicon-earphone"></span> 0123456789</a>
+					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
+				</div>
+				<ul class="sign-in">
+					<li><a href="sign_up.html"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+					<li class="show-popup-login" id="popup-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<div class="cart pull-right">
+				    	<a href="cart/cart-info.html"><span class="glyphicon glyphicon-shopping-cart"></span> 2</a>
+				    </div>
+				</ul>
+			</div>
+		</div>
+		<div id="primary-menu" >
+			<div class="container">
+				<div class="row">
+					<nav class="navbar navbar-inverse">
+					  <div class="container-fluid">
+					    <div class="navbar-header">
+					      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span>
+					        	<span class="icon-bar"></span> 
+					      	</button>
+						    <div class="logo">
+						    	<a href="index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><a href="index.html" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="images/logo.png"></a></a>
+							</div>
+					    </div>
+
+					    <div class="collapse navbar-collapse" id="myNavbar">
+					      
+					      
+					      <form action="search.html" class="search-form clearfix pull-right visible-sm visible-md visible-lg" method="GET">
+			                <div class="form-group has-feedback">
+			            		<label for="search" class="sr-only">Tìm kiếm</label>
+			            		<input type="text" class="form-control" name="search" id="search" placeholder="search">
+			              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			            	</div>
+			            </form>
+					     
+					      <ul class="nav navbar-nav" id="main-menu">
+					        <li class="active"><a href="index.html">Trang chủ</a></li>
+					        <li class="dropdown">
+						        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Danh mục sản phẩm
+						        <span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+						        	<% header.categorys.forEach(function(category){ %>
+						        		<li><a href="<%= category.slug %>"><%= category.name %></a></li>
+						        	<% }); %>
+						        </ul>
+						     </li>
+					        <li><a href="meaning_flowers.html">Hoa và cuộc sống</a></li> 
+					        <li><a href="/#contact">Liên hệ</a></li> 
+					      </ul>
+					    </div>
+					  </div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
