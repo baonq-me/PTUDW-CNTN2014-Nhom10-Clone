@@ -1,4 +1,4 @@
-	<% include header.ejs %>
+	<% include includes/header.ejs %>
 	<!-- Slider -->
 	<div class="slider">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -45,21 +45,12 @@
 	<div id="content">
 		<div class="container">
 			<div class="row">
-				<% include sidebar.ejs %>
+				<% include includes/sidebar.ejs %>
 
 
 				<div class="main col-md-9 col-lg-9">
 					<div class="filter-product">
-						<form action="search.html">
-							<input type="text" name="tieu_chi">
-							<select id="cat_product" style="width: 155px;" name="loai_hoa">
-								<option value="0">Chọn tiêu chí...</option>
-								<option value="hoa-hong">Loại hoa</option>
-								<option value="hoa-cam-chuong">Giá</option>
-								<option value="hoa-ly">Danh mục</option>
-							</select>
-							<input type="submit" name="submit" value="Tìm kiếm">
-						</form>
+						<% include includes/search.ejs %>
 					</div>
 					<div class ="product new-product">
 						<h2>Sản phẩm mới</h2>
@@ -110,4 +101,4 @@
 			</div>
 		</div>
 	</div>
-	<% include footer.ejs %>
+	<% include includes/footer.ejs %>
