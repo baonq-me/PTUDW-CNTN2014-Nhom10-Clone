@@ -103,8 +103,9 @@ module.exports = function(app) {
 
 	var setContentProductDetail = function(slug, callback){
 		dao.getProductDetail(slug, function(product){
-			dao.getRelatedProduct()
-			callback({"product": product});
+			dao.getProductsByCategory(product.categorySlug, 8, function(relatedProducts){
+				callback({"product": product, "relatedProducts": relatedProducts});
+			});
 		});
 	}
 	// Rounting search

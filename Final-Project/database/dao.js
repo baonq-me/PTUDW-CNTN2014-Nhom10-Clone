@@ -365,6 +365,7 @@ var dao = {
 	*			- imagePath: đường dẫn tới hình ảnh
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm
+	*			- categorySlug: category cho sản phẩm
 	*/
 	getProductDetail: function(slug, callback){
 		callback({
@@ -373,6 +374,7 @@ var dao = {
 			detail: "Đây là hoa abc, thích hợp để dành tặng cho những người bạn yêu thương vào dịp Valentine.",
 			imagePath: "/images/new_product/pro6.jpg",
 			price: 100000,
+			categorySlug: ["hoa-tinh-yeu", "hoa-huong-duong"]
 		});
 	},
 
