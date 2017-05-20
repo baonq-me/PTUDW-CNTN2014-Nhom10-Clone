@@ -37,39 +37,60 @@ module.exports = function(app) {
 			});
 		});
 	}
+	// Routing trang chủ
 	app.get("/", function(req, res){
-		setHeader(function(header){
-			setSidebar(function(sidebar){
-				setFooter(function(footer){
-					setContentHome(function(content){
-						res.render("index", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+		dao.connect(function(){
+			setHeader(function(header){
+				setSidebar(function(sidebar){
+					setFooter(function(footer){
+						setContentHome(function(content){
+							res.render("index", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+							dao.close();
+						});
 					});
 				});
 			});
 		});
 	});
-
 	var setContentCategory = function(catSlug, callback){
 		dao.getProductsByCategory(catSlug, 9, function(products){
-			callback({"products": products});
+			dao.getCatName(catSlug, function(catName){
+				callback({"catName": catName, "products": products});
+			});
 		});
 	}
+	// Rounting category
 	app.get("/category/:slug", function(req, res){
-		setHeader(function(header){
-			setSidebar(function(sidebar){
-				setFooter(function(footer){
-					setContentCategory(req.params.slug, function(content){
-						res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+		dao.connect(function(){
+			setHeader(function(header){
+				setSidebar(function(sidebar){
+					setFooter(function(footer){
+						setContentCategory(req.params.slug, function(content){
+							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+							dao.close();
+						});
 					});
 				});
 			});
-		});
+		})
+		
 	});
-
-
-
-
-
+	// Rounting search
+	app.get("/search", function(req, res){
+		dao.connect(function(){
+			setHeader(function(header){
+				setSidebar(function(sidebar){
+					setFooter(function(footer){
+						setContentCategory(req.params.slug, function(content){
+							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+							dao.close();
+						});
+					});
+				});
+			});
+		})
+		
+	});
 
 
 	app.get("*", function(req, res){

@@ -262,6 +262,20 @@ var dao = {
 		]);
 	},
 
+	/*
+	*	Lấy tên category dựa vào slug
+	*	@param	slug của category
+	*	@param	callback(data) được gọi khi lấy tên category xong
+	*		@data object thông tin của tên category
+				{"name": "name"}
+	*/
+	getCatName: function(slug, callback){
+		callback({"name": "Hoa chúc mừng"});
+	},
+
+	close: function(){
+		this.mongoose.connection.close();
+	}
 
 };
 module.exports = dao;
