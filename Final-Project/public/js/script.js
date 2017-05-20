@@ -45,30 +45,31 @@ $(document).ready(function(){
 				$("#primary-menu").addClass("sticky");
 			else $("#primary-menu").removeClass("sticky");
 	});
-	$(window).scroll(function(){
-		var p1 = $("#primary-menu").offset().top + $("#primary-menu").outerHeight();
-		var p2 = $("#content").offset().top;
-		var posLimTop = (p1 > p2) ? p1 : p2;
-		var posLimBot = $("#content").offset().top + $("#content").outerHeight() - 100;
+	if ($("#content .sidebar")){
+		$(window).scroll(function(){
+			var p1 = $("#primary-menu").offset().top + $("#primary-menu").outerHeight();
+			var p2 = $("#content").offset().top;
+			var posLimTop = (p1 > p2) ? p1 : p2;
+			var posLimBot = $("#content").offset().top + $("#content").outerHeight() - 100;
 
-		var hSidebar = $("#content .sidebar").outerHeight();
-		var posTop = $("#content .sidebar").offset().top;
-		var posBot = $("#content .sidebar").offset().top + $("#content .sidebar").outerHeight();
+			var hSidebar = $("#content .sidebar").outerHeight();
+			var posTop = $("#content .sidebar").offset().top;
+			var posBot = $("#content .sidebar").offset().top + $("#content .sidebar").outerHeight();
 
-		var position = posLimTop;
+			var position = posLimTop;
 
-		if (posLimBot - posLimTop > hSidebar){
-			position = posLimTop;
-		}
-		else {
-			position = posLimBot - hSidebar;
-		}
+			if (posLimBot - posLimTop > hSidebar){
+				position = posLimTop;
+			}
+			else {
+				position = posLimBot - hSidebar;
+			}
 
-		position -= p2;
+			position -= p2;
 
-		$("#content .sidebar").css("top", position + "px");
-	});
-
+			$("#content .sidebar").css("top", position + "px");
+		});
+	}
 
 
 

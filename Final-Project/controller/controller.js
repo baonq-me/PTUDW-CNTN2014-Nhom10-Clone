@@ -75,16 +75,47 @@ module.exports = function(app) {
 		})
 		
 	});
+
+
+	var setContentSearch = function(search, searchBy, callback){
+		dao.getProductsBySearch(search, searchBy, 12, function(products){
+			callback({"products": products});
+		});
+	}
 	// Rounting search
 	app.get("/search", function(req, res){
+		var search = req.query.search;
+		var searchBy = req.query.searchBy;
 		dao.connect(function(){
 			setHeader(function(header){
 				setSidebar(function(sidebar){
 					setFooter(function(footer){
-						setContentCategory(req.params.slug, function(content){
-							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+						setContentSearch(search, searchBy, function(content){
+							res.render("search", {"query": req.query, "header": header, "sidebar": sidebar, "footer": footer, "content": content});
 							dao.close();
 						});
+					});
+				});
+			});
+		})
+		
+	});
+
+	var setContentProductDetail = function(slug, callback){
+		dao.getProductDetail(slug, function(product){
+			dao.getRelatedProduct()
+			callback({"product": product});
+		});
+	}
+	// Rounting search
+	app.get("/product/:slug", function(req, res){
+		var requrl = req.protocol + "://" + req.get('host') + req.originalUrl;
+		dao.connect(function(){
+			setHeader(function(header){
+				setFooter(function(footer){
+					setContentProductDetail(req.params.slug, function(content){
+						res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
+						dao.close();
 					});
 				});
 			});
