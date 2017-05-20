@@ -1,0 +1,164 @@
+	<% include includes/header.ejs %>
+	<!--Body -->
+	<div id="content">
+		<div class="product_detail">
+			<div class="container">
+			<div class="col-md-5 col-lg-5" id="hinh_anh_chi_tiet">
+				<img src="<%= content.product.imagePath %>">
+			</div>
+
+			<div class="col-md-7 col-lg-7" id="thong_tin">
+				<h2><%= content.product.name %></h2>
+				<h4><%= content.product.price %> đồng</h4>
+				<br>
+				<div class= "row">
+					<div class="col-md-4 col-lg-4">
+						<form method="post" enctype="multipart/form-data" data-id="<%= content.product.id %>">
+				  			<div class="quantity buttons_added">
+							    <input type="button" value="-" class="minus button is-form">    
+							    <input type="number" step="1" min="1" max="9999" name="quantity" value="1" title="SL" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric">
+							    <input type="button" value="+" class="plus button is-form">  
+							</div>
+						</form>
+					</div>
+					<div class="col-md-8 col-lg-8">
+						<button type="submit" name="add-to-cart" class="add_to_cart_button">Mua ngay</button>
+					</div>
+				</div>
+				<br>
+
+				<p>
+					<%= content.product.detail %>
+				</p>
+				<div class="social_network">
+				  	 <div class="btn-group">
+				        <button class="btn btn-default btn-lg disabled">Share:</button> 
+				        <a class="btn btn-default btn-lg" target="_blank" title="Like On Facebook" href="http://www.facebook.com/plugins/like.php?href=<%= urlReq %>">
+				            <span class="fa fa-thumbs-o-up fa-lg fb"></span>
+				        </a>
+				        <a class="btn btn-default btn-lg" target="_blank" title="On Facebook" href="http://www.facebook.com/sharer.php?url=<%= urlReq %>&amp;t=Social%20Buttons%20in%20HTML%20only%20using%20Twitter%20Bootstrap%203%20and%20Font%20Awesome%20Icons">
+				            <i class="fa fa-facebook fa-lg fb"></i>
+				        </a>
+				        <a class="btn btn-default btn-lg" target="_blank" title="On Twitter" href="http://twitter.com/share?url=<%= urlReq %>&amp;text=Social%20Buttons%20in%20HTML%20only%20using%20Twitter%20Bootstrap%203%20and%20Font%20Awesome%20Icons">
+				            <i class="fa fa-twitter fa-lg tw"></i>
+				        </a>
+				        <a class="btn btn-default btn-lg" target="_blank" title="On Google Plus" href="https://plusone.google.com/_/+1/confirm?hl=en&amp;url=<%= urlReq %>">
+				            <i class="fa fa-google-plus fa-lg google"></i>
+				        </a>
+				    </div>
+				</div>
+				
+			</div>
+		</div>
+
+			
+		</div>
+
+		<div class="product related-product">
+			<div class="container">
+				<h2> Sản phẩm liên quan </h2>
+				<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+
+			 	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			  	<div class="col-xs-12 col-sm-6 col-md-3">
+				    <div class="thumbnail">
+				      	<a href="#">
+				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
+				      	</a>
+				        <div class="caption">
+				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
+							<p class="price">100.000 đồng</p>
+							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
+				        </div>
+				    </div>
+			  	</div>
+			</div>
+		</div>
+	</div>		
+		
+	<% include includes/footer.ejs %>
