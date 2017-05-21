@@ -3,12 +3,13 @@ var dao = {
 	dbName: 'do_an_web',
 	dbUser: 'nhom10',
 	dbPass: 'nhom10',
+	userName: 'hiennguyen',
+	pass: 'hiennguyen249',
 	connStr: 'mongodb://nhom10:nhom10@ds157439.mlab.com:57439/do_an_web',
 
 	model: {
 		categories: null,
 		products: null
-		//productDetail: null
 	},
 
 	//Hàm lấy/tạo Category model
@@ -187,7 +188,12 @@ var dao = {
 				{"name": "name"}
 	*/
 	getCatName: function(slug, callback){
-		callback({"name": "Hoa chúc mừng"});
+		var categoryModel = this.getCategoryModel();
+		categoryModel.findOne({slug: slug}, function(err, data){
+			if(err) throw err;
+			callback(data);
+		})
+		.select('name');
 	},
 
 	/*
@@ -209,11 +215,8 @@ var dao = {
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB
-		if(searchBy == 'type'){
-
-		}
-		else if(searchBy == 'category'){
-			productModel.find({name: new RegExp('^'+search+'$', "i")}, function(err, data){
+		if(searchBy == 'category'){
+			productModel.find({name: new RegExp(search, "i")}, function(err, data){
 				if (err) throw err;
 				callback(data);
 			})
