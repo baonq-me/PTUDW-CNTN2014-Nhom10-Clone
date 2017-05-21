@@ -82,7 +82,7 @@ module.exports = function(app) {
 
 
 	var setContentSearch = function(search, searchBy, callback){
-		dao.getProductsBySearch(search, searchBy, 12, function(products){
+		dao.getProductsBySearch(search, searchBy, 9, function(products){
 			callback({"products": products});
 		});
 	}
