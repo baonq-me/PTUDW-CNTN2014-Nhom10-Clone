@@ -55,12 +55,16 @@ module.exports = function(app) {
 	var setContentCategory = function(catSlug, callback){
 		dao.getProductsByCategory(catSlug, 9, function(products){
 			dao.getCatName(catSlug, function(catName){
-				callback({"catName": catName, "products": products});
+				if(catName.length = 0)
+					callback(null);
+				else
+					callback({"catName": catName, "products": products});
 			});
 		});
 	}
 	// Rounting category
 	app.get("/category/:slug", function(req, res){
+		console.log(req.params.slug);
 		dao.connect(function(){
 			setHeader(function(header){
 				setSidebar(function(sidebar){
@@ -125,11 +129,17 @@ module.exports = function(app) {
 	});
 
 
-	app.get("*", function(req, res){
-		setHeader(function(header){
-			setFooter(function(footer){
-				res.render("404", {"header": header, "footer": footer});
+	var set404 = function(res){
+		dao.connect(function(){
+			setHeader(function(header){
+				setFooter(function(footer){
+					res.render("404", {"header": header, "footer": footer});
+					dao.close();
+				});
 			});
 		});
+	}
+	app.get("*", function(req, res){
+		set404(res);
 	});
 }

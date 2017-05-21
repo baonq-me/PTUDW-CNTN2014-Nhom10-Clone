@@ -314,7 +314,7 @@ body{
 	width: 60%;
 	text-align: left;
 }
-#content .caption .old-price{
+#content .old-price{
 	text-decoration: line-through;
 	margin: 0;
 	color: #fff;
