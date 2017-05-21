@@ -372,7 +372,7 @@ body{
 	font-weight: bold;
 }
 
-.thumbnail img{
+#content .product_detail img {
 	width: 100%;
 }
 

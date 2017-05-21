@@ -6,26 +6,74 @@ var dao = {
 	connStr: 'mongodb://nhom10:nhom10@ds157439.mlab.com:57439/do_an_web',
 
 	model: {
-		categorys: null
+		categories: null,
+		products: null
+		//productDetail: null
 	},
 
 	//Hàm lấy/tạo Category model
 	getCategoryModel: function(){
 		//nếu đã tồn tại Category model thì return lại
-		if (this.model.categorys !== null)
-			return this.model.categorys;
+		if (this.model.categories !== null)
+			return this.model.categories;
 		//Ngược lại, tạo model Category mới
 		//Tạo Schema category 
 	  	var categorySchema = this.mongoose.Schema({
-	  		name: String,
-	  		slug: String,
+	  		id : this.mongoose.Schema.ObjectId,
+	  		name: {type: String, require : true, unique: true},
+	  		slug: {type: String, require : true, unique: true},
 	  		icon: String
 	  	});
 
 	  	//Tạo model từ Schema và có tên collection là 'categorys'
-	  	this.model.categorys = this.mongoose.model('categorys', categorySchema);
-	  	return this.model.categorys;
+	  	this.model.categories = this.mongoose.model('categories', categorySchema);
+	  	return this.model.categories;
 	},
+
+	//Hàm lấy/tạo Product model
+	getProductModel: function(){
+		//nếu đã tồn tại Product model thì return lại
+		if (this.model.products !== null)
+			return this.model.products;
+		//Ngược lại, tạo model Product mới
+		//Tạo Schema Product
+	  	var productSchema = this.mongoose.Schema({
+	  		_id: this.mongoose.Schema.ObjectId,
+	  		id : {type: String, require : true, unique: true},
+	  		name: {type: String, require : true},
+	  		imgPath: {type: String, require : true},
+	  		slug: {type: String, require : true},		//Đường dẫn đến sản phẩm
+	  		price: Number,
+	  		categorySlug : Array,	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
+	  		newPrice: Number,
+	  		detail: String
+	  	});
+
+	  	//Tạo model từ Schema và có tên collection là 'categorys'
+	  	this.model.products = this.mongoose.model('products', productSchema);
+	  	return this.model.products;
+	},
+
+	//Hàm lấy/tạo Product Detail model
+	/*getProductDetailModel: function(){
+		//nếu đã tồn tại Product Detail model thì return lại
+		if (this.model.productDetail !== null)
+			return this.model.productDetail;
+		//Ngược lại, tạo model Product mới
+		//Tạo Schema Product
+	  	var productDetailSchema = this.mongoose.Schema({
+	  		id: {type: String, require : true, unique: true},
+	  		name: {type: String, require : true},
+	  		imgPath: {type: String, require : true},
+	  		slug: {type: String, require : true},
+	  		price: Number,
+	  		categories : [{type: this.mongoose.Schema.ObjectId, ref : 'categories'}]
+	  	});
+
+	  	//Tạo model từ Schema và có tên collection là 'categorys'
+	  	this.model.products = this.mongoose.model('products', productSchema);
+	  	return this.model.products;
+	},*/
 
 	//Hàm connect database
 	connect: function(callback){
@@ -34,7 +82,7 @@ var dao = {
 		var db = this.mongoose.connection;
 		db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
 		db.once('open', function(){
-			console.log('Connected to MongoDB hien-test database!');
+			console.log('Connected to MongoDB do_an_web database!');
 			//After connected database, then excute callback
 			callback();
 		});
@@ -55,8 +103,6 @@ var dao = {
 		//Câu truy vấn lấy DB
 		categoryModel.find(function(err, data){
 			if (err) throw err;
-			//Test
-			console.log(data);
 			callback(data);
 		});
 	},
@@ -73,50 +119,16 @@ var dao = {
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getNewProduct: function(count, callback){
-		callback([
-			{
-				id: 1,
-				name: "Sản phẩm 1",
-				imagePath: "/images/new_product/pro1.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 2,
-				name: "Sản phẩm 2",
-				imagePath: "/images/new_product/pro2.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 3,
-				name: "Sản phẩm 3",
-				imagePath: "/images/new_product/pro3.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 4,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 5,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 6,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-		]);
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		
+		//Truy vấn DB lấy product có category là new-product
+		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		} )
+		.limit(count)
+		.select('id name imgPath price slug');
 	},
 		/*	Lấy sản phẩm khuyến mãi
 	*	@param số lượng product
@@ -131,56 +143,16 @@ var dao = {
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getPromotionProduct: function(count, callback){
-		callback([
-			{
-				id: 1,
-				name: "Sản phẩm 1",
-				imagePath: "/images/new_product/pro1.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 2,
-				name: "Sản phẩm 2",
-				imagePath: "/images/new_product/pro2.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 3,
-				name: "Sản phẩm 3",
-				imagePath: "/images/new_product/pro3.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 4,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 5,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 6,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				newPrice: 50000,
-				price: 100000,
-				slug: "product-1"
-			},
-		]);
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		
+		//Truy vấn DB lấy product có category là new-product
+		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		})
+		.limit(count)
+		.select('id name imgPath price newPrice slug');
 	},
 		/*	Lấy sản phẩm theo category
 	*	@param mảng các slug của category
@@ -195,71 +167,16 @@ var dao = {
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getProductsByCategory: function(slugs, count, callback){
-		callback([
-			{
-				id: 1,
-				name: "Sản phẩm 1",
-				imagePath: "/images/new_product/pro1.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 2,
-				name: "Sản phẩm 2",
-				imagePath: "/images/new_product/pro2.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 3,
-				name: "Sản phẩm 3",
-				imagePath: "/images/new_product/pro3.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 4,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 5,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 6,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 7,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 8,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 9,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-		]);
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		
+		//Truy vấn DB lấy product có categorySlug là slugs
+		productModel.find({categorySlug: {"$in": [slugs]}}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		} )
+		.limit(count)
+		.select('id name imgPath price slug');
 	},
 
 	/*
@@ -288,71 +205,30 @@ var dao = {
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getProductsBySearch: function(search, searchBy, count, callback){
-		callback([
-			{
-				id: 1,
-				name: "Sản phẩm 1",
-				imagePath: "/images/new_product/pro1.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 2,
-				name: "Sản phẩm 2",
-				imagePath: "/images/new_product/pro2.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 3,
-				name: "Sản phẩm 3",
-				imagePath: "/images/new_product/pro3.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 4,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 5,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 6,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 7,
-				name: "Sản phẩm 4",
-				imagePath: "/images/new_product/pro4.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 8,
-				name: "Sản phẩm 5",
-				imagePath: "/images/new_product/pro5.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-			{
-				id: 9,
-				name: "Sản phẩm 6",
-				imagePath: "/images/new_product/pro6.jpg",
-				price: 100000,
-				slug: "product-1"
-			},
-		]);
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		
+		//Truy vấn DB
+		if(searchBy == 'type'){
+
+		}
+		else if(searchBy == 'category'){
+			productModel.find({name: new RegExp('^'+search+'$', "i")}, function(err, data){
+				if (err) throw err;
+				callback(data);
+			})
+			.limit(count)
+			.select('id name imgPath price slug');
+		}
+		else if(searchBy == 'price')
+		{
+			productModel.find({price: search}, function(err, data){
+				if (err) throw err;
+				callback(data);
+			})
+			.limit(count)
+			.select('id name imgPath price slug');
+		};
 	},
 
 	/*
@@ -362,19 +238,19 @@ var dao = {
 	*		@data là object thông tin chi tiết product
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
-	*			- imagePath: đường dẫn tới hình ảnh
+	*			- imgPath: đường dẫn tới hình ảnh
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
+	*			- newPrice: giá sản phẩm khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm
 	*			- categorySlug: category cho sản phẩm
+	*			- detail: thông tin chi tiết sản phẩm
 	*/
 	getProductDetail: function(slug, callback){
-		callback({
-			id: 9,
-			name: "Sản phẩm 6",
-			detail: "Đây là hoa abc, thích hợp để dành tặng cho những người bạn yêu thương vào dịp Valentine.",
-			imagePath: "/images/new_product/pro6.jpg",
-			price: 100000,
-			categorySlug: ["hoa-tinh-yeu", "hoa-huong-duong"]
+		var productModel = this.getProductModel();
+
+		productModel.findOne({slug: slug}, function(err, data){
+			if (err) throw err;
+			callback(data);
 		});
 	},
 
