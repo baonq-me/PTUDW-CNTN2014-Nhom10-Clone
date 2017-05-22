@@ -45,7 +45,7 @@ var dao = {
 	  		imgPath: {type: String, require : true},
 	  		slug: {type: String, require : true},		//Đường dẫn đến sản phẩm
 	  		price: Number,
-	  		categorySlug : Array,	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
+	  		categorySlug : [String],	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
 	  		newPrice: Number,
 	  		detail: String
 	  	});
@@ -54,27 +54,6 @@ var dao = {
 	  	this.model.products = this.mongoose.model('products', productSchema);
 	  	return this.model.products;
 	},
-
-	//Hàm lấy/tạo Product Detail model
-	/*getProductDetailModel: function(){
-		//nếu đã tồn tại Product Detail model thì return lại
-		if (this.model.productDetail !== null)
-			return this.model.productDetail;
-		//Ngược lại, tạo model Product mới
-		//Tạo Schema Product
-	  	var productDetailSchema = this.mongoose.Schema({
-	  		id: {type: String, require : true, unique: true},
-	  		name: {type: String, require : true},
-	  		imgPath: {type: String, require : true},
-	  		slug: {type: String, require : true},
-	  		price: Number,
-	  		categories : [{type: this.mongoose.Schema.ObjectId, ref : 'categories'}]
-	  	});
-
-	  	//Tạo model từ Schema và có tên collection là 'categorys'
-	  	this.model.products = this.mongoose.model('products', productSchema);
-	  	return this.model.products;
-	},*/
 
 	//Hàm connect database
 	connect: function(callback){
