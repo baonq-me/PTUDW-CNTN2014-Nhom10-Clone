@@ -14,7 +14,7 @@ var dao = {
 
 	//Hàm lấy/tạo Category model
 	getCategoryModel: function(){
-		//nếu đã tồn tại Category model thì return lại
+		//nếu đã tồn tại Category model thì return
 		if (this.model.categories !== null)
 			return this.model.categories;
 		//Ngược lại, tạo model Category mới
@@ -26,14 +26,14 @@ var dao = {
 	  		icon: String
 	  	});
 
-	  	//Tạo model từ Schema và có tên collection là 'categorys'
+	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.categories = this.mongoose.model('categories', categorySchema);
 	  	return this.model.categories;
 	},
 
 	//Hàm lấy/tạo Product model
 	getProductModel: function(){
-		//nếu đã tồn tại Product model thì return lại
+		//nếu đã tồn tại Product model thì return 
 		if (this.model.products !== null)
 			return this.model.products;
 		//Ngược lại, tạo model Product mới
@@ -50,7 +50,7 @@ var dao = {
 	  		detail: String
 	  	});
 
-	  	//Tạo model từ Schema và có tên collection là 'categorys'
+	  	//Tạo model từ productSchema và có tên collection là 'products'
 	  	this.model.products = this.mongoose.model('products', productSchema);
 	  	return this.model.products;
 	},
@@ -64,20 +64,20 @@ var dao = {
 			db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
 			db.once('open', function(){
 				console.log('Connected to MongoDB do_an_web database!');
-				//After connected database, then excute callback
+				//Sau khi kết nối database, thực thi hàm callback
 				callback();
 			});
 		} else callback();
 	},
 
-
+	//Hàm đóng kết nối database
 	close: function(){
-		//this.mongoose.connection.close();
+		this.mongoose.connection.close();
 	},
 
 	/*	Lấy tất cả category
 	*	@param callback(data) được gọi khi lất tất cả category xong
-	*		@data mảng thông tin các category
+	*		output là data: mảng thông tin các category
 	*		với mỗi category có các thông tin sau:
 	*			- name: tên category
 	*			- slug: đường dẫn tới category (không chứa root - localhost:3000)
@@ -87,7 +87,7 @@ var dao = {
 		//Lấy category model
 		var categoryModel = this.getCategoryModel();
 
-		//Câu truy vấn lấy DB
+		//Câu truy vấn lấy tất cả category
 		categoryModel.find(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -95,9 +95,9 @@ var dao = {
 	},
 
 	/*	Lấy sản phẩm mới
-	*	@param số lượng product
-	*	@param callback(data) được gọi khi lấy sản phẩm mới xong
-	*		@data mảng thông tin các product
+	*	@count số lượng product cần lấy
+	*	@callback(data) được gọi khi lấy sản phẩm mới xong
+	*		@output là data: mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
@@ -109,7 +109,7 @@ var dao = {
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
-		//Truy vấn DB lấy product có category là new-product
+		//Truy vấn DB lấy product có category là "san-pham-moi"
 		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}}, function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -117,15 +117,16 @@ var dao = {
 		.limit(count)
 		.select('id name imgPath price slug');
 	},
+
 		/*	Lấy sản phẩm khuyến mãi
-	*	@param số lượng product
-	*	@param callback(data) được gọi khi lấy sản phẩm khuyến mãi xong
+	*	@count số lượng product cần lấy
+	*	@callback(data) được gọi khi lấy sản phẩm khuyến mãi xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
 	*			- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
-	*			- newPrice: Giá khuyến mãi
+	*			- newPrice: Giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
@@ -133,7 +134,7 @@ var dao = {
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
-		//Truy vấn DB lấy product có category là new-product
+		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
 		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}}, function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -141,16 +142,18 @@ var dao = {
 		.limit(count)
 		.select('id name imgPath price newPrice slug');
 	},
+
 		/*	Lấy sản phẩm theo category
-	*	@param mảng các slug của category
-	*	@param số lượng product
-	*	@param callback(data) được gọi khi lấy sản phẩm theo category xong
+	*	@slugs: mảng các slug của category
+	*	@count: số lượng product cần lấy
+	*	@callback(data): được gọi khi lấy sản phẩm theo category xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
 	*			- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
+	*			- newPrice: giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getProductsByCategory: function(slugs, count, callback){
@@ -163,7 +166,7 @@ var dao = {
 			callback(data);
 		} )
 		.limit(count)
-		.select('id name imgPath price slug');
+		.select('id name imgPath price newPrice slug');
 	},
 
 	/*
@@ -183,16 +186,17 @@ var dao = {
 
 	/*
 	*	Lấy sản phẩm theo category
-	*	@param từ khóa cần tìm kiếm
-	*	@param tiêu chí tìm kiếm [ 'price' | 'category']
-	*	@param số lượng product
-	*	@param callback(data) được gọi khi lấy sản phẩm xong
+	*	@search từ khóa cần tìm kiếm
+	*	@searchBy tiêu chí tìm kiếm [ 'price' | 'category']
+	*	@count số lượng product
+	*	@callback(data) được gọi khi lấy sản phẩm xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
 	*			- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
+	*			- newPrice: giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
 	getProductsBySearch: function(search, searchBy, count, callback){
@@ -215,14 +219,14 @@ var dao = {
 				callback(data);
 			})
 			.limit(count)
-			.select('id name imgPath price slug');
+			.select('id name imgPath price newPrice slug');
 		};
 	},
 
 	/*
 	*	Lấy thông tin chi tiết của sản phẩm
-	*	@param slug của sản phẩm
-	*	@param callback(data) được gọi khi lấy sản phẩm xong
+	*	@slug là slug của sản phẩm cần lấy thông tin chi tiết
+	*	@callback(data) được gọi khi lấy sản phẩm xong
 	*		@data là object thông tin chi tiết product
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
