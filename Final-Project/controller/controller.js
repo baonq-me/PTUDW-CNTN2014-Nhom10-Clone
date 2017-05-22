@@ -55,19 +55,29 @@ module.exports = function(app) {
 	var setContentCategory = function(catSlug, callback){
 		dao.getProductsByCategory(catSlug, 9, function(products){
 			dao.getCatName(catSlug, function(catName){
-				callback({"catName": catName, "products": products});
+				if(catName == null)
+					callback(null);
+				else
+					callback({"catName": catName, "products": products});
 			});
 		});
 	}
 	// Rounting category
 	app.get("/category/:slug", function(req, res){
+		console.log(req.params.slug);
 		dao.connect(function(){
 			setHeader(function(header){
 				setSidebar(function(sidebar){
 					setFooter(function(footer){
 						setContentCategory(req.params.slug, function(content){
-							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
-							dao.close();
+							if(content == null){
+								set404(res, function(){
+									dao.close();
+								});
+							} else {
+								res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+								dao.close();
+							}
 						});
 					});
 				});
@@ -103,6 +113,10 @@ module.exports = function(app) {
 
 	var setContentProductDetail = function(slug, callback){
 		dao.getProductDetail(slug, function(product){
+			if(product == null){
+				callback(null);
+				return;
+			}
 			dao.getProductsByCategory(product.categorySlug, 8, function(relatedProducts){
 				callback({"product": product, "relatedProducts": relatedProducts});
 			});
@@ -115,6 +129,12 @@ module.exports = function(app) {
 			setHeader(function(header){
 				setFooter(function(footer){
 					setContentProductDetail(req.params.slug, function(content){
+						if(content == null){
+							set404(res, function(){
+								dao.close();
+							});
+							return;
+						}
 						res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
 						dao.close();
 					});
@@ -125,10 +145,18 @@ module.exports = function(app) {
 	});
 
 
-	app.get("*", function(req, res){
+	var set404 = function(res, callback){
 		setHeader(function(header){
 			setFooter(function(footer){
 				res.render("404", {"header": header, "footer": footer});
+				callback();
+			});
+		});
+	}
+	app.get("*", function(req, res){
+		dao.connect(function(){
+			set404(res, function(){
+				dao.close();
 			});
 		});
 	});

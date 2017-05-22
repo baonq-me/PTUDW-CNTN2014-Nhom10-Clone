@@ -79,14 +79,21 @@ var dao = {
 	//Hàm connect database
 	connect: function(callback){
 		console.log('Connecting to database. Please wait....');
-		this.mongoose.connect(this.connStr);
-		var db = this.mongoose.connection;
-		db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
-		db.once('open', function(){
-			console.log('Connected to MongoDB do_an_web database!');
-			//After connected database, then excute callback
-			callback();
-		});
+		if (this.mongoose.connection.readyState == 0){
+			this.mongoose.connect(this.connStr);
+			var db = this.mongoose.connection;
+			db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
+			db.once('open', function(){
+				console.log('Connected to MongoDB do_an_web database!');
+				//After connected database, then excute callback
+				callback();
+			});
+		} else callback();
+	},
+
+
+	close: function(){
+		//this.mongoose.connection.close();
 	},
 
 	/*	Lấy tất cả category
@@ -192,8 +199,7 @@ var dao = {
 		categoryModel.findOne({slug: slug}, function(err, data){
 			if(err) throw err;
 			callback(data);
-		})
-		.select('name');
+		});
 	},
 
 	/*
@@ -257,9 +263,6 @@ var dao = {
 		});
 	},
 
-	close: function(){
-		this.mongoose.connection.close();
-	},
 
 };
 module.exports = dao;

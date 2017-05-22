@@ -9,7 +9,12 @@
 
 			<div class="col-md-7 col-lg-7" id="thong_tin">
 				<h2><%= content.product.name %></h2>
-				<h4><%= content.product.price %> đồng</h4>
+				<% if(typeof(content.product.newPrice) !== "undefined"){ %>
+					<h4 style="color: #ed0f69; font-size: 32px"><%= content.product.newPrice %> đồng</h4>
+					<h4><del><%= content.product.price %> đồng</del></h4>
+				<% } else { %>
+					<h4 style="color: #ed0f69; font-size: 32px"><%= content.product.price %> đồng</h4>
+				<% } %>
 				<br>
 				<div class= "row">
 					<div class="col-md-4 col-lg-4">
