@@ -172,7 +172,7 @@ var dao = {
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có categorySlug là slugs
-		productModel.find({categorySlug: {"$in": [slugs]}}, function(err, data){
+		productModel.find({categorySlug: {"$in": slugs}}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		} )
@@ -199,7 +199,7 @@ var dao = {
 	/*
 	*	Lấy sản phẩm theo category
 	*	@param từ khóa cần tìm kiếm
-	*	@param tiêu chí tìm kiếm ['type' | 'price' | 'category']
+	*	@param tiêu chí tìm kiếm [ 'price' | 'category']
 	*	@param số lượng product
 	*	@param callback(data) được gọi khi lấy sản phẩm xong
 	*		@data mảng thông tin các product
