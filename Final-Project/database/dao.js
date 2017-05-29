@@ -9,7 +9,8 @@ var dao = {
 
 	model: {
 		categories: null,
-		products: null
+		products: null,
+		users: null
 	},
 
 	//Hàm lấy/tạo Category model
@@ -53,6 +54,28 @@ var dao = {
 	  	//Tạo model từ productSchema và có tên collection là 'products'
 	  	this.model.products = this.mongoose.model('products', productSchema);
 	  	return this.model.products;
+	},
+
+	//Hàm lấy/tạo User model
+	getUserModel: function(){
+		//nếu đã tồn tại User model thì return
+		if (this.model.users !== null)
+			return this.model.users;
+		//Ngược lại, tạo model User mới
+		//Tạo Schema User
+	  	var UserSchema = this.mongoose.Schema({
+	  		id : this.mongoose.Schema.ObjectId,
+	  		fullName: {type: String, require : true},
+	  		username: {type: String, require : true, unique: true},
+	  		email: {type: String, require : true, unique: true},
+	  		password: {type: String, require : true},
+	  		address: String,
+	  		tel: String
+	  	});
+
+	  	//Tạo model từ categorySchema và có tên collection là 'categories'
+	  	this.model.users = this.mongoose.model('users', UserSchema);
+	  	return this.model.users;
 	},
 
 	//Hàm connect database
@@ -110,12 +133,13 @@ var dao = {
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có category là "san-pham-moi"
-		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}}, function(err, data){
+		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}})
+		.limit(count)
+		.select('id name imgPath price slug')
+		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
-		} )
-		.limit(count)
-		.select('id name imgPath price slug');
+		});
 	},
 
 		/*	Lấy sản phẩm khuyến mãi
@@ -135,12 +159,13 @@ var dao = {
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
-		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}}, function(err, data){
+		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}} )
+		.limit(count)
+		.select('id name imgPath price newPrice slug')
+		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
-		})
-		.limit(count)
-		.select('id name imgPath price newPrice slug');
+		});
 	},
 
 		/*	Lấy sản phẩm theo category
@@ -159,14 +184,23 @@ var dao = {
 	getProductsByCategory: function(slugs, count, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
+
+		/*
+		var condition = {$or:[{},{}]};
+		var i;
+		for(i=0; i<slugs.length ; i++){
+			condition.$or.add(condition[i]);
+		}
+		*/
 		
 		//Truy vấn DB lấy product có categorySlug là slugs
-		productModel.find({categorySlug: {"$in": slugs}}, function(err, data){
-			if (err) throw err;
-			callback(data);
-		} )
+		productModel.find({categorySlug: {"$in": slugs}})
 		.limit(count)
-		.select('id name imgPath price newPrice slug');
+		.select('id name imgPath price newPrice slug')
+		.exec(function(err, data){
+			if (err) throw err; 
+			callback(data);
+		});
 	},
 
 	/*
@@ -205,21 +239,23 @@ var dao = {
 		
 		//Truy vấn DB
 		if(searchBy == 'category'){
-			productModel.find({name: new RegExp(search, "i")}, function(err, data){
+			productModel.find({name: new RegExp(search, "i")})
+			.limit(count)
+			.select('id name imgPath price slug')
+			.exec(function(err, data){
 				if (err) throw err;
 				callback(data);
-			})
-			.limit(count)
-			.select('id name imgPath price slug');
+			});
 		}
 		else if(searchBy == 'price')
 		{
-			productModel.find({price: search}, function(err, data){
+			productModel.find({price: search})
+			.limit(count)
+			.select('id name imgPath price newPrice slug')
+			.exec(function(err, data){
 				if (err) throw err;
 				callback(data);
-			})
-			.limit(count)
-			.select('id name imgPath price newPrice slug');
+			});
 		};
 	},
 
@@ -245,6 +281,77 @@ var dao = {
 			callback(data);
 		});
 	},
+
+	/*
+	* Kiểm tra username đã tồn tại hay chưa
+	* @username: username cần kiểm tra
+	* @callback (data) : được gọi sau khi kiểm tra xong, 
+	* data là kết quả trả về, 1: đã tồn tại, 0: chưa tồn tại
+	*/
+	checkUsername: function(username, callback){
+		var userModel = this.getUserModel();
+
+		userModel.findOne({username: username}, function(err, data){
+			if(err) throw err;
+			//Username đã tồn tại
+			if(data != null){
+				callback(1);
+			}
+			else
+				callback(0);
+		});
+	},
+
+	/*
+	* Kiểm tra email đã tồn tại hay chưa
+	* @email: email cần kiểm tra
+	* @callback (data) : được gọi sau khi kiểm tra xong, 
+	* data là kết quả trả về, 1: đã tồn tại, 0: chưa tồn tại
+	*/
+	checkUsername: function(email, callback){
+		var userModel = this.getUserModel();
+
+		userModel.findOne({email: email}, function(err, data){
+			if(err) throw err;
+			//Email đã tồn tại
+			if(data != null){
+				callback(1);
+			}
+			else
+				callback(0);
+		});
+	},
+
+	/*
+	* Thêm username
+	* @fullName: full name
+	* @email: email
+	* @username: username 
+	* @password: password
+	* @address: address user
+	8 @tel: tel user
+	* @callback (data) : được gọi sau khi kiểm tra xong, 
+	* data là bộ dũ liệu mới được thêm vào
+	*/
+
+	addUser: function(fullName, email, username, password, address, tel, callback){
+		var userModel = getUserModel();
+
+		var user = new userModel({
+			fullName: fullName,
+			email: email,
+			username : username,
+			password: password,
+			address: address,
+			tel: tel
+		});
+		user.save(function(err, data){
+			if(err) throw err;
+			callback(data);
+		});
+	}
+
+
 
 
 };

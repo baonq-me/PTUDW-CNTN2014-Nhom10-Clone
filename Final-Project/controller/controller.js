@@ -16,18 +16,6 @@ module.exports = function(app) {
 	var setFooter = function(callback){
 		callback({});
 	}
-	/*
-	var setSite = function(setHeader, setSidebar, setFooter, setContent, viewengine){
-		setHeader(function(header){
-			setSidebar(function(sidebar){
-				setFooter(function(footer){
-					setContentHome(function(content){
-						res.render("index", {"header": header})
-					});
-				});
-			});
-		});
-	}*/
 
 
 	var setContentHome = function(callback){
@@ -142,6 +130,25 @@ module.exports = function(app) {
 			});
 		})
 		
+	});
+
+	//Routing sign up
+	app.get("/sign-up", function(req, res){
+		dao.connect(function(){
+			setHeader(function(header){
+				setFooter(function(footer){
+					//if(req.bodyParser.onsubmit=="true")
+					res.render("sign-up", {"header": header, "footer" : footer});
+					dao.close();
+				});
+			});
+		});	
+/*
+		$("#name").focusout(function(){
+			//check front-end
+			//Check back-end use ajax
+		})
+*/
 	});
 
 

@@ -1,0 +1,53 @@
+	<% include includes/header.ejs %>
+	<!--Body -->
+	<div id="content">
+		<div class="container">
+			<form class="form-horizontal form-box col-sm-6 col-sm-offset-3" name="sign_up_form" onsubmit="return validateFormSignUp()" method="POST" action="/sign-up">
+				<fieldset>
+
+				<!-- Form Name -->
+				<h2> Đăng ký tài khoản</h2>
+
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<input id="name" name="name" type="text" placeholder="Họ và Tên" class="form-control input-md" required="">
+				</div>
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+					<input id="sign_up_email" name="sign_up_email" type="email" placeholder="Email" class="form-control input-md" required="">
+				</div>
+				<!-- Password input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+					<input id="sign_up_password" name="sign_up_password" type="password" placeholder="Mật khẩu" class="form-control input-md" required="">
+				</div><span id="result_strength_pass"></span>
+				<!-- Password input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-ok"></i></span>
+					<input id="sign_up_reenter_password" name="sign_up_reenter_password" type="password" placeholder="Nhập lại mật khẩu" class="form-control input-md" required="">
+				</div><span id="sign_up_msg_reenter_pass"></span>
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+					<input id="sign_up_addr" name="sign_up_addr" type="text" placeholder="Địa chỉ" class="form-control input-md" required="">
+				</div>
+
+				<input name="onsubmit" type="hidden" value="true">
+
+				<button id="sign_up_btn_create" name="sign_up_btn_create" class="btn btn-primary" type="submit">Đăng ký</button>
+
+				<!--Divider -->
+				<div class="sep"></div>
+				<div id="sign_up_has_acc">
+					<p>Bạn đã có tài khoản? <a class="show-popup-login" href="#">Đăng nhập</a></p>
+				</div>
+
+				</fieldset>
+			</form>
+
+		</div>
+	</div>
+	<!--Footer -->
+	<% include includes/footer.ejs %>
