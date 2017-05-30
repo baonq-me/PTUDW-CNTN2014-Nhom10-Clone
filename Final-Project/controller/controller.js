@@ -204,8 +204,7 @@ module.exports = function(app) {
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
-
-
+	
 	var set404 = function(res, callback){
 		setHeader(function(header){
 			setFooter(function(footer){

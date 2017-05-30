@@ -321,31 +321,23 @@ var dao = {
 	},
 
 	/*
-	* Thêm username
-	* @fullName: full name
-	* @email: email
-	* @username: username 
-	* @password: password
-	* @address: address user
-	8 @tel: tel user
-	* @callback (data) : được gọi sau khi kiểm tra xong, 
-	* data là bộ dũ liệu mới được thêm vào
+	* Thêm user
+	* @user: object user, gồm thông tin user
 	*/
 
-	addUser: function(fullName, email, username, password, address, tel, callback){
+	addUser: function(user){
 		var userModel = getUserModel();
 
 		var user = new userModel({
-			fullName: fullName,
-			email: email,
-			username : username,
-			password: password,
-			address: address,
-			tel: tel
+			fullName: user.fullName,
+			email: user.email,
+			username : user.username,
+			password: user.password,
+			address: user.address,
+			tel: user.tel
 		});
 		user.save(function(err, data){
 			if(err) throw err;
-			callback(data);
 		});
 	},
 	/* Hàm kiểm tra thông tin username và password khi đăng nhập
@@ -421,7 +413,13 @@ var dao = {
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	signup: function(args, callback){
-		callback(false);	// sign up thất bại
+		var userModel = this.getUserModel();
+		if(this.hadUsername(args.sign_up_username) || this.hadEmail(args.sign_up_email))
+			callback(false);	// sign up thất bại
+		else{
+			this.addUser(args);
+			callback(true);
+		}
 	}	
 
 };
