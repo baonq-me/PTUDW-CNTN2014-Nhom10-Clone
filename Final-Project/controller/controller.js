@@ -1,8 +1,12 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
+<<<<<<< HEAD
 	var passport = require("passport");
 	var LocalStrategy = require("passport-local").Strategy;
 
+=======
+	var captchapng = require('captchapng');
+>>>>>>> 2f2f57dd2f6380ba210210a6320fe030e921e9fc
 	// Mở kết nối cho db
 	dao.connect(function(){});
 	// cài đặt header cơ bản
@@ -121,13 +125,29 @@ module.exports = function(app) {
 			});
 		});
 	});
-
-	//Routing sign up
+	var captchaImg = function(){
+        var p = new captchapng(80,30,parseInt(Math.random()*9000+1000)); // width,height,numeric captcha
+        p.color(115, 95, 197, 100);  // First color: background (red, green, blue, alpha)
+        p.color(30, 104, 21, 255); // Second color: paint (red, green, blue, alpha)
+        var img = p.getBase64();
+        var imgbase64 = new Buffer(img,'base64');
+        return imgbase64;
+	} ;
+	
+	//Routing sign-up
 	app.get("/sign-up", function(req, res){
 		setHeader(function(header){
 			setFooter(function(footer){
-				//if(req.bodyParser.onsubmit=="true")
-				res.render("sign-up", {"header": header, "footer" : footer});
+				//console.log(req.body.onsubmit);
+				
+				if(req.body.onsubmit == undefined){
+					
+					var valicode = new Buffer(captchaImg()).toString('base64');
+					res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
+				}
+				else{
+					//do something when you submit form
+				};
 				
 			});
 		});

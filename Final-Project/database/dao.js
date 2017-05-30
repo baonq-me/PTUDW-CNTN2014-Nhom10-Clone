@@ -79,7 +79,7 @@ var dao = {
 	},
 
 	//Hàm connect database
-	connect: function(callback){
+	connect: function(){
 		console.log('Connecting to database. Please wait....');
 		if (this.mongoose.connection.readyState == 0){
 			this.mongoose.connect(this.connStr);
@@ -87,10 +87,8 @@ var dao = {
 			db.on('error', console.error.bind(console, 'Error when connection to MongoDB:'));
 			db.once('open', function(){
 				console.log('Connected to MongoDB do_an_web database!');
-				//Sau khi kết nối database, thực thi hàm callback
-				callback();
 			});
-		} else callback();
+		};
 	},
 
 	//Hàm đóng kết nối database
