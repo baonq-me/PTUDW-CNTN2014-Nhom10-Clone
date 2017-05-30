@@ -347,9 +347,13 @@ var dao = {
 			if(err) throw err;
 			callback(data);
 		});
+	},
+	login: function(username, password, callback){
+		callback(true);
+	},
+	getUser: function(username, callback){
+		callback({"userName": username});
 	}
-
-
 
 
 };
