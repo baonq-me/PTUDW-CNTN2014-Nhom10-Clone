@@ -711,7 +711,12 @@ fieldset h2{
 	border-color: #00b0ff;
 }
 
-
+/*Captcha */
+#captcha{
+	display: inline;
+	margin-top: 15px;
+	margin-right: 15px;
+}
 
 
 /*************Trang chủ của phân hệ member*********/
