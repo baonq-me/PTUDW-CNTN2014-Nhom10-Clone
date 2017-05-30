@@ -18,6 +18,12 @@
 					<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 					<input id="sign_up_email" name="sign_up_email" type="email" placeholder="Email" class="form-control input-md" required="">
 				</div>
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<input id="sign_up_username" name="sign_up_username" type="text" placeholder="Tên đăng nhập" class="form-control input-md" required="">
+				</div>
+
 				<!-- Password input-->
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
@@ -34,7 +40,15 @@
 					<input id="sign_up_addr" name="sign_up_addr" type="text" placeholder="Địa chỉ" class="form-control input-md" required="">
 				</div>
 
+				<!-- Text input-->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+					<input id="sign_up_tel" name="sign_up_tel" type="number" placeholder="Điện thoại" class="form-control input-md" required="">
+				</div>
+
 				<input name="onsubmit" type="hidden" value="true">
+				<!--Captcha-->
+				<%include includes/captcha.ejs %>
 
 				<button id="sign_up_btn_create" name="sign_up_btn_create" class="btn btn-primary" type="submit">Đăng ký</button>
 
