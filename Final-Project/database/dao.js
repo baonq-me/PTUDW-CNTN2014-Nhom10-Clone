@@ -380,11 +380,41 @@ var dao = {
 				callback(data);
 		});
 	},
+
+	/*
+	* Kiểm tra username đã tồn tại hay chưa
+	* @username: username cần kiểm tra
+	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
+	*/
 	hadUsername: function(username){
-		return true;
+		var userModel = this.getUserModel();
+
+		userModel.findOne({username: username}, function(err, data){
+			if(err) throw err;
+			//Username đã tồn tại
+			if(data != null)
+				return true
+			else
+				return false;
+		});
 	},
+
+	/*
+	* Kiểm tra email đã tồn tại hay chưa
+	* @email: email cần kiểm tra
+	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
+	*/
 	hadEmail: function(email){
-		return true;
+		var userModel = this.getUserModel();
+
+		userModel.findOne({email: email}, function(err, data){
+			if(err) throw err;
+			//Nếu email đã tồn tại
+			if(data != null)
+				return true
+			else
+				return false;
+		});
 	},
 	/*
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
