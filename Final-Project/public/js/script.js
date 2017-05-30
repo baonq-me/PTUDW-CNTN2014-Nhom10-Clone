@@ -169,6 +169,25 @@ $(document).ready(function(){
 			setDefaultFormPayInfo();
 		}
 	});
+
+	// Sự kiện submit đăng nhập
+	$("#login").submit(function(){
+		let username = $(this).children("#username").val();
+		let password = $(this).children("#password").val();
+		let action = $(this).attr("action");
+		$.post(action,
+		{
+			"username": username,
+			"password": password
+		},
+		function(data, status){
+			if(data.a){
+				alert("ok");
+			}
+			alert("1" + data.a);
+		});
+		return false;
+	});
 });
 function setNoneValFormPayInfo(){
 	var form = document.forms["bill-info"];
