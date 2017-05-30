@@ -348,11 +348,37 @@ var dao = {
 			callback(data);
 		});
 	},
+	/* Hàm kiểm tra thông tin username và password khi đăng nhập
+	* @username: username người dùng nhập vào
+	* @password: Password người dùng nhập vào
+	* @callback: thực hiện sau khi login thành công
+	* login thành công: return true 
+	* login thất bại: return false 
+	*/
 	login: function(username, password, callback){
-		callback(true);
+		var userModel = this.getUserModel();
+		userModel.findOne({username:username, password: password}, function(err, data){
+			if (err) throw err;
+			if(data == null)
+				callback(false)
+			else
+				callback(true);
+		});
 	},
+
+	/* Hàm lấy thông tin user
+	* @username: username cần lấy thông tin
+	* @callback: thực hiện sau khi lấy thông tin
+	* return thông tin user
+	*/
+
 	getUser: function(username, callback){
-		callback({"userName": username});
+		var userModel = this.getUserModel();
+		userModel.findOne({username:username}, function(err, data){
+			if (err) throw err;
+			if(data != null)
+				callback(data);
+		});
 	},
 	hadUsername: function(username){
 		return true;
