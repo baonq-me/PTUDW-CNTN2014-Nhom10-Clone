@@ -213,6 +213,7 @@ $(document).ready(function(){
 			}
 		)
 	});
+
 	// Kiểm tra username
 	$("#sign_up_username").focusout(function(){
 		let username = $(this).val();
@@ -248,6 +249,17 @@ $(document).ready(function(){
 					$("#err-username").text("");
 				}*/
 				alert("ok");
+			}
+		)
+	});
+
+	// logout
+	$("#logout").click(function(){
+		$.post("/logout",
+			{
+			},
+			function(data, status){
+				window.location.reload();
 			}
 		)
 	});

@@ -49,6 +49,35 @@ body{
 #header .top-menu .sign-in li a:hover{
 	color: #FF1493;
 }
+#header .name {
+	color: #fff; font-size: 13px;
+}
+#header .user-info{
+	cursor: pointer;
+	padding: 0 5px;
+}
+#header .user-info:hover{
+	background: #FF1493;
+}
+#header .user-info:hover .menu-usermanager{
+	display: block;
+}
+#header .menu-usermanager{
+	position: absolute;
+    z-index: 111;
+    background: #00b0ff;
+    text-align: right;
+    color: #fff;
+    left: 0px;
+    right: 0px;
+    display: none;
+}
+#header .menu-usermanager div{
+	padding: 5px 10px;
+}
+#header .menu-usermanager div:hover{
+	background: #FF1493;
+}
 /*Cart*/
 .cart{
 	background-color: #00b0ff;

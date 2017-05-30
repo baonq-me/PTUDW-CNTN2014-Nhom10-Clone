@@ -325,16 +325,20 @@ var dao = {
 	* @user: object user, gồm thông tin user
 	*/
 
+	/*
+	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
+	*		sign_up_addr: string, sign_up_tel: string}
+	*/
 	addUser: function(user){
-		var userModel = getUserModel();
+		var userModel = this.getUserModel();
 
 		var user = new userModel({
-			fullName: user.fullName,
-			email: user.email,
-			username : user.username,
-			password: user.password,
-			address: user.address,
-			tel: user.tel
+			fullName: user.name,
+			email: user.sign_up_email,
+			username : user.sign_up_username,
+			password: user.sign_up_password,
+			address: user.sign_up_addr,
+			tel: user.sign_up_tel
 		});
 		user.save(function(err, data){
 			if(err) throw err;
@@ -378,16 +382,16 @@ var dao = {
 	* @username: username cần kiểm tra
 	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
 	*/
-	hadUsername: function(username){
+	hadUsername: function(username, callback){
 		var userModel = this.getUserModel();
 
 		userModel.findOne({username: username}, function(err, data){
 			if(err) throw err;
 			//Username đã tồn tại
 			if(data != null)
-				return true
+				callback(true);
 			else
-				return false;
+				callback(false);
 		});
 	},
 
@@ -396,16 +400,18 @@ var dao = {
 	* @email: email cần kiểm tra
 	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
 	*/
-	hadEmail: function(email){
+	hadEmail: function(email, callback){
 		var userModel = this.getUserModel();
 
 		userModel.findOne({email: email}, function(err, data){
 			if(err) throw err;
 			//Nếu email đã tồn tại
-			if(data != null)
-				return true
-			else
-				return false;
+			if(data != null){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
 		});
 	},
 	/*
@@ -413,14 +419,16 @@ var dao = {
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	signup: function(args, callback){
-
 		var userModel = this.getUserModel();
-		if(this.hadUsername(args.sign_up_username) || this.hadEmail(args.sign_up_email))
-			callback(false);	// sign up thất bại
-		else{
-			this.addUser(args);
-			callback(true);
-		}
+		this.hadUsername(args.sign_up_username, function(hadusername){
+				dao.hadEmail(args.sign_up_email, function(hademail){
+				if(hademail || hadusername) callback(false);	// sign up thất bại
+				else {
+					dao.addUser(args);
+					callback(true);
+				}
+			});
+		});
 	},	
 	setNewPassword: function(username, newpass, callback){
 		callback(true);
