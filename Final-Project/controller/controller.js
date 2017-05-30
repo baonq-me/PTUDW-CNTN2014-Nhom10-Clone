@@ -137,6 +137,10 @@ module.exports = function(app) {
 */
 	});
 
+	app.post("/login", function(req, res){
+		let username = req.bodyParser.username;
+		let passwork = req.bodyParser.passwork;
+	});
 
 	var set404 = function(res, callback){
 		setHeader(function(header){
