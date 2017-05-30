@@ -353,8 +353,20 @@ var dao = {
 	},
 	getUser: function(username, callback){
 		callback({"userName": username});
-	}
-
+	},
+	hadUsername: function(username){
+		return true;
+	},
+	hadEmail: function(email){
+		return true;
+	},
+	/*
+	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
+	*		sign_up_addr: string, sign_up_tel: string}
+	*/
+	signup: function(args, callback){
+		callback(false);	// sign up thất bại
+	}	
 
 };
 module.exports = dao;
