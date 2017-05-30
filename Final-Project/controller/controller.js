@@ -1,5 +1,7 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
+	// Mở kết nối cho db
+	dao.connect(function(){});
 	// cài đặt header cơ bản
 	var setHeader = function(callback){
 		dao.getAllCategory(function(categorys){
@@ -27,21 +29,18 @@ module.exports = function(app) {
 	}
 	// Routing trang chủ
 	app.get("/", function(req, res){
-		dao.connect(function(){
-			setHeader(function(header){
-				setSidebar(function(sidebar){
-					setFooter(function(footer){
-						setContentHome(function(content){
-							res.render("index", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
-							dao.close();
-						});
+		setHeader(function(header){
+			setSidebar(function(sidebar){
+				setFooter(function(footer){
+					setContentHome(function(content){
+						res.render("index", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
 					});
 				});
 			});
 		});
 	});
 	var setContentCategory = function(catSlug, callback){
-		dao.getProductsByCategory(catSlug, 9, function(products){
+		dao.getProductsByCategory([catSlug], 9, function(products){
 			dao.getCatName(catSlug, function(catName){
 				if(catName == null)
 					callback(null);
@@ -52,26 +51,21 @@ module.exports = function(app) {
 	}
 	// Rounting category
 	app.get("/category/:slug", function(req, res){
-		console.log(req.params.slug);
-		dao.connect(function(){
-			setHeader(function(header){
-				setSidebar(function(sidebar){
-					setFooter(function(footer){
-						setContentCategory(req.params.slug, function(content){
-							if(content == null){
-								set404(res, function(){
-									dao.close();
-								});
-							} else {
-								res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
-								dao.close();
-							}
-						});
+		setHeader(function(header){
+			setSidebar(function(sidebar){
+				setFooter(function(footer){
+					setContentCategory(req.params.slug, function(content){
+						if(content == null){
+							set404(res, function(){
+							});
+						} else {
+							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
+							
+						}
 					});
 				});
 			});
 		});
-		
 	});
 
 
@@ -84,19 +78,16 @@ module.exports = function(app) {
 	app.get("/search", function(req, res){
 		var search = req.query.search;
 		var searchBy = req.query.searchBy;
-		dao.connect(function(){
-			setHeader(function(header){
-				setSidebar(function(sidebar){
-					setFooter(function(footer){
-						setContentSearch(search, searchBy, function(content){
-							res.render("search", {"query": req.query, "header": header, "sidebar": sidebar, "footer": footer, "content": content});
-							dao.close();
-						});
+		setHeader(function(header){
+			setSidebar(function(sidebar){
+				setFooter(function(footer){
+					setContentSearch(search, searchBy, function(content){
+						res.render("search", {"query": req.query, "header": header, "sidebar": sidebar, "footer": footer, "content": content});
+						
 					});
 				});
 			});
-		})
-		
+		});
 	});
 
 	var setContentProductDetail = function(slug, callback){
@@ -113,36 +104,31 @@ module.exports = function(app) {
 	// Rounting search
 	app.get("/product/:slug", function(req, res){
 		var requrl = req.protocol + "://" + req.get('host') + req.originalUrl;
-		dao.connect(function(){
-			setHeader(function(header){
-				setFooter(function(footer){
-					setContentProductDetail(req.params.slug, function(content){
-						if(content == null){
-							set404(res, function(){
-								dao.close();
-							});
-							return;
-						}
-						res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
-						dao.close();
-					});
+		setHeader(function(header){
+			setFooter(function(footer){
+				setContentProductDetail(req.params.slug, function(content){
+					if(content == null){
+						set404(res, function(){
+							
+						});
+						return;
+					}
+					res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
+					
 				});
 			});
-		})
-		
+		});
 	});
 
 	//Routing sign up
 	app.get("/sign-up", function(req, res){
-		dao.connect(function(){
-			setHeader(function(header){
-				setFooter(function(footer){
-					//if(req.bodyParser.onsubmit=="true")
-					res.render("sign-up", {"header": header, "footer" : footer});
-					dao.close();
-				});
+		setHeader(function(header){
+			setFooter(function(footer){
+				//if(req.bodyParser.onsubmit=="true")
+				res.render("sign-up", {"header": header, "footer" : footer});
+				
 			});
-		});	
+		});
 /*
 		$("#name").focusout(function(){
 			//check front-end
@@ -160,11 +146,10 @@ module.exports = function(app) {
 			});
 		});
 	}
+
 	app.get("*", function(req, res){
-		dao.connect(function(){
-			set404(res, function(){
-				dao.close();
-			});
+		set404(res, function(){
+				
 		});
 	});
 }
