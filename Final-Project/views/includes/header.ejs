@@ -23,12 +23,26 @@
 					<a href="tel:0123456789"><span class="glyphicon glyphicon-earphone"></span> 0123456789</a>
 					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
 				</div>
+				
 				<ul class="sign-in">
+					<% if(typeof(header.login) === "undefined"){ %>
 					<li><a href="/sign-up"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
 					<li class="show-popup-login" id="popup-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+					<% } %>
 					<div class="cart pull-right">
 				    	<a href="cart/cart-info.html"><span class="glyphicon glyphicon-shopping-cart"></span> 2</a>
 				    </div>
+				    <% if(typeof(header.login) !== "undefined"){ %>
+			    	<div class="user-info" style="float: right; position: relative;">
+						<li class="name">Nguyễn văn Huy</li>
+						<li class="avatar" style="color: #fff"><img style="height: 20px; border-radius: 3px;" src="/images/avatar_member.png"></li>
+						<div class="menu-usermanager">
+							<div class="info">Thông tin</div>
+							<div id="logout">Đăng xuất</div>
+						</div>
+					</div>
+					
+					<% } %>
 				</ul>
 			</div>
 		</div>

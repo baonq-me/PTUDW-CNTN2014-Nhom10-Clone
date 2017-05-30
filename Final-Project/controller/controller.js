@@ -7,9 +7,12 @@ module.exports = function(app) {
 	// Mở kết nối cho db
 	dao.connect(function(){});
 	// cài đặt header cơ bản
-	var setHeader = function(callback){
+	var setHeader = function(user, callback){
 		dao.getAllCategory(function(categorys){
-			callback({"categorys": categorys});
+			if(user != null){
+				callback({"categorys": categorys, login: {fullname: user.fullName}});
+			}else callback({"categorys": categorys});
+			
 		});
 	}
 	// cài đặt sidebar cơ bản
@@ -33,7 +36,8 @@ module.exports = function(app) {
 	}
 	// Routing trang chủ
 	app.get("/", function(req, res){
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
 					setContentHome(function(content){
@@ -55,7 +59,8 @@ module.exports = function(app) {
 	}
 	// Rounting category
 	app.get("/category/:slug", function(req, res){
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
 					setContentCategory(req.params.slug, function(content){
@@ -82,7 +87,8 @@ module.exports = function(app) {
 	app.get("/search", function(req, res){
 		var search = req.query.search;
 		var searchBy = req.query.searchBy;
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
 					setContentSearch(search, searchBy, function(content){
@@ -108,7 +114,8 @@ module.exports = function(app) {
 	// Rounting search
 	app.get("/product/:slug", function(req, res){
 		var requrl = req.protocol + "://" + req.get('host') + req.originalUrl;
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setFooter(function(footer){
 				setContentProductDetail(req.params.slug, function(content){
 					if(content == null){
@@ -133,7 +140,8 @@ module.exports = function(app) {
 	
 	//Routing sign-up
 	app.get("/sign-up", function(req, res){
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setFooter(function(footer){
 				var valicode = new Buffer(captchaImg()).toString('base64');
 				res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
@@ -155,14 +163,18 @@ module.exports = function(app) {
 		let value = req.body.value;
 		switch(field){
 			case "email":
-				if(dao.hadEmail(value))
-					res.json({success: false, status: "Email đã có người xử dụng"});
-				else res.json({success: true});
+				dao.hadEmail(value,function(result){
+					if(result)
+						res.json({success: false, status: "Email đã có người xử dụng"});
+					else res.json({success: true});
+				});
 				break;
 			case "username":
-				if(dao.hadUsername(value))
-					res.json({success: false, status: "Tên đăng nhập đã có người xử dụng"});
-				else res.json({success: true});
+				dao.hadUsername(value,function(result){
+					if(result)
+						res.json({success: false, status: "Tên đăng nhập đã có người xử dụng"});
+					else res.json({success: true});
+				});
 				break;
 		}
 	});
@@ -189,7 +201,7 @@ module.exports = function(app) {
 		}
 	));
 	passport.serializeUser(function(user, done){
-		done(null, user.userName);
+		done(null, user.username);
 	});
 	passport.deserializeUser(function(name, done){
 		dao.getUser(name, function(user){
@@ -203,11 +215,16 @@ module.exports = function(app) {
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
+
+	app.post("/logout", function(req, res){
+		req.logout();
+		res.json({});
+	});
   
 	// Quên mật khẩu
 	app.get("/forget-password", function(req, res){
-		console.log("a");
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setFooter(function(footer){
 				res.render("forget-password", {"header": header, "footer": footer})
 			});
@@ -220,7 +237,8 @@ module.exports = function(app) {
 			return item.username == username && item.code == code
 		});
 		if(item){
-			setHeader(function(header){
+			var user = req.isAuthenticated() ? req.user : null;
+			setHeader(user, function(header){
 				setFooter(function(footer){
 					res.render("set-new-password", {"header": header, "footer": footer, username: req.body.forget_user});
 				});
@@ -267,7 +285,8 @@ module.exports = function(app) {
 		let username = req.body.username;
 		let newpass = req.body.set_new_pass_pass1;
 		dao.setNewPassword(username, newpass, function(){
-			setHeader(function(header){
+			var user = req.isAuthenticated() ? req.user : null;
+			setHeader(user, function(header){
 				setFooter(function(footer){
 					res.render("set-new-password-success", {"header": header, "footer": footer, username: req.body.forget_user});
 				});
@@ -276,7 +295,8 @@ module.exports = function(app) {
 	});
 
 	var set404 = function(res, callback){
-		setHeader(function(header){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
 			setFooter(function(footer){
 				res.render("404", {"header": header, "footer": footer});
 				callback();
