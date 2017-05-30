@@ -65,7 +65,7 @@ module.exports = function(app) {
 				setFooter(function(footer){
 					setContentCategory(req.params.slug, function(content){
 						if(content == null){
-							set404(res, function(){
+							set404(req, res, function(){
 							});
 						} else {
 							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
@@ -119,7 +119,7 @@ module.exports = function(app) {
 			setFooter(function(footer){
 				setContentProductDetail(req.params.slug, function(content){
 					if(content == null){
-						set404(res, function(){
+						set404(req, res, function(){
 							
 						});
 						return;
@@ -282,10 +282,10 @@ module.exports = function(app) {
 
 	});
 	app.post("/set-new-password", function(req, res){
+		var user = req.isAuthenticated() ? req.user : null;
 		let username = req.body.username;
 		let newpass = req.body.set_new_pass_pass1;
 		dao.setNewPassword(username, newpass, function(){
-			var user = req.isAuthenticated() ? req.user : null;
 			setHeader(user, function(header){
 				setFooter(function(footer){
 					res.render("set-new-password-success", {"header": header, "footer": footer, username: req.body.forget_user});
@@ -293,8 +293,16 @@ module.exports = function(app) {
 			});
 		});
 	});
+	app.get("/change-password", function(req, res){
+		var user = req.isAuthenticated() ? req.user : null;
+		setHeader(user, function(header){
+			setFooter(function(footer){
+				res.render("set-new-password", {"header": header, "footer": footer, username: user.username});
+			});
+		});
+	})
 
-	var set404 = function(res, callback){
+	var set404 = function(req, res, callback){
 		var user = req.isAuthenticated() ? req.user : null;
 		setHeader(user, function(header){
 			setFooter(function(footer){
@@ -305,6 +313,6 @@ module.exports = function(app) {
 	}
 
 	app.get("*", function(req, res){
-		set404(res, function(){});
+		set404(req, res, function(){});
 	});
 }
