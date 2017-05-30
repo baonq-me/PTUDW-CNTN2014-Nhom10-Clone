@@ -321,51 +321,106 @@ var dao = {
 	},
 
 	/*
-	* Thêm username
-	* @fullName: full name
-	* @email: email
-	* @username: username 
-	* @password: password
-	* @address: address user
-	8 @tel: tel user
-	* @callback (data) : được gọi sau khi kiểm tra xong, 
-	* data là bộ dũ liệu mới được thêm vào
+	* Thêm user
+	* @user: object user, gồm thông tin user
 	*/
 
-	addUser: function(fullName, email, username, password, address, tel, callback){
+	addUser: function(user){
 		var userModel = getUserModel();
 
 		var user = new userModel({
-			fullName: fullName,
-			email: email,
-			username : username,
-			password: password,
-			address: address,
-			tel: tel
+			fullName: user.fullName,
+			email: user.email,
+			username : user.username,
+			password: user.password,
+			address: user.address,
+			tel: user.tel
 		});
 		user.save(function(err, data){
 			if(err) throw err;
-			callback(data);
 		});
 	},
+	/* Hàm kiểm tra thông tin username và password khi đăng nhập
+	* @username: username người dùng nhập vào
+	* @password: Password người dùng nhập vào
+	* @callback: thực hiện sau khi login thành công
+	* login thành công: return true 
+	* login thất bại: return false 
+	*/
 	login: function(username, password, callback){
-		callback(true);
+		var userModel = this.getUserModel();
+		userModel.findOne({username:username, password: password}, function(err, data){
+			if (err) throw err;
+			if(data == null)
+				callback(false)
+			else
+				callback(true);
+		});
 	},
+
+	/* Hàm lấy thông tin user
+	* @username: username cần lấy thông tin
+	* @callback: thực hiện sau khi lấy thông tin
+	* return thông tin user
+	*/
+
 	getUser: function(username, callback){
-		callback({"userName": username});
+		var userModel = this.getUserModel();
+		userModel.findOne({username:username}, function(err, data){
+			if (err) throw err;
+			if(data != null)
+				callback(data);
+		});
 	},
+
+	/*
+	* Kiểm tra username đã tồn tại hay chưa
+	* @username: username cần kiểm tra
+	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
+	*/
 	hadUsername: function(username){
-		return true;
+		var userModel = this.getUserModel();
+
+		userModel.findOne({username: username}, function(err, data){
+			if(err) throw err;
+			//Username đã tồn tại
+			if(data != null)
+				return true
+			else
+				return false;
+		});
 	},
+
+	/*
+	* Kiểm tra email đã tồn tại hay chưa
+	* @email: email cần kiểm tra
+	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
+	*/
 	hadEmail: function(email){
-		return true;
+		var userModel = this.getUserModel();
+
+		userModel.findOne({email: email}, function(err, data){
+			if(err) throw err;
+			//Nếu email đã tồn tại
+			if(data != null)
+				return true
+			else
+				return false;
+		});
 	},
 	/*
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	signup: function(args, callback){
-		callback(false);	// sign up thất bại
+
+		var userModel = this.getUserModel();
+		if(this.hadUsername(args.sign_up_username) || this.hadEmail(args.sign_up_email))
+			callback(false);	// sign up thất bại
+		else{
+			this.addUser(args);
+			callback(true);
+		}
 	},	
 	setNewPassword: function(username, newpass, callback){
 		callback(true);
@@ -374,4 +429,5 @@ var dao = {
 		callback("vanhuy12toan2@gmail.com")
 	}
 };
+
 module.exports = dao;
