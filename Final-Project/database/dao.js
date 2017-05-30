@@ -366,7 +366,12 @@ var dao = {
 	*/
 	signup: function(args, callback){
 		callback(false);	// sign up thất bại
-	}	
-
+	},	
+	setNewPassword: function(username, newpass, callback){
+		callback(true);
+	},
+	getMail: function(username, callback){
+		callback("vanhuy12toan2@gmail.com")
+	}
 };
 module.exports = dao;

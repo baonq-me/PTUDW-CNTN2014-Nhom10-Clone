@@ -232,6 +232,25 @@ $(document).ready(function(){
 			}
 		)
 	});
+	// Yêu cầu gửi mail xác nhận
+	$("#get-code").click(function(){
+		let username = $("#forget_user").val();
+		if (username == "") return;
+		$.post("/send-email",
+			{
+				"username": username
+			},
+			function(data, status){
+				/*if(!data.success){
+					$("#err-username").text(data.status);
+				}
+				else {
+					$("#err-username").text("");
+				}*/
+				alert("ok");
+			}
+		)
+	});
 });
 function setNoneValFormPayInfo(){
 	var form = document.forms["bill-info"];

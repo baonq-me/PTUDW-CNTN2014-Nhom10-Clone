@@ -136,7 +136,6 @@ module.exports = function(app) {
 		setHeader(function(header){
 			setFooter(function(footer){
 				var valicode = new Buffer(captchaImg()).toString('base64');
-				console.log(valicode);
 				res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
 			});
 		});
@@ -205,6 +204,76 @@ module.exports = function(app) {
 		} else res.send("Đăng nhập thất bại");
 	});
 
+	// Quên mật khẩu
+	app.get("/forget-password", function(req, res){
+		console.log("a");
+		setHeader(function(header){
+			setFooter(function(footer){
+				res.render("forget-password", {"header": header, "footer": footer})
+			});
+		});
+	});
+	app.post("/forget-password", function(req, res){
+		var code = req.body.forget_pass_code;
+		var username = req.body.forget_user;
+		var item = codes.find(function(item){
+			return item.username == username && item.code == code
+		});
+		if(item){
+			setHeader(function(header){
+				setFooter(function(footer){
+					res.render("set-new-password", {"header": header, "footer": footer, username: req.body.forget_user});
+				});
+			});
+		} else res.redirect("/forget-password");
+	});
+	var codes = [];
+	app.post("/send-email", function(req, res){
+		let username = req.body.username;
+		dao.getMail(username, function(mail){
+			console.log("send email: " + mail);
+				let code = Math.floor(Math.random()*9000+1000);
+				codes.push({"username": username, "code": code});
+				const nodemailer = require('nodemailer');
+				// create reusable transporter object using the default SMTP transport
+				let transporter = nodemailer.createTransport({
+				    service: 'gmail',
+				    auth: {
+				        user: 'nhom10.ptudw@gmail.com',
+				        pass: '12345678@ptudw'
+				    }
+				});
+
+				// setup email data with unicode symbols
+				let mailOptions = {
+				    from: '"Nhóm 10" <nhom10.ptudw@gmail.com>', // sender address
+				    to: mail, // list of receivers
+				    subject: 'Mã xác nhận từ Shop hoa KHTN', // Subject line
+				    text: 'Mã xác nhận', // plain text body
+				    html: 'Mã xác nhận của bạn là: <b>' + code + '</b>' // html body
+				};
+
+				// send mail with defined transport object
+				transporter.sendMail(mailOptions, (error, info) => {
+				    if (error) {
+				        return console.log(error);
+				    }
+				    console.log('Message %s sent: %s', info.messageId, info.response);
+				});
+		});
+
+	});
+	app.post("/set-new-password", function(req, res){
+		let username = req.body.username;
+		let newpass = req.body.set_new_pass_pass1;
+		dao.setNewPassword(username, newpass, function(){
+			setHeader(function(header){
+				setFooter(function(footer){
+					res.render("set-new-password-success", {"header": header, "footer": footer, username: req.body.forget_user});
+				});
+			});
+		});
+	});
 
 	var set404 = function(res, callback){
 		setHeader(function(header){
