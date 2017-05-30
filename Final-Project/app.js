@@ -15,7 +15,7 @@ var express = require('express'),
  app.use(session({
  	secret: "mysecret",
  	cookie:{
- 		maxAge: 1000*60*15
+ 		maxAge: 1000*60*60*24*10
  	}
  }));
  app.use(passport.initialize());

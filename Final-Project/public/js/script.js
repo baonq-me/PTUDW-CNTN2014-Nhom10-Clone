@@ -193,6 +193,45 @@ $(document).ready(function(){
 		});
 		//return false;
 	});
+
+	// Kiểm tra email
+	$("#sign_up_email").focusout(function(){
+		let email = $(this).val();
+		if(email == "") return;
+		$.post("/field-sign-up",
+			{
+				field: "email",
+				value: email
+			},
+			function(data, status){
+				if(!data.success){
+					$("#err-email").text(data.status);
+				}
+				else {
+					$("#err-email").text("");
+				}
+			}
+		)
+	});
+	// Kiểm tra username
+	$("#sign_up_username").focusout(function(){
+		let username = $(this).val();
+		if (username == "") return;
+		$.post("/field-sign-up",
+			{
+				field: "username",
+				value: username
+			},
+			function(data, status){
+				if(!data.success){
+					$("#err-username").text(data.status);
+				}
+				else {
+					$("#err-username").text("");
+				}
+			}
+		)
+	});
 });
 function setNoneValFormPayInfo(){
 	var form = document.forms["bill-info"];

@@ -135,32 +135,42 @@ module.exports = function(app) {
 	app.get("/sign-up", function(req, res){
 		setHeader(function(header){
 			setFooter(function(footer){
-				//console.log(req.body.onsubmit);
-				
-				if(req.body.onsubmit == undefined){
-					
-					var valicode = new Buffer(captchaImg()).toString('base64');
-					res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
-				}
-				else{
-					//do something when you submit form
-				};
-				
+				var valicode = new Buffer(captchaImg()).toString('base64');
+				console.log(valicode);
+				res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
 			});
 		});
-/*
-		$("#name").focusout(function(){
-			//check front-end
-			//Check back-end use ajax
-		})
-*/
+	});
+
+	app.post("/sign-up", function(req, res){
+		dao.signup(req.body, function(success){
+			if(success)
+				res.redirect("/");
+			else res.redirect("/sign-up");
+		});
+	});
+
+	// Request từ sign up
+	app.post("/field-sign-up", function(req, res){
+		let field = req.body.field;
+		let value = req.body.value;
+		switch(field){
+			case "email":
+				if(dao.hadEmail(value))
+					res.json({success: false, status: "Email đã có người xử dụng"});
+				else res.json({success: true});
+				break;
+			case "username":
+				if(dao.hadUsername(value))
+					res.json({success: false, status: "Tên đăng nhập đã có người xử dụng"});
+				else res.json({success: true});
+				break;
+		}
 	});
 
 	app.route("/login")
 	.post(passport.authenticate('local', {failureRedirect: "/login"}), function(req, res){
-		if(req.isAuthenticated())
-			res.json({success: true});
-		else res.json({success: false});
+		res.json({success: true});
 	});
 
 	// Kiểm tra đăng nhập
@@ -188,12 +198,13 @@ module.exports = function(app) {
 		})
 	});
 	// Kết thúc kiểm tra đăng nhập
-
+	// Test đăng nhập
 	app.get("/private", function(req, res){
 		if(req.isAuthenticated()){
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
+
 
 	var set404 = function(res, callback){
 		setHeader(function(header){
@@ -205,8 +216,6 @@ module.exports = function(app) {
 	}
 
 	app.get("*", function(req, res){
-		set404(res, function(){
-				
-		});
+		set404(res, function(){});
 	});
 }
