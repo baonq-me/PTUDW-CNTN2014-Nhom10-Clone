@@ -413,6 +413,7 @@ var dao = {
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	signup: function(args, callback){
+
 		var userModel = this.getUserModel();
 		if(this.hadUsername(args.sign_up_username) || this.hadEmail(args.sign_up_email))
 			callback(false);	// sign up thất bại
@@ -420,7 +421,13 @@ var dao = {
 			this.addUser(args);
 			callback(true);
 		}
-	}	
-
+	},	
+	setNewPassword: function(username, newpass, callback){
+		callback(true);
+	},
+	getMail: function(username, callback){
+		callback("vanhuy12toan2@gmail.com")
+	}
 };
+
 module.exports = dao;
