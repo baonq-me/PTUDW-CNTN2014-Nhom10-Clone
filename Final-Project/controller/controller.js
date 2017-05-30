@@ -1,5 +1,8 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
+	var passport = require("passport");
+	var LocalStrategy = require("passport-local").Strategy;
+
 	// Mở kết nối cho db
 	dao.connect(function(){});
 	// cài đặt header cơ bản
@@ -114,7 +117,6 @@ module.exports = function(app) {
 						return;
 					}
 					res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
-					
 				});
 			});
 		});
@@ -137,9 +139,43 @@ module.exports = function(app) {
 */
 	});
 
-	app.post("/login", function(req, res){
-		let username = req.bodyParser.username;
-		let passwork = req.bodyParser.passwork;
+	app.route("/login")
+	.post(passport.authenticate('local', {failureRedirect: "/login"}), function(req, res){
+		if(req.isAuthenticated())
+			res.json({success: true});
+		else res.json({success: false});
+	});
+
+	// Kiểm tra đăng nhập
+	passport.use(new LocalStrategy(
+		{
+			usernameField: 'username',	// tên của input username được request từ client
+	    	passwordField: 'password'	// tên của input password được request từ client
+		},
+		function(username, password, done){
+			dao.login(username, password, function(success){
+				if(success){
+					dao.getUser(username, function(user){
+						return done(null, user);
+					});
+				} else{ return done(null, false); }
+			});
+		}
+	));
+	passport.serializeUser(function(user, done){
+		done(null, user.userName);
+	});
+	passport.deserializeUser(function(name, done){
+		dao.getUser(name, function(user){
+			return done(null, user);
+		})
+	});
+	// Kết thúc kiểm tra đăng nhập
+
+	app.get("/private", function(req, res){
+		if(req.isAuthenticated()){
+			res.send("Đăng nhập thành công");
+		} else res.send("Đăng nhập thất bại");
 	});
 
 	var set404 = function(res, callback){
