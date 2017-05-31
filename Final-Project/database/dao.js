@@ -431,10 +431,34 @@ var dao = {
 		});
 	},	
 	setNewPassword: function(username, newpass, callback){
-		callback(true);
+		var userModel = this.getUserModel();
+		userModel.findOne({username: username}, function(err, user){
+			if(err) throw err;
+			user.password = newpass;
+			user.save(function(err, data){
+				if(err) throw err;
+				callback(true);
+			});
+		});
 	},
 	getMail: function(username, callback){
-		callback("vanhuy12toan2@gmail.com")
+		var userModel = this.getUserModel();
+		userModel.findOne({username: username})
+		.select('email')
+		.exec(function(err, data){
+			callback(data);
+		});
+	},
+
+	/*Hàm lấy permission của 1 user
+	*/
+	getPermission: function(username, callback){
+		var userModel = this.getUserModel();
+		userModel.findOne({username: username})
+		.select('permission')
+		.exec(function(err, data){
+			callback(data);
+		});
 	}
 };
 
