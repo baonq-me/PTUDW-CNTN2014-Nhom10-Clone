@@ -1,5 +1,6 @@
 var dao = {
 	mongoose : require ('mongoose'),
+	passwordHash : require('password-hash'),
 	dbName: 'do_an_web',
 	dbUser: 'nhom10',
 	dbPass: 'nhom10',
@@ -336,7 +337,7 @@ var dao = {
 			fullName: user.name,
 			email: user.sign_up_email,
 			username : user.sign_up_username,
-			password: user.sign_up_password,
+			password: this.passwordHash.generate(user.sign_up_password),
 			address: user.sign_up_addr,
 			tel: user.sign_up_tel
 		});
@@ -353,12 +354,13 @@ var dao = {
 	*/
 	login: function(username, password, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({username:username, password: password}, function(err, data){
+		userModel.findOne({username:username}, function(err, data){
 			if (err) throw err;
 			if(data == null)
 				callback(false)
-			else
-				callback(true);
+			else{
+				callback(dao.passwordHash.verify(password, data.password));
+			}
 		});
 	},
 
@@ -434,7 +436,7 @@ var dao = {
 		var userModel = this.getUserModel();
 		userModel.findOne({username: username}, function(err, user){
 			if(err) throw err;
-			user.password = newpass;
+			user.password = dao.passwordHash.generate(newpass);
 			user.save(function(err, data){
 				if(err) throw err;
 				callback(true);
