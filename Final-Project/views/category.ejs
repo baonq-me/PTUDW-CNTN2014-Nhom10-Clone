@@ -54,6 +54,7 @@
 					</div>
 					<div class ="product new-product">
 						<h2><%= content.catName.name %></h2>
+						<div class="products">
 						  	<% content.products.forEach(function(product){ %>
 								<div class="col-xs-12 col-sm-6 col-md-4">
 								    <div class="thumbnail">
@@ -68,8 +69,18 @@
 								    </div>
 							  	</div>
 						  	<% }); %>
-						<div class="read-more pull-right">
-							<a href="#">Xem thêm ...</a>
+						</div>
+						<hr style="clear: both;">
+						<div class="read-more pull-right pagination">
+							<span class="prev"><a href="#">Trước</a></span>
+							<ul class="pagination-product">
+							  <li><a href="#">1</a></li>
+							  <li><a href="#">2</a></li>
+							  <li><a href="#">3</a></li>
+							  <li><a href="#">4</a></li>
+							  <li><a href="#">5</a></li>
+							</ul>
+							<span class="next"><a href="#">Tiếp theo</a></span>
 						</div>
 
 					</div>
