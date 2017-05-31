@@ -26,7 +26,7 @@ module.exports = function(app) {
 		callback({});
 	}
 
-
+	// Phần nội dung trang chủ
 	var setContentHome = function(callback){
 		dao.getNewProduct(6, function(newProducts){
 			dao.getPromotionProduct(6, function(promotionProducts){

@@ -271,9 +271,28 @@ body{
 
 .btn-group-vertical a:hover{
 	background-color: #FF1493 !important;
-
 }
-
+.pagination ul.pagination-product {
+	display: inline;
+	padding: 0px;
+}
+.pagination ul.pagination-product li,
+.pagination span{
+	display: inline;
+    margin-left: 10px;
+}
+.pagination ul.pagination-product li a,
+.pagination span.prev a,
+.pagination span.next a{
+	color: #fff !important;
+	text-decoration: none;
+	padding: 8px;
+    background: #00b0ff;
+}
+.pagination ul.pagination-product li a:hover,
+.pagination span a:hover{
+	background: #FF1493;
+}
 
 /*Content*/
 #content .filter-product{
