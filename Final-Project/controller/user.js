@@ -248,43 +248,23 @@ module.exports = function(app) {
 	var codes = [];
 	app.post("/send-email", function(req, res){
 		let username = req.body.username;
-		dao.getMail(username, function(mail){
+		dao.getMail(username, function(mailTo){
+			let code = Math.floor(Math.random()*9000+1000);
+			codes.push({"username": username, "code": code});
+			mail = require("./mail");
+			if(mail({
+				mailTo: mailTo.email,
+				subject: 'Mã xác nhận từ Shop hoa KHTN', // Subject line
+				text: 'Mã xác nhận', // plain text body
+				html: 'Mã xác nhận của bạn là: <b>' + code + '</b>' // html body
+			})) 
+				res.json({success: true});
+			else 
+				res.json({success: false});
 			if(mail == null){
 				res.json({success: false});
 				return;
 			}
-			console.log("send email: " + mail);
-				let code = Math.floor(Math.random()*9000+1000);
-				codes.push({"username": username, "code": code});
-				const nodemailer = require('nodemailer');
-				// create reusable transporter object using the default SMTP transport
-				let transporter = nodemailer.createTransport({
-				    service: 'gmail',
-				    auth: {
-				        user: 'nhom10.ptudw@gmail.com',
-				        pass: '12345678@ptudw'
-				    }
-				});
-
-				// setup email data with unicode symbols
-				let mailOptions = {
-				    from: '"Nhóm 10" <nhom10.ptudw@gmail.com>', // sender address
-				    to: mail.email, // list of receivers
-				    subject: 'Mã xác nhận từ Shop hoa KHTN', // Subject line
-				    text: 'Mã xác nhận', // plain text body
-				    html: 'Mã xác nhận của bạn là: <b>' + code + '</b>' // html body
-				};
-
-				// send mail with defined transport object
-				transporter.sendMail(mailOptions, (error, info) => {
-				    if (error) {
-				        return console.log(error);
-				    }
-				    console.log('Message %s sent: %s', info.messageId, info.response);
-				});
-			
-			if(mail != null)
-				res.json({success: true});
 		});
 
 	});
