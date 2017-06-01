@@ -242,13 +242,15 @@ $(document).ready(function(){
 				"username": username
 			},
 			function(data, status){
-				/*if(!data.success){
-					$("#err-username").text(data.status);
+				if(data.success){
+					$(".message_forget_password p").text("Chúng tôi đã gửi mã xác nhận đến email của bạn. Vui lòng kiểm tra email để điền mã xác nhận vào khung bên dưới.");
+					$(".message_forget_password p").css("color", "#00b0ff");
 				}
-				else {
-					$("#err-username").text("");
-				}*/
-				alert("ok");
+				else{
+					$(".message_forget_password p").text("Tên đăng nhập không chính xác");
+					$(".message_forget_password p").css("color", "red");
+				} 
+					
 			}
 		)
 	});
