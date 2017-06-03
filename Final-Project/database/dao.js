@@ -67,7 +67,7 @@ var dao = {
 		//Tạo Schema User
 	  	var UserSchema = this.mongoose.Schema({
 	  		id : this.mongoose.Schema.ObjectId,
-	  		social_id : String,			// Dùng cho đăng nhập mạng xã hội
+	  		social_id : { facebook: String, google: String, twitter: String },			// Dùng cho đăng nhập mạng xã hội
 	  		type: {type: String, require: true},		// local, facebook, google, twitter
 	  		fullName: String,
 	  		username: String,

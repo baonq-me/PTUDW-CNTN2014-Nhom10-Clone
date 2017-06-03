@@ -53,13 +53,13 @@ module.exports = function(app){
 			//profileFields: ["email", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
-			dao.getUserSocial(profile._json.id, function(user){
+			dao.getUserSocial({facebook: profile._json.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
 				user = {
-					uid: profile._json.id,
+					uid: {facebook: profile._json.id},
 					fullName: profile._json.name,
-					type: "google",
+					type: "facebook",
 					email: profile._json.email,
 					address: (profile._json.location==undefined) ? "" : profile._json.location.name,
 				};
@@ -87,14 +87,14 @@ module.exports = function(app){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
 				user = {
-					uid: profile.id,
+					uid: {google: profile.id},
 					fullName: profile.displayName,
 					type: "google",
 					email: profile.emails[0].value,
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){
-						dao.getUserSocial(user.uid, function(userSocial){
+						dao.getUserSocial(user.uid.google, function(userSocial){
 							return done(null, userSocial);
 						});
 					}
