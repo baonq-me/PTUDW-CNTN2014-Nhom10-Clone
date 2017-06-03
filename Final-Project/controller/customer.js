@@ -1,7 +1,5 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
-	var passport = require("passport");
-	var LocalStrategy = require("passport-local").Strategy;
 	var FacebookStrategy = require("passport-facebook").Strategy;
 	var captchapng = require('captchapng');
 
@@ -35,9 +33,14 @@ module.exports = function(app) {
 			});
 		});
 	}
+	// Lấy thông tin người dùng
+	var getCustomer = function(req){
+		return req.isAuthenticated() ? req.user : null;
+	}
+
 	// Routing trang chủ
 	app.get("/", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
@@ -60,7 +63,7 @@ module.exports = function(app) {
 	}
 	// Rounting category
 	app.get("/category/:slug", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
@@ -88,7 +91,7 @@ module.exports = function(app) {
 	app.get("/search", function(req, res){
 		var search = req.query.search;
 		var searchBy = req.query.searchBy;
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setSidebar(function(sidebar){
 				setFooter(function(footer){
@@ -115,7 +118,7 @@ module.exports = function(app) {
 	// Rounting search
 	app.get("/product/:slug", function(req, res){
 		var requrl = req.protocol + "://" + req.get('host') + req.originalUrl;
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setFooter(function(footer){
 				setContentProductDetail(req.params.slug, function(content){
@@ -141,7 +144,7 @@ module.exports = function(app) {
 	
 	//Routing sign-up
 	app.get("/sign-up", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setFooter(function(footer){
 				var valicode = new Buffer(captchaImg()).toString('base64');
@@ -179,69 +182,10 @@ module.exports = function(app) {
 				break;
 		}
 	});
-
-	app.route("/auth/local")
-	.post(passport.authenticate('local', {failureRedirect: "/auth/local"}), function(req, res){
-		res.json({success: true});
-	});
-
-	// Kiểm tra đăng nhập
-	passport.use(new LocalStrategy(
-		{
-			usernameField: 'username',	// tên của input username được request từ client
-	    	passwordField: 'password'	// tên của input password được request từ client
-		},
-		function(username, password, done){
-			dao.login(username, password, function(success){
-				if(success){
-					dao.getUser(username, function(user){
-						return done(null, user);
-					});
-				} else{ return done(null, false); }
-			});
-		}
-	));
-	passport.serializeUser(function(user, done){
-		done(null, user._id);
-	});
-	passport.deserializeUser(function(id, done){
-		dao.getUserByID(id, function(user){
-			return done(null, user);
-		})
-	});
-	// Kết thúc kiểm tra đăng nhập
-
-	// Cấu hình routing login facebook
-	/*app.get("/auth/fb", passport.authenticate('local', {failureRedirect: "/auth/fb"}),function(req, res){
-		res.json({success: true});
-	});
-	app.get("/auth/fb/cb", );
-	passport.use(new FacebookStrategy(
-		{
-			clientID: "",
-			clientSecret: "",
-			callbackURL: "http://localhost:3000/auth/fb/cb"
-		}, 
-		function (accessToken, refreshToken, profile, done){
-			console.log(profile);
-		}
-	));*/
-
-	// Test đăng nhập
-	app.get("/private", function(req, res){
-		if(req.isAuthenticated()){
-			res.send("Đăng nhập thành công");
-		} else res.send("Đăng nhập thất bại");
-	});
-
-	app.post("/logout", function(req, res){
-		req.logout();
-		res.json({});
-	});
   
 	// Quên mật khẩu
 	app.get("/forget-password", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setFooter(function(footer){
 				res.render("forget-password", {"header": header, "footer": footer})
@@ -255,7 +199,7 @@ module.exports = function(app) {
 			return item.username == username && item.code == code
 		});
 		if(item){
-			var user = req.isAuthenticated() ? req.user : null;
+			var user = getCustomer(req);
 			setHeader(user, function(header){
 				setFooter(function(footer){
 					res.render("set-new-password", {"header": header, "footer": footer, username: req.body.forget_user});
@@ -287,7 +231,7 @@ module.exports = function(app) {
 
 	});
 	app.post("/set-new-password", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		let username = req.body.username;
 		let newpass = req.body.set_new_pass_pass1;
 		dao.setNewPassword(username, newpass, function(){
@@ -299,7 +243,7 @@ module.exports = function(app) {
 		});
 	});
 	app.get("/change-password", function(req, res){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setFooter(function(footer){
 				res.render("set-new-password", {"header": header, "footer": footer, username: user.username});
@@ -308,7 +252,7 @@ module.exports = function(app) {
 	})
 
 	var set404 = function(req, res, callback){
-		var user = req.isAuthenticated() ? req.user : null;
+		var user = getCustomer(req);
 		setHeader(user, function(header){
 			setFooter(function(footer){
 				res.render("404", {"header": header, "footer": footer});

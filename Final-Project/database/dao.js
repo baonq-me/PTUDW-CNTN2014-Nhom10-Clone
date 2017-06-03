@@ -67,10 +67,12 @@ var dao = {
 		//Tạo Schema User
 	  	var UserSchema = this.mongoose.Schema({
 	  		id : this.mongoose.Schema.ObjectId,
-	  		fullName: {type: String, require : true},
-	  		username: {type: String, require : true, unique: true},
-	  		email: {type: String, require : true, unique: true},
-	  		password: {type: String, require : true},
+	  		social_id : String,			// Dùng cho đăng nhập mạng xã hội
+	  		type: {type: String, require: true},		// local, facebook, google, twitter
+	  		fullName: String,
+	  		username: String,
+	  		email: String,
+	  		password: String,
 	  		address: String,
 	  		tel: String
 	  	});
@@ -78,27 +80,6 @@ var dao = {
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.users = this.mongoose.model('users', UserSchema);
 	  	return this.model.users;
-	},
-
-	getUserSocialModel: function(){
-		//nếu đã tồn tại User model thì return
-		if (this.model.usersSocial !== null)
-			return this.model.usersSocial;
-		//Ngược lại, tạo model User mới
-		//Tạo Schema User
-	  	var UserSchema = this.mongoose.Schema({
-	  		id : this.mongoose.Schema.ObjectId,
-	  		uid : {type: String, require : true},
-	  		fullName: {type: String, require : true},
-	  		type: {type: String, require: true},
-	  		email: {type: String, require : true, unique: true},
-	  		address: String,
-	  		tel: String
-	  	});
-
-	  	//Tạo model từ categorySchema và có tên collection là 'categories'
-	  	this.model.usersSocial = this.mongoose.model('users', UserSchema);
-	  	return this.model.usersSocial;
 	},
 
 	//Hàm connect database
@@ -396,8 +377,7 @@ var dao = {
 		var userModel = this.getUserModel();
 		userModel.findOne({"username":username}, function(err, data){
 			if (err) throw err;
-			if(data != null)
-				callback(data);
+			callback(data);
 		});
 	},
 
@@ -411,8 +391,7 @@ var dao = {
 		var userModel = this.getUserModel();
 		userModel.findOne({"_id":id}, function(err, data){
 			if (err) throw err;
-			if(data != null)
-				callback(data);
+			callback(data);
 		});
 	},
 
@@ -497,6 +476,37 @@ var dao = {
 		.select('permission')
 		.exec(function(err, data){
 			callback(data);
+		});
+	},
+
+	/*
+	*	Lấy thông tin user đăng nhập từ
+	*	Không tìm thấy trả về null 
+	*/
+	getUserSocial: function(uid, callback){
+		var userModel = this.getUserModel();
+		userModel.findOne({"social_id":uid}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+
+	/*
+	*	Thêm thông tin user đăng nhập từ mạng xã hội
+	*/
+	addUserSocial: function(user, callback){
+		var userModel = this.getUserModel();
+		var user = new userModel({
+	  		social_id : user.uid,
+	  		fullName: user.fullName,
+	  		type: user.type,
+	  		email: user.email,
+	  		address: user.address
+		});
+		user.save(function(err, data){
+			if(err) {callback(false); throw err;}
+			callback(true);
 		});
 	}
 };
