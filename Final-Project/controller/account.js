@@ -9,10 +9,10 @@ module.exports = function(app){
 	/***************************** CẤU HÌNH CÁC ROUTING *******************/
 	// Routing login local
 	app.post("/auth/local", function(req, res, next) {
-		var redirect = 
+		var username = req.body.username;
  		passport.authenticate('local', function(err, user, info) {
 			if (err) { return next(err); }
-			if (!user) { return res.redirect('/login?fail=true'); }
+			if (!user) { return res.redirect('/login?fail=true&username=' + username); }
 			req.logIn(user, function(err) {
 				if (err) { return next(err); }
 				return res.redirect('/');
@@ -83,7 +83,7 @@ module.exports = function(app){
 			callbackURL: "http://localhost:3000/auth/gg/cb",
 		}, 
 		function (accessToken, refreshToken, profile, done){
-			dao.getUserSocial(profile.id, function(user){
+			dao.getUserSocial({google: profile.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
 				user = {
@@ -94,7 +94,7 @@ module.exports = function(app){
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){
-						dao.getUserSocial(user.uid.google, function(userSocial){
+						dao.getUserSocial(user.uid, function(userSocial){
 							return done(null, userSocial);
 						});
 					}
