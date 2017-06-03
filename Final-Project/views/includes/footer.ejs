@@ -46,7 +46,7 @@
 						<div class="col-xs-12 col-sm-6 col-md-6 left-content">
 							<div><p>Đăng nhập với tài khoản mạng xã hội</p></div>
 							 <div class="social-login">
-						        <a href="#" class="login_btn-facebook facebook-login">
+						        <a href="/login/facebook" class="login_btn-facebook facebook-login">
 							        <i class="fa fa-facebook"></i>
 							        <span>Facebook</span>
 						        </a>
@@ -66,7 +66,7 @@
 
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6 right-content">
-							<div action="/login" method="POST" id="login">
+							<div action="/auth/local" method="POST" id="login">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 									<input id="username" type="text" required class="form-control" name="username" placeholder="Tên đăng nhập">

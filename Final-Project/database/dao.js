@@ -11,7 +11,8 @@ var dao = {
 	model: {
 		categories: null,
 		products: null,
-		users: null
+		users: null,
+		usersSocial: null,
 	},
 
 	//Hàm lấy/tạo Category model
@@ -77,6 +78,27 @@ var dao = {
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.users = this.mongoose.model('users', UserSchema);
 	  	return this.model.users;
+	},
+
+	getUserSocialModel: function(){
+		//nếu đã tồn tại User model thì return
+		if (this.model.usersSocial !== null)
+			return this.model.usersSocial;
+		//Ngược lại, tạo model User mới
+		//Tạo Schema User
+	  	var UserSchema = this.mongoose.Schema({
+	  		id : this.mongoose.Schema.ObjectId,
+	  		uid : {type: String, require : true},
+	  		fullName: {type: String, require : true},
+	  		type: {type: String, require: true},
+	  		email: {type: String, require : true, unique: true},
+	  		address: String,
+	  		tel: String
+	  	});
+
+	  	//Tạo model từ categorySchema và có tên collection là 'categories'
+	  	this.model.usersSocial = this.mongoose.model('users', UserSchema);
+	  	return this.model.usersSocial;
 	},
 
 	//Hàm connect database
@@ -372,7 +394,22 @@ var dao = {
 
 	getUser: function(username, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({username:username}, function(err, data){
+		userModel.findOne({"username":username}, function(err, data){
+			if (err) throw err;
+			if(data != null)
+				callback(data);
+		});
+	},
+
+	/* Hàm lấy thông tin user theo id
+	* @id: id của user cần lấy thông tin
+	* @callback: thực hiện sau khi lấy thông tin
+	* return thông tin user
+	*/
+
+	getUserByID: function(id, callback){
+		var userModel = this.getUserModel();
+		userModel.findOne({"_id":id}, function(err, data){
 			if (err) throw err;
 			if(data != null)
 				callback(data);
