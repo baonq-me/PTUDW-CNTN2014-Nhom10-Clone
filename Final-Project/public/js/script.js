@@ -170,30 +170,6 @@ $(document).ready(function(){
 		}
 	});
 
-	// Sự kiện submit đăng nhập
-	$("#login input[type='submit']").click(function(){
-		let username = $("#login #username").val();
-		let password = $("#login #password").val();
-		let curUrl = window.location.href;
-		let action = $("#login").attr("action");
-		$.post(action,
-		{
-			"username": username,
-			"password": password,
-		},
-		function(data, status){
-			if(data.success){
-				window.location.reload();
-			}else {
-				$("#login .err").css("display", "block");
-				return false;
-			}
-			
-			
-		});
-		//return false;
-	});
-
 	// Kiểm tra email
 	$("#sign_up_email").focusout(function(){
 		let email = $(this).val();

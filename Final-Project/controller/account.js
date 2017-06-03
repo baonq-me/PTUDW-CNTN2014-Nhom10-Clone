@@ -4,21 +4,29 @@ module.exports = function(app){
 	var passport = require("passport");
 	var LocalStrategy = require("passport-local").Strategy;
 	var FacebookStrategy = require("passport-facebook").Strategy;
+	var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-	/*
-	* 	Cấu hình các routing
-	*/
+	/***************************** CẤU HÌNH CÁC ROUTING *******************/
 	// Routing login local
-	app.post("/auth/local", passport.authenticate('local', {failureRedirect: "/auth/local"}), function(req, res){
-		res.json({success: true});
+	app.post("/auth/local", function(req, res, next) {
+		var redirect = 
+ 		passport.authenticate('local', function(err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('/login?fail=true'); }
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				return res.redirect('/');
+			});
+		})(req, res, next);
 	});
 	// Cấu hình routing login facebook
 	app.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
-	app.get("/auth/fb/cb", passport.authenticate("facebook", {failureRedirect: "/auth/fb"}));
+	app.get("/auth/fb/cb", passport.authenticate("facebook", {failureRedirect: "/login", successRedirect:"/"}), function(req, res){
+		res.json({success: true});
+	});
 
-	/*
-	*	Cấu hình các section và cookie
-	*/
+
+	/****************************** CẤU HÌNH CÁC SECTION VÀ COOKIE *************/
 	// Lưu section
 	passport.serializeUser(function(user, done){
 		done(null, user._id);
@@ -30,9 +38,7 @@ module.exports = function(app){
 		})
 	});
 
-	/*
-	* 	Kiểm tra các đăng nhập
-	*/
+	/****************************** KIỂM TRA CÁC ĐĂNG NHẬP ************/
 	// Kiểm tra đăng nhập facebook
 	passport.use(new FacebookStrategy(
 		{
@@ -86,7 +92,7 @@ module.exports = function(app){
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
-
+	// Routing logout
 	app.post("/logout", function(req, res){
 		req.logout();
 		res.json({});
