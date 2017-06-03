@@ -1,6 +1,6 @@
 module.exports = function(app) {
-	user = require('./user.js');
+	customer = require('./customer.js');
 	admin = require("./admin.js");
-	user(app);
+	customer(app);
 	admin(app);
 }
