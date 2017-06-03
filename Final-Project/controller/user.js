@@ -2,6 +2,7 @@ module.exports = function(app) {
 	var dao = require('../database/dao.js');
 	var passport = require("passport");
 	var LocalStrategy = require("passport-local").Strategy;
+	var FacebookStrategy = require("passport-facebook").Strategy;
 	var captchapng = require('captchapng');
 
 	// Mở kết nối cho db
@@ -179,8 +180,8 @@ module.exports = function(app) {
 		}
 	});
 
-	app.route("/login")
-	.post(passport.authenticate('local', {failureRedirect: "/login"}), function(req, res){
+	app.route("/auth/local")
+	.post(passport.authenticate('local', {failureRedirect: "/auth/local"}), function(req, res){
 		res.json({success: true});
 	});
 
@@ -201,14 +202,31 @@ module.exports = function(app) {
 		}
 	));
 	passport.serializeUser(function(user, done){
-		done(null, user.username);
+		done(null, user._id);
 	});
-	passport.deserializeUser(function(name, done){
-		dao.getUser(name, function(user){
+	passport.deserializeUser(function(id, done){
+		dao.getUserByID(id, function(user){
 			return done(null, user);
 		})
 	});
 	// Kết thúc kiểm tra đăng nhập
+
+	// Cấu hình routing login facebook
+	/*app.get("/auth/fb", passport.authenticate('local', {failureRedirect: "/auth/fb"}),function(req, res){
+		res.json({success: true});
+	});
+	app.get("/auth/fb/cb", );
+	passport.use(new FacebookStrategy(
+		{
+			clientID: "",
+			clientSecret: "",
+			callbackURL: "http://localhost:3000/auth/fb/cb"
+		}, 
+		function (accessToken, refreshToken, profile, done){
+			console.log(profile);
+		}
+	));*/
+
 	// Test đăng nhập
 	app.get("/private", function(req, res){
 		if(req.isAuthenticated()){
