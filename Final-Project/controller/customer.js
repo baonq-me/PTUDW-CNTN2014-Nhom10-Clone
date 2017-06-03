@@ -248,12 +248,13 @@ module.exports = function(app) {
 	// Routin login
 	app.get("/login",function(req, res){
 		var login_fail = req.query.fail === "true";
+		var username = (req.query.username !== undefined) ? req.query.username : "";
 		var user = getCustomer(req);
 		if (user != null) res.redirect("/");
 		else
 			getHeader(null, function(header){
 				getFooter(function(footer){
-					res.render("login", {"header": header, "footer" : footer, "login_fail": login_fail});
+					res.render("login", {"header": header, "footer" : footer, "login_fail": login_fail, "username": username});
 				});
 			});
 	});
@@ -273,7 +274,7 @@ module.exports = function(app) {
 	app.post("/sign-up", function(req, res){
 		dao.signup(req.body, function(success){
 			if(success)
-				res.redirect("/");
+				res.redirect("/login?username=" + req.body.sign_up_username);
 			else res.redirect("/sign-up");
 		});
 	});
