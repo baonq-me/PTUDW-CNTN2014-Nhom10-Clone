@@ -333,12 +333,13 @@ var dao = {
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
-	addUser: function(user){
+	addUserLocal: function(user){
 		var userModel = this.getUserModel();
 
 		var user = new userModel({
 			fullName: user.name,
 			email: user.sign_up_email,
+			type: "local",
 			username : user.sign_up_username,
 			password: this.passwordHash.generate(user.sign_up_password),
 			address: user.sign_up_addr,
@@ -414,14 +415,14 @@ var dao = {
 	},
 
 	/*
-	* Kiểm tra email đã tồn tại hay chưa
+	* Kiểm tra email của tài khoản local đã tồn tại hay chưa
 	* @email: email cần kiểm tra
 	* Kết quả trả về, true: đã tồn tại, false: chưa tồn tại
 	*/
 	hadEmail: function(email, callback){
 		var userModel = this.getUserModel();
 
-		userModel.findOne({email: email}, function(err, data){
+		userModel.findOne({email: email, type: "local"}, function(err, data){
 			if(err) throw err;
 			//Nếu email đã tồn tại
 			if(data != null){
@@ -442,7 +443,7 @@ var dao = {
 				dao.hadEmail(args.sign_up_email, function(hademail){
 				if(hademail || hadusername) callback(false);	// sign up thất bại
 				else {
-					dao.addUser(args);
+					dao.addUserLocal(args);
 					callback(true);
 				}
 			});

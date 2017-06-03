@@ -21,7 +21,12 @@ module.exports = function(app){
 	});
 	// Cấu hình routing login facebook
 	app.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
-	app.get("/auth/fb/cb", passport.authenticate("facebook", {failureRedirect: "/login", successRedirect:"/"}), function(req, res){
+	app.get("/auth/fb/cb", passport.authenticate("facebook", {failureRedirect: "/login?fail=true", successRedirect:"/"}), function(req, res){
+		res.json({success: true});
+	});
+	// Cấu hình routing login google
+	app.get("/auth/gg", passport.authenticate('google', {scope:["profile", "email"]}));
+	app.get("/auth/gg/cb", passport.authenticate("google", {failureRedirect: "/login?fail=true", successRedirect:"/"}), function(req, res){
 		res.json({success: true});
 	});
 
@@ -45,7 +50,7 @@ module.exports = function(app){
 			clientID: "801495239999622",
 			clientSecret: "e15683384ec8ca903271d0b20add0b7c",
 			callbackURL: "http://localhost:3000/auth/fb/cb",
-			profileFields: ["email", "displayName", "location"]
+			//profileFields: ["email", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial(profile._json.id, function(user){
@@ -54,9 +59,38 @@ module.exports = function(app){
 				user = {
 					uid: profile._json.id,
 					fullName: profile._json.name,
-					type: "facebook",
+					type: "google",
 					email: profile._json.email,
 					address: (profile._json.location==undefined) ? "" : profile._json.location.name,
+				};
+				dao.addUserSocial(user, function(success){
+					if(success){
+						dao.getUserSocial(user.uid, function(userSocial){
+							return done(null, userSocial);
+						});
+					}
+					else return done("error");
+				});
+			});
+		}
+	));
+
+	// Kiểm tra đăng nhập google
+	passport.use(new GoogleStrategy(
+		{
+			clientID: "844347689148-l9j7jcpi4desba3u8q2ui6u443eu03l6.apps.googleusercontent.com",
+			clientSecret: "gElzK3xqALTiR5cSDaCQbGw0",
+			callbackURL: "http://localhost:3000/auth/gg/cb",
+		}, 
+		function (accessToken, refreshToken, profile, done){
+			dao.getUserSocial(profile.id, function(user){
+				if(user != null) return done(null, user);
+				// Viết thêm vào database
+				user = {
+					uid: profile.id,
+					fullName: profile.displayName,
+					type: "google",
+					email: profile.emails[0].value,
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){

@@ -38,7 +38,9 @@
 						<li class="avatar" style="color: #fff"><img style="height: 20px; border-radius: 3px;" src="/images/avatar_member.png"></li>
 						<div class="menu-usermanager">
 							<div class="info">Thông tin</div>
+							<% if (header.login.changePassword) { %>
 							<a style="color: #fff; text-decoration: none" href="/change-password"><div id="change-pass" >Đổi mật khẩu</div></a>
+							<% } %>
 							<div id="logout">Đăng xuất</div>
 						</div>
 					</div>

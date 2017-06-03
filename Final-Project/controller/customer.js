@@ -18,7 +18,7 @@ module.exports = function(app) {
 	var getHeader = function(user, callback){
 		dao.getAllCategory(function(categorys){
 			if(user != null){
-				callback({"categorys": categorys, login: {fullname: user.fullName}});
+				callback({"categorys": categorys, login: {fullname: user.fullName, changePassword: user.type==="local"}});
 			}else callback({"categorys": categorys});
 			
 		});
@@ -269,7 +269,7 @@ module.exports = function(app) {
 		});
 	});
 
-	// Kiểm tra thông tin đăng ký
+	// ĐĂNG KÝ TÀI KHOẢN
 	app.post("/sign-up", function(req, res){
 		dao.signup(req.body, function(success){
 			if(success)
@@ -369,11 +369,13 @@ module.exports = function(app) {
 	// Rounting cho trang thay đổi mật khẩu khi đã đăng nhập
 	app.get("/change-password", function(req, res){
 		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				res.render("set-new-password", {"header": header, "footer": footer, username: user.username});
+		if(user.type == "local")
+			getHeader(user, function(header){
+				getFooter(function(footer){
+					res.render("set-new-password", {"header": header, "footer": footer, username: user.username});
+				});
 			});
-		});
+		else res.redirect("/");
 	})
 
 	// Routing cho trang 404
