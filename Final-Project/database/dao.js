@@ -283,6 +283,31 @@ var dao = {
 			callback(data);
 		});
 	},
+	/*
+	*	Lấy thông tin chi tiết của sản phẩm
+	*	@id là id của sản phẩm cần lấy thông tin chi tiết
+	*	@callback(data) được gọi khi lấy sản phẩm xong
+	*		@data null nếu không tìm thấy
+	*		@data là object thông tin chi tiết product
+	*			- id: mã sản phẩm (duy nhất)
+	*			- name: tên sản phẩm
+	*			- imgPath: đường dẫn tới hình ảnh
+	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
+	*			- newPrice: giá sản phẩm khuyến mãi (đơn vị đông - kiểu number)
+	*			- slug: đường dẫn tới sản phẩm
+	*			- categorySlug: category cho sản phẩm
+	*			- detail: thông tin chi tiết sản phẩm
+	*/
+	getProductDetailByID: function(id, callback){
+		var productModel = this.getProductModel();
+		if (id.match(/^[0-9a-fA-F]{24}$/)) {
+			productModel.findById(id, function(err, data){
+				if (err) throw err;
+				callback(data);
+			});
+		}
+		else callback(null);
+	},
 
 	/*
 	* Kiểm tra username đã tồn tại hay chưa

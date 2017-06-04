@@ -174,6 +174,13 @@ module.exports = function(app) {
 			});
 		});
 	}
+	// Format giá tiền theo định dạng 100,000
+	// @param: string 	giá tiền
+	function formatingPrice(price){
+		return price.replace(/./g, function(c, i, a) {
+		    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+		});
+	}
 
 	/******************************** CẤU HÌNH CÁC ROUTING *****************/
 	// Routing trang chủ
@@ -378,6 +385,36 @@ module.exports = function(app) {
 			});
 		else res.redirect("/");
 	})
+
+	// Rounting cart info
+	app.get("/cart-info", (req, res) => {
+		var user = getCustomer(req);
+		//if(user == null) res.redirect("/login");
+		//else {
+			getHeader(user, function(header){
+				getFooter(function(footer){
+					res.render("cart-info", {"header": header, "footer": footer});
+				});
+			});
+		//}
+	});
+	// Lấy thông tin product trong cart
+	app.get("/product-in-cart", (req, res) => {
+		productID = req.query.productID;
+		dao.getProductDetailByID(productID, (productInfo)=>{
+			/*		productInfo
+			*			- id: mã sản phẩm (duy nhất)
+			*			- name: tên sản phẩm
+			*			- imgPath: đường dẫn tới hình ảnh
+			*			- price: giá sản phẩm (đơn vị đông - kiểu number)
+			*			- newPrice: giá sản phẩm khuyến mãi (đơn vị đông - kiểu number)
+			*			- slug: đường dẫn tới sản phẩm
+			*			- categorySlug: category cho sản phẩm
+			*			- detail: thông tin chi tiết sản phẩm
+			*/
+			res.json(productInfo);
+		});
+	});
 
 	// Routing cho trang 404
 	app.get("*", function(req, res){

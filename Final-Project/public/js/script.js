@@ -45,7 +45,7 @@ $(document).ready(function(){
 				$("#primary-menu").addClass("sticky");
 			else $("#primary-menu").removeClass("sticky");
 	});
-	if ($("#content .sidebar")){
+	if ($("#content .sidebar").length > 0){
 		$(window).scroll(function(){
 			var p1 = $("#primary-menu").offset().top + $("#primary-menu").outerHeight();
 			var p2 = $("#content").offset().top;
@@ -241,7 +241,90 @@ $(document).ready(function(){
 			}
 		)
 	});
+	/***************** Xử lý cart **************/
+	// set count Cart
+	function setCountCart(){
+		var cartCount = getProductFromCart().length;
+		$(".cart .cart-count").text(cartCount);
+	}
+	setCountCart();
+	// Thêm product
+	$(".add-cart").click(function(){
+		var id = $(this).data("id");
+		addProductToCart(id, 1);
+		setCountCart();
+		alert("Đã thêm vào giỏ hàng");
+	});
+
+	if ($(".cart-pay .list-cart").length > 0){
+		var products = getProductFromCart();
+		var totalPrice = 0;
+		products.forEach((item,index, arr) => {
+			$.ajax({
+				url: "/product-in-cart",
+				type: "get",
+				data: { "productID": item.productID },
+				async: false,
+				success: function(data){
+					if (data !== null){
+						var price = (data.newPrice == undefined) ? data.price : data.newPrice;
+						
+						var output = "<tr class='product-info' id='" + data._id + "' data-price='" + price + "'>"
+									+	'<td class="stt">' + index + '</td>'
+									+	'<td class="img"><a href="/product/'+ data.slug +'"><img src="'+ data.imgPath +'"></a></td>'
+									+	'<td class="info">'
+										+	'<a href="/product/'+ data.slug +'">'+ data.name +'</a>';
+						if (data.newPrice == undefined) output += '<span class="cost">Giá: '+ formatingPrice(data.price+"") +' đ</span>';
+						else output += '<span class="old-cost">Giá: '+ formatingPrice(data.price+"") +' đ</span>'
+										+	'<span class="cost">Giảm còn: '+ formatingPrice(data.newPrice+"") +' đ</span>';
+
+						output += 		'</td>'
+									+	'<td class="count"><input type="number" data-id="' + data._id + '" min="1" value="'+ item.count +'"></td>'
+									+	'<td class="total-cost">'+ formatingPrice((item.count * price)+"") +' đ</td>'
+									+	'<td class="delete" data-id="' + data._id + '"><i class="fa fa-close"></i></td>'
+								+	'</tr>';
+						$(".cart-pay .list-cart table tbody .total-price").before(output);
+
+						// Set total Price
+						totalPrice += item.count * price;
+					}
+				}
+			})
+			
+		});
+		// Hiển thị tổng giá tiền
+		$(".cart-pay .list-cart table tbody .total-price .cost-sum").text(formatingPrice(totalPrice + "") + " đ");
+		// Cài sự kiện remove
+		$(".cart-pay .list-cart table tbody .delete i").click(function(){
+			if(confirm("Bạn có chắc muốn xóa sản phẩm không?")){
+				var id = $(this).data("id");
+				removeProductFromCart(id, -1);	// remove tất cả product có id là id
+				window.location.reload();
+			}
+		});
+		$(".cart-pay .list-cart table tbody .count input").on("change click",function(){
+			var count = parseInt($(this).val());
+			var productID = $(this).data("id");
+			setProductCount(productID, count);
+			var selector = ".cart-pay .list-cart table tbody #" + productID;
+			var price = parseInt($(selector).data("price"));
+			selector = ".cart-pay .list-cart table tbody #" + productID +" .total-cost";
+			$(selector).text(formatingPrice((price*count) + "") + " đ")
+
+			var totalPrice = 0;	
+			$(".cart-pay .list-cart table tbody .product-info").each(function(){
+				totalPrice += parseInt($(this).find(".count input").val()) * parseInt($(this).data("price"));
+			});
+			
+			$(".cart-pay .list-cart table tbody .total-price .cost-sum").text(formatingPrice(totalPrice + "") + " đ");
+		});
+	}
 });
+function formatingPrice(price){
+	return price.replace(/./g, function(c, i, a) {
+	    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+	});
+}
 function setNoneValFormPayInfo(){
 	var form = document.forms["bill-info"];
 	form['name'].value = form['card-id'].value = form['cvv'].value 
@@ -274,4 +357,68 @@ function setBillingInfo(){
 	$(".cart-pay .customer-info .date i").text(decodeURIComponent(getPramJs("date")));
 	var tmp = getPramJs("base-add") + ", Quận " + getPramJs("district-add") + ", Tỉnh " + getPramJs("city-add");
 	$(".cart-pay .customer-info .address i").text(tmp);
+}
+
+/********************** CART ******************/
+function getProductFromCart(){
+	var json = getCookie("carts");
+	if(json == "") return [];
+	return JSON.parse(json);
+}
+function setProductCount(productID, count){
+	var products = getProductFromCart();
+	var product = products.find(function(product){ return product.productID == productID });
+	if(product == undefined)
+		products.unshift(product);
+	else {
+		var index = products.indexOf(product);
+		products[index].count = count;
+	}
+	setCookie("carts", JSON.stringify(products), 7);
+}
+function addProductToCart(productID, count){
+	var products = getProductFromCart();
+	var product = products.find(function(product){ return product.productID == productID });
+	if(product == undefined)
+		product = {"productID": productID, "count": count};
+	else {
+		var index = products.indexOf(product);
+		products.splice(index,1);
+		product.count += count;
+	}
+	products.unshift(product);
+	setCookie("carts", JSON.stringify(products), 7);
+}
+// count = -1 -> remove tất cả
+function removeProductFromCart(productID, count){
+	var products = getProductFromCart();
+	var product = products.find(function(product){ return product.productID == productID });
+	if(product == undefined)
+		return;
+	var index = products.indexOf(product);
+	product.count = (count < 0) ? 0 : product.count - count;
+	if(product.count <= 0)
+		products.splice(index,1);
+	setCookie("carts", JSON.stringify(products), 7);
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
