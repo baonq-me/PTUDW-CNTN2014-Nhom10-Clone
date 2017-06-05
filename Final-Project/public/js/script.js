@@ -297,7 +297,7 @@ $(document).ready(function(){
 		// Cài sự kiện remove
 		$(".cart-pay .list-cart table tbody .delete i").click(function(){
 			if(confirm("Bạn có chắc muốn xóa sản phẩm không?")){
-				var id = $(this).data("id");
+				var id = $(this).parent().data("id");
 				removeProductFromCart(id, -1);	// remove tất cả product có id là id
 				window.location.reload();
 			}
