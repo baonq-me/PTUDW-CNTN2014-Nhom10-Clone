@@ -155,7 +155,7 @@ $(document).ready(function(){
 	}
 
     // Set Bill info
-    setBillingInfo();
+    //setBillingInfo();
 
     // Set Phương thức thanh toán
 	$(".cart-pay .form-pay-info .pay-info").slideUp(0);

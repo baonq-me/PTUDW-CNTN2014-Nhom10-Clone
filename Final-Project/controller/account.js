@@ -21,13 +21,31 @@ module.exports = function(app){
 	});
 	// Cấu hình routing login facebook
 	app.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
-	app.get("/auth/fb/cb", passport.authenticate("facebook", {failureRedirect: "/login?fail=true", successRedirect:"/"}), function(req, res){
-		res.json({success: true});
+	app.get("/auth/fb/cb", function(req, res, next) {
+		var redirectFromLogin = req.session.redirectFromLogin || "/";
+ 		passport.authenticate('facebook', function(err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('/login?fail=true'); }
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				req.session.redirectFromLogin = "/";
+				return res.redirect(redirectFromLogin);
+			});
+		})(req, res, next);
 	});
 	// Cấu hình routing login google
 	app.get("/auth/gg", passport.authenticate('google', {scope:["profile", "email"]}));
-	app.get("/auth/gg/cb", passport.authenticate("google", {failureRedirect: "/login?fail=true", successRedirect:"/"}), function(req, res){
-		res.json({success: true});
+	app.get("/auth/gg/cb", function(req, res, next) {
+		var redirectFromLogin = req.session.redirectFromLogin || "/";
+ 		passport.authenticate('google', function(err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('/login?fail=true'); }
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				req.session.redirectFromLogin = "/";
+				return res.redirect(redirectFromLogin);
+			});
+		})(req, res, next);
 	});
 
 
