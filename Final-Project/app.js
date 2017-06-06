@@ -16,7 +16,9 @@ var express = require('express'),
  	secret: "mysecret",
  	cookie:{
  		maxAge: 1000*60*60*24*10
- 	}
+ 	},
+ 	resave: false,
+ 	saveUnintialized: false
  }));
  app.use(passport.initialize());
  app.use(passport.session());
@@ -34,3 +36,5 @@ controller(app);
 app.listen(3000, function(){
 	console.log("localhost:3000");
 });
+
+

@@ -1,7 +1,8 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
-	var FacebookStrategy = require("passport-facebook").Strategy;
-	var captchapng = require('captchapng');
+	/*var csrf = require('csurf');
+	var csrfProtection = csrf({ignoreMethods: ['GET','POST']});
+	app.use(csrfProtection);*/
 
 	// Mở kết nối cho db
 	dao.connect(function(){});
@@ -155,15 +156,6 @@ module.exports = function(app) {
 		});
 	}
 
-	var captchaImg = function(){
-        var p = new captchapng(80,30,parseInt(Math.random()*9000+1000)); // width,height,numeric captcha
-        p.color(115, 95, 197, 100);  // First color: background (red, green, blue, alpha)
-        p.color(30, 104, 21, 255); // Second color: paint (red, green, blue, alpha)
-        var img = p.getBase64();
-        var imgbase64 = new Buffer(img,'base64');
-        return imgbase64;
-	} ;
-
 	// hàm set lỗi 404
 	var set404 = function(req, res, callback){
 		var user = getCustomer(req);
@@ -235,7 +227,6 @@ module.exports = function(app) {
 				getFooter(function(footer){
 					getContentSearch(search, searchBy, function(content){
 						res.render("search", {"query": req.query, "header": header, "sidebar": sidebar, "footer": footer, "content": content});
-						
 					});
 				});
 			});
@@ -280,8 +271,7 @@ module.exports = function(app) {
 		var user = getCustomer(req);
 		getHeader(user, function(header){
 			getFooter(function(footer){
-				var valicode = new Buffer(captchaImg()).toString('base64');
-				res.render("sign-up", {"header": header, "footer" : footer, "valicode" : valicode});
+				res.render("sign-up", {"header": header, "footer" : footer/*, csrfToken: req.csrfToken()*/});
 			});
 		});
 	});
@@ -332,14 +322,13 @@ module.exports = function(app) {
 	app.post("/forget-password", function(req, res){
 		var code = req.body.forget_pass_code;
 		var username = req.body.forget_user;
-		var item = codes.find(function(item){
-			return item.username == username && item.code == code
-		});
-		if(item){
+		var code_forget_password = req.session.code_forget_password;
+		if(code_forget_password != undefined && code_forget_password.username == username 
+			&& code_forget_password.code == code){
 			var user = getCustomer(req);
 			getHeader(user, function(header){
 				getFooter(function(footer){
-					res.render("set-new-password", {"header": header, "footer": footer, username: req.body.forget_user});
+					res.render("set-new-password", {"header": header, "footer": footer, "username": req.body.forget_user});
 				});
 			});
 		} else res.redirect("/forget-password");
@@ -349,9 +338,15 @@ module.exports = function(app) {
 	app.post("/send-email", function(req, res){
 		let username = req.body.username;
 		dao.getMail(username, function(mailTo){
+			if(mailTo == null){
+				res.json({success: false});
+				return;
+			}
 			let code = Math.floor(Math.random()*9000+1000);
-			codes.push({"username": username, "code": code});
+			req.session.code_forget_password = {"username": username, "code": code};
+			//codes.push({"username": username, "code": code});
 			mail = require("./mail");
+			console.log(mail);
 			if(mail({
 				mailTo: mailTo.email,
 				subject: 'Mã xác nhận từ Shop hoa KHTN', // Subject line
@@ -361,10 +356,6 @@ module.exports = function(app) {
 				res.json({success: true});
 			else 
 				res.json({success: false});
-			if(mail == null){
-				res.json({success: false});
-				return;
-			}
 		});
 
 	});

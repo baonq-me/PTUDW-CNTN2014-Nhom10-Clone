@@ -197,7 +197,7 @@ $(document).ready(function(){
 		$.post("/field-sign-up",
 			{
 				field: "username",
-				value: username
+				value: username,
 			},
 			function(data, status){
 				if(!data.success){
