@@ -181,6 +181,15 @@ module.exports = function(app) {
 		    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
 		});
 	}
+	// Kiểm tra chuỗi rỗng hoặc ""
+	function isEmpty(v){
+		return v == undefined || v == "";
+	}
+	// Kiểm tra receiverInfo có hợp lệ không
+	function checkReceiverInfo(receiverInfo){
+		return !(isEmpty(receiverInfo.name) || isEmpty(receiverInfo.phone) || isEmpty(receiverInfo.date)
+			|| isEmpty(receiverInfo.address) || isEmpty(receiverInfo.district) || isEmpty(receiverInfo.city))
+	}
 
 	/******************************** CẤU HÌNH CÁC ROUTING *****************/
 	// Routing trang chủ
@@ -391,11 +400,13 @@ module.exports = function(app) {
 		var user = getCustomer(req);
 		//if(user == null) res.redirect("/login");
 		//else {
-			getHeader(user, function(header){
-				getFooter(function(footer){
-					res.render("cart-info", {"header": header, "footer": footer});
+		getHeader(user, function(header){
+			getFooter(function(footer){
+				dao.getNewProduct(8, function(newProducts){
+					res.render("cart-info", {"header": header, "footer": footer, "content": {"newProducts": newProducts}});
 				});
 			});
+		});
 		//}
 	});
 	// Lấy thông tin product trong cart
@@ -413,6 +424,66 @@ module.exports = function(app) {
 			*			- detail: thông tin chi tiết sản phẩm
 			*/
 			res.json(productInfo);
+		});
+	});
+
+	// Rounting receiver info
+	app.get("/pay/receiver-info", (req, res) => {
+		var user = getCustomer(req);
+		if(user == null) {
+			req.session.redirectFromLogin = req.path;
+			res.redirect("/login");
+		}
+		else {
+			getHeader(user, function(header){
+				getFooter(function(footer){
+					res.render("pay/receiver-info", {"header": header, "footer": footer});
+				});
+			});
+		}
+	});
+	// Rounting submit form receiver info
+	app.post("/pay/receiver-info", (req, res) => {
+		var user = getCustomer(req);
+		if(user == null) {
+			req.session.redirectFromLogin = req.path;
+			return res.redirect("/login");
+		}
+
+		// Kiểm tra các thông tin được submit lên
+		/*
+		*	receiverInfo: { name: string, phone: String, date: MM/DD/YYYY HH:MM AM, address: String, district: String, city: String}
+		*/
+		var receiverInfo = req.body;
+		// Nếu các thông tin không chính xác => Redirect về /pay/billing-info
+		if (!checkReceiverInfo(receiverInfo))
+			return res.redirect("/pay/receiver-info");
+		else {
+			// Lưu receiverInfo vào session payinfo
+			req.session.payinfo = {"receiverInfo": receiverInfo};
+			// redirect tới step tiếp theo
+			res.redirect("/pay/billing-info");
+		}
+	});
+
+	// Rounting billing info
+	app.get("/pay/billing-info", (req, res) => {
+		// Kiểm tra người dùng đã đăng nhập chưa
+		var user = getCustomer(req);
+		if(user == null) {
+			req.session.redirectFromLogin = req.path;
+			return res.redirect("/login");
+		}
+		// Kiểm tra receiverInfo đã có và đủ các giá trị trong session chưa
+		// Nếu chưa redirect về trang /pay/receiver-info
+		var receiverInfo = (req.session.payinfo == undefined) ? undefined : req.session.payinfo.receiverInfo;
+		if (receiverInfo == undefined || !checkReceiverInfo(receiverInfo))
+			return res.redirect("/pay/receiver-info");
+
+		getHeader(user, function(header){
+			getFooter(function(footer){
+				res.render("pay/billing-info", {"header": header, "footer": footer, "content": {"receiverInfo": receiverInfo}});
+			});
 		});
 	});
 
