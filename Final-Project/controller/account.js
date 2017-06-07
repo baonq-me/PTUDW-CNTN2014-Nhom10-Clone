@@ -10,12 +10,14 @@ module.exports = function(app){
 	// Routing login local
 	app.post("/auth/local", function(req, res, next) {
 		var username = req.body.username;
+		var redirectFromLogin = req.session.redirectFromLogin || "/";
  		passport.authenticate('local', function(err, user, info) {
 			if (err) { return next(err); }
 			if (!user) { return res.redirect('/login?fail=true&username=' + username); }
 			req.logIn(user, function(err) {
 				if (err) { return next(err); }
-				return res.redirect('/');
+				req.session.redirectFromLogin = null;
+				return res.redirect(redirectFromLogin);
 			});
 		})(req, res, next);
 	});
