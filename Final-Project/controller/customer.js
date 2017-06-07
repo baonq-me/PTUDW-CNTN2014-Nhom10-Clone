@@ -1,6 +1,8 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
 	var braintree = require('braintree');
+	var csrf = require('csurf');
+	var csrfProtection = csrf();
 	var gateway = braintree.connect({
 	  accessToken: 'access_token$sandbox$yxq79p88jhvjh5rm$b4d73266122796a1a58e79b1507dfec7'
 	});
@@ -271,13 +273,13 @@ module.exports = function(app) {
 	});
 	
 	// Routing sign-up
-	app.get("/sign-up", setHeader, setFooter, function(req, res){
+	app.get("/sign-up", csrfProtection, setHeader, setFooter, function(req, res){
 		var user = getCustomer(req);
-		res.render("sign-up", {/*csrfToken: req.csrfToken()*/});
+		res.render("sign-up", {csrfToken: req.csrfToken()});
 	});
 
 	// ĐĂNG KÝ TÀI KHOẢN
-	app.post("/sign-up", function(req, res){
+	app.post("/sign-up", csrfProtection, function(req, res){
 		dao.signup(req.body, function(success){
 			if(success)
 				res.redirect("/login?username=" + req.body.sign_up_username);
