@@ -159,8 +159,8 @@ $(document).ready(function(){
 
     // Set Phương thức thanh toán
 	$(".cart-pay .form-pay-info .pay-info").slideUp(0);
-	$(".cart-pay input[name=pay-method]").change(function(){
-		if($(".cart-pay input[name=pay-method]:checked").val() === "by-card"){
+	$(".cart-pay input[name=pay_method]").change(function(){
+		if($(".cart-pay input[name=pay_method]:checked").val() === "by-card"){
 			$(".cart-pay .form-pay-info .pay-info").slideDown(500);
 			setNoneValFormPayInfo();
 		}
@@ -255,6 +255,28 @@ $(document).ready(function(){
 		setCountCart();
 		alert("Đã thêm vào giỏ hàng");
 	});
+	if($(".product_detail").length > 0){
+		$("input[name=quantity]").change(function(){
+			alert(ok);
+			//if(parseInt($(this).val()) < 1) $(this).val("1");
+			//else (parseInt($(this).val()) > 999) $(this).val("999");
+		})
+		$("input.minus").click(function(){
+			$("input[name=quantity]").val(parseInt($("input[name=quantity]").val()) - 1 + "");
+		})
+		$("input.plus").click(function(){
+			$("input[name=quantity]").val(parseInt($("input[name=quantity]").val()) + 1 + "");
+		})
+		$("#buy-now").click(function(){
+			var id = $(this).data("id");
+			var quantity = parseInt($("input[name=quantity]").val());
+			if (quantity < 1) alert("Nhập lại số lượng");
+			else {
+				addProductToCart(id, quantity);
+				window.location = "/cart-info";
+			}
+		});
+	}
 
 	if ($(".cart-pay .list-cart").length > 0){
 		var products = getProductFromCart();
@@ -266,6 +288,7 @@ $(document).ready(function(){
 				data: { "productID": item.productID },
 				async: false,
 				success: function(data){
+					var static = ($(".cart-pay .list-cart table").data("static") === true);
 					if (data !== null){
 						var price = (data.newPrice == undefined) ? data.price : data.newPrice;
 						
@@ -279,12 +302,11 @@ $(document).ready(function(){
 										+	'<span class="cost">Giảm còn: '+ formatingPrice(data.newPrice+"") +' đ</span>';
 
 						output += 		'</td>'
-									+	'<td class="count"><input type="number" data-id="' + data._id + '" min="1" value="'+ item.count +'"></td>'
-									+	'<td class="total-cost">'+ formatingPrice((item.count * price)+"") +' đ</td>'
-									+	'<td class="delete" data-id="' + data._id + '"><i class="fa fa-close"></i></td>'
-								+	'</tr>';
+						output += (static) ? '<td class="count">' + item.count + '</td>' : '<td class="count"><input type="number" data-id="' + data._id + '" min="1" value="'+ item.count +'"></td>';
+						output +=		'<td class="total-cost">'+ formatingPrice((item.count * price)+"") +' đ</td>';
+						output += (static) ? "" : '<td class="delete" data-id="' + data._id + '"><i class="fa fa-close"></i></td>'
+						output +=	'</tr>';
 						$(".cart-pay .list-cart table tbody .total-price").before(output);
-
 						// Set total Price
 						totalPrice += item.count * price;
 					}
@@ -294,6 +316,7 @@ $(document).ready(function(){
 		});
 		// Hiển thị tổng giá tiền
 		$(".cart-pay .list-cart table tbody .total-price .cost-sum").text(formatingPrice(totalPrice + "") + " đ");
+		$(".cart-pay .list-cart table tbody .total-price .cost-sum").data("value", totalPrice);
 		// Cài sự kiện remove
 		$(".cart-pay .list-cart table tbody .delete i").click(function(){
 			if(confirm("Bạn có chắc muốn xóa sản phẩm không?")){
@@ -318,6 +341,12 @@ $(document).ready(function(){
 			
 			$(".cart-pay .list-cart table tbody .total-price .cost-sum").text(formatingPrice(totalPrice + "") + " đ");
 		});
+		if (products.length == 0)
+		$("#to-receiver-info").attr("href","");
+	}
+
+	if($("form[name=bill-info]").length > 0){
+		$("input[name=cart_info]").val(JSON.stringify(getProductFromCart()));
 	}
 });
 function formatingPrice(price){

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,120 +96,73 @@
 					<li><span>3</span><strong>Thông tin thanh toán</strong></li>
 					<li class="active"><span>4</span><strong>Hoàn thành</strong></li>
 				</ul>
-				<div style="text-align: center; font-size: 20px; color: #FF1493; padding: 10px 0; border-top: 1px dashed;">
+				<div style="text-align: center; font-size: 20px; color: #FF1493; padding: 10px 0; border-top: 1px dashed; border-bottom: 1px dashed; margin-bottom: 30px">
 					<p>Cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi</p>
 					<p>Chúng tôi sẽ liên hệ với bạn sớm</p>
 				</div>
+				<div class="table-responsive list-cart">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="text-align: center;">STT</th>
+								<th style="text-align: center;">Hình ảnh</th>
+								<th>Thông tin</th>
+								<th style="text-align: center;">Số lượng</th>
+								<th style="text-align: center;">Tổng giá</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="stt">1</td>
+								<td class="img"><a href="../product/product_detail.html""><img src="../images/new_product/pro3.jpg"></a></td>
+								<td class="info">
+									<a href="../product/product_detail.html">Hoa hướng dương</a>
+									<span class="old-cost">Giá: 200.000 đ</span>
+									<span class="cost">Giảm: 100.000 đ</span>
+								</td>
+								<td class="count" cost="100000">1</td>
+								<td class="total-cost">100.000 đ</td>
+							</tr>
+
+							<tr>
+								<td class="stt">2</td>
+								<td class="img"><a href="../product/product_detail.html""><img src="../images/new_product/pro4.jpg"></a></td>
+								<td class="info">
+									<a href="../product/product_detail.html">Hoa hồng</a>
+									<span class="cost">Giảm: 10.000 đ</span>
+								</td>
+								<td class="count" cost="100000">10</td>
+								<td class="total-cost">100.000 đ</td>
+							</tr>
+
+							<tr>
+								<td colspan="4" class="lb-sum">Tổng cộng</td>
+								<td class="cost-sum">200.000 đ</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-lg-6 col-sm-6 col-xs-12">
+					<div class="customer-info">
+						<h3 style="margin-bottom: 20px;">Thông tin người nhận</h3>
+						<div class="name"><strong>Họ và tên: </strong><i><%= content.receiverInfo.name %></i></div>
+						<div class="phone"><strong>Số điện thoại: </strong><i><%= content.receiverInfo.phone %></i></div>
+						<div class="date"><strong>Ngày giao hàng: </strong><i><%= content.receiverInfo.date %></i></div>
+						<div class="address"><strong>Địa chỉ giao: </strong><i><%= content.receiverInfo.address + " - "+ content.receiverInfo.district + " - " + content.receiverInfo.city %></i></div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-6 col-xs-12">
+					<div class="customer-info">
+						<h3 style="margin-bottom: 20px;">Phương thức thanh toán</h3>
+						<div><strong>Hình thức nhận hàng: </strong><i>Nhận hàng tại địa chỉ người nhận</i></div>
+						<div><strong>Hình thức thanh toán: </strong><i>Thanh toán trực tiếp</i></div>
+					</div>
+				</div>
+				<div class="clearfix" style="margin-bottom: 20px"></div>
 				<div><a href="../index.html" class="next-step">Trở về trang chủ</a></div>
 			</div>
 		</div>
-
-		<div class="product related-product">
-			<div class="container">
-				<h2> Sản phẩm liên quan </h2>
-				<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-				</div>
-
-			 	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-
-			 	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-			  	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-			  	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro5.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-
-			 	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro2.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-
-			 	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro3.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-			  	<div class="col-xs-12 col-sm-6 col-md-3">
-				    <div class="thumbnail">
-				      	<a href="#">
-				        	<img class="img-responsive" src="../images/new_product/pro4.jpg" alt="Image">
-				      	</a>
-				        <div class="caption">
-				         	<a href="product_detail.html"><h3 class="product-name">Tên sản phẩm</h3></a>
-							<p class="price">100.000 đồng</p>
-							<span class="glyphicon glyphicon-shopping-cart add-cart"> Thêm</span>
-				        </div>
-				    </div>
-			  	</div>
-			</div>
-		</div>
-	</div>		
+	</div>	
 		
 	<!--Footer -->
 	<div id="footer">

@@ -1,0 +1,63 @@
+<% include ../includes/header.ejs %>
+	
+	<!--Body -->
+	<div id="content">
+		<div class="cart-pay">
+			<div class="container">
+				<ul class="tab-pay">
+					<li><span>1</span><strong>Thông tin giỏ hàng</strong></li>
+					<li><span>2</span><strong>Thông tin khách hàng</strong></li>
+					<li><span>3</span><strong>Thông tin thanh toán</strong></li>
+					<li class="active"><span>4</span><strong>Hoàn thành</strong></li>
+				</ul>
+				<div style="text-align: center; font-size: 20px; color: #FF1493; padding: 10px 0; border-top: 1px dashed; border-bottom: 1px dashed; margin-bottom: 30px">
+					<p>Cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi</p>
+					<p>Chúng tôi sẽ liên hệ với bạn sớm</p>
+				</div>
+				<div class="table-responsive list-cart">
+					<table class="table table-hover" data-static="true">
+						<thead>
+							<tr>
+								<th style="text-align: center;">STT</th>
+								<th style="text-align: center;">Hình ảnh</th>
+								<th>Thông tin</th>
+								<th style="text-align: center;">Số lượng</th>
+								<th style="text-align: center;">Tổng giá</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="total-price">
+								<td colspan="4" class="lb-sum">Tổng cộng</td>
+								<td class="cost-sum">0 đ</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-lg-6 col-sm-6 col-xs-12">
+					<div class="customer-info">
+						<h3 style="margin-bottom: 20px;">Thông tin người nhận</h3>
+						<div class="name"><strong>Họ và tên: </strong><i><%= content.receiverInfo.name %></i></div>
+						<div class="phone"><strong>Số điện thoại: </strong><i><%= content.receiverInfo.phone %></i></div>
+						<div class="date"><strong>Ngày giao hàng: </strong><i><%= content.receiverInfo.date %></i></div>
+						<div class="address"><strong>Địa chỉ giao: </strong><i><%= content.receiverInfo.address + " - "+ content.receiverInfo.district + " - " + content.receiverInfo.city %></i></div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-6 col-xs-12">
+					<div class="customer-info">
+						<h3 style="margin-bottom: 20px;">Phương thức thanh toán</h3>
+						<div><strong>Hình thức nhận hàng: </strong><i><%= content.billingInfo.recieveName %></i></div>
+						<div><strong>Hình thức thanh toán: </strong><i><%= content.billingInfo.payMethodName %></i></div>
+					</div>
+				</div>
+				<div class="clearfix" style="margin-bottom: 20px"></div>
+				<div><a href="/" class="next-step">Trở về trang chủ</a></div>
+			</div>
+		</div>
+	</div>	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			setCookie("carts", "[]", 0);
+			$(".cart .cart-count").text(0);
+		});
+	</script>
+	<% include ../includes/footer.ejs %>

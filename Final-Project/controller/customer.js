@@ -1,5 +1,10 @@
 module.exports = function(app) {
 	var dao = require('../database/dao.js');
+	var braintree = require('braintree');
+	var gateway = braintree.connect({
+	  accessToken: 'access_token$sandbox$yxq79p88jhvjh5rm$b4d73266122796a1a58e79b1507dfec7'
+	});
+
 	/*var csrf = require('csurf');
 	var csrfProtection = csrf({ignoreMethods: ['GET','POST']});
 	app.use(csrfProtection);*/
@@ -190,7 +195,7 @@ module.exports = function(app) {
 	// @param: string 	giá tiền
 	function formatingPrice(price){
 		return price.replace(/./g, function(c, i, a) {
-		    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+			return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
 		});
 	}
 	// Kiểm tra chuỗi rỗng hoặc ""
@@ -387,16 +392,12 @@ module.exports = function(app) {
 	});
 
 	// Rounting cart info
-	app.get("/cart-info", (req, res) => {
+	app.get("/cart-info", setHeader, setFooter, (req, res) => {
 		var user = getCustomer(req);
 		//if(user == null) res.redirect("/login");
 		//else {
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				dao.getNewProduct(8, function(newProducts){
-					res.render("cart-info", {"header": header, "footer": footer, "content": {"newProducts": newProducts}});
-				});
-			});
+		dao.getNewProduct(8, function(newProducts){
+			res.render("cart-info", {"content": {"newProducts": newProducts}});
 		});
 		//}
 	});
@@ -419,13 +420,9 @@ module.exports = function(app) {
 	});
 
 	// Rounting receiver info
-	app.get("/pay/receiver-info", isLoggedIn, (req, res) => {
+	app.get("/pay/receiver-info", isLoggedIn, setHeader, setFooter, (req, res) => {
 		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				res.render("pay/receiver-info", {"header": header, "footer": footer});
-			});
-		});
+		res.render("pay/receiver-info", {});
 	});
 	// Rounting submit form receiver info
 	app.post("/pay/receiver-info", isLoggedIn, (req, res) => {
@@ -445,22 +442,115 @@ module.exports = function(app) {
 		}
 	});
 
-	// Rounting billing info
-	app.get("/pay/billing-info", isLoggedIn, (req, res) => {
-		// Kiểm tra người dùng đã đăng nhập chưa
-		var user = getCustomer(req);
+	function isComplateReceiverInfo(req, res, next){
 		// Kiểm tra receiverInfo đã có và đủ các giá trị trong session chưa
 		// Nếu chưa redirect về trang /pay/receiver-info
 		var receiverInfo = (req.session.payinfo == undefined) ? undefined : req.session.payinfo.receiverInfo;
 		if (receiverInfo == undefined || !checkReceiverInfo(receiverInfo))
 			return res.redirect("/pay/receiver-info");
+		if(res.locals.content == undefined)
+			res.locals.content = {"receiverInfo": receiverInfo};
+		else res.locals.content.receiverInfo = receiverInfo;
+		next();
+	}
+	function isComplateBillingInfo(req, res, next){
+		var billingInfo = (req.session.payinfo == undefined) ? undefined : req.session.payinfo.billingInfo;
+		if (billingInfo == undefined || isEmpty(billingInfo.recieve) || isEmpty(billingInfo.pay_method))
+			return res.redirect("/pay/billing-info");
 
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				res.render("pay/billing-info", {"header": header, "footer": footer, "content": {"receiverInfo": receiverInfo}});
-			});
+		if(billingInfo.recieve == "in-store") billingInfo.recieveName = "Nhận hàng tại của hàng";
+		else if (billingInfo.recieve == "in-house") billingInfo.recieveName = "Nhận hàng tại địa chỉ người nhận";
+
+		if(billingInfo.pay_method == "face-to-face") billingInfo.payMethodName = "Thanh toán trực tiếp";
+		else if(billingInfo.pay_method == "by-card") billingInfo.payMethodName = "Thanh toán qua thẻ";
+		else if(billingInfo.pay_method == "by-online") billingInfo.payMethodName = "Thanh toán Online";
+
+		if(res.locals.content == undefined)
+			res.locals.content = {"billingInfo": billingInfo};
+		else res.locals.content.billingInfo = billingInfo;
+		next();
+	}
+	// Rounting billing info
+	app.get("/pay/billing-info", isLoggedIn, isComplateReceiverInfo, setHeader, setFooter, (req, res) => {
+		res.render("pay/billing-info", {});
+	});
+	// Lấy dữ liệu từ thanh toán
+	app.post("/pay/billing-info", isLoggedIn, isComplateReceiverInfo, (req, res, next) =>{
+			// Lấy thông tin thanh toán
+			// billingInfo: {recieve: (in-store | in-house), pay_method: (face-to-face | by-card | by-online)}
+			var billingInfo = req.body;
+			// Viết dữ liệu vào session
+			req.session.payinfo.billingInfo = billingInfo;
+			req.session.cartInfo = JSON.parse(req.body.cart_info);
+			console.log(req.session.cartInfo);
+			next();
+
+		},isComplateBillingInfo,
+		(req, res, next) =>{
+			var billingInfo = req.session.payinfo.billingInfo;
+			if (billingInfo.pay_method != "by-online"){
+				var payInfo = req.session.payinfo;
+				var cartInfo = req.session.cartInfo;
+				dao.addBill({userID: getCustomer(req)._id,"payInfo": payInfo, cartInfo: cartInfo},
+					function(){
+						return res.redirect("/pay/done");
+					});
+			}
+			else
+				next();
+		}, setHeader, setFooter,
+		(req, res, next) =>{
+			return	res.render("pay/online", {});
+		}
+	);
+
+
+	// Thanh toán bằng paypal
+	app.get('/paypal_client_token',isLoggedIn,isComplateReceiverInfo,isComplateBillingInfo,function(req, res) {
+		gateway.clientToken.generate({}, function (err, response) {
+			res.send(response.clientToken);
 		});
 	});
+
+	app.post('/paypal_checkout',function(req, res, next) {
+		console.log(req.body.amount);
+		var saleRequest = {
+			amount: req.body.amount,			// Số lượng tiền
+			paymentMethodNonce: req.body.nonce, // Nonce từ client
+			shipping: {
+				firstName: "Huy",
+				lastName: "Nguyễn Văn"
+		  },
+		  options: {
+			  paypal: {
+				  customField: "Tiêu đề ",	  // Thông tin hiển thị lên hóa đơn
+				  description: "Mô tả"
+			  },
+			  submitForSettlement: true
+		  }
+		};
+		gateway.transaction.sale(saleRequest, function (err, result) {
+			if (err) {
+				res.sendStatus(404);
+			} else if (result.success) {
+				next();
+			} else {
+				res.send(result.message);
+			}
+		});
+	}, function(req, res, next){
+		var payInfo = req.session.payinfo;
+		var cartInfo = req.body.cartInfo;
+		dao.addBill({userID: getCustomer(req)._id, "payInfo": payInfo, "cartInfo": cartInfo}, 
+			function(){
+				return res.redirect("/pay/done");
+			});
+	});
+
+	app.get("/pay/done", isLoggedIn,isComplateReceiverInfo,isComplateBillingInfo, setHeader, setFooter, function(req, res, next){
+		res.render("pay/done", {})
+	})
+
 
 	// Routing cho trang 404
 	app.get("*", function(req, res){
