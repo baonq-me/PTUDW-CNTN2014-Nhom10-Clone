@@ -43,6 +43,26 @@ module.exports = function(app) {
 	}
 
 
+	function setHeader(req, res, next){
+		var user = getCustomer(req);
+		dao.getAllCategory(function(categorys){
+			if(user != null){
+				 res.locals.header = {"categorys": categorys, login: {fullname: user.fullName, changePassword: user.type==="local"}};
+			}else res.locals.header = {"categorys": categorys};
+			return next()
+		});
+	}
+	function setFooter(req, res, next){
+		res.locals.footer = {};
+		return next();
+	}
+	function setSidebar(req, res, next){
+		dao.getAllCategory(function(categorys){
+			res.locals.sidebar = {"categorys": categorys};
+			return next();
+		});
+	}
+
 	/******************************* CÁC FUNCTION LẤY CONTENT *************/
 	/*
 	* Phần nội dung trang chủ
@@ -182,98 +202,73 @@ module.exports = function(app) {
 		return !(isEmpty(receiverInfo.name) || isEmpty(receiverInfo.phone) || isEmpty(receiverInfo.date)
 			|| isEmpty(receiverInfo.address) || isEmpty(receiverInfo.district) || isEmpty(receiverInfo.city))
 	}
-
+	// Kiểm tra đã đăng nhập chưa
+	function isLoggedIn(req, res, next){
+		var user = getCustomer(req);
+		if(user == null) {
+			req.session.redirectFromLogin = req.path;
+			return res.redirect("/login");
+		}
+		return next();
+	}
 	/******************************** CẤU HÌNH CÁC ROUTING *****************/
 	// Routing trang chủ
-	app.get("/", function(req, res){
-		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getSidebar(function(sidebar){
-				getFooter(function(footer){
-					getContentHome(function(content){
-						res.render("index", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
-					});
-				});
-			});
+	app.get("/", setHeader, setSidebar, setFooter, function(req, res, next){
+		getContentHome(function(content){
+			res.render("index", {"content": content});
 		});
 	});
 	// Rounting category
-	app.get("/category/:slug", function(req, res){
-		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getSidebar(function(sidebar){
-				getFooter(function(footer){
-					getContentCategory(req.params.slug, function(content){
-						if(content == null){
-							set404(req, res, function(){
-							});
-						} else {
-							res.render("category", {"header": header, "sidebar": sidebar, "footer": footer, "content": content});
-							
-						}
-					});
+	app.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, res){
+		getContentCategory(req.params.slug, function(content){
+			if(content == null){
+				set404(req, res, function(){
 				});
-			});
+			} else {
+				res.render("category", {"content": content});
+			}
 		});
 	});
 
 	// Rounting search
-	app.get("/search", function(req, res){
+	app.get("/search", setHeader, setSidebar, setFooter, function(req, res){
 		var search = req.query.search;
 		var searchBy = req.query.searchBy;
-		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getSidebar(function(sidebar){
-				getFooter(function(footer){
-					getContentSearch(search, searchBy, function(content){
-						res.render("search", {"query": req.query, "header": header, "sidebar": sidebar, "footer": footer, "content": content});
-					});
-				});
-			});
+		getContentSearch(search, searchBy, function(content){
+			res.render("search", {"query": req.query, "content": content});
 		});
 	});
 
 	// Rounting search
-	app.get("/product/:slug", function(req, res){
+	app.get("/product/:slug",setHeader, setFooter,  function(req, res){
 		var requrl = req.protocol + "://" + req.get('host') + req.originalUrl;
-		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				setContentProductDetail(req.params.slug, function(content){
-					if(content == null){
-						set404(req, res, function(){
-							
-						});
-						return;
-					}
-					res.render("product-detail", {"urlReq": requrl, "header": header, "footer": footer, "content": content});
+		setContentProductDetail(req.params.slug, function(content){
+			if(content == null){
+				set404(req, res, function(){
+					
 				});
-			});
+				return;
+			}
+			res.render("product-detail", {"urlReq": requrl, "content": content});
 		});
 	});
 
 	// Routin login
-	app.get("/login",function(req, res){
+	app.get("/login", function(req, res, next){
+		var user = getCustomer(req);
+		if (user != null) return res.redirect("/");
+		next();
+	}, setHeader, setFooter,
+	function(req, res){
 		var login_fail = req.query.fail === "true";
 		var username = (req.query.username !== undefined) ? req.query.username : "";
-		var user = getCustomer(req);
-		if (user != null) res.redirect("/");
-		else
-			getHeader(null, function(header){
-				getFooter(function(footer){
-					res.render("login", {"header": header, "footer" : footer, "login_fail": login_fail, "username": username});
-				});
-			});
+		res.render("login", {"login_fail": login_fail, "username": username});
 	});
 	
 	// Routing sign-up
-	app.get("/sign-up", function(req, res){
+	app.get("/sign-up", setHeader, setFooter, function(req, res){
 		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				res.render("sign-up", {"header": header, "footer" : footer/*, csrfToken: req.csrfToken()*/});
-			});
-		});
+		res.render("sign-up", {/*csrfToken: req.csrfToken()*/});
 	});
 
 	// ĐĂNG KÝ TÀI KHOẢN
@@ -308,31 +303,28 @@ module.exports = function(app) {
 	});
   
 	// Quên mật khẩu
-	app.get("/forget-password", function(req, res){
-		var user = getCustomer(req);
-		getHeader(user, function(header){
-			getFooter(function(footer){
-				res.render("forget-password", {"header": header, "footer": footer})
-			});
-		});
+	app.get("/forget-password", setHeader, setFooter, function(req, res){
+		username_forget_passwork = req.session.username_forget_passwork || "";
+		res.render("forget-password", {username: username_forget_passwork})
 	});
 
 	// Kiểm tra thông tin username và mã được gửi email có khớp không
-	var codes = [];
-	app.post("/forget-password", function(req, res){
-		var code = req.body.forget_pass_code;
-		var username = req.body.forget_user;
-		var code_forget_password = req.session.code_forget_password;
-		if(code_forget_password != undefined && code_forget_password.username == username 
-			&& code_forget_password.code == code){
-			var user = getCustomer(req);
-			getHeader(user, function(header){
-				getFooter(function(footer){
-					res.render("set-new-password", {"header": header, "footer": footer, "username": req.body.forget_user});
-				});
-			});
-		} else res.redirect("/forget-password");
-	});
+	app.post("/forget-password", 
+		function (req, res, next){
+			var code = req.body.forget_pass_code;
+			var username = req.body.forget_user;
+			var code_forget_password = req.session.code_forget_password;
+			req.session.username_forget_passwork = username;
+			if(code_forget_password != undefined && code_forget_password.username == username 
+				&& code_forget_password.code == code){
+					return next();
+				}
+			return res.redirect("/forget-password");
+		}, setHeader, setFooter,
+		function(req, res){
+			res.render("set-new-password", {});
+		}
+	);
 	
 	// Gửi email
 	app.post("/send-email", function(req, res){
@@ -361,30 +353,38 @@ module.exports = function(app) {
 	});
 
 	// Cái password mới
-	app.post("/set-new-password", function(req, res){
+	app.post("/set-new-password", setHeader, setFooter, function(req, res){
 		var user = getCustomer(req);
-		let username = req.body.username;
+		let username = req.session.username_forget_passwork;
 		let newpass = req.body.set_new_pass_pass1;
 		dao.setNewPassword(username, newpass, function(){
-			getHeader(user, function(header){
-				getFooter(function(footer){
-					res.render("set-new-password-success", {"header": header, "footer": footer, username: req.body.forget_user});
-				});
-			});
+			res.render("set-new-password-success", {});
 		});
 	});
 
 	// Rounting cho trang thay đổi mật khẩu khi đã đăng nhập
-	app.get("/change-password", function(req, res){
+	app.get("/change-password", isLoggedIn, setHeader, setFooter, function(req, res){
 		var user = getCustomer(req);
 		if(user.type == "local")
-			getHeader(user, function(header){
-				getFooter(function(footer){
-					res.render("set-new-password", {"header": header, "footer": footer, username: user.username});
-				});
-			});
+			res.render("change-password", {});
 		else res.redirect("/");
-	})
+	});
+	// Thay đổi mật khẩu
+	app.post("/change-password", isLoggedIn, setHeader, setFooter, function(req, res){
+		var user = getCustomer(req);
+		let oldpass = req.body.old_password;
+		let passwordHash = require('password-hash');
+
+		if (! passwordHash.verify(oldpass, user.password))
+			return res.redirect("/change-password");
+
+		let newpass = req.body.set_new_pass_pass1;
+		console.log(user.username +":"+ newpass);
+
+		dao.setNewPassword(user.username, newpass, function(){
+			res.render("set-new-password-success", {});
+		});
+	});
 
 	// Rounting cart info
 	app.get("/cart-info", (req, res) => {
@@ -419,28 +419,16 @@ module.exports = function(app) {
 	});
 
 	// Rounting receiver info
-	app.get("/pay/receiver-info", (req, res) => {
+	app.get("/pay/receiver-info", isLoggedIn, (req, res) => {
 		var user = getCustomer(req);
-		if(user == null) {
-			req.session.redirectFromLogin = req.path;
-			res.redirect("/login");
-		}
-		else {
-			getHeader(user, function(header){
-				getFooter(function(footer){
-					res.render("pay/receiver-info", {"header": header, "footer": footer});
-				});
+		getHeader(user, function(header){
+			getFooter(function(footer){
+				res.render("pay/receiver-info", {"header": header, "footer": footer});
 			});
-		}
+		});
 	});
 	// Rounting submit form receiver info
-	app.post("/pay/receiver-info", (req, res) => {
-		var user = getCustomer(req);
-		if(user == null) {
-			req.session.redirectFromLogin = req.path;
-			return res.redirect("/login");
-		}
-
+	app.post("/pay/receiver-info", isLoggedIn, (req, res) => {
 		// Kiểm tra các thông tin được submit lên
 		/*
 		*	receiverInfo: { name: string, phone: String, date: MM/DD/YYYY HH:MM AM, address: String, district: String, city: String}
@@ -458,13 +446,9 @@ module.exports = function(app) {
 	});
 
 	// Rounting billing info
-	app.get("/pay/billing-info", (req, res) => {
+	app.get("/pay/billing-info", isLoggedIn, (req, res) => {
 		// Kiểm tra người dùng đã đăng nhập chưa
 		var user = getCustomer(req);
-		if(user == null) {
-			req.session.redirectFromLogin = req.path;
-			return res.redirect("/login");
-		}
 		// Kiểm tra receiverInfo đã có và đủ các giá trị trong session chưa
 		// Nếu chưa redirect về trang /pay/receiver-info
 		var receiverInfo = (req.session.payinfo == undefined) ? undefined : req.session.payinfo.receiverInfo;
