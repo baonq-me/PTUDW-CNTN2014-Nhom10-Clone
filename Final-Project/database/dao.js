@@ -13,6 +13,7 @@ var dao = {
 		products: null,
 		users: null,
 		usersSocial: null,
+		bills: null
 	},
 
 	//Hàm lấy/tạo Category model
@@ -80,6 +81,25 @@ var dao = {
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.users = this.mongoose.model('users', UserSchema);
 	  	return this.model.users;
+	},
+
+	//Hàm lấy/tạo Bill model
+	getBillsModel: function(){
+		//nếu đã tồn tại User model thì return
+		if (this.model.bills !== null)
+			return this.model.bills;
+		//Ngược lại, tạo model Bills mới
+		//Tạo Schema Bills
+	  	var UserSchema = this.mongoose.Schema({
+	  		userID : String,
+	  		billingInfo: {recieve: String, pay_method: String},
+	  		receiverInfo: {name: String, phone: String, date: String, address: String, district: String, city: String},
+	  		cartInfo: Array
+	  	});	
+
+	  	//Tạo model từ categorySchema và có tên collection là 'categories'
+	  	this.model.bills = this.mongoose.model('bills', UserSchema);
+	  	return this.model.bills;
 	},
 
 	//Hàm connect database
@@ -534,6 +554,34 @@ var dao = {
 			if(err) {callback(false); throw err;}
 			callback(true);
 		});
+	},
+
+	/*
+	*	Thêm bill trong database
+	*	@param	thông tin hóa đơn
+	*		- userID: Id của người mua
+	*		- payInfo: {billingInfo: {recieve: (in-store | in-house), pay_method: (face-to-face | by-card | by-online)}
+	*				receiverInfo: { name: string, phone: String, date: MM/DD/YYYY HH:MM AM, address: String, district: String, city: String}}
+	*		- cartInfo: [{productID, count}]
+	*/
+	addBill: function(billInfo, callback){
+		var billModel = this.getBillsModel();
+		/*
+			userID : String,
+	  		billingInfo: {recieve: String, pay_method: String},
+	  		receiverInfo: {name: String, phone: String, date: String, address: String, district: String, city: String},
+	  		cartInfo: Array
+	  	*/
+		var bill = new billModel({
+			userID: billInfo.userID,
+			billingInfo: billInfo.payInfo.billingInfo,
+			receiverInfo: billInfo.payInfo.receiverInfo,
+			cartInfo: billInfo.cartInfo,
+		});
+		bill.save(function(err, data){
+			if(err) throw err;
+			callback();
+		})
 	}
 };
 

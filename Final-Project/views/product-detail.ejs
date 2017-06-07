@@ -18,16 +18,14 @@
 				<br>
 				<div class= "row">
 					<div class="col-md-4 col-lg-4">
-						<form method="post" enctype="multipart/form-data" data-id="<%= content.product.id %>">
 				  			<div class="quantity buttons_added">
 							    <input type="button" value="-" class="minus button is-form">    
 							    <input type="number" step="1" min="1" max="9999" name="quantity" value="1" title="SL" class="input-text qty text" size="4" pattern="[0-9]*" inputmode="numeric">
 							    <input type="button" value="+" class="plus button is-form">  
 							</div>
-						</form>
 					</div>
 					<div class="col-md-8 col-lg-8">
-						<button type="submit" name="add-to-cart" class="add_to_cart_button">Mua ngay</button>
+						<button type="submit" name="add-to-cart" class="add_to_cart_button" id="buy-now" data-id="<%= content.product._id %>">Mua ngay</button>
 					</div>
 				</div>
 				<br>

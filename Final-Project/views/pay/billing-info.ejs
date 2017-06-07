@@ -10,7 +10,7 @@
 					<li class="active"><span>3</span><strong>Thông tin thanh toán</strong></li>
 					<li><span>4</span><strong>Hoàn thành</strong></li>
 				</ul>
-				<form action="done-buy.html" method="POST" name="bill-info">
+				<form action="/pay/billing-info" method="POST" name="bill-info">
 					<div class="form-pay-info clearfix">
 						<div class="col-lg-5 col-sm-6 col-xs-12">
 							<div class="customer-info">
@@ -33,10 +33,13 @@
 							</div>
 							<h4 style="font-size: 15px; font-weight: bold;">Hình thức thanh toán</h4>
 							<div class="radio">
-								<label><input type="radio" name="pay-method" value="face-to-face" checked>Thanh toán trực tiếp</label>
+								<label><input type="radio" name="pay_method" value="face-to-face" checked>Thanh toán trực tiếp</label>
 							</div>
 							<div class="radio">
-								<label><input type="radio" name="pay-method" value="by-card">Thanh toán qua thẻ</label>
+								<label><input type="radio" name="pay_method" value="by-card">Thanh toán qua thẻ</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="pay_method" value="by-online">Thanh toán Online</label>
 							</div>
 							<div class="form-group pay-info">
 								<h4>Thông tin thẻ</h4>
@@ -68,6 +71,7 @@
 						</div>
 					</div>
 					<div><a href="/pay/receiver-info" class="prev-step">Thông tin người nhận</a></div>
+					<input type="hidden" name="cart_info">
 					<input type="submit" value="Thanh toán" class="next-step">
 				</form>
 				<script type="text/javascript">
@@ -77,5 +81,4 @@
 				</script>
 			</div>
 		</div>
-
 		<% include ../includes/footer.ejs %>

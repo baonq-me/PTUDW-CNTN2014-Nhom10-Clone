@@ -4,6 +4,7 @@ var express = require('express'),
 	session = require("express-session"),
 	passport = require("passport"),
 	controller = require('./controller/controller.js');
+var router = express.Router();
 
  //Chọn view engine
  app.set('view engine', 'ejs');
