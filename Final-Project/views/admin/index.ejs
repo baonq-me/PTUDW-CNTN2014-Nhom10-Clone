@@ -50,30 +50,24 @@
 				<div class="col-md-6 col-sm-12 col-xs-12">
 					<div class="box">
 						<div class="box-title">
-							<h2>Danh sách loại hoa hết hàng</h2>
+							<h2>Danh sách sản phẩm đã hết hàng</h2>
 							<span class="toggle-box fa fa-angle-down"></span>
 						</div>
 						<div class="box-content">
 							<table class="list-product">
 								<thead>
 									<tr>
-										<td>Tên sản phẩm</td>
-										<td>Số lượng</td>
+										<td>ID</td>
+										<td>Tên sản phẩm</td>	
 									</tr>
 								</thead>
 								<tbody>
+									<% for (i = 0 ; i < outOfProducts.length; i++){ %>
 									<tr>
-										<td><a href="#"><b>Hoa hồng</b></a></td>
-										<td>0</td>
+										<td> <%= outOfProduct[i].id %></td>
+										<td><b><%= outOfProduct[i].name %></b></td>
 									</tr>
-									<tr>
-										<td><a href="#"><b>Hoa hướng dương</b></a></td>
-										<td>0</td>
-									</tr>
-									<tr>
-										<td><a href="#"><b>Hoa cúc</b></a></td>
-										<td>1</td>
-									</tr>
+									<% }; %>
 								</tbody>
 							</table>
 							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
@@ -123,38 +117,26 @@
 				<div class="col-md-6 col-sm-12 col-xs-12">
 					<div class="box">
 						<div class="box-title">
-							<h2>Loại hoa được thêm gần đây</h2>
+							<h2>Sản phẩm được thêm gần đây</h2>
 							<span class="toggle-box fa fa-angle-down"></span>
 						</div>
 						<div class="box-content">
 							<table class="list-product">
 								<thead>
 									<tr>
-										<td>Tên hoa</td>
-										<td>Số lượng thêm</td>
-										<td>Số lượng hiện tại</td>
+										<td>ID</td>
+										<td>Tên sản phẩm</td>
+										<td>Số lượng </td>
+										<td>Ngày thêm </td>
 									</tr>
 								</thead>
 								<tbody>
+									<% for (i = 0; i< newProducts.length; i++) { %>
 									<tr>
-										<td><a href="#"><b>Hoa hồng</b></a></td>
-										<td><b>100</b></td>
-										<td>100</td>
-									</tr>
-									<tr>
-										<td><a href="#"><b>Hoa hướng dương</b></a></td>
-										<td><b>50</b></td>
-										<td>50</td>
-									</tr>
-									<tr>
-										<td><a href="#"><b>Hoa cúc</b></a></td>
-										<td><b>101</b></td>
-										<td>101</td>
-									</tr>
-									<tr>
-										<td><a href="#"><b>Hoa ly</b></a></td>
-										<td><b>20</b></td>
-										<td>59</td>
+										<td> <%= newProducts[i].id %> </td>
+										<td> <b> <%= newProducts[i].name %> </b></td>
+										<td> <%= newProducts[i].quality %> </td>
+										<td> <%= newProducts[i].dateAdded %> </td>
 									</tr>
 								</tbody>
 							</table>

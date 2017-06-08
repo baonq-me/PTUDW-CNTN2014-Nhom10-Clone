@@ -23,7 +23,12 @@ var getContentHomeAdmin = function(callback){
 	dao.countProducts(function(countProducts){
 		dao.countBills(function(countBills){
 			dao.countUsers(function(countUsers){
-				callback(countProducts, countBills, countUsers);
+				dao.outOfProduct(function(outOfProducts){
+					dao.getNewProductAdmin(function(newProducts){
+						callback(countProducts, countBills, countUsers, outOfProducts, newProducts);
+					});
+				});
+				
 			});
 		});
 	});
@@ -32,8 +37,10 @@ var getContentHomeAdmin = function(callback){
 router.get("/", function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers){
-				res.render("admin/index", {"header": header, "sidebar":sidebar, "countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers});
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+				res.render("admin/index", {"header": header, "sidebar":sidebar, 
+					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers,
+					"outOfProducts": outOfProducts, "newProducts" : newProducts});
 			});
 			
 		});

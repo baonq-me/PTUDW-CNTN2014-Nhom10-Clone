@@ -622,6 +622,41 @@ var dao = {
 			if (err) throw err;
 			callback(count);
 		});
+	},
+
+	/*
+	* Lấy Danh sách sản phẩm hết hàng
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	*   data: mảng các object
+	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
+	*/
+	outOfProduct : function(callback){
+		var productModel= this.getProductModel();
+
+		productModel.find({quality : 0})
+		.select('id name')
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	* Lấy sản phẩm được thêm gần đây
+	* @param số lượng sản phẩm cần lấy
+	* 
+	*/
+	getNewProductAdmin : function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.find()
+		.select('id name quality dateAdded')
+		.sort({dateAdded: -1})
+		.limit(5)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
 	}
 };
 
