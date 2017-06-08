@@ -42,7 +42,6 @@ router.get("/", function(req, res){
 					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers,
 					"outOfProducts": outOfProducts, "newProducts" : newProducts});
 			});
-			
 		});
 	});
 });
