@@ -581,7 +581,47 @@ var dao = {
 		bill.save(function(err, data){
 			if(err) throw err;
 			callback();
-		})
+		});
+	},
+
+	/*
+	*  Đếm số lượng sản phẩm
+	*	@param thực hiện sau khi đếm số lượng sản phẩm
+	*   count: số lượng sản phẩm được trả về
+	*/
+	countProducts : function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.count({}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	/*
+	*  Đếm số lượng đơn hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBills : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	/*
+	*  Đếm số lượng sản phẩm
+	*	@param thực hiện sau khi đếm số lượng sản phẩm
+	*   count: số lượng sản phẩm được trả về
+	*/
+	countUsers : function(callback){
+		var userModel = this.getUserModel();
+
+		userModel.count({}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
 	}
 };
 

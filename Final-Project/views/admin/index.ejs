@@ -1,0 +1,209 @@
+<% include includes/header.ejs %>
+	<% include includes/sidebar.ejs %>
+
+	
+		<div class="content-footer">
+			<div class="content">
+				<!-- Tổng số sản phẩm đang bán + Tổng số loại hoa + Tổng số đơn hàng trong tháng + tổng user | 5 loại hoa mới cập nhật gần đây | Danh sách các sản phẩm hết hàng | Các user được thêm gần đây | Các hoa vừa được bán -->
+				<div class="base-info">
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="item item-san-pham">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-yelp"></span><span class="dashboard-quickview">Sản Phẩm</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><%= countProducts %><small>sp</small></div>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="item item-don-hang">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-clone"></span><span class="dashboard-quickview">Đơn Hàng</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><%= countBills %><small>đơn/tháng</small></div>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<div class="item item-nguoi-dung">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-users"></span><span class="dashboard-quickview">User</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><%= countUsers %><small>user</small></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div class="box">
+						<div class="box-title">
+							<h2>Danh sách loại hoa hết hàng</h2>
+							<span class="toggle-box fa fa-angle-down"></span>
+						</div>
+						<div class="box-content">
+							<table class="list-product">
+								<thead>
+									<tr>
+										<td>Tên sản phẩm</td>
+										<td>Số lượng</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#"><b>Hoa hồng</b></a></td>
+										<td>0</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa hướng dương</b></a></td>
+										<td>0</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa cúc</b></a></td>
+										<td>1</td>
+									</tr>
+								</tbody>
+							</table>
+							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
+						</div>
+					</div>
+					<div class="box">
+						<div class="box-title">
+							<h2>Sản phẩm vừa bán</h2>
+							<span class="toggle-box fa fa-angle-down"></span>
+						</div>
+						<div class="box-content">
+							<table class="list-product">
+								<thead>
+									<tr>
+										<td>Tên sản phẩm</td>
+										<td>Số lượng</td>
+										<td>Đơn giá</td>
+										<td>Người mua</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#"><b>Hoa hồng</b></a></td>
+										<td><b>10</b></td>
+										<td>10.000đ</td>
+										<td><a href="#"><b>Huy</b></a></td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa cúc</b></a></td>
+										<td><b>40</b></td>
+										<td>5.000đ</td>
+										<td><a href="#"><b>Hiền</b></a></td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa ly</b></a></td>
+										<td><b>2</b></td>
+										<td>100.000đ</td>
+										<td><a href="#"><b>Bảo</b></a></td>
+									</tr>
+								</tbody>
+							</table>
+							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div class="box">
+						<div class="box-title">
+							<h2>Loại hoa được thêm gần đây</h2>
+							<span class="toggle-box fa fa-angle-down"></span>
+						</div>
+						<div class="box-content">
+							<table class="list-product">
+								<thead>
+									<tr>
+										<td>Tên hoa</td>
+										<td>Số lượng thêm</td>
+										<td>Số lượng hiện tại</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#"><b>Hoa hồng</b></a></td>
+										<td><b>100</b></td>
+										<td>100</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa hướng dương</b></a></td>
+										<td><b>50</b></td>
+										<td>50</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa cúc</b></a></td>
+										<td><b>101</b></td>
+										<td>101</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Hoa ly</b></a></td>
+										<td><b>20</b></td>
+										<td>59</td>
+									</tr>
+								</tbody>
+							</table>
+							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
+						</div>
+					</div>
+					<div class="box">
+						<div class="box-title">
+							<h2>Người dùng thêm gần đây</h2>
+							<span class="toggle-box fa fa-angle-down"></span>
+						</div>
+						<div class="box-content">
+							<table class="list-product">
+								<thead>
+									<tr>
+										<td>Tên người dùng</td>
+										<td>Tên tài khoản</td>
+										<td>Email</td>
+										<td>Số điện thoại</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#"><b>Nguyễn Văn Huy</b></a></td>
+										<td><a href="#"><b>1412209</b></a></td>
+										<td>1412209@student.hcmus.edu.vn</td>
+										<td>01665448229</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Nguyễn Thị Thu Hiền</b></a></td>
+										<td><a href="#"><b>1412170</b></a></td>
+										<td>1412170@student.hcmus.edu.vn</td>
+										<td>0165482487</td>
+									</tr>
+									<tr>
+										<td><a href="#"><b>Nguyễn Quốc Bảo</b></a></td>
+										<td><a href="#"><b>1412630</b></a></td>
+										<td>1412630@student.hcmus.edu.vn</td>
+										<td>01325487725</td>
+									</tr>
+								</tbody>
+							</table>
+							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
