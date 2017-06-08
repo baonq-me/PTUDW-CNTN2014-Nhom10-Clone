@@ -1,7 +1,6 @@
 var router = require("express").Router();
 var dao = require('../database/dao.js');
 // Mở kết nối cho db
-dao.connect(function(){});
 
 // Nếu muốn dùng thirt party
 // router.use();

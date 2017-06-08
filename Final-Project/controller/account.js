@@ -1,5 +1,6 @@
 // type: admin or custumer
-module.exports = function(app){
+var router = require("express").Router();
+
 	var dao = require('../database/dao.js');
 	var passport = require("passport");
 	var LocalStrategy = require("passport-local").Strategy;
@@ -8,7 +9,7 @@ module.exports = function(app){
 
 	/***************************** CẤU HÌNH CÁC ROUTING *******************/
 	// Routing login local
-	app.post("/auth/local", function(req, res, next) {
+	router.post("/auth/local", function(req, res, next) {
 		var username = req.body.username;
 		var redirectFromLogin = req.session.redirectFromLogin || "/";
  		passport.authenticate('local', function(err, user, info) {
@@ -22,8 +23,8 @@ module.exports = function(app){
 		})(req, res, next);
 	});
 	// Cấu hình routing login facebook
-	app.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
-	app.get("/auth/fb/cb", function(req, res, next) {
+	router.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
+	router.get("/auth/fb/cb", function(req, res, next) {
 		var redirectFromLogin = req.session.redirectFromLogin || "/";
  		passport.authenticate('facebook', function(err, user, info) {
 			if (err) { return next(err); }
@@ -36,8 +37,8 @@ module.exports = function(app){
 		})(req, res, next);
 	});
 	// Cấu hình routing login google
-	app.get("/auth/gg", passport.authenticate('google', {scope:["profile", "email"]}));
-	app.get("/auth/gg/cb", function(req, res, next) {
+	router.get("/auth/gg", passport.authenticate('google', {scope:["profile", "email"]}));
+	router.get("/auth/gg/cb", function(req, res, next) {
 		var redirectFromLogin = req.session.redirectFromLogin || "/";
  		passport.authenticate('google', function(err, user, info) {
 			if (err) { return next(err); }
@@ -141,14 +142,16 @@ module.exports = function(app){
 	));
 
 	// Test đăng nhập
-	app.get("/private", function(req, res){
+	router.get("/private", function(req, res){
 		if(req.isAuthenticated()){
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
 	// Routing logout
-	app.post("/logout", function(req, res){
+	router.post("/logout", function(req, res){
 		req.logout();
 		res.json({});
 	});
-}
+
+
+module.exports = router;
