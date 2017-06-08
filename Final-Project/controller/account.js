@@ -22,6 +22,9 @@ var router = require("express").Router();
 			});
 		})(req, res, next);
 	});
+	// Routing login local admin
+	router.post("/admin/auth/local", passport.authenticate('local-admin', {successRedirect: "/admin", failureRedirect:"/admin/login"}));
+	
 	// Cấu hình routing login facebook
 	router.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
 	router.get("/auth/fb/cb", function(req, res, next) {
@@ -74,8 +77,6 @@ var router = require("express").Router();
 			profileFields: ["email", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
-			console.log("ok");
-			console.log(profile._json);
 			dao.getUserSocial({facebook: profile._json.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
@@ -133,6 +134,7 @@ var router = require("express").Router();
 	    	passwordField: 'password'	// tên của input password được request từ client
 		},
 		function(username, password, done){
+			console.log(username + password)
 			dao.login(username, password, function(success){
 				if(success){
 					dao.getUser(username, function(user){
@@ -141,6 +143,25 @@ var router = require("express").Router();
 						return done(null, user);
 					});
 				} else{ return done(null, false); }
+			});
+		}
+	));
+	// Kiểm tra đăng nhập local admin
+	passport.use("local-admin", new LocalStrategy(
+		{
+			usernameField: 'username',	// tên của input username được request từ client
+	    	passwordField: 'password',	// tên của input password được request từ client
+	    	passReqToCallback: true
+		},
+		function(req, username, password, done){
+			dao.login(username, password, function(success){
+				if(success){
+					dao.getUser(username, function(user){
+						if (user.role.name != "admin")
+							return done(null, false, req.flash("error", "Tên đăng nhập hoặc mật khẩu không đúng"));
+						return done(null, user);
+					});
+				} else{ return done(null, false, req.flash("error", "Tên đăng nhập hoặc mật khẩu không đúng")); }
 			});
 		}
 	));

@@ -113,10 +113,11 @@
 <body>
 	<div class="login-page">
 		<div class="form">
-			<form class="login-form">
+			<form class="login-form" method="POST" action="/admin/auth/local">
 				<img src="/admin/images/logo.png">
-				<input type="text" placeholder="username"/>
-				<input type="password" placeholder="password"/>
+				<input type="text" name="username" placeholder="username"/>
+				<input type="password" name="password" placeholder="password"/>
+				<p style="color: red; font-size: 13px"><%= message %></p>
 				<button>login</button>
 			</form>
 		</div>
