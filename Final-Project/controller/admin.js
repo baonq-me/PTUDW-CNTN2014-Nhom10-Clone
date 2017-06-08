@@ -24,8 +24,10 @@ var getContentHomeAdmin = function(callback){
 		dao.countBills(function(countBills){
 			dao.countUsers(function(countUsers){
 				dao.outOfProduct(function(outOfProducts){
-					dao.getNewProductAdmin(function(newProducts){
-						callback(countProducts, countBills, countUsers, outOfProducts, newProducts);
+					dao.getNewProductAdmin(5, function(newProducts){
+						dao.getNewUsers(5, function(newUsers){
+							callback(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers);
+						});	
 					});
 				});
 
@@ -33,6 +35,21 @@ var getContentHomeAdmin = function(callback){
 		});
 	});
 };
+
+//Lấy nội dung trang quản lý sản phẩm của Admin
+var getContentProductsAdmin = function(callback){
+	dao.countCategories(function(countCategories){
+		dao.countNewProductInWeek (function(countNewProduct){
+			dao.countPromotionProduct(function(countPromotionProduct){
+				dao.getBestSellProduct(function(bestSellProduct){
+
+					callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct);
+				});
+
+			});
+		});
+	});
+}
 
 // localhost:3000/admin/dashboard -> localhost:3000/admin
 router.get("/dashboard", function(req, res){
@@ -43,10 +60,10 @@ router.get("/dashboard", function(req, res){
 router.get("/", function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
-				res.render("admin/index", {"header": header, "sidebar":sidebar,
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers){
+				res.render("admin/index", {"header": header, "sidebar":sidebar, 
 					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers,
-					"outOfProducts": outOfProducts, "newProducts" : newProducts});
+					"outOfProducts": outOfProducts, "newProducts" : newProducts, "newUsers" : newUsers});
 			});
 		});
 	});
@@ -56,8 +73,9 @@ router.get("/", function(req, res){
 router.get("/product", function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
-				res.render("admin/product", {"header": header, "sidebar":sidebar});
+			getContentProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct){
+				res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
+					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct});
 			});
 		});
 	});

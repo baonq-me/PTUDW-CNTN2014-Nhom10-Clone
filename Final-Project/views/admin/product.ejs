@@ -10,11 +10,23 @@
 							<div class="col-md-5 col-sm-12 col-xs-12">
 								<div class="row">
 									<div class="count-top">
-										<span class="fa fa-pagelines"></span><span class="dashboard-quickview">Đang bán</span>
+										<span class="fa fa-pagelines"></span><span class="dashboard-quickview">Nhóm sản phẩm</span>
 									</div>
 								</div>
 							</div>
-							<div class="count col-md-7 col-sm-12 col-xs-12">6<small>nhóm</small></div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"> <%= countCategories %> <small>nhóm</small></div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm- 6 col-xs-12">
+						<div class="item item-don-hang">
+							<div class="col-md-5 col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="count-top">
+										<span class="fa fa-clone"></span><span class="dashboard-quickview">Bán chạy nhất</span>
+									</div>
+								</div>
+							</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"> <small><%= bestSellProduct %></small></div>
 						</div>
 					</div>
 					<div class="col-md-3 col-sm-6 col-xs-12">
@@ -22,35 +34,24 @@
 							<div class="col-md-5 col-sm-12 col-xs-12">
 								<div class="row">
 									<div class="count-top">
-										<span class="fa fa-yelp"></span><span class="dashboard-quickview">SP tuần này</span>
+										<span class="fa fa-yelp"></span><span class="dashboard-quickview">SP mới trong tuần</span>
 									</div>
 								</div>
 							</div>
-							<div class="count col-md-7 col-sm-12 col-xs-12">53<small>hoa</small></div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><%= countNewProduct %><small>SP</small></div>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-6 col-xs-12">
-						<div class="item item-don-hang">
-							<div class="col-md-5 col-sm-12 col-xs-12">
-								<div class="row">
-									<div class="count-top">
-										<span class="fa fa-clone"></span><span class="dashboard-quickview">Bán chạy</span>
-									</div>
-								</div>
-							</div>
-							<div class="count col-md-7 col-sm-12 col-xs-12"><small>Hoa hồng (Hoa tình yêu)</small></div>
-						</div>
-					</div>
+					
 					<div class="col-md-3 col-sm-6 col-xs-12">
 						<div class="item item-nguoi-dung">
 							<div class="col-md-5 col-sm-12 col-xs-12">
 								<div class="row">
 									<div class="count-top">
-										<span class="fa fa-users"></span><span class="dashboard-quickview">.</span>
+										<span class="fa fa-users"></span><span class="dashboard-quickview">Sản phẩm khuyến mãi</span>
 									</div>
 								</div>
 							</div>
-							<div class="count col-md-7 col-sm-12 col-xs-12">.<small>.</small>.</div>
+							<div class="count col-md-7 col-sm-12 col-xs-12"><%= countPromotionProduct %><small>SP</small></div>
 						</div>
 					</div>
 				</div>

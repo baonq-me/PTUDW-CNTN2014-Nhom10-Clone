@@ -153,31 +153,21 @@
 							<table class="list-product">
 								<thead>
 									<tr>
+										<td>ID</td>
 										<td>Tên người dùng</td>
 										<td>Tên tài khoản</td>
-										<td>Email</td>
-										<td>Số điện thoại</td>
+										<td>Ngày thêm vào</td>
 									</tr>
 								</thead>
 								<tbody>
+									<% for ( i=0 ; i< newUsers.length; i++){ %>
 									<tr>
-										<td><a href="#"><b>Nguyễn Văn Huy</b></a></td>
-										<td><a href="#"><b>1412209</b></a></td>
-										<td>1412209@student.hcmus.edu.vn</td>
-										<td>01665448229</td>
+										<td><%= newUsers[i].id %></td>
+										<td><b> <%= newUsers[i].fullName %></b></td>
+										<td><b> <%= newUsers[i].username %></b></td>
+										<td><%= newUsers[i].dateAdded %></td>	
 									</tr>
-									<tr>
-										<td><a href="#"><b>Nguyễn Thị Thu Hiền</b></a></td>
-										<td><a href="#"><b>1412170</b></a></td>
-										<td>1412170@student.hcmus.edu.vn</td>
-										<td>0165482487</td>
-									</tr>
-									<tr>
-										<td><a href="#"><b>Nguyễn Quốc Bảo</b></a></td>
-										<td><a href="#"><b>1412630</b></a></td>
-										<td>1412630@student.hcmus.edu.vn</td>
-										<td>01325487725</td>
-									</tr>
+									<% }; %>
 								</tbody>
 							</table>
 							<a href="#" class="btn btn-info pull-right">Xem thêm</a>

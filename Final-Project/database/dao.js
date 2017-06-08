@@ -646,17 +646,83 @@ var dao = {
 	* @param số lượng sản phẩm cần lấy
 	* 
 	*/
-	getNewProductAdmin : function(callback){
+	getNewProductAdmin : function(count, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find()
 		.select('id name quality dateAdded')
 		.sort({dateAdded: -1})
-		.limit(5)
+		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
+	},
+	/*
+	* Lấy users mới được thêm gần đây
+	* @param số lượng users cần lấy
+	* @param thực hiện khi lấy users
+	* data: mảng các object user mới được thêm vào
+	*/
+	getNewUsers : function(count, callback){
+		var userModel = this.getUserModel();
+
+		userModel.find()
+		.sort({dateAdded: -1})
+		.select('id fullName username dateAdded')
+		.limit(count)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	*  Đếm số lượng danh mục sản phẩm (nhóm sản phẩm)
+	*	@param thực hiện sau khi đếm số lượng sản phẩm
+	*   count: số lượng sản phẩm được trả về
+	*/
+	countCategories : function(callback){
+		var categoryModel = this.getCategoryModel();
+
+		categoryModel.count({}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	/* 
+	* Đếm số sản phẩm mới được thêm trong tuần
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	*   count: số lượng sản phẩm được trả về
+	*/
+	countNewProductInWeek : function(callback){
+		callback(10);
+	},
+
+	/* 
+	* Đếm số sản phẩm khuyến mãi hiện có
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	*   count: số lượng sản phẩm được trả về
+	*/
+
+	countPromotionProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.count({}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	/*
+	* Lấy sản phẩm bán chạy nhất (Được mua nhiều nhất) 
+	* @param thực hiện sau khi lấy sản phẩm
+	* data trả về là tên sản phẩm bán chạy nhất
+	*/
+
+	getBestSellProduct: function(callback){
+		callback("Hoa tình yêu 1");
 	}
 };
 
