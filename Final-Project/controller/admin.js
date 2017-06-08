@@ -3,7 +3,7 @@ var dao = require('../database/dao.js');
 // Mở kết nối cho db
 dao.connect(function(){});
 
-// Nếu muốn dùng thirt party 
+// Nếu muốn dùng thirt party
 // router.use();
 
 /******************* CÁC FUNCTION LẤY NHỮNG PHẦN CƠ BẢN **********************************/
@@ -28,17 +28,17 @@ var getContentHomeAdmin = function(callback){
 						callback(countProducts, countBills, countUsers, outOfProducts, newProducts);
 					});
 				});
-				
+
 			});
 		});
 	});
 };
-//Routing trang chủ Admin
+// Dashboard
 router.get("/", function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
-				res.render("admin/index", {"header": header, "sidebar":sidebar, 
+				res.render("admin/dashboard", {"header": header, "sidebar":sidebar,
 					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers,
 					"outOfProducts": outOfProducts, "newProducts" : newProducts});
 			});
@@ -46,14 +46,45 @@ router.get("/", function(req, res){
 	});
 });
 
-//Routing trang quản lý sản phẩm
-router.get("/products", function(req, res){
+
+router.get("/", function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			res.render("admin/products", {"header": header, "sidebar":sidebar});
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+				res.render("admin/products", {});
+			});
 		});
 	});
 });
 
+router.get("/", function(req, res){
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+				res.render("admin/products", {});
+			});
+		});
+	});
+});
+
+router.get("/", function(req, res){
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+				res.render("admin/products", {});
+			});
+		});
+	});
+});
+
+router.get("/", function(req, res){
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+				res.render("admin/products", {});
+			});
+		});
+	});
+});
 
 module.exports = router;
