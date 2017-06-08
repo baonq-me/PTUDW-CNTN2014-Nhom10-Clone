@@ -10,4 +10,8 @@ $(document).ready(function(){
 		}
 		full = !full;
 	});
+	var path = window.location.pathname;
+	path = (path == "/admin/") ? '/admin/dashboard' : path;
+	var selector = "a[href|='" + path + "']";
+	$(selector).parent().addClass("active");
 })
