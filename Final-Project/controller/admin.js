@@ -136,4 +136,9 @@ router.get("/setting", function(req, res){
 	});
 });
 
+// Login
+router.get("/login", (req, res) => {
+	res.render("admin/login");
+});
+
 module.exports = router;
