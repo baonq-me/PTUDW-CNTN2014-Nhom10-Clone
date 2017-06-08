@@ -69,17 +69,24 @@ var dao = {
 		//Ngược lại, tạo model User mới
 		//Tạo Schema User
 	  	var UserSchema = this.mongoose.Schema({
-	  		id : this.mongoose.Schema.ObjectId,
-	  		social_id : { facebook: String, google: String, twitter: String },			// Dùng cho đăng nhập mạng xã hội
-	  		type: {type: String, require: true},		// local, facebook, google, twitter
-	  		fullName: String,
-	  		username: String,
-	  		email: String,
-	  		password: String,
-	  		address: String,
-	  		tel: String,
-	  		dateAdded: Date
-	  	});
+			loginInfo: {
+				typeLg: String,
+				socialLoginId : { facebook: String, google: String, twitter: String },
+				localLogin: { username: String, password: String }
+			},
+			baseInfo: {
+				fullName: String,
+				email: String,
+				address: String,
+				tel: String,
+			},
+			dateAdded: { type: Date, default: Date.now },
+			role: {
+				name: String,
+				permission: Object
+			},
+			status: String
+		});
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.users = this.mongoose.model('users', UserSchema);
@@ -97,7 +104,8 @@ var dao = {
 	  		userID : String,
 	  		billingInfo: {recieve: String, pay_method: String},
 	  		receiverInfo: {name: String, phone: String, date: String, address: String, district: String, city: String},
-	  		cartInfo: Array
+	  		cartInfo: Array,
+			dateAdded: { type: Date, default: Date.now }
 	  	});	
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
@@ -381,17 +389,23 @@ var dao = {
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
-	addUserLocal: function(user){
+	addUserLocal: function(args){
 		var userModel = this.getUserModel();
-
 		var user = new userModel({
-			fullName: user.name,
-			email: user.sign_up_email,
-			type: "local",
-			username : user.sign_up_username,
-			password: this.passwordHash.generate(user.sign_up_password),
-			address: user.sign_up_addr,
-			tel: user.sign_up_tel
+			"loginInfo": {
+				typeLg: "local",
+				localLogin: { username: args.sign_up_username, password: this.passwordHash.generate(args.sign_up_password) }
+			},
+			baseInfo: {
+				fullName: args.name,
+				email: args.sign_up_email,
+				address: args.sign_up_addr,
+				tel: args.sign_up_tel
+			},
+			role: {
+				name: "customer"
+			},
+			status: ""
 		});
 		user.save(function(err, data){
 			if(err) throw err;
@@ -406,12 +420,12 @@ var dao = {
 	*/
 	login: function(username, password, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({username:username}, function(err, data){
+		userModel.findOne({"loginInfo.localLogin.username":username}, function(err, data){
 			if (err) throw err;
 			if(data == null)
 				callback(false)
 			else{
-				callback(dao.passwordHash.verify(password, data.password));
+				callback(dao.passwordHash.verify(password, data.loginInfo.localLogin.password));
 			}
 		});
 	},
@@ -421,10 +435,9 @@ var dao = {
 	* @callback: thực hiện sau khi lấy thông tin
 	* return thông tin user
 	*/
-
 	getUser: function(username, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({"username":username}, function(err, data){
+		userModel.findOne({"loginInfo.localLogin.username":username}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -452,7 +465,7 @@ var dao = {
 	hadUsername: function(username, callback){
 		var userModel = this.getUserModel();
 
-		userModel.findOne({username: username}, function(err, data){
+		userModel.findOne({"loginInfo.localLogin.username": username}, function(err, data){
 			if(err) throw err;
 			//Username đã tồn tại
 			if(data != null)
@@ -470,7 +483,8 @@ var dao = {
 	hadEmail: function(email, callback){
 		var userModel = this.getUserModel();
 
-		userModel.findOne({email: email, type: "local"}, function(err, data){
+		userModel.findOne({"baseInfo.email": email, "loginInfo.typeLg": "local"}, function(err, data){
+			console.log(data);
 			if(err) throw err;
 			//Nếu email đã tồn tại
 			if(data != null){
@@ -499,9 +513,9 @@ var dao = {
 	},	
 	setNewPassword: function(username, newpass, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({username: username}, function(err, user){
+		userModel.findOne({"loginInfo.localLogin.username": username}, function(err, user){
 			if(err) throw err;
-			user.password = dao.passwordHash.generate(newpass);
+			user.loginInfo.localLogin.password = dao.passwordHash.generate(newpass);
 			user.save(function(err, data){
 				if(err) throw err;
 				callback(true);
@@ -510,10 +524,11 @@ var dao = {
 	},
 	getMail: function(username, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({username: username})
-		.select('email')
+		userModel.findOne({"loginInfo.localLogin.username": username})
+		.select('baseInfo.email')
 		.exec(function(err, data){
-			callback(data);
+			if(data == null) callback (null)
+			else callback(data.baseInfo.email);
 		});
 	},
 
@@ -534,12 +549,11 @@ var dao = {
 	*/
 	getUserSocial: function(uid, callback){
 		var userModel = this.getUserModel();
-		userModel.findOne({"social_id":uid}, function(err, data){
+		userModel.findOne({"loginInfo.socialLoginId":uid}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
 	},
-
 
 	/*
 	*	Thêm thông tin user đăng nhập từ mạng xã hội
@@ -547,11 +561,19 @@ var dao = {
 	addUserSocial: function(user, callback){
 		var userModel = this.getUserModel();
 		var user = new userModel({
-	  		social_id : user.uid,
-	  		fullName: user.fullName,
-	  		type: user.type,
-	  		email: user.email,
-	  		address: user.address
+			loginInfo: {
+				typeLg: "social",
+				socialLoginId : user.uid
+			},
+			baseInfo: {
+				fullName: user.fullName,
+				email: user.email,
+				address: user.address
+			},
+			role: {
+				name: "customer",
+			},
+			status: ""
 		});
 		user.save(function(err, data){
 			if(err) {callback(false); throw err;}

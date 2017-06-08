@@ -51,8 +51,8 @@ var getFooter = function(callback){
 function setHeader(req, res, next){
 	var user = getCustomer(req);
 	dao.getAllCategory(function(categorys){
-		if(user != null){
-			 res.locals.header = {"categorys": categorys, login: {fullname: user.fullName, changePassword: user.type==="local"}};
+		if(user != null && user.role.name == "customer"){
+			 res.locals.header = {"categorys": categorys, login: {fullname: user.baseInfo.fullName, changePassword: user.loginInfo.typeLg==="local"}};
 		}else res.locals.header = {"categorys": categorys};
 		return next()
 	});
@@ -210,7 +210,7 @@ function checkReceiverInfo(receiverInfo){
 // Kiểm tra đã đăng nhập chưa
 function isLoggedIn(req, res, next){
 	var user = getCustomer(req);
-	if(user == null) {
+	if(user == null || user.role.name != "customer") {
 		req.session.redirectFromLogin = req.path;
 		return res.redirect("/login");
 	}
@@ -335,6 +335,7 @@ router.post("/forget-password",
 router.post("/send-email", function(req, res){
 	let username = req.body.username;
 	dao.getMail(username, function(mailTo){
+		console.log(mailTo);
 		if(mailTo == null){
 			res.json({success: false});
 			return;
@@ -345,7 +346,7 @@ router.post("/send-email", function(req, res){
 		mail = require("./mail");
 		console.log(mail);
 		if(mail({
-			mailTo: mailTo.email,
+			"mailTo": mailTo,
 			subject: 'Mã xác nhận từ Shop hoa KHTN', // Subject line
 			text: 'Mã xác nhận', // plain text body
 			html: 'Mã xác nhận của bạn là: <b>' + code + '</b>' // html body
@@ -370,7 +371,7 @@ router.post("/set-new-password", setHeader, setFooter, function(req, res){
 // Rounting cho trang thay đổi mật khẩu khi đã đăng nhập
 router.get("/change-password", isLoggedIn, setHeader, setFooter, function(req, res){
 	var user = getCustomer(req);
-	if(user.type == "local")
+	if(user.loginInfo.typeLg == "local")
 		res.render("change-password", {});
 	else res.redirect("/");
 });
@@ -380,13 +381,13 @@ router.post("/change-password", isLoggedIn, setHeader, setFooter, function(req, 
 	let oldpass = req.body.old_password;
 	let passwordHash = require('password-hash');
 
-	if (! passwordHash.verify(oldpass, user.password))
+	if (! passwordHash.verify(oldpass, user.loginInfo.localLogin.password))
 		return res.redirect("/change-password");
 
 	let newpass = req.body.set_new_pass_pass1;
-	console.log(user.username +":"+ newpass);
+	console.log("set new password: " + user.loginInfo.localLogin.username +":"+ newpass);
 
-	dao.setNewPassword(user.username, newpass, function(){
+	dao.setNewPassword(user.loginInfo.localLogin.username, newpass, function(){
 		res.render("set-new-password-success", {});
 	});
 });

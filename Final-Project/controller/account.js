@@ -1,4 +1,4 @@
-// type: admin or custumer
+// type: admin or customer
 var router = require("express").Router();
 
 	var dao = require('../database/dao.js');
@@ -12,9 +12,9 @@ var router = require("express").Router();
 	router.post("/auth/local", function(req, res, next) {
 		var username = req.body.username;
 		var redirectFromLogin = req.session.redirectFromLogin || "/";
- 		passport.authenticate('local', function(err, user, info) {
+ 		passport.authenticate('local-customer', function(err, user, info) {
 			if (err) { return next(err); }
-			if (!user) { return res.redirect('/login?fail=true&username=' + username); }
+			if (!user || user.role.name != "customer") { return res.redirect('/login?fail=true&username=' + username); }
 			req.logIn(user, function(err) {
 				if (err) { return next(err); }
 				req.session.redirectFromLogin = null;
@@ -71,9 +71,11 @@ var router = require("express").Router();
 			clientID: "801495239999622",
 			clientSecret: "e15683384ec8ca903271d0b20add0b7c",
 			callbackURL: "http://localhost:3000/auth/fb/cb",
-			//profileFields: ["email", "displayName", "location"]
+			profileFields: ["email", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
+			console.log("ok");
+			console.log(profile._json);
 			dao.getUserSocial({facebook: profile._json.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
@@ -125,7 +127,7 @@ var router = require("express").Router();
 		}
 	));
 	// Kiểm tra đăng nhập local
-	passport.use(new LocalStrategy(
+	passport.use("local-customer", new LocalStrategy(
 		{
 			usernameField: 'username',	// tên của input username được request từ client
 	    	passwordField: 'password'	// tên của input password được request từ client
@@ -134,6 +136,8 @@ var router = require("express").Router();
 			dao.login(username, password, function(success){
 				if(success){
 					dao.getUser(username, function(user){
+						if (user.role.name != "customer")
+							return done(null, false);
 						return done(null, user);
 					});
 				} else{ return done(null, false); }
