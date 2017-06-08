@@ -1,48 +1,53 @@
-module.exports = function(app) {
-	var dao = require('../database/dao.js');
-	// Mở kết nối cho db
-	dao.connect(function(){});
+var router = require("express").Router();
+var dao = require('../database/dao.js');
+// Mở kết nối cho db
+dao.connect(function(){});
 
-	/******************* CÁC FUNCTION LẤY NHỮNG PHẦN CƠ BẢN **********************************/
+// Nếu muốn dùng thirt party 
+// router.use();
 
-	//Lấy header
-	var getHeaderAdmin = function(callback){
-		callback({});
-	};
+/******************* CÁC FUNCTION LẤY NHỮNG PHẦN CƠ BẢN **********************************/
 
-	//Lấy sidebar
-	var getSidebarAdmin = function(callback){
-		callback({});
-	};
+//Lấy header
+var getHeaderAdmin = function(callback){
+	callback({});
+};
 
-	//Lấy nội dung cho trang chủ Admin
-	var getContentHomeAdmin = function(callback){
-		dao.countProducts(function(countProducts){
-			dao.countBills(function(countBills){
-				dao.countUsers(function(countUsers){
-					callback(countProducts, countBills, countUsers);
-				});
-			});
-		});
-	};
-	//Routing trang chủ Admin
-	app.get("/admin", function(req, res){
-		getHeaderAdmin(function(header) {
-			getSidebarAdmin(function(sidebar){
-				getContentHomeAdmin(function(countProducts, countBills, countUsers){
-					res.render("admin/index", {"header": header, "sidebar":sidebar, "countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers});
-				});
-				
+//Lấy sidebar
+var getSidebarAdmin = function(callback){
+	callback({});
+};
+
+//Lấy nội dung cho trang chủ Admin
+var getContentHomeAdmin = function(callback){
+	dao.countProducts(function(countProducts){
+		dao.countBills(function(countBills){
+			dao.countUsers(function(countUsers){
+				callback(countProducts, countBills, countUsers);
 			});
 		});
 	});
-
-	//Routing trang quản lý sản phẩm
-	app.get("/admin/products", function(req, res){
-		getHeaderAdmin(function(header) {
-			getSidebarAdmin(function(sidebar){
-				res.render("admin/products", {"header": header, "sidebar":sidebar});
+};
+//Routing trang chủ Admin
+router.get("/", function(req, res){
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			getContentHomeAdmin(function(countProducts, countBills, countUsers){
+				res.render("admin/index", {"header": header, "sidebar":sidebar, "countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers});
 			});
+			
 		});
 	});
-}
+});
+
+//Routing trang quản lý sản phẩm
+router.get("/products", function(req, res){
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			res.render("admin/products", {"header": header, "sidebar":sidebar});
+		});
+	});
+});
+
+
+module.exports = router;
