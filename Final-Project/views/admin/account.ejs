@@ -1,0 +1,104 @@
+<% include includes/header.ejs %>
+	<% include includes/sidebar.ejs %>
+
+	
+		<div class="content-footer">
+			<div class="content">
+				<div class="box">
+					<div class="box-title">
+						<h1>Tài khoản<a href="admin.account.add.html" class="btn btn-default">Thêm</a></h1>
+
+						<div class="product-info">
+							<a href="admin.account.html" class="float-left"><h2>Tất cả  (12)</h2></a>
+							<a href="admin.account.html" class="float-left">Quản trị (1)</a>
+							<a href="admin.account.html" class="float-left">Bán hàng (2)</a>
+							<a href="admin.account.html" class="float-left">Mua hàng (9)</a>
+
+							<div class="form-group">
+								<a href="admin.account.html" class="btn btn-default float-right">Tìm kiếm</a>
+								<div class="col-xs-2 float-right">
+								<input type="search" id="product-search" class="form-control">
+								</div>
+							</div>
+						</div>
+
+						<div class="btn btn-default">Xử lí loạt</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default">Tác vụ</button>
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Xoá</a></li>
+								<li><a href="#">Khoá tài khoản</a></li>
+								<li><a href="#">Mở tài khoản</a></li>
+						  </ul>
+						</div>
+
+						<div class="btn btn-default">Lọc</a></div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default">Lọc tài khoản</button>
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#">Quản trị</a></li>
+						    <li><a href="#">Bán hàng</a></li>
+								<li><a href="#">Mua hàng</a></li>
+						  </ul>
+						</div>
+
+						<!--<a href="admin.account.html" class="btn btn-default float-right">3</a>
+						<a href="admin.account.html" class="btn btn-default float-right">2</a>-->
+						<a href="admin.account.html" class="btn btn-default float-right">1</a>
+
+						<div class="clear"></div>
+					</div>
+					<div class="box-content">
+						<div style="overflow-x:auto;">
+							<table class="account-table">
+								<thead>
+									<tr>
+										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
+										<td style="width: 15%">Tài khoản</td>
+										<td style="width: 15%">Tên đầy đủ</td>
+										<td style="width: 5%">Email</td>
+										<td style="width: 10%">Loại tài khoản</td>
+										<td style="width: 10%">Thời gian</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><img src="images/account/bao.jpg" class="img-thumbnail"><a class="account-admin "href="admin.account.bao.html">quocbao</a></td>
+										<td>Nguyễn Quốc Bảo</td>
+										<td><a href="mailto:1412661@student.hcmus.edu.vn">1412661@student.hcmus.edu.vn</a></td>
+										<td><a class="account-admin" href="admin.account.html">Quản trị</a></td>
+										<td>Đã thêm 27/04/2017</td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><img src="images/account/hien.jpg" class="img-thumbnail"><a class="account-seller" href="admin.account.hien.html">thuhien<a/></td>
+										<td>Nguyễn Thị Thu Hiền</td>
+										<td><a href="mailto:1412170@student.hcmus.edu.vn">1412170@student.hcmus.edu.vn</a></td>
+										<td><a class="account-seller" href="admin.account.html">Bán hàng</a></td>
+										<td>Đã thêm 28/04/2017</td>
+									</tr>
+									<tr>
+										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+										<td><img src="images/account/huy.jpg" class="img-thumbnail"><a class="account-customer" href="admin.account.huy.html">vanhuy</a></td>
+										<td>Nguyễn Văn Huy</td>
+										<td><a href="mailto:1412209@student.hcmus.edu.vn">1412209@student.hcmus.edu.vn</a></td>
+										<td><a class="account-customer" href="admin.account.html">Mua hàng</a></td>
+										<td>Đã sửa 29/04/2017</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
