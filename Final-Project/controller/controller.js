@@ -4,8 +4,8 @@ module.exports = function(app) {
 	account = require("./account.js");
 	// Routing về các chứng thực tài khoản như login logout
 	account(app);
-	// Routing về các trang khách hàng
-	customer(app);
 	// Routing về các trang admin
 	admin(app);
+	// Routing về các trang khách hàng
+	customer(app);
 }

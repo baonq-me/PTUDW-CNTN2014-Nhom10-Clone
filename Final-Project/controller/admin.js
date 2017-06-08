@@ -45,9 +45,4 @@ module.exports = function(app) {
 			});
 		});
 	});
-
-	// Routing cho trang 404
-	app.get("*", function(req, res){
-		set404(req, res, function(){});
-	});
 }
