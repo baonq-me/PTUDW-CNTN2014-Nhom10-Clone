@@ -1,3 +1,8 @@
+/*
+*	username: nhom10
+*	password: nhom10
+*/
+
 var router = require("express").Router();
 var dao = require('../database/dao.js');
 // Mở kết nối cho db
@@ -6,6 +11,19 @@ var dao = require('../database/dao.js');
 // router.use();
 
 /******************* CÁC FUNCTION LẤY NHỮNG PHẦN CƠ BẢN **********************************/
+// Lấy thông tin user
+var getUser = function(req){
+	var user = req.isAuthenticated() ? req.user : null;
+	user = (user == null || user.role.name != "admin") ? null : user;
+	return user;
+}
+// Kiểm tra đăng nhập
+var isLoggedIn = (req, res, next) => {
+	var user = getUser(req);
+	if (user == null)
+		res.redirect("/admin/login");
+	else next();
+}
 
 //Lấy header
 var getHeaderAdmin = function(callback){
@@ -51,12 +69,12 @@ var getContentProductsAdmin = function(callback){
 }
 
 // localhost:3000/admin/dashboard -> localhost:3000/admin
-router.get("/dashboard", function(req, res){
+router.get("/dashboard", isLoggedIn, function(req, res){
 	res.redirect("/admin");
 });
 
 // Default route is dashboard page
-router.get("/", function(req, res){
+router.get("/", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers){
@@ -69,7 +87,7 @@ router.get("/", function(req, res){
 });
 
 // Product
-router.get("/product", function(req, res){
+router.get("/product", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct){
@@ -81,7 +99,7 @@ router.get("/product", function(req, res){
 });
 
 // Group
-router.get("/group", function(req, res){
+router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
@@ -93,7 +111,7 @@ router.get("/group", function(req, res){
 
 
 // Order
-router.get("/order", function(req, res){
+router.get("/order", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
@@ -104,7 +122,7 @@ router.get("/order", function(req, res){
 });
 
 // Statistic
-router.get("/statistic", function(req, res){
+router.get("/statistic", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
@@ -115,7 +133,7 @@ router.get("/statistic", function(req, res){
 });
 
 // Account
-router.get("/account", function(req, res){
+router.get("/account", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
@@ -126,7 +144,7 @@ router.get("/account", function(req, res){
 });
 
 // Setting
-router.get("/setting", function(req, res){
+router.get("/setting", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
@@ -138,7 +156,8 @@ router.get("/setting", function(req, res){
 
 // Login
 router.get("/login", (req, res) => {
-	res.render("admin/login");
+	var message = req.flash("error");
+	res.render("admin/login", {message: message});
 });
 
 module.exports = router;

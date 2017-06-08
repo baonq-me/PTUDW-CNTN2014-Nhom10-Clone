@@ -3,6 +3,7 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	session = require("express-session"),
 	passport = require("passport"),
+	flash = require("connect-flash"),
 	controller = require('./controller/controller.js');
 var router = express.Router();
 
@@ -21,9 +22,10 @@ var router = express.Router();
  	resave: false,
  	saveUnintialized: false
  }));
+ app.use(flash());
  app.use(passport.initialize());
  app.use(passport.session());
-
+ 
  //Import body-parser cho app
  app.use(bodyParser.urlencoded({extended: true}));
 
