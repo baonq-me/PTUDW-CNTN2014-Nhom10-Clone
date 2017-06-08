@@ -51,7 +51,9 @@ var dao = {
 	  		price: Number,
 	  		categorySlug : [String],	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
 	  		newPrice: Number,
-	  		detail: String
+	  		detail: String, 
+	  		quality: Number,
+	  		dateAdded :Date
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -75,7 +77,8 @@ var dao = {
 	  		email: String,
 	  		password: String,
 	  		address: String,
-	  		tel: String
+	  		tel: String,
+	  		dateAdded: Date
 	  	});
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
@@ -650,8 +653,8 @@ var dao = {
 		var productModel = this.getProductModel();
 
 		productModel.find()
-		.select('id name quality dateAdded')
 		.sort({dateAdded: -1})
+		.select('id name quality dateAdded')
 		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -669,7 +672,7 @@ var dao = {
 
 		userModel.find()
 		.sort({dateAdded: -1})
-		.select('id fullName username dateAdded')
+		.select('fullName username dateAdded')
 		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
