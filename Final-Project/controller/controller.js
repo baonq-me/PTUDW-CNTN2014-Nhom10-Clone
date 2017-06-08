@@ -5,7 +5,7 @@ module.exports = function(app) {
 	// Routing về các chứng thực tài khoản như login logout
 	account(app);
 	// Routing về các trang admin
-	admin(app);
+	app.use("/admin", admin);
 	// Routing về các trang khách hàng
 	customer(app);
 }
