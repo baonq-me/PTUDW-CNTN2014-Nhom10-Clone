@@ -1,0 +1,16 @@
+<%
+	// Giá trị truyền vào là product	
+  var price = (typeof(product.newPrice) == "undefined") ? (product.price + " đồng") : (product.newPrice + " đồng");
+  var oldPrice = (typeof(product.newPrice) == "undefined") ? "" : (product.price + " đồng");
+%>
+<div class="thumbnail">
+  	<a href="/product/<%= product.slug %>">
+    	<img class="img-responsive" src="<%= product.imgPath %>" alt="Image">
+  	</a>
+    <div class="caption">
+     	<a href="/product/<%= product.slug %>"><h3 class="product-name"><%= product.name %></h3></a>
+		<p class="price"><%= price %></p>
+    <p class="old-price"><%= oldPrice %></p>
+		<span class="glyphicon glyphicon-shopping-cart add-cart" data-id="<%= product._id %>"> Thêm</span>
+    </div>
+</div>

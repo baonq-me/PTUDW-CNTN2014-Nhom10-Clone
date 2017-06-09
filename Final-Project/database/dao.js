@@ -203,6 +203,7 @@ var dao = {
 
 		/*	Lấy sản phẩm theo category
 	*	@slugs: mảng các slug của category
+	*	@skip: số lượng sản phẩm được bỏ qua (bắt đầu lấy từ skip + 1)
 	*	@count: số lượng product cần lấy
 	*	@callback(data): được gọi khi lấy sản phẩm theo category xong
 	*		@data mảng thông tin các product
@@ -214,7 +215,7 @@ var dao = {
 	*			- newPrice: giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getProductsByCategory: function(slugs, count, callback){
+	getProductsByCategory: function(slugs, skip, count, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
@@ -229,10 +230,25 @@ var dao = {
 		//Truy vấn DB lấy product có categorySlug là slugs
 		productModel.find({categorySlug: {"$in": slugs}})
 		.limit(count)
+		.skip(skip)
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err; 
 			callback(data);
+		});
+	},
+		/*	Lấy số lượng sản phẩm theo category
+	*	@slugs: mảng các slug của category
+	*	@callback(countProduct): được gọi khi lấy số lượng sản phẩm theo category xong
+	*		@countProduct số lượng product theo category
+	*/
+	getCountProduct: function(slugs, callback){
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+
+		productModel.count({categorySlug: {"$in": slugs}}, function(err, count){
+			if (err) throw err; 
+			callback(count);
 		});
 	},
 

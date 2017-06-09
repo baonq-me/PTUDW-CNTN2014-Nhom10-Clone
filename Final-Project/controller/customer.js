@@ -106,32 +106,6 @@ var getCustomer = function(req){
 }
 
 /*
-*	 Lấy thông tin các sản phẩm của category
-*	@param 	slug của category
-*	@param	callback(data) trả về data sau khi lấy giá trị xong
-*			data: null	nếu slug không đúng
-*			data: {catName: String, products: array(product)} trả về tên category và danh sách sản phẩm nếu category hợp lệ
-*				product: {
-*					- id: mã sản phẩm (duy nhất)
-*					- name: tên sản phẩm
-*					- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
-*					- newPrice: Giá khuyến mãi (đơn vị đông - kiểu number)
-*					- price: giá sản phẩm (đơn vị đông - kiểu number)
-*					- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
-*				}
-*/
-var getContentCategory = function(catSlug, callback){
-	dao.getProductsByCategory([catSlug], 9, function(products){
-		dao.getCatName(catSlug, function(catName){
-			if(catName == null)
-				callback(null);
-			else
-				callback({"catName": catName, "products": products});
-		});
-	});
-}
-
-/*
 *	Tìm kiếm product
 *	@param 	từ khóa tìm kiếm
 *	@param 	Tìm kiếm theo tiêu chí ("category", "price")
@@ -175,7 +149,7 @@ var setContentProductDetail = function(slug, callback){
 			callback(null);
 			return;
 		}
-		dao.getProductsByCategory(product.categorySlug, 8, function(relatedProducts){
+		dao.getProductsByCategory(product.categorySlug, 0, 8, function(relatedProducts){
 			callback({"product": product, "relatedProducts": relatedProducts});
 		});
 	});
@@ -225,13 +199,49 @@ router.get("/", setHeader, setSidebar, setFooter, function(req, res, next){
 });
 // Rounting category
 router.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, res){
-	getContentCategory(req.params.slug, function(content){
-		if(content == null){
-			set404(req, res, function(){
+	var step = 9;
+	var catSlug = req.params.slug;
+	var start = (req.query.start) ? parseInt(req.query.start) : 0;
+	if (start < 0) return set404(req, res, function(){});
+	dao.getProductsByCategory([catSlug], start, step, function(products){
+		if(products.length < 1)
+			return set404(req, res, function(){});
+		dao.getCatName(catSlug, function(catName){
+			if(catName == null)
+				return set404(req, res, function(){});
+			dao.getCountProduct([catSlug], function(countProduct){
+				var countPage = Math.ceil(countProduct / step);
+				var pageActive = Math.ceil(start / step);
+				start = pageActive * step;
+
+				var startPrev = (start - step < 0) ? 0 : start - step;
+				var startNext = (start + step > countProduct - 1) ? countProduct - 1 : start + step;
+
+				var hrefPrev = (pageActive > 0) ? "?start=" + startPrev : undefined;
+				var hrefNext = (pageActive < countPage - 1) ? "?start=" + startNext : undefined;
+
+				var count = 0;
+				var pages = [];
+				var pageStart = (countPage - 1 - pageActive < 2) ? countPage - 5 : pageActive - 2;
+				for (i = pageStart; i < countPage; i++){
+					if (i < 0) continue;
+					if (count == 5) break;
+					if (i == pageActive)
+						pages.push({ page: i+1, start: i*step, class: "active"});
+					else pages.push({ page: i+1, start: i*step, class: "" });
+				}
+
+				res.render("category", 
+					{"content": {
+						"catName": catName,
+						"products": products,
+						"pages": pages,
+						"hrefNext": hrefNext,
+						"hrefPrev": hrefPrev
+					}}
+				);
 			});
-		} else {
-			res.render("category", {"content": content});
-		}
+		});
 	});
 });
 

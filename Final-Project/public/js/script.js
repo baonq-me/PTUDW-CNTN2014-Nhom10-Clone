@@ -322,7 +322,15 @@ $(document).ready(function(){
 			if(confirm("Bạn có chắc muốn xóa sản phẩm không?")){
 				var id = $(this).parent().data("id");
 				removeProductFromCart(id, -1);	// remove tất cả product có id là id
-				window.location.reload();
+				$(("#" + id)).remove();
+				var totalPrice = 0;	
+				$(".cart-pay .list-cart table tbody .product-info").each(function(){
+					totalPrice += parseInt($(this).find(".count input").val()) * parseInt($(this).data("price"));
+				});
+				
+				$(".cart-pay .list-cart table tbody .total-price .cost-sum").text(formatingPrice(totalPrice + "") + " đ");
+				
+		setCountCart();
 			}
 		});
 		$(".cart-pay .list-cart table tbody .count input").on("change click",function(){
