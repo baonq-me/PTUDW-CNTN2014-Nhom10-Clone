@@ -60,18 +60,9 @@
 		<div class="product related-product">
 			<div class="container">
 				<h2> Sản phẩm liên quan </h2>
-				<% content.relatedProducts.forEach(function(relatedProduct){ %>
+				<% content.relatedProducts.forEach(function(product){ %>
 					<div class="col-xs-12 col-sm-6 col-md-3">
-					    <div class="thumbnail">
-					      	<a href="/product/<%= relatedProduct.slug %>">
-					        	<img class="img-responsive" src="<%= relatedProduct.imgPath %>" alt="Image">
-					      	</a>
-					        <div class="caption">
-					         	<a href="/product/<%= relatedProduct.slug %>"><h3 class="product-name"><%= relatedProduct.name %></h3></a>
-								<p class="price"><%= relatedProduct.price %> đồng</p>
-								<span class="glyphicon glyphicon-shopping-cart add-cart" data-id="<%= relatedProduct._id %>"> Thêm</span>
-					        </div>
-					    </div>
+					    <% include includes/product.ejs %>
 				  	</div>
 			  	<% }); %>
 			</div>

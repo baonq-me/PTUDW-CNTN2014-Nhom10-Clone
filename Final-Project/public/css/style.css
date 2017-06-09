@@ -289,6 +289,7 @@ body{
 	padding: 8px;
     background: #00b0ff;
 }
+.pagination ul.pagination-product li.active a,
 .pagination ul.pagination-product li a:hover,
 .pagination span a:hover{
 	background: #FF1493;
