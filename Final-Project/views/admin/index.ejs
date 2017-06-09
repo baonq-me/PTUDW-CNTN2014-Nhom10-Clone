@@ -156,7 +156,6 @@
 							<table class="list-product">
 								<thead>
 									<tr>
-										<td>ID</td>
 										<td>Tên người dùng</td>
 										<td>Tên tài khoản</td>
 										<td>Ngày thêm vào</td>
@@ -165,9 +164,8 @@
 								<tbody>
 									<% for ( i=0 ; i< newUsers.length; i++){ %>
 									<tr>
-										<td><%= newUsers[i].id %></td>
-										<td><b> <%= newUsers[i].fullName %></b></td>
-										<td><b> <%= newUsers[i].username %></b></td>
+										<td><b> <%= newUsers[i].baseInfo.fullName %></b></td>
+										<td><b> <%= newUsers[i].loginInfo.localLogin.username %></b></td>
 										<td><%= newUsers[i].dateAdded %></td>	
 									</tr>
 									<% }; %>

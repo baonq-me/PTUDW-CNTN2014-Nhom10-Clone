@@ -65,10 +65,11 @@
 						<h1>Danh sách sản phẩm <a href="admin.products.add.html" class="btn btn-primary">Thêm</a></h1>
 
 						<div class="product-info">
-							<a href="admin.products.html" class="float-left"><h2>All (53)</h2></a>
-							<a href="admin.products.html" class="float-left">Còn hàng (13)</a>
-							<a href="admin.products.html" class="float-left">Hết hàng (40)</a>
-							<a href="admin.products.html" class="float-left">Đã xoá (5)</a>
+							<a href="/admin/product" class="float-left" id="product_all"><h2>All (<%= countProduct %>)</h2></a>
+							<a href="/admin/product/stock" class="float-left" id="product_stock">Còn hàng (<%= countStockProduct %>)</a>
+							<a href="/admin/product/outOf" class="float-left" id="product_outOf">Hết hàng (<%= countOutOfProduct %>)</a>
+							<a href="/admin/product/deleted" class="float-left" id="product_deleted">Đã xoá (<%= countDeletedProduct %>)</a>
+							<a href="/admin/product/deleted" class="float-left" id="product_deleted">Ngừng bán (<%= countStopSellProduct %>)</a>
 
 							<div class="form-group">
 								<a href="admin.products.html" class="btn btn-primary float-right">Tìm kiếm</a>
@@ -135,68 +136,37 @@
 							<table>
 								<thead>
 									<tr>
-										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td style="width: 10%">Thumbnails</td>
-										<td style="width: 15%">Tên sản phẩm</td>
-										<!-- https://vi.wikipedia.org/wiki/SKU -->
-										<td style="width: 5%">SKU</td>
-										<td style="width: 5%">Số lượng</td>
-										<td style="width: 10%">Giá</td>
-										<td style="width: 15%">Nhóm</td>
-										<td style="width: 10%">Thời gian</td>
+										<td style="width: 1%">
+											<div class="checkbox">
+												<label><input type="checkbox" value=""></label>
+											</div>
+										</td>
+										<td style="width: 10%">Hình ảnh</td>
+										<td style="width: 14%">Tên sản phẩm</td>
+										<td style="width: 10%">Số lượng</td>
+										<td style="width: 8%">Giá</td>
+										<td style="width: 8%">Giá khuyến mãi</td>
+										<td style="width: 15%">Nhóm sản phẩm</td>
+										<td style="width: 15%">Thời gian thêm vào</td>
+										<td style="width: 10%">Tình trạng</td>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
-										<td><img src="../images/thank_product/pro1.jpg" class="img-thumbnail"></td>
-										<td>Hoa hồng</td>
-										<td>Bông</td>
-										<td>200</td>
-										<td>15000</td>
-										<td>Hoa tình yêu</td>
-										<td>Đã thêm 27/07/2017</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/thank_product/pro2.jpg" class="img-thumbnail"></td>
-										<td>Hoa cúc</td>
-										<td>Bông</td>
-										<td>500</td>
-										<td>5000</td>
-										<td>Hoa trang trí, Hoa thường</td>
-										<td>Đã sửa 27/07/2017</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/thank_product/pro3.jpg" class="img-thumbnail"></td>
-										<td>Hoa huệ</td>
-										<td>Bó</td>
-										<td>50</td>
-										<td>45000</td>
-										<td>Hoa trang trí</td>
-										<td>Đã thêm 27/07/2017</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/thank_product/pro4.jpg" class="img-thumbnail"></td>
-										<td>Hoa mai</td>
-										<td>Bó</td>
-										<td>50</td>
-										<td>100000</td>
-										<td>Hoa Tết</td>
-										<td>Đã thêm 27/07/2017</td>
-									</tr>
-									<tr>
-										<td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td><img src="../images/thank_product/pro5.jpg" class="img-thumbnail"></td>
-										<td>Hoa đào</td>
-										<td>Bông</td>
-										<td>20</td>
-										<td>30000</td>
-										<td>Hoa thường</td>
-										<td>Đã thêm 27/07/2017</td>
-									</tr>
+									<% for (i = 0 ; i < products.length; i++ ){ %>
+
+										<tr>
+											<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
+											<td><img src=<%=products[i].imgPath %> class="img-thumbnail"></td>
+											<td> <%= products[i].name %></td>
+											<td><%= products[i].quality %></td>
+											<td><%= products[i].price %></td>
+											<td><%= products[i].newPrice %></td>
+											<td><%= products[i].categorySlug %></td>
+											<td><%= products[i].dateAdded %></td>
+											<td><%= products[i].status %></td>
+										</tr>
+									<% }; %>
+									
 								</tbody>
 							</table>
 						</div>

@@ -40,7 +40,7 @@ var getContentHomeAdmin = function(callback){
 	dao.countProducts(function(countProducts){
 		dao.countBills(function(countBills){
 			dao.countUsers(function(countUsers){
-				dao.outOfProduct(function(outOfProducts){
+				dao.getOutOfProduct(function(outOfProducts){
 					dao.getNewProductAdmin(5, function(newProducts){
 						dao.getNewUsers(5, function(newUsers){
 							callback(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers);
@@ -53,20 +53,31 @@ var getContentHomeAdmin = function(callback){
 	});
 };
 
-//Lấy nội dung trang quản lý sản phẩm của Admin
-var getContentProductsAdmin = function(callback){
+//Lấy thông tin cơ bản trang quản lý SP admin
+var getBaseInfoProductsAdmin = function(callback){
 	dao.countCategories(function(countCategories){
 		dao.countNewProductInWeek (function(countNewProduct){
 			dao.countPromotionProduct(function(countPromotionProduct){
 				dao.getBestSellProduct(function(bestSellProduct){
-
-					callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct);
+					dao.countProducts(function(countProduct){
+						dao.countOutOfProduct(function(countOutOfProduct){
+							dao.countStockProduct(function(countStockProduct){
+								dao.countDeletedProduct(function(countDeletedProduct){
+									dao.countStopSellProduct(function(countStopSellProduct){
+										callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, 
+											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct);
+									});
+								});
+							});
+						});
+					});
+					
 				});
-
 			});
 		});
 	});
 }
+
 
 // localhost:3000/admin/dashboard -> localhost:3000/admin
 router.get("/dashboard", isLoggedIn, function(req, res){
@@ -90,9 +101,14 @@ router.get("/", isLoggedIn, function(req, res){
 router.get("/product", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct){
-				res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
-					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct});
+			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct){
+				dao.getAllProduct(function(allProduct){
+					res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
+					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct, 
+					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct, 
+					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct, "products" : allProduct});
+				});
+				
 			});
 		});
 	});

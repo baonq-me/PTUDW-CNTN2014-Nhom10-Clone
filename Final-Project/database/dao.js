@@ -341,46 +341,6 @@ var dao = {
 	},
 
 	/*
-	* Kiểm tra username đã tồn tại hay chưa
-	* @username: username cần kiểm tra
-	* @callback (data) : được gọi sau khi kiểm tra xong, 
-	* data là kết quả trả về, 1: đã tồn tại, 0: chưa tồn tại
-	*/
-	checkUsername: function(username, callback){
-		var userModel = this.getUserModel();
-
-		userModel.findOne({username: username}, function(err, data){
-			if(err) throw err;
-			//Username đã tồn tại
-			if(data != null){
-				callback(1);
-			}
-			else
-				callback(0);
-		});
-	},
-
-	/*
-	* Kiểm tra email đã tồn tại hay chưa
-	* @email: email cần kiểm tra
-	* @callback (data) : được gọi sau khi kiểm tra xong, 
-	* data là kết quả trả về, 1: đã tồn tại, 0: chưa tồn tại
-	*/
-	checkUsername: function(email, callback){
-		var userModel = this.getUserModel();
-
-		userModel.findOne({email: email}, function(err, data){
-			if(err) throw err;
-			//Email đã tồn tại
-			if(data != null){
-				callback(1);
-			}
-			else
-				callback(0);
-		});
-	},
-
-	/*
 	* Thêm user
 	* @user: object user, gồm thông tin user
 	*/
@@ -609,8 +569,9 @@ var dao = {
 		});
 	},
 
+	/*************** Trang admin index *********************/
 	/*
-	*  Đếm số lượng sản phẩm
+	*  Đếm số lượng tất cả sản phẩm đang bán
 	*	@param thực hiện sau khi đếm số lượng sản phẩm
 	*   count: số lượng sản phẩm được trả về
 	*/
@@ -650,19 +611,34 @@ var dao = {
 	},
 
 	/*
-	* Lấy Danh sách sản phẩm hết hàng
+	* Lấy Danh sách sản phẩm đang bán hết hàng
 	* @param thực hiện sau khi đếm số lượng sản phẩm
 	*   data: mảng các object
 	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
 	*/
-	outOfProduct : function(callback){
+	getOutOfProduct : function(callback){
 		var productModel= this.getProductModel();
 
-		productModel.find({quality : 0})
+		productModel.find({"quality" : 0, status: "Đang bán"})
 		.select('id name')
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
+		});
+	},
+
+	/*
+	* Đếm số lượng sản phẩm đang bán hết hàng
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	*   data: mảng các object
+	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
+	*/
+	countOutOfProduct : function(callback){
+		var productModel= this.getProductModel();
+
+		productModel.count({"quality" : 0, status: "Đang bán"}, function(err, count){
+			if (err) throw err;
+			callback(count);
 		});
 	},
 
@@ -674,7 +650,7 @@ var dao = {
 	getNewProductAdmin : function(count, callback){
 		var productModel = this.getProductModel();
 
-		productModel.find()
+		productModel.find({status: "Đang bán"})
 		.sort({dateAdded: -1})
 		.select('id name quality dateAdded')
 		.limit(count)
@@ -694,13 +670,15 @@ var dao = {
 
 		userModel.find()
 		.sort({dateAdded: -1})
-		.select('fullName username dateAdded')
+		.select('baseInfo.fullName loginInfo.localLogin.username dateAdded')
 		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
 	},
+
+/*************** Trang admin product *********************/
 
 	/*
 	*  Đếm số lượng danh mục sản phẩm (nhóm sản phẩm)
@@ -734,7 +712,7 @@ var dao = {
 	countPromotionProduct: function(callback){
 		var productModel = this.getProductModel();
 
-		productModel.count({}, function(err, count){
+		productModel.count({categorySlug: {"$in": ["san-pham-khuyen-mai"]}, status: "Đang bán"}, function(err, count){
 			if (err) throw err;
 			callback(count);
 		});
@@ -748,7 +726,109 @@ var dao = {
 
 	getBestSellProduct: function(callback){
 		callback("Hoa tình yêu 1");
+	},
+
+	/*
+	* Lấy danh sách tất cả sản phẩm
+	* @param thực hiện sau khi lấy sản phẩm
+	* data trả về là mảng các object sản phẩm
+	*/
+	getAllProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.find({})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+
+	/*
+	* Lấy danh sách sản phẩm đang bán và còn hàng 
+	* @param thực hiện sau khi lấy sản phẩm
+	* data trả về là mảng các object sản phẩm
+	*/
+	getStockProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.find({quality: {$gt: 0}, status: "Đang bán"})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+	/*
+	* Đếm số lượng sản phẩm đang bán còn hàng
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	* count: số lượng sản phẩm trả về
+	*/
+	countStockProduct : function(callback){
+		var productModel= this.getProductModel();
+
+		productModel.count({"quality" : {$gt: 0}, status: "Đang bán"}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	/*
+	* Lấy danh sách sản phẩm ngưng bán 
+	* @param thực hiện sau khi lấy sản phẩm
+	* data trả về là mảng các object sản phẩm
+	*/
+	getStopSellProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.find({status: "Ngừng bán"})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	* Đếm số lượng sản phẩm đã ngưng bán
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	* count: số lượng sản phẩm trả về
+	*/
+	countStopSellProduct : function(callback){
+		var productModel= this.getProductModel();
+
+		productModel.count({status: "Ngừng bán"}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	/*
+	* Lấy danh sách sản phẩm đã xóa
+	* @param thực hiện sau khi lấy sản phẩm
+	* data trả về là mảng các object sản phẩm
+	*/
+	getDeletedProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.find({status: "Đã xóa"})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	* Đếm số lượng sản phẩm đã xóa
+	* @param thực hiện sau khi đếm số lượng sản phẩm
+	* count: số lượng sản phẩm trả về
+	*/
+	countDeletedProduct : function(callback){
+		var productModel= this.getProductModel();
+
+		productModel.count({status: "Đã xóa"}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
 	}
+
+
 };
 
 module.exports = dao;
