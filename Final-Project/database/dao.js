@@ -43,8 +43,6 @@ var dao = {
 		//Ngược lại, tạo model Product mới
 		//Tạo Schema Product
 	  	var productSchema = this.mongoose.Schema({
-	  		_id: this.mongoose.Schema.ObjectId,
-	  		id : {type: String, require : true, unique: true},
 	  		name: {type: String, require : true},
 	  		imgPath: {type: String, require : true},
 	  		slug: {type: String, require : true},		//Đường dẫn đến sản phẩm
@@ -53,7 +51,8 @@ var dao = {
 	  		newPrice: Number,
 	  		detail: String, 
 	  		quality: Number,
-	  		dateAdded :Date
+	  		dateAdded :{ type: Date, default: Date.now },
+	  		status: String
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -158,17 +157,20 @@ var dao = {
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
 	*			- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
+	*			- newPrice: Giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getNewProduct: function(count, callback){
+	getNewProduct: function(skip, count, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
-		
+
 		//Truy vấn DB lấy product có category là "san-pham-moi"
-		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}})
+		var data = productModel.find()
 		.limit(count)
-		.select('id name imgPath price slug')
+		.sort({"dateAdded":-1})
+		.skip(skip)
+		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -187,13 +189,16 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getPromotionProduct: function(count, callback){
+	getPromotionProduct: function(skip, count, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
-		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}} )
+		productModel.find()
+		.exists('newPrice', true)
 		.limit(count)
+		.skip(skip)
+		.sort({"dateAdded":-1})
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err;

@@ -89,8 +89,8 @@ function setSidebar(req, res, next){
 *		}
 */
 var getContentHome = function(callback){
-	dao.getNewProduct(6, function(newProducts){
-		dao.getPromotionProduct(6, function(promotionProducts){
+	dao.getNewProduct(0, 6, function(newProducts){
+		dao.getPromotionProduct(0, 6, function(promotionProducts){
 			callback ({"newProducts": newProducts, "promotionProducts": promotionProducts});
 		});
 	});
