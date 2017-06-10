@@ -14,4 +14,4 @@ $(document).ready(function(){
 	path = (path == "/admin/") ? '/admin/dashboard' : path;
 	var selector = "a[href|='" + path + "']";
 	$(selector).parent().addClass("active");
-})
+});
