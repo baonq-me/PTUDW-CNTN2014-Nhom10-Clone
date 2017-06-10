@@ -34,6 +34,14 @@ function validateFormChangePass(){
 
 
 $(document).ready(function(){
+	// Active menu
+	var path = window.location.pathname;
+	var selector = "a[href|='" + path + "']";
+	$(selector).parent().addClass("active");
+	if(path.startsWith("/category"))
+		$("a[href|='/category']").parent().addClass("active");
+
+
 	if($("body").outerHeight() <  $(window).height()){
 		var min_height = $(window).height() - $("#header").outerHeight() - $("#footer").outerHeight();
 		min_height = "" + min_height + "px";

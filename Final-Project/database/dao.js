@@ -13,7 +13,8 @@ var dao = {
 		products: null,
 		users: null,
 		usersSocial: null,
-		bills: null
+		bills: null,
+		meaningflowers: null,
 	},
 
 	//Hàm lấy/tạo Category model
@@ -43,8 +44,6 @@ var dao = {
 		//Ngược lại, tạo model Product mới
 		//Tạo Schema Product
 	  	var productSchema = this.mongoose.Schema({
-	  		_id: this.mongoose.Schema.ObjectId,
-	  		id : {type: String, require : true, unique: true},
 	  		name: {type: String, require : true},
 	  		imgPath: {type: String, require : true},
 	  		slug: {type: String, require : true},		//Đường dẫn đến sản phẩm
@@ -53,7 +52,8 @@ var dao = {
 	  		newPrice: Number,
 	  		detail: String, 
 	  		quality: Number,
-	  		dateAdded :Date
+	  		dateAdded :{ type: Date, default: Date.now },
+	  		status: String
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -112,6 +112,24 @@ var dao = {
 	  	this.model.bills = this.mongoose.model('bills', UserSchema);
 	  	return this.model.bills;
 	},
+	getMeaningFlowersModel: function(){
+		//nếu đã tồn tại meaningflowers model thì return
+		if (this.model.meaningflowers !== null)
+			return this.model.meaningflowers;
+		//Ngược lại, tạo model meaningflowers mới
+		//Tạo Schema meaningflowers
+	  	var UserSchema = this.mongoose.Schema({
+	  		slug: {type: String, require : true},
+			nameFlower: String,
+			imagePath: String,
+			summary: String,
+			detail: String,
+	  	});	
+
+	  	//Tạo model từ meaningflowersSchema và có tên collection là 'meaningflowers'
+	  	this.model.meaningflowers = this.mongoose.model('meaningflowers', UserSchema);
+	  	return this.model.meaningflowers;
+	},
 
 	//Hàm connect database
 	connect: function(){
@@ -151,24 +169,28 @@ var dao = {
 	},
 
 	/*	Lấy sản phẩm mới
-	*	@count số lượng product cần lấy
+	*	@start vị trí product đầi tiên (tính từ 0)
+	*	@step số lượng product cần lấy
 	*	@callback(data) được gọi khi lấy sản phẩm mới xong
 	*		@output là data: mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
 	*			- name: tên sản phẩm
 	*			- imagePath: đường dẫn tới hình ảnh (không chứa root - localhost:3000)
+	*			- newPrice: Giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getNewProduct: function(count, callback){
+	getNewProduct: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
-		
+
 		//Truy vấn DB lấy product có category là "san-pham-moi"
-		var data = productModel.find({categorySlug: {"$in": ["san-pham-moi"]}})
-		.limit(count)
-		.select('id name imgPath price slug')
+		var data = productModel.find()
+		.limit(step)
+		.sort({"dateAdded":-1})
+		.skip(start)
+		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -176,7 +198,8 @@ var dao = {
 	},
 
 		/*	Lấy sản phẩm khuyến mãi
-	*	@count số lượng product cần lấy
+	*	@start vị trí product đầi tiên (tính từ 0)
+	*	@step số lượng product cần lấy
 	*	@callback(data) được gọi khi lấy sản phẩm khuyến mãi xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
@@ -187,17 +210,28 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getPromotionProduct: function(count, callback){
+	getPromotionProduct: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
-		productModel.find({categorySlug: {"$in": ["san-pham-khuyen-mai"]}} )
-		.limit(count)
+		productModel.find()
+		.exists('newPrice', true)
+		.limit(step)
+		.skip(start)
+		.sort({"dateAdded":-1})
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
+		});
+	},
+	getCountPromotionProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.count().exists('newPrice', true).exec(function(err, count){
+			if (err) throw err;
+			callback(count);
 		});
 	},
 

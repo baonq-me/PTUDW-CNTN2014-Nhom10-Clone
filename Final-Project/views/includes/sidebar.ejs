@@ -1,6 +1,8 @@
-<div class="btn-group-vertical sidebar col-md-3 col-lg-3 visible-md visible-lg" id="category">
-	<a href="#" class="btn btn-info disabled btn-category">Danh mục sản phẩm</a>
+<ul class="btn-group-vertical sidebar col-md-3 col-lg-3 visible-md visible-lg" id="category">
+	<li><a class="btn btn-info disabled btn-category">Danh mục sản phẩm</a></li>
+	<li><a href="/san-pham-moi" class="btn btn-info btn-category"><span class="glyphicon glyphicon-star"></span> Sản phẩm mới</a></li>
+	<li><a href="/san-pham-khuyen-mai" class="btn btn-info btn-category"><span class="glyphicon glyphicon-gift"></span> Sản phẩm khuyến mãi</a></li>
 	<% sidebar.categorys.forEach(function(category){ %>
-		<a href="/category/<%= category.slug %>" class="btn btn-info btn-category"><span class="<%= category.icon %>"></span><%= category.name %></a>
+		<li><a href="/category/<%= category.slug %>" class="btn btn-info btn-category"><span class="<%= category.icon %>"></span> <%= category.name %></a></li>
 	<% }); %>
-</div>
+</ul>
