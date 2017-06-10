@@ -391,6 +391,29 @@ ul.sidebar li.active > a{
 	margin-bottom: 40px;
 }
 
+.product-item .frame {
+	height: 100%;
+	position: relative;;
+	padding-bottom: 100%;
+}
+.product-item .frame:before{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	content: ""
+}
+.product-item .frame .image {
+	background-size: cover;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+
 #content{
 	clear: both;
 	position: relative;
