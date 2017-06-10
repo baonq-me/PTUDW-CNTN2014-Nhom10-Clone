@@ -13,7 +13,8 @@ var dao = {
 		products: null,
 		users: null,
 		usersSocial: null,
-		bills: null
+		bills: null,
+		meaningflowers: null,
 	},
 
 	//Hàm lấy/tạo Category model
@@ -110,6 +111,24 @@ var dao = {
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.bills = this.mongoose.model('bills', UserSchema);
 	  	return this.model.bills;
+	},
+	getMeaningFlowersModel: function(){
+		//nếu đã tồn tại meaningflowers model thì return
+		if (this.model.meaningflowers !== null)
+			return this.model.meaningflowers;
+		//Ngược lại, tạo model meaningflowers mới
+		//Tạo Schema meaningflowers
+	  	var UserSchema = this.mongoose.Schema({
+	  		slug: {type: String, require : true},
+			nameFlower: String,
+			imagePath: String,
+			summary: String,
+			detail: String,
+	  	});	
+
+	  	//Tạo model từ meaningflowersSchema và có tên collection là 'meaningflowers'
+	  	this.model.meaningflowers = this.mongoose.model('meaningflowers', UserSchema);
+	  	return this.model.meaningflowers;
 	},
 
 	//Hàm connect database
