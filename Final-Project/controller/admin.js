@@ -40,13 +40,13 @@ var getContentHomeAdmin = function(callback){
 	dao.countProducts(function(countProducts){
 		dao.countBills(function(countBills){
 			dao.countUsers(function(countUsers){
-				//dao.getOutOfProduct(function(outOfProducts){
+				dao.getOutOfProduct(function(outOfProducts){
 					dao.getNewProductAdmin(5, function(newProducts){
 						dao.getNewUsers(5, function(newUsers){
-							callback(countProducts, countBills, countUsers, newProducts, newUsers);
+							callback(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers);
 						});	
 					});
-				//});
+				});
 
 			});
 		});
@@ -88,18 +88,12 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 router.get("/", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, newProducts, newUsers){
+			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts, newUsers){
 				res.render("admin/index", {"header": header, "sidebar":sidebar, 
 					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers,
-					"newProducts" : newProducts, "newUsers" : newUsers});
+					"outOfProducts": outOfProducts, "newProducts" : newProducts, "newUsers" : newUsers});
 			});
 		});
-	});
-});
-
-router.get("/out-of-products", isLoggedIn, function(req, res){
-	dao.getOutOfProduct(function(outOfProducts){
-		res.json(outOfProducts);
 	});
 });
 
@@ -113,41 +107,11 @@ router.get("/product", isLoggedIn, function(req, res){
 					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct, 
 					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct, 
 					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct, "products" : allProduct});
-				});	
+				});
+				
 			});
 		});
 	});
-});
-
-router.get("/api/products", isLoggedIn, function(req, res){
-	//dao.getStockProduct
-	switch (req.query.type) {
-		case '0':
-			dao.getAllProduct(function(products){
-				res.json(products);
-			});
-			break;
-		case '1':
-			dao.getStockProduct(function(products){
-				res.json(products);
-			});
-			break;
-		case '2':
-			dao.getOutOfProduct(function(products){
-				res.json(products);
-			});
-			break;
-		case '3':
-			dao.getDeletedProduct(function(products){
-				res.json(products);
-			});
-			break;
-		case '4':
-			dao.getStopSellProduct(function(products){
-				res.json(products);
-			});
-			break;
-	}	
 });
 
 // Group
