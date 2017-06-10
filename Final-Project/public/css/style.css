@@ -257,12 +257,21 @@ body{
 #content .btn-group-vertical .btn-info {
 	background-color: #00b0ff ;
 	color: #fff ;
-	border-radius: 10px ;
+	border-radius: 5px ;
 	text-align: left ;
 }
 
 #category{
 	margin-top: 30px;
+}
+ul.sidebar li {
+	list-style-type: none;
+}
+ul.sidebar li > a {
+	display: block;
+}
+ul.sidebar li.active > a{
+	background: #FF1493 !important;
 }
 
 .btn-group-vertical .btn-category{
