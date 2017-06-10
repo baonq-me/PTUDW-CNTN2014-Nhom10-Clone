@@ -1,9 +1,12 @@
-<form action="/search">
-	<input type="text" name="search">
-	<select id="cat_product" style="width: 155px;" name="searchBy">
+<form action="/search" id="search-body">
+	<input type="text" name="search" placeholder="Nhập từ khóa">
+	<input type="number" min="0" name="priceFrom" placeholder="Giá từ" hidden>
+	<input type="number" min="1" name="priceTo" placeholder="Giá đến" hidden>
+	<select id="cat_product" style="width: 155px; background: rgba(0,0,0,0.1);" name="searchBy">
 		<option value="0">Chọn tiêu chí...</option>
-		<option value="price">Giá</option>
+		<option value="name">Tên sản phẩm</option>
 		<option value="category">Danh mục</option>
+		<option value="price">Giá</option>
 	</select>
 	<input type="submit" value="Tìm kiếm">
 </form>

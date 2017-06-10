@@ -303,10 +303,14 @@ var dao = {
 
 	/*
 	*	Lấy sản phẩm theo category
-	*	@search từ khóa cần tìm kiếm
-	*	@searchBy tiêu chí tìm kiếm [ 'price' | 'category']
-	*	@count số lượng product
-	*	@callback(data) được gọi khi lấy sản phẩm xong
+	*	@param
+	*		@search từ khóa cần tìm kiếm
+	*		@priceFrom
+	*		@priceTo
+	*		@searchBy tiêu chí tìm kiếm [ 'price' | 'category']
+	*		@step số lượng product
+	*		@skip số lượng product bỏ qua
+	*	@param	callback(data) được gọi khi lấy sản phẩm xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
 	*			- id: mã sản phẩm (duy nhất)
@@ -316,30 +320,63 @@ var dao = {
 	*			- newPrice: giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getProductsBySearch: function(search, searchBy, count, callback){
+	getProductsBySearch: function(searchInfo, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB
-		if(searchBy == 'category'){
-			productModel.find({name: new RegExp(search, "i")})
-			.limit(count)
-			.select('id name imgPath price slug')
-			.exec(function(err, data){
-				if (err) throw err;
-				callback(data);
-			});
-		}
-		else if(searchBy == 'price')
-		{
-			productModel.find({price: search})
-			.limit(count)
+		if(searchInfo.searchBy == 'price'){
+			productModel.find({
+				$or : [
+					{newPrice: {$exists: false}, price: {$gte: searchInfo.priceFrom, $lte: searchInfo.priceTo}},
+					{newPrice: {$exists: true}, newPrice: {$gte: searchInfo.priceFrom, $lte: searchInfo.priceTo}}
+				]
+			})
+			.limit(searchInfo.step)
+			.skip(searchInfo.skip)
 			.select('id name imgPath price newPrice slug')
 			.exec(function(err, data){
 				if (err) throw err;
 				callback(data);
 			});
-		};
+		}
+		else {
+			productModel.find({name: new RegExp(searchInfo.search, "i")})
+			.limit(searchInfo.step)
+			.skip(searchInfo.skip)
+			.select('id name imgPath price newPrice slug')
+			.exec(function(err, data){
+				if (err) throw err;
+				callback(data);
+			});
+		}
+	},
+	getCountProductBySearch: function(searchInfo, callback){
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		
+		//Truy vấn DB
+		if(searchInfo.searchBy == 'price'){
+			productModel.find({
+				$or : [
+					{newPrice: {$exists: false}, price: {$gte: searchInfo.priceFrom, $lte: searchInfo.priceTo}},
+					{newPrice: {$exists: true}, newPrice: {$gte: searchInfo.priceFrom, $lte: searchInfo.priceTo}}
+				]
+			})
+			.count()
+			.exec(function(err, data){
+				if (err) throw err;
+				callback(data);
+			});
+		}
+		else {
+			productModel.find({name: new RegExp(searchInfo.search, "i")})
+			.count()
+			.exec(function(err, data){
+				if (err) throw err;
+				callback(data);
+			});
+		}
 	},
 
 	/*
