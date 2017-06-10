@@ -197,6 +197,7 @@ router.get("/", setHeader, setSidebar, setFooter, function(req, res, next){
 		res.render("index", {"content": content});
 	});
 });
+// Rounting sản phẩm mới
 router.get("/san-pham-moi", setHeader, setFooter, setSidebar,function(req, res){
 	var step = 9;
 	var catSlug = req.params.slug;
@@ -207,6 +208,53 @@ router.get("/san-pham-moi", setHeader, setFooter, setSidebar,function(req, res){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.countProducts(function(countProduct){
+			var countPage = Math.ceil(countProduct / step);
+			var pageActive = Math.ceil(start / step);
+			start = pageActive * step;
+
+			var startPrev = (start - step < 0) ? 0 : start - step;
+			var startNext = (start + step > countProduct - 1) ? countProduct - 1 : start + step;
+
+			var hrefPrev = (pageActive > 0) ? "?start=" + startPrev : undefined;
+			var hrefNext = (pageActive < countPage - 1) ? "?start=" + startNext : undefined;
+
+			var count = 0;
+			var pages = [];
+			var pageStart = (countPage - 1 - pageActive < 2) ? countPage - 5 : pageActive - 2;
+			for (i = pageStart; i < countPage; i++){
+				if (i < 0) continue;
+				if (count == 5) break;
+				if (i == pageActive)
+					pages.push({ page: i+1, start: i*step, class: "active"});
+				else pages.push({ page: i+1, start: i*step, class: "" });
+				count ++;
+			}
+
+			res.render("category", 
+				{"content": {
+					"catName": "Sản phẩm mới",
+					"products": products,
+					"pages": pages,
+					"start_have_page": pageActive > 2,
+					"end_have_page": countPage - pageActive - 1 > 2,
+					"hrefNext": hrefNext,
+					"hrefPrev": hrefPrev
+				}}
+			);
+		});
+	});
+});
+// Rounting sản phẩm khuyến mãi
+router.get("/san-pham-khuyen-mai", setHeader, setFooter, setSidebar,function(req, res){
+	var step = 9;
+	var catSlug = req.params.slug;
+	var start = (req.query.start) ? parseInt(req.query.start) : 0;
+	if (start < 0) return set404(req, res, function(){});
+
+	dao.getPromotionProduct(start, step, function(products){
+		if(products.length < 1)
+			return set404(req, res, function(){});
+		dao.getCountPromotionProduct(function(countProduct){
 			var countPage = Math.ceil(countProduct / step);
 			var pageActive = Math.ceil(start / step);
 			start = pageActive * step;

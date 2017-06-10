@@ -207,6 +207,14 @@ var dao = {
 			callback(data);
 		});
 	},
+	getCountPromotionProduct: function(callback){
+		var productModel = this.getProductModel();
+
+		productModel.count().exists('newPrice', true).exec(function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
 
 		/*	Lấy sản phẩm theo category
 	*	@slugs: mảng các slug của category
