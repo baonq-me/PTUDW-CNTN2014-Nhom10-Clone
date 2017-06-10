@@ -120,9 +120,54 @@ var getCustomer = function(req){
 *					- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 *				}
 */
-var getContentSearch = function(search, searchBy, callback){
-	dao.getProductsBySearch(search, searchBy, 9, function(products){
-		callback({"products": products});
+var getContentSearch = function(search, priceFrom, priceTo, searchBy, start, step, callback){
+	dao.getProductsBySearch({
+		search: search,
+		priceFrom: priceFrom,
+		priceTo: priceTo,
+		searchBy: searchBy,
+		skip: start,
+		step: step
+	},
+	function(products){
+		dao.getCountProductBySearch({
+			search: search,
+			priceFrom: priceFrom,
+			priceTo: priceTo,
+			searchBy: searchBy
+		},
+		function(countProduct){
+				var countPage = Math.ceil(countProduct / step);
+				var pageActive = Math.ceil(start / step);
+				start = pageActive * step;
+
+				var startPrev = (start - step < 0) ? 0 : start - step;
+				var startNext = (start + step > countProduct - 1) ? countProduct - 1 : start + step;
+
+				var hrefPrev = (pageActive > 0) ? "?start=" + startPrev : undefined;
+				var hrefNext = (pageActive < countPage - 1) ? "?start=" + startNext : undefined;
+
+				var count = 0;
+				var pages = [];
+				var pageStart = (countPage - 1 - pageActive < 2) ? countPage - 5 : pageActive - 2;
+				for (i = pageStart; i < countPage; i++){
+					if (i < 0) continue;
+					if (count == 5) break;
+					if (i == pageActive)
+						pages.push({ page: i+1, start: i*step, class: "active"});
+					else pages.push({ page: i+1, start: i*step, class: "" });
+					count ++;
+				}
+
+				callback({
+						"products": products,
+						"pages": pages,
+						"start_have_page": pageActive > 2,
+						"end_have_page": countPage - pageActive - 1 > 2,
+						"hrefNext": hrefNext,
+						"hrefPrev": hrefPrev
+					});
+		});
 	});
 }
 
@@ -358,10 +403,27 @@ router.get("/meaning-flowers/:flowername", setHeader, setFooter, function(req, r
 
 // Rounting search
 router.get("/search", setHeader, setSidebar, setFooter, function(req, res){
+	var queryString = req.url;
+	queryString += (req.url.indexOf("?") == -1) ? "?" : "";
+	var step = 9;
+	var start = (req.query.start) ? parseInt(req.query.start) : 0;
+
+	var searchBy = (req.query.searchBy) ? req.query.searchBy : "0";
 	var search = req.query.search;
-	var searchBy = req.query.searchBy;
-	getContentSearch(search, searchBy, function(content){
-		res.render("search", {"query": req.query, "content": content});
+	var priceFrom = req.query.priceFrom;
+	var priceTo = req.query.priceTo;
+
+	priceTo = (Number.isNaN(parseInt(priceTo))) ? 9999999999 : parseInt(priceTo);
+	priceFrom = (Number.isNaN(parseInt(priceFrom))) ? 0 : parseInt(priceFrom);
+	getContentSearch(search, priceFrom, priceTo, searchBy, start, step, function(content){
+		var query = "";
+		if (searchBy == "price" && priceFrom > 0)
+			query += "Từ " + priceFrom + " đồng - ";
+		if (searchBy == "price" && priceTo < 9999999999)
+			query += priceTo + " đồng";
+		if (searchBy != "price")
+			query = search;
+		res.render("search", {"query": query, "queryString": queryString, "content": content});
 	});
 });
 

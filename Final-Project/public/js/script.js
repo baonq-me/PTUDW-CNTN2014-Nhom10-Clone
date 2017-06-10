@@ -41,6 +41,27 @@ $(document).ready(function(){
 	if(path.startsWith("/category"))
 		$("a[href|='/category']").parent().addClass("active");
 
+	// Focus search
+	$(".search-form .form-group input").focusin(function(){
+		$(".search-form .form-group").css("width", "150%");
+	})
+	// Focus search
+	$(".search-form .form-group input").focusout(function(){
+		$(".search-form .form-group").css("width", "32px");
+	})
+
+	// Chọn input thích hợp
+	$("#search-body select[name='searchBy']").change(function(){
+		if($(this).find("option:selected").val() == "price"){
+			$("#search-body input[name='search']").hide();
+			$("#search-body input[name='priceFrom']").show();
+			$("#search-body input[name='priceTo']").show();
+		}else{
+			$("#search-body input[name='search']").show();
+			$("#search-body input[name='priceFrom']").hide();
+			$("#search-body input[name='priceTo']").hide();
+		}
+	});
 
 	if($("body").outerHeight() <  $(window).height()){
 		var min_height = $(window).height() - $("#header").outerHeight() - $("#footer").outerHeight();
