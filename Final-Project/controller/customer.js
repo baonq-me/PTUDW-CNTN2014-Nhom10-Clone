@@ -341,6 +341,20 @@ router.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, re
 		});
 	});
 });
+// Rounting Hoa và cuộc sống
+router.get("/meaning-flowers", setHeader, setFooter, function(req, res){
+	res.render("meaning-flowers/index");
+});
+
+// Rounting Hoa và cuộc sống
+router.get("/meaning-flowers/:flowername", setHeader, setFooter, function(req, res){
+	var flowername = req.params.flowername;
+	var renderFile = "meaning-flowers/" + flowername;
+	res.render(renderFile, function(err, data, next){
+		if(err) return set404(req, res, function(){});
+		res.render(renderFile);
+	});
+});
 
 // Rounting search
 router.get("/search", setHeader, setSidebar, setFooter, function(req, res){
