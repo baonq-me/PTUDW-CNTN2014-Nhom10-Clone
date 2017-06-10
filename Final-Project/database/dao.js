@@ -150,7 +150,8 @@ var dao = {
 	},
 
 	/*	Lấy sản phẩm mới
-	*	@count số lượng product cần lấy
+	*	@start vị trí product đầi tiên (tính từ 0)
+	*	@step số lượng product cần lấy
 	*	@callback(data) được gọi khi lấy sản phẩm mới xong
 	*		@output là data: mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
@@ -161,15 +162,15 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getNewProduct: function(skip, count, callback){
+	getNewProduct: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
 		//Truy vấn DB lấy product có category là "san-pham-moi"
 		var data = productModel.find()
-		.limit(count)
+		.limit(step)
 		.sort({"dateAdded":-1})
-		.skip(skip)
+		.skip(start)
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
 			if (err) throw err;
@@ -178,7 +179,8 @@ var dao = {
 	},
 
 		/*	Lấy sản phẩm khuyến mãi
-	*	@count số lượng product cần lấy
+	*	@start vị trí product đầi tiên (tính từ 0)
+	*	@step số lượng product cần lấy
 	*	@callback(data) được gọi khi lấy sản phẩm khuyến mãi xong
 	*		@data mảng thông tin các product
 	*		với mỗi sản phẩm có các thông tin sau:
@@ -189,15 +191,15 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getPromotionProduct: function(skip, count, callback){
+	getPromotionProduct: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
 		productModel.find()
 		.exists('newPrice', true)
-		.limit(count)
-		.skip(skip)
+		.limit(step)
+		.skip(start)
 		.sort({"dateAdded":-1})
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
