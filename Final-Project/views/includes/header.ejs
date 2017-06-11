@@ -38,9 +38,9 @@
 				    <% if(typeof(header.login) !== "undefined"){ %>
 			    	<div class="user-info" style="float: right; position: relative;">
 						<li class="name"><%= header.login.fullname %></li>
-						<li class="avatar" style="color: #fff"><img style="height: 20px; border-radius: 3px;" src="/images/avatar_member.png"></li>
+						<li class="avatar" style="color: #fff"><img style="height: 20px; border-radius: 3px;" src="<%= header.login.avatarPath %>"></li>
 						<div class="menu-usermanager">
-							<div class="info">Thông tin</div>
+							<a style="color: #fff; text-decoration: none" href="/profile"><div class="info">Thông tin</div></a>
 							<% if (header.login.changePassword) { %>
 							<a style="color: #fff; text-decoration: none" href="/change-password"><div id="change-pass" >Đổi mật khẩu</div></a>
 							<% } %>

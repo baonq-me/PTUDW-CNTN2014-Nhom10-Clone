@@ -38,7 +38,7 @@ $(document).ready(function(){
 		loadProducts(1);
 	});
 
-	$('#product-out-of').on('click', function(e) {
+	$('#product-outOf').on('click', function(e) {
 		e.preventDefault();
 		loadProducts(2);
 	});
