@@ -703,10 +703,12 @@ var dao = {
 	*   data: mảng các object
 	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
 	*/
-	getOutOfProduct : function(callback){
+	getOutOfProduct : function(count, skip , callback){
 		var productModel= this.getProductModel();
 
 		productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}]})
+		.skip(skip)
+		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -733,13 +735,14 @@ var dao = {
 	* @param số lượng sản phẩm cần lấy
 	* 
 	*/
-	getNewProductAdmin : function(count, callback){
+	getNewProductAdmin : function(count, skip, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find({status: "Đang bán"})
 		.sort({dateAdded: -1})
 		.select('id name quality dateAdded')
 		.limit(count)
+		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -751,13 +754,14 @@ var dao = {
 	* @param thực hiện khi lấy users
 	* data: mảng các object user mới được thêm vào
 	*/
-	getNewUsers : function(count, callback){
+	getNewUsers : function(count, skip, callback){
 		var userModel = this.getUserModel();
 
 		userModel.find()
 		.sort({dateAdded: -1})
 		.select('baseInfo.fullName loginInfo.localLogin.username dateAdded')
 		.limit(count)
+		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -819,10 +823,12 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getAllProduct: function(callback){
+	getAllProduct: function(count, skip, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find({})
+		.limit(count)
+		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -835,10 +841,12 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStockProduct: function(callback){
+	getStockProduct: function(count, skip, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find({quality: {$gt: 0}, status: "Đang bán"})
+		.limit(count)
+		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -862,7 +870,7 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStopSellProduct: function(callback){
+	getStopSellProduct: function(count, skip, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find({status: "Ngừng bán"})
@@ -890,10 +898,12 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getDeletedProduct: function(callback){
+	getDeletedProduct: function(count, skip, callback){
 		var productModel = this.getProductModel();
 
 		productModel.find({status: "Đã xóa"})
+		.limit(count)
+		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
