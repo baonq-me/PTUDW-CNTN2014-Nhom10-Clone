@@ -706,7 +706,7 @@ var dao = {
 	getOutOfProduct : function(callback){
 		var productModel= this.getProductModel();
 
-		productModel.find({"quality" : 0, status: "Đang bán"})
+		productModel.find({"$and":[{"quality" : 0}, {status: "Đang bán"}]})
 		.select('id name')
 		.exec(function(err, data){
 			if (err) throw err;
@@ -723,7 +723,7 @@ var dao = {
 	countOutOfProduct : function(callback){
 		var productModel= this.getProductModel();
 
-		productModel.count({"quality" : 0, status: "Đang bán"}, function(err, count){
+		productModel.count({"$and":[{"quality" : 0}, {status: "Đang bán"}]}, function(err, count){
 			if (err) throw err;
 			callback(count);
 		});

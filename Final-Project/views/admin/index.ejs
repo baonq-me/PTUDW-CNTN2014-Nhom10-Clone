@@ -126,15 +126,7 @@
 										<td>Ngày thêm </td>
 									</tr>
 								</thead>
-								<tbody>
-									<% for (i = 0; i< newProducts.length; i++) { %>
-									<tr>
-										<td> <%= newProducts[i].id %> </td>
-										<td> <b> <%= newProducts[i].name %> </b></td>
-										<td> <b><%= newProducts[i].quality %> </b></td>
-										<td> <%= newProducts[i].dateAdded %> </td>
-									</tr>
-									<% } %>
+								<tbody id="new-products">
 								</tbody>
 							</table>
 							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
@@ -154,14 +146,7 @@
 										<td>Ngày thêm vào</td>
 									</tr>
 								</thead>
-								<tbody>
-									<% for ( i=0 ; i< newUsers.length; i++){ %>
-									<tr>
-										<td><b> <%= newUsers[i].baseInfo.fullName %></b></td>
-										<td><b> <%= newUsers[i].loginInfo.localLogin.username %></b></td>
-										<td><%= newUsers[i].dateAdded %></td>	
-									</tr>
-									<% }; %>
+								<tbody id="new-users">
 								</tbody>
 							</table>
 							<a href="#" class="btn btn-info pull-right">Xem thêm</a>
@@ -172,5 +157,7 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript" src="/admin/js/script.js"></script>
 </body>
 </html>

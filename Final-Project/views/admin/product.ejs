@@ -64,11 +64,11 @@
 						<h1>Danh sách sản phẩm <a href="admin.products.add.html" class="btn btn-primary">Thêm</a></h1>
 
 						<div class="product-info">
-							<a href="/admin/product" class="float-left" id="product_all"><h2>All (<%= countProduct %>)</h2></a>
-							<a href="/admin/product/stock" class="float-left" id="product_stock">Còn hàng (<%= countStockProduct %>)</a>
-							<a href="/admin/product/outOf" class="float-left" id="product_outOf">Hết hàng (<%= countOutOfProduct %>)</a>
-							<a href="/admin/product/deleted" class="float-left" id="product_deleted">Đã xoá (<%= countDeletedProduct %>)</a>
-							<a href="/admin/product/deleted" class="float-left" id="product_deleted">Ngừng bán (<%= countStopSellProduct %>)</a>
+							<a href="#" class="float-left" id="product-all"><h2>All (<%= countProduct %>)</h2></a>
+							<a href="#" class="float-left" id="product-stock">Còn hàng (<%= countStockProduct %>)</a>
+							<a href="#" class="float-left" id="product-outOf">Hết hàng (<%= countOutOfProduct %>)</a>
+							<a href="#" class="float-left" id="product-deleted">Đã xoá (<%= countDeletedProduct %>)</a>
+							<a href="#" class="float-left" id="product-stop-sell">Ngừng bán (<%= countStopSellProduct %>)</a>
 
 							<div class="form-group">
 								<a href="admin.products.html" class="btn btn-primary float-right">Tìm kiếm</a>
@@ -150,22 +150,7 @@
 										<td style="width: 10%">Tình trạng</td>
 									</tr>
 								</thead>
-								<tbody>
-									<% for (i = 0 ; i < products.length; i++ ){ %>
-
-										<tr>
-											<td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td>
-											<td><img src=<%=products[i].imgPath %> class="img-thumbnail"></td>
-											<td> <%= products[i].name %></td>
-											<td><%= products[i].quality %></td>
-											<td><%= products[i].price %></td>
-											<td><%= products[i].newPrice %></td>
-											<td><%= products[i].categorySlug %></td>
-											<td><%= products[i].dateAdded %></td>
-											<td><%= products[i].status %></td>
-										</tr>
-									<% }; %>
-									
+								<tbody id="products">
 								</tbody>
 							</table>
 						</div>
@@ -174,5 +159,7 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="/admin/js/admin.product.js"></script>
+
 </body>
 </html>

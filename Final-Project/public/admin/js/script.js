@@ -36,58 +36,46 @@ $(document).ready(function(){
 
 	loadOutOfProducts();
 
-	/******** Admin product **************/
-	// 0: all
-	// 1: stock
-	// 2: out of
-	// 3: deleted
-	// 4: stop sell
-
-	function loadProducts(type) {
-		function addRow(product) {
-			var row = '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td><td><img src="' + product.imgPath + '" class="img-thumbnail"></td><td>' + product.name + '</td><td>' + product.quality + '</td><td>' + product.price + '</td><td>' + product.newPrice+ '</td><td>' + product.categorySlug+ '</td><td>' + product.dateAdded+ '</td><td>' + product.status+ '</td></tr>';
-			$('#products').append(row);
+	function loadNewProducts() {
+		function addRow(id, name, quality, dateAdded) {
+			var row = '<tr><td> ' + id + ' </td><td> <b> ' + name + ' </b></td><td> <b>' + quality + ' </b></td><td> ' + dateAdded + ' </td></tr>'
+			$('#new-products').append(row);
 		}
 
 		$.ajax({
-			url: '/admin/api/products', //URL lay du lieu
+			url: '/admin/new-products', //URL lay du lieu
 			type: 'GET',
-			data: {
-				type: type
-			},
+			data: {},
 			success: function(res) {
-				$('#products').empty();
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i]);
+					addRow(res[i].id, res[i].name, res[i].quality, res[i].dateAdded);
 				}
 			}
 		});
 	}
 
-	$('#product-all').on('click', function(e) {
-		e.preventDefault();
-		loadProducts(0);
-	});
-	
-	$('#product-stock').on('click', function(e) {
-		e.preventDefault();
-		loadProducts(1);
-	});
+	loadNewProducts();
 
-	$('#product-out-of').on('click', function(e) {
-		e.preventDefault();
-		loadProducts(2);
-	});
+	function loadNewUsers() {
+		function addRow(fullName, username, dateAdded) {
+			alert(fullName);
+			var row = '<tr><td> ' + fullName + ' </td><td> <b> ' + username + ' </b></td><td> ' + dateAdded + ' </td></tr>';
+			$('#new-users').append(row);
+		};
 
-	$('#product-deleted').on('click', function(e) {
-		e.preventDefault();
-		loadProducts(3);
-	});
+		$.ajax({
+			url: '/admin/new-users', //URL lay du lieu
+			type: 'GET',
+			data: {},
+			success: function(res) {
+				for (i = 0; i < res.length; ++i) {
+					addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);
+					  
+				}
+			}
+		});
+	};
 
-	$('#product-stop-sell').on('click', function(e) {
-		e.preventDefault();
-		loadProducts(4);
-	});
+	loadNewUsers();
 
-	loadProducts(0);
 })
