@@ -107,7 +107,7 @@ var router = require("express").Router();
 			clientSecret: "gElzK3xqALTiR5cSDaCQbGw0",
 			callbackURL: "http://localhost:3000/auth/gg/cb",
 		}, 
-		function (accessToken, refreshToken, profile, done){console.log(profile._json['picture'];);
+		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial({google: profile.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
