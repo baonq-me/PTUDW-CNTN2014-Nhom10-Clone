@@ -1,0 +1,39 @@
+	<% include includes/header.ejs %>
+	<!--Body -->
+	<div id="content">
+		<div class="product_detail">
+			<div class="container">
+				<div class="col-md-4 col-lg-4 hinh_anh_chi_tiet">
+					<img src="<%= content.avatarPath %>">
+				</div>
+
+				<div class="col-md-8 col-lg-8" id="thong_tin">
+					<h2><%= content.name %></h2>
+					<br>
+					<div class="profile-detail">
+						<div class="item">
+							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="col-xs-3 title">Email:</div>
+							<div class="col-xs-9 info"><i><%= content.email %></i></div>
+						</div>
+						<div class="item">
+							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="col-xs-3 title">Số điện thoại:</div>
+							<div class="col-xs-9 info"><i><%= content.phone %></i></div>
+						</div>
+						<div class="item">
+							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="col-xs-3 title">Địa chỉ:</div>
+							<div class="col-xs-9 info"><i><%= content.address %></i></div>
+						</div>
+						<div class="item no-fix">
+							<div class="col-xs-3 title">Ngày đăng ký:</div>
+							<div class="col-xs-9 info"><i><%= content.dateAdded %></i></div>
+						</div>
+					</div>
+			</div>
+		</div>	
+		</div>
+	</div>	
+		
+	<% include includes/footer.ejs %>
