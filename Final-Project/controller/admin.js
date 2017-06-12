@@ -92,7 +92,7 @@ router.get("/", isLoggedIn, function(req, res){
 
 //Lấy ds sản phẩm hết hàng
 router.get("/out-of-products", isLoggedIn, function(req, res){
-	dao.getOutOfProduct(function(outOfProducts){
+	dao.getOutOfProduct(5, 0, function(outOfProducts){
 		res.json(outOfProducts);
 	});
 });
@@ -100,15 +100,14 @@ router.get("/out-of-products", isLoggedIn, function(req, res){
 
 //Lấy ds sản phẩm mới được thêm vào
 router.get("/new-products", isLoggedIn, function(req, res){
-	dao.getNewProductAdmin(5, function(newProducts){
+	dao.getNewProductAdmin(5, 0 , function(newProducts){
 		res.json(newProducts);
 	});
 });
 
 //Lấy ds user mới được thêm vào
 router.get("/new-users", isLoggedIn, function(req, res){
-	dao.getNewUsers(5, function(newUsers){
-		console.log (newUsers);
+	dao.getNewUsers(5, 0, function(newUsers){
 		res.json(newUsers);
 	});
 });
@@ -132,27 +131,27 @@ router.get("/product", isLoggedIn, function(req, res){
 router.get("/api/products", isLoggedIn, function(req, res){
 	switch (req.query.type) {
 		case '0':
-			dao.getAllProduct(function(products){
+			dao.getAllProduct(10, 0, function(products){
 				res.json(products);
 			});
 			break;
 		case '1':
-			dao.getStockProduct(function(products){
+			dao.getStockProduct(10, 0, function(products){
 				res.json(products);
 			});
 			break;
 		case '2':
-			dao.getOutOfProduct(function(products){
+			dao.getOutOfProduct(10, 0,function(products){
 				res.json(products);
 			});
 			break;
 		case '3':
-			dao.getDeletedProduct(function(products){
+			dao.getDeletedProduct(10, 0, function(products){
 				res.json(products);
 			});
 			break;
 		case '4':
-			dao.getStopSellProduct(function(products){
+			dao.getStopSellProduct(10, 0, function(products){
 				res.json(products);
 			});
 			break;
@@ -163,13 +162,33 @@ router.get("/api/products", isLoggedIn, function(req, res){
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
+			//getContentHomeAdmin(function(countProducts, countBills, countUsers){
 				res.render("admin/group", {"header": header, "sidebar":sidebar});
-			});
+			//});
 		});
 	});
 });
 
+// Lấy categories
+/*
+router.get("/categories", isLoggedIn, function(req, res){
+	var counts = [];
+	dao.getAllCategory(function(categories){
+		for(i=0; i<categories.length; i++){
+			dao.getCountProductBySlug(categories[i].slug, function(count){
+				counts[i] = count;
+				console.log(counts[i]);
+				if(i=categories.length-1){
+					res.json(categories, counts);
+				}
+			});
+		};
+		//console.log(categories[0].slug);
+		//res.json(categories);
+
+	});
+});
+*/
 
 // Order
 router.get("/order", isLoggedIn, function(req, res){

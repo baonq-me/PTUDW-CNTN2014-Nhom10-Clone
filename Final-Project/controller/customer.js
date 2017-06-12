@@ -130,7 +130,7 @@ var getContentSearch = function(search, priceFrom, priceTo, searchBy, start, ste
 		step: step
 	},
 	function(products){
-		dao.getCountProductBySearch({
+		dao.getCountProductBySlugBySearch({
 			search: search,
 			priceFrom: priceFrom,
 			priceTo: priceTo,
@@ -348,7 +348,7 @@ router.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, re
 		dao.getCatName(catSlug, function(catName){
 			if(catName == null)
 				return set404(req, res, function(){});
-			dao.getCountProduct([catSlug], function(countProduct){
+			dao.getCountProductBySlug([catSlug], function(countProduct){
 				var countPage = Math.ceil(countProduct / step);
 				var pageActive = Math.ceil(start / step);
 				start = pageActive * step;

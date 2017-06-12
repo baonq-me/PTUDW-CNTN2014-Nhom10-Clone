@@ -276,11 +276,11 @@ var dao = {
 	*	@callback(countProduct): được gọi khi lấy số lượng sản phẩm theo category xong
 	*		@countProduct số lượng product theo category
 	*/
-	getCountProduct: function(slugs, callback){
+	getCountProductBySlug: function(slugs, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
-		productModel.count({categorySlug: {"$in": slugs}}, function(err, count){
+		productModel.count({categorySlug: {"$in": [slugs]}}, function(err, count){
 			if (err) throw err; 
 			callback(count);
 		});
@@ -924,6 +924,8 @@ var dao = {
 		});
 	}
 
+	/***************** TRANG ADMIN GROUP *******************************/
+	//getAllCategory
 
 };
 
