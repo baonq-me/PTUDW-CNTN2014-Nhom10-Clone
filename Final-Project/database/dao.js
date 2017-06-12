@@ -97,22 +97,27 @@ var dao = {
 
 	//Hàm lấy/tạo Bill model
 	getBillsModel: function(){
-		//nếu đã tồn tại User model thì return
+		//nếu đã tồn tại Bill model thì return
 		if (this.model.bills !== null)
 			return this.model.bills;
 		//Ngược lại, tạo model Bills mới
 		//Tạo Schema Bills
-	  	var UserSchema = this.mongoose.Schema({
+	  	var BillSchema = this.mongoose.Schema({
 	  		userID : String,
 	  		billingInfo: {recieve: String, pay_method: String},
 	  		receiverInfo: {name: String, phone: String, date: String, address: String, district: String, city: String},
 	  		cartInfo: Array,
 			dateAdded: { type: Date, default: Date.now },
-			//status: String    //Đang xử lí, Đã hủy, Hoàn tất, Đã xóa
+			status: {
+				delivered: Number,	//Đã giao hàng : 1, Chưa giao hàng: 0
+				paid: Number,		//Đã thanh toán : 1, Chưa thanh toán: 0
+				canceled: Number 	//Đã hủy : 1, Không hủy: 0
+			},
+			totalMoney: Number
 	  	});	
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
-	  	this.model.bills = this.mongoose.model('bills', UserSchema);
+	  	this.model.bills = this.mongoose.model('bills', BillSchema);
 	  	return this.model.bills;
 	},
 	getMeaningFlowersModel: function(){
@@ -926,10 +931,197 @@ var dao = {
 			if (err) throw err;
 			callback(count);
 		});
+	},
+
+	/***************** TRANG ADMIN ORDER *******************************/
+	getRevenueInWeek: function(callback){
+		callback(1200000);
+	},
+
+	/*
+	*  Lấy ds đơn hàng tất cả
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	getAllBill : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+	/*
+	*  Đếm số lượng đơn hàng đã giao hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillDelivered : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.delivered" : 1, "status.canceled" : 0}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	/*
+	*  Lấy ds đơn hàng đã giao hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	getBillDelivered : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.delivered" : 1, "status.canceled" : 0})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	*  Đếm số lượng đơn hàng đã giao hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillNotDelivered : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.delivered" : 0}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	/*
+	*  Lấy ds đơn hàng chưa giao hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	getBillNotDelivered : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.delivered" : 0})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+	/*
+	*  Đếm số lượng đơn hàng đã thanh toán
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillPaid : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.paid" : 1}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	/*
+	*  Lấy ds đơn hàng đã giao hàng
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	getBillPaid : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.paid" : 1})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+	/*
+	*  Đếm số lượng đơn hàng chưa thanh toán
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillNotPaid : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.paid" : 0}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	getBillNotPaid : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.paid" : 0})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/*
+	*  Đếm số lượng đơn hàng đã hoàn tất
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillCompleted : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.delivered" : 1, "status.paid" : 1}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	getBillCompleted : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.delivered" : 1, "status.paid" : 1})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+	/*
+	*  Đếm số lượng đơn hàng đã hủy
+	*	@param thực hiện sau khi đếm số lượng đơn hàng
+	*   count: số lượng đơn hàng được trả về
+	*/
+	countBillCanceled : function(callback){
+		var billModel = this.getBillsModel();
+
+		billModel.count({"status.canceled" : 1}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
+	getBillCanceled : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find({"status.canceled" : 1})
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
 	}
 
-	/***************** TRANG ADMIN GROUP *******************************/
-	//getAllCategory
 
 };
 

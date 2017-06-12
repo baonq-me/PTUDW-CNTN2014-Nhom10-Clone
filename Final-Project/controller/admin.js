@@ -71,6 +71,28 @@ var getBaseInfoProductsAdmin = function(callback){
 	});
 }
 
+//Lấy thông tin cơ bản của trang Quản lý Đơn hàng Admin
+var getBaseInfoOrderAdmin = function(callback){
+	dao.countBills(function(countBills){
+		dao.countBillNotPaid(function(countBillNotPaid){
+			dao.countBillCanceled(function(countBillCanceled){
+				dao.getRevenueInWeek(function(revenueInWeek){
+					dao.countBillNotDelivered(function(countBillNotDelivered){
+						dao.countBillDelivered(function(countBillDelivered){
+							dao.countBillPaid(function(countBillPaid){
+								dao.countBillCompleted(function(countBillCompleted){
+									callback(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek, 
+										countBillNotDelivered, countBillDelivered, countBillPaid, countBillCompleted);
+								});
+							});
+						});
+					});
+				});
+			});
+		});
+	});
+}
+
 
 // localhost:3000/admin/dashboard -> localhost:3000/admin
 router.get("/dashboard", isLoggedIn, function(req, res){
@@ -162,7 +184,7 @@ router.get("/api/products", isLoggedIn, function(req, res){
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//getContentHomeAdmin(function(countProducts, countBills, countUsers){
+			//getBaseInfoOrderAdmin(function(countProducts, countBills, countUsers){
 				res.render("admin/group", {"header": header, "sidebar":sidebar});
 			//});
 		});
@@ -181,12 +203,60 @@ router.get("/categories", isLoggedIn, function(req, res){
 router.get("/order", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
-				res.render("admin/order", {"header": header, "sidebar":sidebar});
+			getBaseInfoOrderAdmin(function(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek, 
+										countBillNotDelivered, countBillDelivered, countBillPaid, countBillCompleted){
+				res.render("admin/order", {"header": header, "sidebar":sidebar, "countBills" :countBills, "countBillNotPaid" : countBillNotPaid, 
+					"countBillCanceled" : countBillCanceled, "countBillCanceled": countBillCanceled, "revenueInWeek": revenueInWeek, 
+					"countBillNotDelivered" : countBillNotDelivered, "countBillDelivered" :countBillDelivered, 
+					"countBillPaid" : countBillPaid, "countBillCompleted" : countBillCompleted});
 			});
 		});
 	});
 });
+
+router.get("/api/bills", isLoggedIn, function(req, res){
+	switch (req.query.type) {
+		case '0':
+			dao.getAllBill(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '1':
+			dao.getBillDelivered(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '2':
+			dao.getBillNotDelivered(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '3':
+			dao.getBillPaid(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '4':
+			dao.getBillNotPaid(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '5':
+			dao.getBillCompleted(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+		case '6':
+			dao.getBillCanceled(10, 0, function(bills){
+				res.json(bills);
+			});
+			break;
+
+	}	
+});
+
+
+
 
 // Statistic
 router.get("/statistic", isLoggedIn, function(req, res){
