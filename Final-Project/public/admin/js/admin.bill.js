@@ -12,10 +12,12 @@ $(document).ready(function(){
 	function loadBills(type) {
 		function addRow(id, userID, name, phone, address, district, city, cartInfo, totalMoney, dateAdd, payMethod, status) {
 			var row = '<tr><td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td> \
-								<td> ' + id + '</td> \
-								<td> ' + userID + '</td> \
-								<td><div class="ho-ten"><b> '+ name + '</b></div> <div class="phone">'+ phone + ' </div></td>\
-								<td class="delivery-address"><div class="address">'+ address + '</div>", "<div class="district"> '+ district + '</div> ", " <div class="city"> '+ city + '</div></td>\
+								<td> Người đặt: ' + userID + ' <br/> Đơn hàng: ' + id + '</td> \
+								<td><div class="ho-ten"><b> '+ name + '</b></div> \
+								<div class="phone">'+ phone + ' </div></td> \
+								<td class="delivery-address"><span class="address">'+ address + '</span>, \
+								<span class="district"> '+ district + '</span>, \
+								<span class="city"> '+ city + '</span></td>, \
 								<td> ' + cartInfo + '</td> \
 								<td> ' + totalMoney + '</td> \
 								<td> ' + dateAdd + '</td> \
@@ -42,40 +44,15 @@ $(document).ready(function(){
 		});
 	}
 
-	$('#bill-all').on('click', function(e) {
-		e.preventDefault();
-		loadBills(0);
-	});
-
-	$('#bill-delivered').on('click', function(e) {
-		e.preventDefault();
-		loadBills(1);
-	});
-
-	$('#bill-not-delivered').on('click', function(e) {
-		e.preventDefault();
-		loadBills(2);
-	});
-
-	$('#product-paid').on('click', function(e) {
-		e.preventDefault();
-		loadBills(3);
-	});
-
-	$('#product-not-paid').on('click', function(e) {
-		e.preventDefault();
-		loadBills(4);
-	});
-
-	$('#product-completed').on('click', function(e) {
-		e.preventDefault();
-		loadBills(5);
-	});
-
-	$('#product-canceled').on('click', function(e) {
-		e.preventDefault();
-		loadBills(6);
-	});
+	var bills = ['#bill-all', '#bill-delivered', '#bill-not-delivered',
+							'#product-paid', '#product-not-paid', '#product-completed', '#product-canceled'];
+	for (i = 0; i < 6; i++)
+	{
+		$(bills[i]).on('click', function(e) {
+			e.preventDefault();
+			loadBills(i);
+		});
+	}
 
 	loadBills(0);
 })
