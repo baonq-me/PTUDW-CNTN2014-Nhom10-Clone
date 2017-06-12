@@ -9,7 +9,7 @@ $(document).ready(function(){
 		}
 
 		$.ajax({
-			url: '/admin/out-of-products', //URL lay du lieu
+			url: '/admin/api/index/out-of-products', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		}
 
 		$.ajax({
-			url: '/admin/new-products', //URL lay du lieu
+			url: '/admin/api/new-products', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
@@ -50,13 +50,13 @@ $(document).ready(function(){
 		};
 
 		$.ajax({
-			url: '/admin/new-users', //URL lay du lieu
+			url: '/admin/api/new-users', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
 				for (i = 0; i < res.length; ++i) {
 					addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);
-					  
+
 				}
 			}
 		});

@@ -1,4 +1,4 @@
-$(document).ready(function(){	
+$(document).ready(function(){
 
 	/******** Admin product **************/
 	// 0: all
@@ -28,6 +28,8 @@ $(document).ready(function(){
 				if(isEmpty)
 					$('#products').empty();
 				for (i = 0; i < res.length; ++i) {
+					if (res[i].newPrice == undefined)
+						res[i].newPrice = '';
 					addRow(res[i]);
 				}
 				if(res.length < count)
@@ -42,7 +44,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		loadProducts(0, 10, 0);
 	});
-	
+
 	$('#product-stock').on('click', function(e) {
 		e.preventDefault();
 		loadProducts(1, 10, 0);

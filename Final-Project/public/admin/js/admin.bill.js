@@ -1,4 +1,4 @@
-$(document).ready(function(){	
+$(document).ready(function(){
 
 	/******** Admin Order **************/
 	// 0: all
@@ -7,7 +7,7 @@ $(document).ready(function(){
 	// 3: paid
 	// 4: not paid
 	// 5: completed
-	// 6: canceled 
+	// 6: canceled
 
 	function loadBills(type) {
 		function addRow(id, userID, name, phone, address, district, city, cartInfo, totalMoney, dateAdd, payMethod, status) {
@@ -17,9 +17,9 @@ $(document).ready(function(){
 								<td><div class="ho-ten"><b> '+ name + '</b></div> <div class="phone">'+ phone + ' </div></td>\
 								<td class="delivery-address"><div class="address">'+ address + '</div>", "<div class="district"> '+ district + '</div> ", " <div class="city"> '+ city + '</div></td>\
 								<td> ' + cartInfo + '</td> \
-								<td> ' + totalMoney + '</td> \	
-								<td> ' + dateAdd + '</td> \	
-								<td> ' + payMethod + '</td> \	
+								<td> ' + totalMoney + '</td> \
+								<td> ' + dateAdd + '</td> \
+								<td> ' + payMethod + '</td> \
 								<td> ' + status + '</td> ';
 			$('#bills').append(row);
 		}
@@ -32,9 +32,10 @@ $(document).ready(function(){
 			},
 			success: function(res) {
 				$('#bills').empty();
+				console.log(res.length);
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i]._id, res[i].userID, res[i].recieverInfo.name, res[i].recieverInfo.phone,
-						res[i].recieverInfo.address, res[i].recieverInfo.district, res[i].recieverInfo.city, 
+					addRow(res[i]._id, res[i].userID, res[i].receiverInfo.name, res[i].receiverInfo.phone,
+						res[i].receiverInfo.address, res[i].receiverInfo.district, res[i].receiverInfo.city,
 						res[i].cartInfo, res[i].totalMoney, res[i].dateAdd, res[i].billingInfo.pay_method, res[i].status );
 				}
 			}
@@ -45,7 +46,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		loadBills(0);
 	});
-	
+
 	$('#bill-delivered').on('click', function(e) {
 		e.preventDefault();
 		loadBills(1);
