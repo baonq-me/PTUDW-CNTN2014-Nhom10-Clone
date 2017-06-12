@@ -69,13 +69,6 @@
 							<a href="#" class="float-left" id="product-out-of">Hết hàng (<%= countOutOfProduct %>)</a>
 							<a href="#" class="float-left" id="product-deleted">Đã xoá (<%= countDeletedProduct %>)</a>
 							<a href="#" class="float-left" id="product-stop-sell">Ngừng bán (<%= countStopSellProduct %>)</a>
-
-							<div class="form-group">
-								<a href="admin.products.html" class="btn btn-primary float-right">Tìm kiếm</a>
-								<div class="col-xs-2 float-right">
-								<input type="search" id="product-search" class="form-control">
-								</div>
-							</div>
 						</div>
 
 						<div class="clear"></div>
@@ -117,14 +110,9 @@
 								<li><a href="#">Hoa cưa gái</a></li>
 						  </ul>
 						</div>
-
-						<a href="admin.products.html" class="btn btn-default float-right">Trang tiếp</a>
-						<a href="admin.products.html" class="btn btn-default float-right">10</a>
-						<a href="admin.products.html" class="btn btn-default float-right">......</a>
-						<a href="admin.products.html" class="btn btn-default float-right">3</a>
-						<a href="admin.products.html" class="btn btn-default float-right">2</a>
-						<a href="admin.products.html" class="btn btn-default float-right">1</a>
-
+						<div class="col-xs-2 float-right">
+							<input placeholder="Lọc" type="search" id="product-search" class="form-control">
+						</div>
 
 						<div class="clear"></div>
 					</div>
@@ -153,6 +141,9 @@
 								<tbody id="products">
 								</tbody>
 							</table>
+							<div style="text-align: center;">
+								<div class="view-more" style="display: inline-block; padding: 5px 30px; margin-top: 30px; cursor: pointer; border: 1px solid rgba(0,0,0,0.2)">Xem thêm sản phẩm</div>
+							</div>
 						</div>
 					</div>
 				</div>
