@@ -182,6 +182,14 @@ router.get("/api/products", isLoggedIn, function(req, res){
 	}	
 });
 
+router.get("/product/add", isLoggedIn, (req, res) => {
+	getHeaderAdmin(function(header){
+		getSidebarAdmin(function(sidebar){
+			res.render("admin/product-add", {"header": header, "sidebar": sidebar})
+		})
+	});
+});
+
 // Group
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {

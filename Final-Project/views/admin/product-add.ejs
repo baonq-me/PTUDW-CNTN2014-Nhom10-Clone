@@ -1,0 +1,71 @@
+	<% include includes/header.ejs %>
+	
+	<div class="clearfix"></div>
+		<div id="site-container" class="menu-full">
+
+		<% include includes/sidebar.ejs %>
+
+		<div class="content-footer">
+			<div class="content">
+				<div class="box">
+					<div class="box-title">
+						<h1>Thêm sản phẩm</h1>
+						<a href="/admin/product" class="btn btn-primary">Quản lí sản phẩm</a>
+					</div>
+					<div class="box-content">
+						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
+						<!-- Responsive table -->
+						<form id="account-profile" action="admin.products.html" method="post">
+							<table>
+								<tbody>
+									<tr>
+										<th><label for="product-add-name">Tên sản phẩm</label></th>
+										<td><input class="form-control" type="text" id="product-add-name" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-groups">Nhóm</label></th>
+										<td>
+											<div class="btn-group">
+											  <button id="product-add-groups" type="button" class="btn btn-default">Hoa thường</button>
+											  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											    <span class="caret"></span>
+											  </button>
+											  <ul class="dropdown-menu" role="menu">
+											    <li><a href="#">Hoa tình yêu</a></li>
+											    <li><a href="#">Hoa Tết</a></li>
+													<li><a href="#">Hoa trang trí</a></li>
+													<li><a href="#">Hoa cưới</a></li>
+											  	</ul>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="product-add-image">Hình ảnh</label></th>
+										<td><input id="image-upload" maxlength="20000" class="form-control" accept="image/*" type="file" id="product-add-image" value="">
+										<div style="text-align: center; display: none;" id="display-image-upload"><img style="height: 100px" src=""></div></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-description">Mô tả</label></th>
+										<td><input class="form-control" type="text" id="product-add-description" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-sku">SKU</label></th>
+										<td><input class="form-control" type="text" id="product-add-sku" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-quantity">Số lượng</label></th>
+										<td><input class="form-control" type="text" id="product-add-quantity" value=""></td>
+									</tr>
+
+								</tbody>
+							</table>
+							<input type="submit" class="btn btn-primary" value="Thêm sản phẩm">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="/admin/js/admin.product.js"></script>
+</body>
+</html>
