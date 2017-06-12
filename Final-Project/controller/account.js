@@ -174,10 +174,17 @@ var router = require("express").Router();
 			res.send("Đăng nhập thành công");
 		} else res.send("Đăng nhập thất bại");
 	});
-	// Routing logout
+	// Routing logout customer
 	router.post("/logout", function(req, res){
-		req.logout();
+		if(req.isAuthenticated() && req.user.role.name == "customer")
+			req.logout();
 		res.json({});
+	});
+	// Logout admin
+	router.get("/admin/logout", (req, res) => {
+		if(req.isAuthenticated() && req.user.role.name != "customer")
+			req.logout();
+		res.redirect("/admin");
 	});
 
 
