@@ -74,7 +74,7 @@ var router = require("express").Router();
 			clientID: "801495239999622",
 			clientSecret: "e15683384ec8ca903271d0b20add0b7c",
 			callbackURL: "http://localhost:3000/auth/fb/cb",
-			profileFields: ["email", "displayName", "location"]
+			profileFields: ["email", "picture.type(large)", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial({facebook: profile._json.id}, function(user){
@@ -86,6 +86,7 @@ var router = require("express").Router();
 					type: "facebook",
 					email: profile._json.email,
 					address: (profile._json.location==undefined) ? "" : profile._json.location.name,
+					avatarPath: profile._json.picture.data.url
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){
@@ -114,7 +115,7 @@ var router = require("express").Router();
 					uid: {google: profile.id},
 					fullName: profile.displayName,
 					type: "google",
-					email: profile.emails[0].value,
+					email: profile.emails[0].value
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){

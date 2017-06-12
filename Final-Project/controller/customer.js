@@ -52,7 +52,8 @@ function setHeader(req, res, next){
 	var user = getCustomer(req);
 	dao.getAllCategory(function(categorys){
 		if(user != null && user.role.name == "customer"){
-			 res.locals.header = {"categorys": categorys, login: {fullname: user.baseInfo.fullName, changePassword: user.loginInfo.typeLg==="local"}};
+			var avatarPath = (user.baseInfo.avatarPath) ? user.baseInfo.avatarPath : "images/avatar_member.png";
+			 res.locals.header = {"categorys": categorys, login: {avatarPath: avatarPath, fullname: user.baseInfo.fullName, changePassword: user.loginInfo.typeLg==="local"}};
 		}else res.locals.header = {"categorys": categorys};
 		return next()
 	});
@@ -697,44 +698,65 @@ router.get('/paypal_client_token',isLoggedIn,isComplateReceiverInfo,isComplateBi
 });
 
 router.post('/paypal_checkout',function(req, res, next) {
-	console.log(req.body.amount);
-	var saleRequest = {
-		amount: req.body.amount,			// Số lượng tiền
-		paymentMethodNonce: req.body.nonce, // Nonce từ client
-		shipping: {
-			firstName: "Huy",
-			lastName: "Nguyễn Văn"
-	  },
-	  options: {
-		  paypal: {
-			  customField: "Tiêu đề ",	  // Thông tin hiển thị lên hóa đơn
-			  description: "Mô tả"
+		console.log(req.body.amount);
+		var saleRequest = {
+			amount: req.body.amount,			// Số lượng tiền
+			paymentMethodNonce: req.body.nonce, // Nonce từ client
+			shipping: {
+				firstName: "Huy",
+				lastName: "Nguyễn Văn"
 		  },
-		  submitForSettlement: true
-	  }
-	};
-	gateway.transaction.sale(saleRequest, function (err, result) {
-		if (err) {
-			res.sendStatus(404);
-		} else if (result.success) {
-			next();
-		} else {
-			res.send(result.message);
-		}
-	});
-}, function(req, res, next){
-	var payInfo = req.session.payinfo;
-	var cartInfo = req.body.cartInfo;
-	dao.addBill({userID: getCustomer(req)._id, "payInfo": payInfo, "cartInfo": cartInfo}, 
-		function(){
-			return res.redirect("/pay/done");
+		  options: {
+			  paypal: {
+				  customField: "Tiêu đề ",	  // Thông tin hiển thị lên hóa đơn
+				  description: "Mô tả"
+			  },
+			  submitForSettlement: true
+		  }
+		};
+		gateway.transaction.sale(saleRequest, function (err, result) {
+			if (err) {
+				res.sendStatus(404);
+			} else if (result.success) {
+				next();
+			} else {
+				res.send(result.message);
+			}
 		});
+	}, function(req, res, next){
+		var payInfo = req.session.payinfo;
+		var cartInfo = req.body.cartInfo;
+		dao.addBill({userID: getCustomer(req)._id, "payInfo": payInfo, "cartInfo": cartInfo}, 
+			function(){
+				return res.redirect("/pay/done");
+			});
 });
 
 router.get("/pay/done", isLoggedIn,isComplateReceiverInfo,isComplateBillingInfo, setHeader, setFooter, function(req, res, next){
 	res.render("pay/done", {})
 })
 
+
+// Routing profile 
+router.get("/profile", isLoggedIn, setHeader, setFooter, function(req, res){
+	var user = getCustomer(req);
+	var stringDate = function(date){
+		var d = new Date(date);
+		return "Ngày " + d.getDate() + " tháng " + (d.getMonth() + 1) + " năm " + (d.getYear()+1900);
+	}
+	res.render("profile", {content: {
+		name: (user.baseInfo.fullName) ? user.baseInfo.fullName : "Chưa biết",
+		email: (user.baseInfo.email) ? user.baseInfo.email : "Chưa biết",
+		avatarPath: (user.baseInfo.avatarPath) ? user.baseInfo.avatarPath : "images/avatar_member.png",
+		address: (user.baseInfo.address) ? user.baseInfo.address : "Chưa biết",
+		phone: (user.baseInfo.tel) ? user.baseInfo.tel : "Chưa biết",
+		dateAdded: (user.dateAdded) ? stringDate(user.dateAdded) : "Chưa biết",
+	}});
+})
+// Routing profile 
+router.post("/profile/:type", isLoggedIn, setHeader, setFooter, function(req, res){
+	var type = req.params.type;
+})
 
 // Routing cho trang 404
 router.get("*", function(req, res){

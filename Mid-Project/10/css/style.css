@@ -1038,3 +1038,12 @@ form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon 
 	padding: 0px 15px;
 	margin-top: 10px;
 }
+/****************** Profile *************/
+.profile-detail{ }
+.profile-detail .item { margin-bottom: 15px; overflow: auto; }
+.profile-detail .title {
+	font-weight: bold;
+	color: #555
+}
+.profile-detail .info { color: #666 }
+.profile-detail .no-fix { opacity: 0.8 }

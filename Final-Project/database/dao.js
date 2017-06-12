@@ -79,6 +79,7 @@ var dao = {
 				email: String,
 				address: String,
 				tel: String,
+				avatarPath: String
 			},
 			dateAdded: { type: Date, default: Date.now },
 			role: {
@@ -615,7 +616,8 @@ var dao = {
 			baseInfo: {
 				fullName: user.fullName,
 				email: user.email,
-				address: user.address
+				address: user.address,
+				avatarPath: user.avatarPath
 			},
 			role: {
 				name: "customer",

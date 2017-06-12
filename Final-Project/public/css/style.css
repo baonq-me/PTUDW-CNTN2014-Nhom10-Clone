@@ -1127,3 +1127,14 @@ form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon 
 	padding: 0px 15px;
 	margin-top: 10px;
 }
+/****************** Profile *************/
+.profile-detail{ }
+.profile-detail .item { margin-bottom: 25px; overflow: auto; position: relative; min-height: 30px }
+.profile-detail .title {
+	font-weight: bold;
+	color: #555
+}
+.profile-detail .info { color: #666 }
+.profile-detail .no-fix { opacity: 0.8 }
+.profile-detail .edit { position: absolute; right: 10px; cursor: pointer; z-index: 10; }
+.profile-detail .edit i { padding: 5px; color: #23b14d }
