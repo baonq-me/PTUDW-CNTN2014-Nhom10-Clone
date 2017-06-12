@@ -23,7 +23,7 @@ var dao = {
 		if (this.model.categories !== null)
 			return this.model.categories;
 		//Ngược lại, tạo model Category mới
-		//Tạo Schema category 
+		//Tạo Schema category
 	  	var categorySchema = this.mongoose.Schema({
 	  		id : this.mongoose.Schema.ObjectId,
 	  		name: {type: String, require : true, unique: true},
@@ -39,7 +39,7 @@ var dao = {
 
 	//Hàm lấy/tạo Product model
 	getProductModel: function(){
-		//nếu đã tồn tại Product model thì return 
+		//nếu đã tồn tại Product model thì return
 		if (this.model.products !== null)
 			return this.model.products;
 		//Ngược lại, tạo model Product mới
@@ -51,7 +51,7 @@ var dao = {
 	  		price: Number,
 	  		categorySlug : [String],	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
 	  		newPrice: Number,
-	  		detail: String, 
+	  		detail: String,
 	  		quality: Number,
 	  		dateAdded :{ type: Date, default: Date.now },
 	  		status: String
@@ -114,7 +114,7 @@ var dao = {
 				canceled: Number 	//Đã hủy : 1, Không hủy: 0
 			},
 			totalMoney: Number
-	  	});	
+	  	});
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
 	  	this.model.bills = this.mongoose.model('bills', BillSchema);
@@ -132,7 +132,7 @@ var dao = {
 			imagePath: String,
 			summary: String,
 			detail: String,
-	  	});	
+	  	});
 
 	  	//Tạo model từ meaningflowersSchema và có tên collection là 'meaningflowers'
 	  	this.model.meaningflowers = this.mongoose.model('meaningflowers', UserSchema);
@@ -221,7 +221,7 @@ var dao = {
 	getPromotionProduct: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
-		
+
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
 		productModel.find()
 		.exists('newPrice', true)
@@ -268,14 +268,14 @@ var dao = {
 			condition.$or.add(condition[i]);
 		}
 		*/
-		
+
 		//Truy vấn DB lấy product có categorySlug là slugs
 		productModel.find({categorySlug: {"$in": slugs}})
 		.limit(count)
 		.skip(skip)
 		.select('id name imgPath price newPrice slug')
 		.exec(function(err, data){
-			if (err) throw err; 
+			if (err) throw err;
 			callback(data);
 		});
 	},
@@ -289,7 +289,7 @@ var dao = {
 		var productModel = this.getProductModel();
 
 		productModel.count({categorySlug: {"$in": [slugs]}}, function(err, count){
-			if (err) throw err; 
+			if (err) throw err;
 			callback(count);
 		});
 	},
@@ -331,7 +331,7 @@ var dao = {
 	getProductsBySearch: function(searchInfo, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
-		
+
 		//Truy vấn DB
 		if(searchInfo.searchBy == 'price'){
 			productModel.find({
@@ -362,7 +362,7 @@ var dao = {
 	getCountProductBySearch: function(searchInfo, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
-		
+
 		//Truy vấn DB
 		if(searchInfo.searchBy == 'price'){
 			productModel.find({
@@ -441,7 +441,7 @@ var dao = {
 	*/
 
 	/*
-	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
+	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string,
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	addUserLocal: function(args){
@@ -470,8 +470,8 @@ var dao = {
 	* @username: username người dùng nhập vào
 	* @password: Password người dùng nhập vào
 	* @callback: thực hiện sau khi login thành công
-	* login thành công: return true 
-	* login thất bại: return false 
+	* login thành công: return true
+	* login thất bại: return false
 	*/
 	login: function(username, password, callback){
 		var userModel = this.getUserModel();
@@ -551,7 +551,7 @@ var dao = {
 		});
 	},
 	/*
-	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string, 
+	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string,
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
 	signup: function(args, callback){
@@ -565,7 +565,7 @@ var dao = {
 				}
 			});
 		});
-	},	
+	},
 	setNewPassword: function(username, newpass, callback){
 		var userModel = this.getUserModel();
 		userModel.findOne({"loginInfo.localLogin.username": username}, function(err, user){
@@ -600,7 +600,7 @@ var dao = {
 
 	/*
 	*	Lấy thông tin user đăng nhập từ
-	*	Không tìm thấy trả về null 
+	*	Không tìm thấy trả về null
 	*/
 	getUserSocial: function(uid, callback){
 		var userModel = this.getUserModel();
@@ -742,7 +742,7 @@ var dao = {
 	/*
 	* Lấy sản phẩm được thêm gần đây
 	* @param số lượng sản phẩm cần lấy
-	* 
+	*
 	*/
 	getNewProductAdmin : function(count, skip, callback){
 		var productModel = this.getProductModel();
@@ -767,10 +767,10 @@ var dao = {
 		var userModel = this.getUserModel();
 
 		userModel.find()
-		.sort({dateAdded: -1})
-		.select('baseInfo.fullName loginInfo.localLogin.username dateAdded')
 		.limit(count)
 		.skip(skip)
+		.select('baseInfo.fullName loginInfo.localLogin.username dateAdded loginInfo.typeLg')
+		.sort({dateAdded: -1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -793,7 +793,7 @@ var dao = {
 		});
 	},
 
-	/* 
+	/*
 	* Đếm số sản phẩm mới được thêm trong tuần
 	* @param thực hiện sau khi đếm số lượng sản phẩm
 	*   count: số lượng sản phẩm được trả về
@@ -802,7 +802,7 @@ var dao = {
 		callback(10);
 	},
 
-	/* 
+	/*
 	* Đếm số sản phẩm khuyến mãi hiện có
 	* @param thực hiện sau khi đếm số lượng sản phẩm
 	*   count: số lượng sản phẩm được trả về
@@ -818,7 +818,7 @@ var dao = {
 	},
 
 	/*
-	* Lấy sản phẩm bán chạy nhất (Được mua nhiều nhất) 
+	* Lấy sản phẩm bán chạy nhất (Được mua nhiều nhất)
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là tên sản phẩm bán chạy nhất
 	*/
@@ -846,7 +846,7 @@ var dao = {
 
 
 	/*
-	* Lấy danh sách sản phẩm đang bán và còn hàng 
+	* Lấy danh sách sản phẩm đang bán và còn hàng
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
@@ -875,7 +875,7 @@ var dao = {
 		});
 	},
 	/*
-	* Lấy danh sách sản phẩm ngưng bán 
+	* Lấy danh sách sản phẩm ngưng bán
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
