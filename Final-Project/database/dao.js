@@ -28,7 +28,8 @@ var dao = {
 	  		id : this.mongoose.Schema.ObjectId,
 	  		name: {type: String, require : true, unique: true},
 	  		slug: {type: String, require : true, unique: true},
-	  		icon: String
+	  		icon: String,
+	  		countProduct: Number
 	  	});
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'
@@ -106,7 +107,8 @@ var dao = {
 	  		billingInfo: {recieve: String, pay_method: String},
 	  		receiverInfo: {name: String, phone: String, date: String, address: String, district: String, city: String},
 	  		cartInfo: Array,
-			dateAdded: { type: Date, default: Date.now }
+			dateAdded: { type: Date, default: Date.now },
+			//status: String    //Đang xử lí, Đã hủy, Hoàn tất, Đã xóa
 	  	});	
 
 	  	//Tạo model từ categorySchema và có tên collection là 'categories'

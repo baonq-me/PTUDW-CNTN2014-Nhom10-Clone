@@ -1,9 +1,9 @@
 $(document).ready(function(){
 	/******** Admin index **************/
 	function loadCategories() {
-		function addRow(id, name) {
-			var row = '<tr><td>' + id + '</td><td><b>' + name + '</b></td></tr>';
-			$('#out-of-products').append(row);
+		function addRow( name, slug, countProduct) {
+			var row = '<tr><td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td><td>' +name + '</td><td>' + slug + '</td><td>' + countProduct + '</td></tr>';
+			$('#categories').append(row);
 		}
 
 		$.ajax({
@@ -12,7 +12,7 @@ $(document).ready(function(){
 			data: {},
 			success: function(res) {
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i].id, res[i].name);
+					addRow(res[i].name, res[i].slug, res[i].countProduct);
 				}
 			}
 		});

@@ -170,25 +170,12 @@ router.get("/group", isLoggedIn, function(req, res){
 });
 
 // Lấy categories
-/*
-router.get("/categories", isLoggedIn, function(req, res){
-	var counts = [];
-	dao.getAllCategory(function(categories){
-		for(i=0; i<categories.length; i++){
-			dao.getCountProductBySlug(categories[i].slug, function(count){
-				counts[i] = count;
-				console.log(counts[i]);
-				if(i=categories.length-1){
-					res.json(categories, counts);
-				}
-			});
-		};
-		//console.log(categories[0].slug);
-		//res.json(categories);
 
+router.get("/categories", isLoggedIn, function(req, res){
+	dao.getAllCategory(function(categories){
+			res.json(categories);
 	});
 });
-*/
 
 // Order
 router.get("/order", isLoggedIn, function(req, res){
