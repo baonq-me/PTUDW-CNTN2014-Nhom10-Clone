@@ -115,7 +115,8 @@ var router = require("express").Router();
 					uid: {google: profile.id},
 					fullName: profile.displayName,
 					type: "google",
-					email: profile.emails[0].value
+					email: profile.emails[0].value,
+					avatarPath: profile._json.image.url.substring(0, profile._json.image.url.length-2) + '300'
 				};
 				dao.addUserSocial(user, function(success){
 					if(success){

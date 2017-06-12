@@ -151,29 +151,31 @@ router.get("/product", isLoggedIn, function(req, res){
 });
 
 router.get("/api/products", isLoggedIn, function(req, res){
+	var skip = parseInt(req.query.skip);
+	var count = parseInt(req.query.count);
 	switch (req.query.type) {
 		case '0':
-			dao.getAllProduct(10, 0, function(products){
+			dao.getAllProduct(count, skip, function(products){
 				res.json(products);
 			});
 			break;
 		case '1':
-			dao.getStockProduct(10, 0, function(products){
+			dao.getStockProduct(count, skip, function(products){
 				res.json(products);
 			});
 			break;
 		case '2':
-			dao.getOutOfProduct(10, 0,function(products){
+			dao.getOutOfProduct(count, skip,function(products){
 				res.json(products);
 			});
 			break;
 		case '3':
-			dao.getDeletedProduct(10, 0, function(products){
+			dao.getDeletedProduct(count, skip, function(products){
 				res.json(products);
 			});
 			break;
 		case '4':
-			dao.getStopSellProduct(10, 0, function(products){
+			dao.getStopSellProduct(count, skip, function(products){
 				res.json(products);
 			});
 			break;
