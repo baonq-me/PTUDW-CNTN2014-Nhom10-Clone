@@ -103,7 +103,7 @@ var getContentHome = function(callback){
 *			thông tin người dùng nếu đã đăng nhập
 */
 var getCustomer = function(req){
-	return req.isAuthenticated() ? req.user : null;
+	return (req.isAuthenticated() && req.user.role.name == "customer") ? req.user : null;
 }
 
 /*
@@ -581,7 +581,7 @@ router.get("/cart-info", setHeader, setFooter, (req, res) => {
 	var user = getCustomer(req);
 	//if(user == null) res.redirect("/login");
 	//else {
-	dao.getNewProduct(8, function(newProducts){
+	dao.getNewProduct(0, 8, function(newProducts){
 		res.render("cart-info", {"content": {"newProducts": newProducts}});
 	});
 	//}
