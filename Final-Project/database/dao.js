@@ -466,6 +466,49 @@ var dao = {
 			if(err) throw err;
 		});
 	},
+
+/*
+username: username,
+          fullname: fullname,
+          email: email,
+          phone: phone,
+          role: role,
+          password: password1
+					*/
+	fuck_addUserLocal_and_signup: function(regInfo, callback) {
+		var userModel = this.getUserModel();
+		dao.getUser(regInfo.username, function(userExist){
+			if (userExist == null)	// check if username is exist
+			{
+				var user = new userModel({
+					"loginInfo": {
+						typeLg: "local",
+						localLogin: {
+							username: regInfo.username,
+							password: dao.passwordHash.generate("Abcdef1234")
+						}
+					},
+					baseInfo: {
+						fullName: regInfo.fullname,
+						email: regInfo.email,
+						tel: regInfo.phone
+					},
+					role: {
+						name: regInfo.role
+					},
+					status: ""
+				}).save(function(err, data){
+					if(err)
+					{
+						throw err;
+						callback(false);			// unknown error
+					} else callback(true); // added
+				});
+			}
+			else callback(false);	// false if username is exist
+		});
+	},
+
 	/* Hàm kiểm tra thông tin username và password khi đăng nhập
 	* @username: username người dùng nhập vào
 	* @password: Password người dùng nhập vào
@@ -493,6 +536,14 @@ var dao = {
 	getUser: function(username, callback){
 		var userModel = this.getUserModel();
 		userModel.findOne({"loginInfo.localLogin.username":username}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	getAllUser: function(callback){
+		var userModel = this.getUserModel();
+		userModel.find({}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		});

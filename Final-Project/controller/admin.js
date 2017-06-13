@@ -118,7 +118,7 @@ var getBaseInfoProductsAdmin = function(callback){
 											callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
 											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories);
 										})
-										
+
 									});
 								});
 							});
@@ -370,7 +370,24 @@ router.get("/account", isLoggedIn, function(req, res){
 
 // Add accounts
 router.post("/api/account/add", isLoggedIn, function(req, res){
-	res.json({'12':'12'});
+	dao.fuck_addUserLocal_and_signup({
+		username: req.body.username,
+		fullname: req.body.fullname,
+		email: req.body.email,
+		phone: req.body.phone,
+		role: req.body.role
+	}, function(ok){
+		if (ok)
+			res.status(200).send("Done");
+		else
+			res.status(400).send("Fail to add user");
+		});
+});
+
+router.get("/api/account/get/all", isLoggedIn, function(req, res){
+	dao.getAllUser(function(data){
+		res.json(data);
+	});
 });
 
 // Setting
