@@ -208,9 +208,9 @@ router.get("/product/add", isLoggedIn, (req, res) => {
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//getBaseInfoOrderAdmin(function(countProducts, countBills, countUsers){
-				res.render("admin/group", {"header": header, "sidebar":sidebar});
-			//});
+			dao.countCategories(function(countCategories){
+				res.render("admin/group", {"header": header, "sidebar":sidebar, "countCategories" : countCategories });
+			});
 		});
 	});
 });
