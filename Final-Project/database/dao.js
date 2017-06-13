@@ -1295,7 +1295,7 @@ username: username,
 				}
 			});
 		})
-	};
+	},
 
 	getCountProductByName: function(name, callback){
 		var productModel = this.getProductModel();
