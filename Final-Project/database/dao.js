@@ -713,11 +713,14 @@ var dao = {
 	*   data: mảng các object
 	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
 	*/
-	getOutOfProduct : function(count, skip , callback){
+	getOutOfProduct : function(count, skip, query, catID, callback){
 		var productModel= this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}], name: new RegExp(query, "i")})
+		else var s = productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}], name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}]})
-		.skip(skip)
+		s.skip(skip)
 		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -855,11 +858,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getAllProduct: function(count, skip, callback){
+	getAllProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
-
-		productModel.find({})
-		.limit(count)
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({name: new RegExp(query, "i")})
+		else var s = productModel.find({name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
+		
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -873,11 +879,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStockProduct: function(count, skip, callback){
+	getStockProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
-
-		productModel.find({quality: {$gt: 0}, status: "Đang bán"})
-		.limit(count)
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i")})
+		else var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
+		
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -902,11 +911,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStopSellProduct: function(count, skip, callback){
+	getStopSellProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({status: "Ngừng bán", name: new RegExp(query, "i")})
+		else var s = productModel.find({status: "Ngừng bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({status: "Ngừng bán"})
-		.exec(function(err, data){
+		s.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -930,11 +942,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getDeletedProduct: function(count, skip, callback){
+	getDeletedProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({status: "Đã xóa", name: new RegExp(query, "i")})
+		else var s = productModel.find({status: "Đã xóa", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({status: "Đã xóa"})
-		.limit(count)
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
