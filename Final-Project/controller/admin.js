@@ -127,6 +127,13 @@ router.get("/api/index/new-products", isLoggedIn, function(req, res){
 	});
 });
 
+//Lấy ds sản phẩm mới bán
+router.get("/api/index/just-sell-products", isLoggedIn, function(req, res){
+	dao.getJustSellProduct(5, 0 , function(justSellProducts){
+		res.json(justSellProducts);
+	});
+});
+
 //Lấy ds user mới được thêm vào
 router.get("/api/index/new-users", isLoggedIn, function(req, res){
 	dao.getNewUsers(5, 0, function(newUsers){

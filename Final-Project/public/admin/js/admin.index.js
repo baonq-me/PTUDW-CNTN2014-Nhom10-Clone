@@ -67,4 +67,28 @@ $(document).ready(function(){
 	};
 
 	loadNewUsers();
+
+	function loadJustSellProducts() {
+		function addRow(name, quality, unitPrice) {
+			var row = '<tr><td><a href="#"><b>'+ name +'</b></a></td>'
+										+'<td><b>'+ quality +'</b></td>'
+										+'<td>'+ unitPrice +'</td></tr>';
+			$('#just-sell-products').append(row);
+		}
+
+		$.ajax({
+			url: '/admin/api/index/just-sell-products', //URL lay du lieu
+			type: 'GET',
+			data: {},
+			success: function(res) {
+				for (i = 0; i < res.length; ++i) {
+					for (j=0; j<res[i].cartInfo.length; j++){
+						addRow(res[i].cartInfo[j].productName, res[i].cartInfo[j].count, res[i].cartInfo[j].unitPrice );
+					}	
+				}
+			}
+		});
+	}
+
+	loadJustSellProducts();
 })

@@ -776,6 +776,28 @@ var dao = {
 			callback(data);
 		});
 	},
+	/*
+	* Lấy sản phẩm vừa mới bán
+	* @param số lượng sản phẩm cần lấy
+	* @param thực hiện khi lấy sản phẩm
+	* data: mảng các object sản phẩm mới được thêm vào
+	*/
+	getJustSellProduct : function(count, skip, callback){
+		var billModel = this.getBillsModel();
+
+		billModel.find()
+		.limit(count)
+		.skip(skip)
+		.select('cartInfo')
+		.sort({dateAdded: -1})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+
+
 
 /*************** Trang admin product *********************/
 
@@ -1121,6 +1143,8 @@ var dao = {
 			callback(data);
 		});
 	}
+
+
 
 
 };
