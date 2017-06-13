@@ -3,7 +3,7 @@ $(document).ready(function(){
 	function loadCategories(count, skip, isEmpty = true) {
 
 		function addRow(category) {
-			var row = '<tr><td><div class="checkbox"><label><input data-id="'+ category._id + '" type="checkbox" value=""></label></div></td><td>' + category.name + '</td><td>' + category.slug + '</td><td>' + category.icon + '</td><td>' + category.countProduct + '</td></tr>';
+			var row = '<tr><td><div class="checkbox"><label><input data-id="'+ category._id + '" type="checkbox" value=""></label></div></td><td><a href="admin/category/edit" data-id=' + category._id + '>' + category.name + '</a></td><td>' + category.slug + '</td><td>' + category.icon + '</td><td>' + category.countProduct + '</td></tr>';
 			$('#categories').append(row);
 		}
 
@@ -47,7 +47,7 @@ $(document).ready(function(){
 	$("#delete-category").click(function(){
 		//alert(123);
 		var categories = [];
-		$('#category .checkbox input:checked').each(function(){
+		$('#categories .checkbox input:checked').each(function(){
 			categories.push($(this).data("id"));
 			console.log(categories);
 		});
@@ -68,4 +68,7 @@ $(document).ready(function(){
 
 		});
 	});
+
+	//Sửa thông tin category
+	//$("category ")
 });
