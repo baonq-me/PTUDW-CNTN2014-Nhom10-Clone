@@ -55,7 +55,7 @@ $(document).ready(function(){
 			data: {},
 			success: function(res) {
 				for (i = 0; i < res.length; ++i) {
-					if (res[i].loginInfo == undefined)
+					if (res[i].loginInfo.localLogin == undefined)
 						addRow(res[i].baseInfo.fullName, 'External auth (' + res[i].loginInfo.typeLg + ')', res[i].dateAdded);
 					else
 						addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);

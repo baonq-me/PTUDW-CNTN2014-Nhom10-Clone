@@ -121,16 +121,22 @@ router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
 
 
 //Lấy ds sản phẩm mới được thêm vào
-router.get("/api/new-products", isLoggedIn, function(req, res){
+router.get("/api/index/new-products", isLoggedIn, function(req, res){
 	dao.getNewProductAdmin(5, 0 , function(newProducts){
 		res.json(newProducts);
 	});
 });
 
 //Lấy ds user mới được thêm vào
-router.get("/api/new-users", isLoggedIn, function(req, res){
+router.get("/api/index/new-users", isLoggedIn, function(req, res){
 	dao.getNewUsers(5, 0, function(newUsers){
 		res.json(newUsers);
+	});
+});
+
+router.get("/api/search/products", isLoggedIn, function(req, res){
+	dao.getProductDetailByID(req.query.id, function(products){
+		res.json(products);
 	});
 });
 
@@ -223,6 +229,8 @@ router.get("/order", isLoggedIn, function(req, res){
 		});
 	});
 });
+
+
 
 router.get("/api/bills", isLoggedIn, function(req, res){
 	switch (req.query.type) {
