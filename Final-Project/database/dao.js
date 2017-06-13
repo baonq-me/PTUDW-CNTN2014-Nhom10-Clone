@@ -658,6 +658,7 @@ var dao = {
 			billingInfo: billInfo.payInfo.billingInfo,
 			receiverInfo: billInfo.payInfo.receiverInfo,
 			cartInfo: billInfo.cartInfo,
+			status: billInfo.status
 		});
 		bill.save(function(err, data){
 			if(err) throw err;
