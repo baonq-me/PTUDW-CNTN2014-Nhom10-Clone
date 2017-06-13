@@ -127,6 +127,13 @@ router.get("/api/index/new-products", isLoggedIn, function(req, res){
 	});
 });
 
+//Lấy ds sản phẩm mới bán
+router.get("/api/index/just-sell-products", isLoggedIn, function(req, res){
+	dao.getJustSellProduct(5, 0 , function(justSellProducts){
+		res.json(justSellProducts);
+	});
+});
+
 //Lấy ds user mới được thêm vào
 router.get("/api/index/new-users", isLoggedIn, function(req, res){
 	dao.getNewUsers(5, 0, function(newUsers){
@@ -200,9 +207,9 @@ router.get("/product/add", isLoggedIn, (req, res) => {
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//getBaseInfoOrderAdmin(function(countProducts, countBills, countUsers){
-				res.render("admin/group", {"header": header, "sidebar":sidebar});
-			//});
+			dao.countCategories(function(countCategories){
+				res.render("admin/group", {"header": header, "sidebar":sidebar, "countCategories": countCategories});
+			});
 		});
 	});
 });
