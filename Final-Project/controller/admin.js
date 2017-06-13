@@ -5,6 +5,7 @@
 
 var router = require("express").Router();
 var dao = require('../database/dao.js');
+var async = require('async');
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -49,7 +50,62 @@ var getContentHomeAdmin = function(callback){
 
 //Lấy thông tin cơ bản trang quản lý SP admin
 var getBaseInfoProductsAdmin = function(callback){
-	dao.countCategories(function(countCategories){
+	async.parallel({
+		countCategories: function(callback){
+			dao.countCategories(function(countCategories){
+				callback(null, countCategories);
+			});
+		},
+		countNewProduct: function(callback){
+			dao.countNewProductInWeek (function(countNewProduct){
+				callback(null, countNewProduct);
+			})
+		},
+		countPromotionProduct: function(callback){
+			dao.countPromotionProduct(function(countPromotionProduct){
+				callback(null, countPromotionProduct);
+			});
+		},
+		bestSellProduct: function(callback){
+			dao.getBestSellProduct(function(bestSellProduct){
+				callback(null, bestSellProduct);
+			});
+		},
+		countProduct: function(callback){
+			dao.countProducts(function(countProduct){
+				callback(null, countProduct);
+			});
+		},
+		countOutOfProduct: function(callback){
+			dao.countOutOfProduct(function(countOutOfProduct){
+				callback(null, countOutOfProduct);
+			});
+		},
+		countStockProduct: function(callback){
+			dao.countStockProduct(function(countStockProduct){
+				callback(null, countStockProduct);
+			});
+		},
+		countDeletedProduct: function(callback){
+			dao.countDeletedProduct(function(countDeletedProduct){
+				callback(null, countDeletedProduct);
+			});
+		},
+		countStopSellProduct: function(callback){
+			dao.countStopSellProduct(function(countStopSellProduct){
+				callback(null, countStopSellProduct);
+			});
+		},
+		categories: function(callback){
+			dao.getAllCategory(function(categories){
+				callback(null, categories);
+			});
+		}
+	},
+	function(err, results){
+		callback(results);
+	});
+	/*dao.countCategories(function(countCategories){
 		dao.countNewProductInWeek (function(countNewProduct){
 			dao.countPromotionProduct(function(countPromotionProduct){
 				dao.getBestSellProduct(function(bestSellProduct){
@@ -58,8 +114,11 @@ var getBaseInfoProductsAdmin = function(callback){
 							dao.countStockProduct(function(countStockProduct){
 								dao.countDeletedProduct(function(countDeletedProduct){
 									dao.countStopSellProduct(function(countStopSellProduct){
-										callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
-											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct);
+										dao.getAllCategory(function(categories){
+											callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
+											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories);
+										})
+										
 									});
 								});
 							});
@@ -69,7 +128,7 @@ var getBaseInfoProductsAdmin = function(callback){
 				});
 			});
 		});
-	});
+	});*/
 }
 
 //Lấy thông tin cơ bản của trang Quản lý Đơn hàng Admin
@@ -117,7 +176,7 @@ router.get("/", isLoggedIn, function(req, res){
 
 //Lấy ds sản phẩm hết hàng
 router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
-	dao.getOutOfProduct(5, 0, function(outOfProducts){
+	dao.getOutOfProduct(5, 0, null, null, function(outOfProducts){
 		res.json(outOfProducts);
 	});
 });
@@ -154,12 +213,12 @@ router.get("/api/search/products", isLoggedIn, function(req, res){
 router.get("/product", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct){
+			getBaseInfoProductsAdmin(function(results){
+				results.header = header;
+				results.sidebar = sidebar;
+			//getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories){
 				//dao.getAllProduct(function(allProduct){
-					res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
-					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct,
-					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct,
-					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct});
+					res.render("admin/product", results);
 				//});
 			});
 		});
@@ -169,29 +228,31 @@ router.get("/product", isLoggedIn, function(req, res){
 router.get("/api/products", isLoggedIn, function(req, res){
 	var skip = parseInt(req.query.skip);
 	var count = parseInt(req.query.count);
+	var query = (req.query.query == "") ? null : req.query.query;
+	var catID = (req.query.catID == "0") ? null : req.query.catID;
 	switch (req.query.type) {
 		case '0':
-			dao.getAllProduct(count, skip, function(products){
+			dao.getAllProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '1':
-			dao.getStockProduct(count, skip, function(products){
+			dao.getStockProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '2':
-			dao.getOutOfProduct(count, skip,function(products){
+			dao.getOutOfProduct(count, skip, query, catID,function(products){
 				res.json(products);
 			});
 			break;
 		case '3':
-			dao.getDeletedProduct(count, skip, function(products){
+			dao.getDeletedProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '4':
-			dao.getStopSellProduct(count, skip, function(products){
+			dao.getStopSellProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
@@ -210,9 +271,9 @@ router.get("/product/add", isLoggedIn, (req, res) => {
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//getBaseInfoOrderAdmin(function(countProducts, countBills, countUsers){
-				res.render("admin/group", {"header": header, "sidebar":sidebar});
-			//});
+			dao.countCategories(function(countCategories){
+				res.render("admin/group", {"header": header, "sidebar":sidebar, "countCategories" : countCategories });
+			});
 		});
 	});
 });

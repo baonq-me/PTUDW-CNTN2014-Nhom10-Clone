@@ -64,11 +64,11 @@
 						<h1>Danh sách sản phẩm <a href="/admin/product/add" class="btn btn-primary">Thêm</a></h1>
 
 						<div class="product-info">
-							<a href="#" class="float-left" id="product-all"><h2>All (<%= countProduct %>)</h2></a>
-							<a href="#" class="float-left" id="product-stock">Còn hàng (<%= countStockProduct %>)</a>
-							<a href="#" class="float-left" id="product-out-of">Hết hàng (<%= countOutOfProduct %>)</a>
-							<a href="#" class="float-left" id="product-deleted">Đã xoá (<%= countDeletedProduct %>)</a>
-							<a href="#" class="float-left" id="product-stop-sell">Ngừng bán (<%= countStopSellProduct %>)</a>
+							<a href="#" class="float-left filter-product active" id="product-all">All (<%= countProduct %>)</a>
+							<a href="#" class="float-left filter-product" id="product-stock">Còn hàng (<%= countStockProduct %>)</a>
+							<a href="#" class="float-left filter-product" id="product-out-of">Hết hàng (<%= countOutOfProduct %>)</a>
+							<a href="#" class="float-left filter-product" id="product-deleted">Đã xoá (<%= countDeletedProduct %>)</a>
+							<a href="#" class="float-left filter-product" id="product-stop-sell">Ngừng bán (<%= countStopSellProduct %>)</a>
 						</div>
 
 						<div class="clear"></div>
@@ -80,39 +80,15 @@
 							</div>
 
 
-						<div class="btn btn-default">Thời gian</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tất cả</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Tháng 4, 2017</a></li>
-						    <li><a href="#">Tháng 3, 2017</a></li>
-								<li><a href="#">Tháng 2, 2017</a></li>
-								<li><a href="#">Tháng 1, 2017</a></li>
-								<li><a href="#">Tháng 12, 2017</a></li>
-						  </ul>
-						</div>
-
-						<div class="btn btn-default">Phân loại</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tất cả</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Hoa tình yêu</a></li>
-						    <li><a href="#">Hoa Tết</a></li>
-								<li><a href="#">Hoa cưới</a></li>
-								<li><a href="#">Hoa thường</a></li>
-								<li><a href="#">Hoa trang trí</a></li>
-								<li><a href="#">Hoa cưa gái</a></li>
-						  </ul>
-						</div>
 						<div class="col-xs-2 float-right">
-							<input placeholder="Lọc" type="search" id="product-search" class="form-control">
+							<input placeholder="Tìm kiếm" type="search" id="product-search" class="form-control">
 						</div>
+						<select name="category" class="form-control float-right" style="display: inline-block; width: auto">
+							<option value="0">Chọn danh mục sản phẩm</option>
+							<% categories.forEach(function(category){ %>
+								<option value="<%= category.slug %>"><%= category.name %></option>
+							<% }); %>
+						</select>
 
 						<div class="clear"></div>
 					</div>
