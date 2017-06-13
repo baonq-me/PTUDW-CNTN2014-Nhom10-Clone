@@ -57,8 +57,11 @@ var getBaseInfoProductsAdmin = function(callback){
 							dao.countStockProduct(function(countStockProduct){
 								dao.countDeletedProduct(function(countDeletedProduct){
 									dao.countStopSellProduct(function(countStopSellProduct){
-										callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
-											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct);
+										dao.getAllCategory(function(categories){
+											callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
+											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories);
+										})
+										
 									});
 								});
 							});
@@ -114,7 +117,7 @@ router.get("/", isLoggedIn, function(req, res){
 
 //Lấy ds sản phẩm hết hàng
 router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
-	dao.getOutOfProduct(5, 0, function(outOfProducts){
+	dao.getOutOfProduct(5, 0, null, null, function(outOfProducts){
 		res.json(outOfProducts);
 	});
 });
@@ -151,12 +154,12 @@ router.get("/api/search/products", isLoggedIn, function(req, res){
 router.get("/product", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct){
+			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories){
 				//dao.getAllProduct(function(allProduct){
 					res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
 					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct,
 					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct,
-					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct});
+					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct, "categories": categories});
 				//});
 			});
 		});
@@ -166,29 +169,31 @@ router.get("/product", isLoggedIn, function(req, res){
 router.get("/api/products", isLoggedIn, function(req, res){
 	var skip = parseInt(req.query.skip);
 	var count = parseInt(req.query.count);
+	var query = (req.query.query == "") ? null : req.query.query;
+	var catID = (req.query.catID == "0") ? null : req.query.catID;
 	switch (req.query.type) {
 		case '0':
-			dao.getAllProduct(count, skip, function(products){
+			dao.getAllProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '1':
-			dao.getStockProduct(count, skip, function(products){
+			dao.getStockProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '2':
-			dao.getOutOfProduct(count, skip,function(products){
+			dao.getOutOfProduct(count, skip, query, catID,function(products){
 				res.json(products);
 			});
 			break;
 		case '3':
-			dao.getDeletedProduct(count, skip, function(products){
+			dao.getDeletedProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;
 		case '4':
-			dao.getStopSellProduct(count, skip, function(products){
+			dao.getStopSellProduct(count, skip, query, catID, function(products){
 				res.json(products);
 			});
 			break;

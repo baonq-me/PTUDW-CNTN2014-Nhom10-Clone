@@ -443,6 +443,7 @@ function getProductFromCart(){
 	return result;
 }
 function setProductCount(productID, count){
+	var result = false;
 	$.ajax({
 		url: "/api/cart-info",
 		type: "put",
@@ -452,11 +453,13 @@ function setProductCount(productID, count){
 		},
 		async: false,
 		success: function(res, status){
-			return status == "success";
+			result = status == "success";
 		}
 	});
+	return result;
 }
 function addProductToCart(productID, count){
+	var result = false;
 	$.ajax({
 		url: "/api/cart-info",
 		type: "post",
@@ -466,12 +469,14 @@ function addProductToCart(productID, count){
 		},
 		async: false,
 		success: function(res, status){
-			return status == "success";
+			result = status == "success";
 		}
 	});
+	return result;
 }
 // count = -1 -> remove tất cả
 function removeProductFromCart(productID, count){
+	var result = false;
 	$.ajax({
 		url: "/api/cart-info",
 		type: "delete",
@@ -481,9 +486,10 @@ function removeProductFromCart(productID, count){
 		},
 		async: false,
 		success: function(res, status){
-			return status == "success";
+			result = status == "success";
 		}
 	});
+	return result;
 }
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
