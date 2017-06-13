@@ -75,4 +75,17 @@ $(document).ready(function(){
 			}
 		});
 	})
+
+	// upload hình ảnh
+	$("#image-upload").change(function(){
+		if ($(this)[0].files && $(this)[0].files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#view-img').attr('src', e.target.result);
+			};
+			reader.readAsDataURL($(this)[0].files[0]);
+			$('#display-image-upload').css("display", "block")
+		}
+	});
+
 });

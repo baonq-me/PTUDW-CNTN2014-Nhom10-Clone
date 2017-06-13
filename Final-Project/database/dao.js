@@ -1269,19 +1269,45 @@ username: username,
 		});
 	},
 
-	getCountProductByName: function(name, callback){
+	getCountProductBySlugR: function(slug, callback){
 		var productModel = this.getProductModel();
-		productModel.count({"name":  { $regex: new RegExp("^" + name.toLowerCase() + "$", "i") } }, function(err, count){
+		productModel.count({"slug": { $regex: new RegExp("^" + slug + "$", "i") }}, function(err, count){
 			if (err) throw err;
 			callback(count);
 		});
 	},
-	getCountProductBySlug: function(slug, callback){
+	getCountProductByName: function(name, callback){
 		var productModel = this.getProductModel();
-		productModel.count({"slug": { $regex: new RegExp("^" + slug.toLowerCase() + "$", "i") }}, function(err, count){
+		productModel.count({"name":  { $regex: new RegExp("^" + name + "$", "i") } }, function(err, count){
 			if (err) throw err;
 			callback(count);
 		});
+	},
+	addProduct: function (productInfo, callback){
+		var productModel = this.getProductModel();
+		dao.getCountProductByName(productInfo.name, function(countProductByName){
+			dao.getCountProductBySlugR(productInfo.slug, function(countProductBySlug){
+				if(countProductByName > 0 || countProductBySlug > 0)
+					return callback(false);
+				var product = new productModel({
+					name: productInfo.name,
+					imgPath: productInfo.imgPath,
+					slug: productInfo.slug,		//Đường dẫn đến sản phẩm
+					price: productInfo.price,
+					categorySlug : productInfo.categories,	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
+					newPrice: productInfo.newPrice,
+					detail: productInfo.detail,
+					quality: productInfo.quality,
+					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa, 
+				});
+
+				product.save(function(err, data){
+					if (err) throw err;
+					return callback(true);
+				})
+
+			})
+		})
 	},
 
 	setStatusProduct: function(productID, status, callback){
