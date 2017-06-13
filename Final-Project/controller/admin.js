@@ -300,9 +300,7 @@ router.get("/group-add", isLoggedIn, function(req, res){
 	var message = (errorAddCat) ? "Thêm sản phẩm không thành công!" : "";
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//dao.countCategories(function(countCategories){
 				res.render("admin/group-add", {"header": header, "sidebar":sidebar, message: message});
-			//});
 		});
 	});
 });
@@ -333,8 +331,23 @@ router.post("/group-add", isLoggedIn, function(req, res){
 router.get("/categories", isLoggedIn, function(req, res){
 	dao.getAllCategory(function(categories){
 			res.json(categories);
-	}, req.query.count, req.query.skip);
+	}, Number(req.query.count), Number(req.query.skip));
 });
+
+//Xóa category
+router.post("/categories/delete", isLoggedIn, function(req, res){
+	//Mảng các id của các categories cần xóa
+	var categories = req.body.categories;
+	
+	for(i=0; i<categories.length; i++){
+		dao.deleteCategory(categories[i], function(result){
+			if (result == "fail" || i == categories.length - 1){
+				res.json(result);
+			}
+		});
+	}
+});
+
 
 //Kiếm tra tên nhóm sản phẩm đã tồn tại hay chưa?
 router.post("/categories/add/checkName", isLoggedIn, function(req, res){
