@@ -72,7 +72,7 @@ var dao = {
 	  	var UserSchema = this.mongoose.Schema({
 			loginInfo: {
 				typeLg: String,
-				socialLoginId : { typeS: String, id: String },
+				socialLoginId : { typeS: String, idS: String },
 				localLogin: { username: String, password: String }
 			},
 			baseInfo: {
@@ -769,7 +769,7 @@ var dao = {
 		userModel.find()
 		.limit(count)
 		.skip(skip)
-		.select('baseInfo.fullName loginInfo.localLogin.username dateAdded loginInfo.typeLg')
+		.select('baseInfo.fullName dateAdded loginInfo role')
 		.sort({dateAdded: -1})
 		.exec(function(err, data){
 			if (err) throw err;

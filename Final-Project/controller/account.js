@@ -77,11 +77,11 @@ var router = require("express").Router();
 			profileFields: ["email", "picture.type(large)", "displayName", "location"]
 		}, 
 		function (accessToken, refreshToken, profile, done){
-			dao.getUserSocial({typeS: "facebook", id: profile._json.id}, function(user){
+			dao.getUserSocial({typeS: "facebook", idS: profile._json.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
 				user = {
-					uid: {typeS: "facebook", id: profile._json.id},
+					uid: {typeS: "facebook", idS: profile._json.id},
 					fullName: profile._json.name,
 					type: "facebook",
 					email: profile._json.email,
@@ -108,11 +108,11 @@ var router = require("express").Router();
 			callbackURL: "http://localhost:3000/auth/gg/cb",
 		}, 
 		function (accessToken, refreshToken, profile, done){
-			dao.getUserSocial({typeS: "google", id: profile.id}, function(user){
+			dao.getUserSocial({typeS: "google", idS: profile.id}, function(user){
 				if(user != null) return done(null, user);
 				// Viết thêm vào database
 				user = {
-					uid: {typeS: "google", id: profile.id},
+					uid: {typeS: "google", idS: profile.id},
 					fullName: profile.displayName,
 					type: "google",
 					email: profile.emails[0].value,
