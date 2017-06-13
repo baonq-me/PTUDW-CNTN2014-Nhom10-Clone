@@ -1269,7 +1269,13 @@ username: username,
 		});
 	}
 
-
+	setStatusProduct: function(productID, status, callback){
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+		productModel.update({_id: productID}, {$set: {"status": status}}, function(err, products){
+			callback(err, products);
+		})
+	}
 
 
 };

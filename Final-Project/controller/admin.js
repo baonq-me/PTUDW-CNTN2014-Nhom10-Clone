@@ -258,6 +258,22 @@ router.get("/api/products", isLoggedIn, function(req, res){
 			break;
 	}
 });
+router.post("/api/products", isLoggedIn, function(req, res){
+	var products = req.body.products;
+	var status = req.body.status;
+	var fQuery = [];
+	console.log(products);
+	var i = 0;
+	products.forEach(function(product){
+		fQuery.push(function(callback){
+			dao.setStatusProduct(product, status, callback);
+		});
+	})
+	async.parallel(fQuery,function(err, results){
+		if(err) throw err;
+		res.json({});
+	});
+});
 
 router.get("/product/add", isLoggedIn, (req, res) => {
 	getHeaderAdmin(function(header){

@@ -6,13 +6,16 @@ $(document).ready(function(){
 	// 2: out of
 	// 3: deleted
 	// 4: stop sell
+	var productFilter = {"product-all": 0, "product-stock": 1, "product-out-of": 2, "product-deleted": 3, "product-stop-sell": 4};
 
-	function loadProducts(type, count, skip, isEmpty = true) {
+
+	function loadProducts(count, skip, isEmpty = true) {
 		$("table").css("opacity", "0.5");
+		var type = productFilter[$(".filter-product.active").attr("id")];
 		var query = $("#product-search").val();
 		var catID = $("select[name='category'] option:selected").val();
 		function addRow(product) {
-			var row = '<tr><td><div class="checkbox"><label><input type="checkbox" value=""></label></div></td><td><img src="' + product.imgPath + '" class="img-thumbnail"></td><td>' + product.name + '</td><td>' + product.quality + '</td><td>' + product.price + '</td><td>' + product.newPrice+ '</td><td>' + product.categorySlug+ '</td><td>' + product.dateAdded+ '</td><td>' + product.status+ '</td></tr>';
+			var row = '<tr><td><div class="checkbox"><label><input data-id="' + product._id + '" type="checkbox" value=""></label></div></td><td><img src="' + product.imgPath + '" class="img-thumbnail"></td><td>' + product.name + '</td><td>' + product.quality + '</td><td>' + product.price + '</td><td>' + product.newPrice+ '</td><td>' + product.categorySlug+ '</td><td>' + product.dateAdded+ '</td><td>' + product.status+ '</td></tr>';
 			$('#products').append(row);
 		}
 
@@ -51,35 +54,35 @@ $(document).ready(function(){
 		e.preventDefault();
 		$(".filter-product").removeClass("active");
 		$(this).addClass("active");
-		loadProducts(0, 10, 0);
+		loadProducts(10, 0);
 	});
 
 	$('#product-stock').on('click', function(e) {
 		e.preventDefault();
 		$(".filter-product").removeClass("active");
 		$(this).addClass("active");
-		loadProducts(1, 10, 0);
+		loadProducts(10, 0);
 	});
 
 	$('#product-out-of').on('click', function(e) {
 		e.preventDefault();
 		$(".filter-product").removeClass("active");
 		$(this).addClass("active");
-		loadProducts(2, 10, 0);
+		loadProducts(10, 0);
 	});
 
 	$('#product-deleted').on('click', function(e) {
 		e.preventDefault();
 		$(".filter-product").removeClass("active");
 		$(this).addClass("active");
-		loadProducts(3, 10, 0);
+		loadProducts(10, 0);
 	});
 
 	$('#product-stop-sell').on('click', function(e) {
 		e.preventDefault();
 		$(".filter-product").removeClass("active");
 		$(this).addClass("active");
-		loadProducts(4, 10, 0);
+		loadProducts(10, 0);
 	});
 
 	$(".view-more").click(function(e){
@@ -87,21 +90,54 @@ $(document).ready(function(){
 		var type = parseInt($(this).data("type"));
 		var count = 10;
 		var skip = $("tbody#products tr").length;
-		loadProducts(type, count, skip, false);
+		loadProducts(count, skip, false);
 	});
-	var productFilter = {"product-all": 0, "product-stock": 1, "product-out-of": 2, "product-deleted": 3, "product-stop-sell": 4};
+
 	$("#product-search").change(function(){
-		var type = productFilter[$(".filter-product.active").attr("id")];
-		loadProducts(type, 10, 0);
+		loadProducts(10, 0);
 	});
 	$("select[name='category']").change(function(){
-		var type = productFilter[$(".filter-product.active").attr("id")];
-		loadProducts(type, 10, 0);
+		loadProducts(10, 0);
 	});
 
 
-	loadProducts(0, 10, 0);
+	loadProducts(10, 0);
 
+	$("#check-all").change(function(){
+		if($("#check-all:checked").length > 0){
+			$("#products .checkbox input").attr("checked", true);
+		} else $("#products .checkbox input").attr("checked", false);
+	});
 
-
+	$("#delete-product").click(function(){
+		setActionProduct("delete");
+	});
+	$("#sale-product").click(function(){
+		setActionProduct("sale");
+	});
+	$("#stop-product").click(function(){
+		setActionProduct("stop");
+	});
+	
+	function setActionProduct(action){
+		var status = {delete: "Đã xóa", stop: "Ngừng bán", sale: "Đang bán"};
+		var products = [];
+		$("#products .checkbox input:checked").each(function(){
+			products.push($(this).data("id"));
+		});
+		$.ajax({
+			url: "/admin/api/products",
+			type: "post",
+			data: {
+				"products": products, 
+				"status": status[action]
+			},
+			async: false,
+			success: function(data, status){
+				if(status == "success")
+					loadProducts(10, 0);
+				else alert(action + " không thành công!")
+			}
+		});
+	}
 })
