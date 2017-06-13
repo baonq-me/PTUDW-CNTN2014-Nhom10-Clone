@@ -1,4 +1,4 @@
-$(document).ready(function(){	
+$(document).ready(function(){
 
 	/******** Admin Order **************/
 	// 0: all
@@ -7,21 +7,47 @@ $(document).ready(function(){
 	// 3: paid
 	// 4: not paid
 	// 5: completed
-	// 6: canceled 
+	// 6: canceled
 
 	function loadBills(type) {
 		function addRow(id, userID, name, phone, address, district, city, cartInfo, totalMoney, dateAdd, payMethod, status) {
 			var row = '<tr><td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td> \
-								<td> ' + id + '</td> \
-								<td> ' + userID + '</td> \
-								<td><div class="ho-ten"><b> '+ name + '</b></div> <div class="phone">'+ phone + ' </div></td>\
-								<td class="delivery-address"><div class="address">'+ address + '</div>", "<div class="district"> '+ district + '</div> ", " <div class="city"> '+ city + '</div></td>\
+								<td> Người đặt: ' + userID + ' <br/> Đơn hàng: ' + id + '</td> \
+								<td><div class="ho-ten"><b> '+ name + '</b></div> \
+								<div class="phone"> 0'+ phone + ' </div></td> \
+								<td class="delivery-address"><span class="address">'+ address + '</span>, \
+								<span class="district"> '+ district + '</span>, \
+								<span class="city"> '+ city + '</span></td>, \
 								<td> ' + cartInfo + '</td> \
-								<td> ' + totalMoney + '</td> \	
-								<td> ' + dateAdd + '</td> \	
-								<td> ' + payMethod + '</td> \	
+								<td> ' + totalMoney + '</td> \
+								<td> ' + dateAdd + '</td> \
+								<td> ' + payMethod + '</td> \
 								<td> ' + status + '</td> ';
 			$('#bills').append(row);
+		}
+
+		function getProductsInCart(cart, callback)
+		{
+			var cartInfo = 'abc';
+			console.log(cart.length);
+			for (j = 0; j <= cart.length; j++)
+			{
+				if (j == cart.length)
+				{
+					callback(cartInfo);
+					return;
+				}
+
+				count = cart[j].count;
+				$.ajax({
+					url: '/admin/api/search/products?id=' + cart[j].productID, //URL lay du lieu
+					type: 'GET',
+					success: function(res) {
+							cartInfo += res.name + '(' + count + ')<br/>';
+							console.log(j);
+					}
+				});
+			}
 		}
 
 		$.ajax({
@@ -32,49 +58,28 @@ $(document).ready(function(){
 			},
 			success: function(res) {
 				$('#bills').empty();
+				var cartStatus;
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i]._id, res[i].userID, res[i].recieverInfo.name, res[i].recieverInfo.phone,
-						res[i].recieverInfo.address, res[i].recieverInfo.district, res[i].recieverInfo.city, 
-						res[i].cartInfo, res[i].totalMoney, res[i].dateAdd, res[i].billingInfo.pay_method, res[i].status );
+					getProductsInCart(res[i].cartInfo, function(cartInfo){
+						console.log(cartInfo);
+						addRow(res[i]._id, res[i].userID, res[i].receiverInfo.name, res[i].receiverInfo.phone,
+							res[i].receiverInfo.address, res[i].receiverInfo.district, res[i].receiverInfo.city,
+							cartInfo, res[i].totalMoney, res[i].dateAdded, res[i].billingInfo.pay_method, JSON.stringify(res[i].status));
+					})
 				}
 			}
 		});
 	}
 
-	$('#bill-all').on('click', function(e) {
-		e.preventDefault();
-		loadBills(0);
-	});
-	
-	$('#bill-delivered').on('click', function(e) {
-		e.preventDefault();
-		loadBills(1);
-	});
-
-	$('#bill-not-delivered').on('click', function(e) {
-		e.preventDefault();
-		loadBills(2);
-	});
-
-	$('#product-paid').on('click', function(e) {
-		e.preventDefault();
-		loadBills(3);
-	});
-
-	$('#product-not-paid').on('click', function(e) {
-		e.preventDefault();
-		loadBills(4);
-	});
-
-	$('#product-completed').on('click', function(e) {
-		e.preventDefault();
-		loadBills(5);
-	});
-
-	$('#product-canceled').on('click', function(e) {
-		e.preventDefault();
-		loadBills(6);
-	});
+	var bills = ['#bill-all', '#bill-delivered', '#bill-not-delivered',
+							'#product-paid', '#product-not-paid', '#product-completed', '#product-canceled'];
+	for (i = 0; i < 6; i++)
+	{
+		$(bills[i]).on('click', function(e) {
+			e.preventDefault();
+			loadBills(i);
+		});
+	}
 
 	loadBills(0);
 })

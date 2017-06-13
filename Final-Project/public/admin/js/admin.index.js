@@ -34,7 +34,7 @@ $(document).ready(function(){
 			data: {},
 			success: function(res) {
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i].id, res[i].name, res[i].quality, res[i].dateAdded);
+					addRow(res[i].id, res[i].name, res[i].quality, res[i].dateAdded.substring(0,10));
 				}
 			}
 		});
@@ -43,9 +43,9 @@ $(document).ready(function(){
 	loadNewProducts();
 
 	function loadNewUsers() {
-		function addRow(fullName, username, dateAdded) {
+		function addRow(fullName, username, dateAdded, role) {
 			//alert(fullName);
-			var row = '<tr><td> ' + fullName + ' </td><td> <b> ' + username + ' </b></td><td> ' + dateAdded + ' </td></tr>';
+			var row = '<tr><td> ' + fullName + ' </td><td> <b> ' + username + ' </b></td><td> ' + dateAdded + ' </td><td> <b> ' + role + ' </b></td></tr>';
 			$('#new-users').append(row);
 		};
 
@@ -54,11 +54,12 @@ $(document).ready(function(){
 			type: 'GET',
 			data: {},
 			success: function(res) {
+				console.log(res);
 				for (i = 0; i < res.length; ++i) {
-					if (res[i].loginInfo && res[i].loginInfo.typeLg == "social")
-						addRow(res[i].baseInfo.fullName, 'External auth (' + res[i].loginInfo.socialLoginId.typeS + ')', res[i].dateAdded);
+					if (res[i].loginInfo && res[i].loginInfo.typeLg == "social") 
+						addRow(res[i].baseInfo.fullName, 'External auth (' + res[i].loginInfo.socialLoginId.typeS + ')', res[i].dateAdded.substring(0,10), res[i].role.name);
 					else
-						addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);
+						addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded.substring(0,10), res[i].role.name);
 
 				}
 			}

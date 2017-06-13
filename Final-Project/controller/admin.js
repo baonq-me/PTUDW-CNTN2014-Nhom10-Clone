@@ -57,14 +57,14 @@ var getBaseInfoProductsAdmin = function(callback){
 							dao.countStockProduct(function(countStockProduct){
 								dao.countDeletedProduct(function(countDeletedProduct){
 									dao.countStopSellProduct(function(countStopSellProduct){
-										callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, 
+										callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
 											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct);
 									});
 								});
 							});
 						});
 					});
-					
+
 				});
 			});
 		});
@@ -81,7 +81,7 @@ var getBaseInfoOrderAdmin = function(callback){
 						dao.countBillDelivered(function(countBillDelivered){
 							dao.countBillPaid(function(countBillPaid){
 								dao.countBillCompleted(function(countBillCompleted){
-									callback(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek, 
+									callback(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek,
 										countBillNotDelivered, countBillDelivered, countBillPaid, countBillCompleted);
 								});
 							});
@@ -104,7 +104,7 @@ router.get("/", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
 			getContentHomeAdmin(function(countProducts, countBills, countUsers){
-				res.render("admin/index", {"header": header, "sidebar":sidebar, 
+				res.render("admin/index", {"header": header, "sidebar":sidebar,
 					"countProducts" : countProducts, "countBills" : countBills, "countUsers" : countUsers
 				});
 			});
@@ -113,7 +113,7 @@ router.get("/", isLoggedIn, function(req, res){
 });
 
 //Lấy ds sản phẩm hết hàng
-router.get("/out-of-products", isLoggedIn, function(req, res){
+router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
 	dao.getOutOfProduct(5, 0, function(outOfProducts){
 		res.json(outOfProducts);
 	});
@@ -121,16 +121,22 @@ router.get("/out-of-products", isLoggedIn, function(req, res){
 
 
 //Lấy ds sản phẩm mới được thêm vào
-router.get("/new-products", isLoggedIn, function(req, res){
+router.get("/api/index/new-products", isLoggedIn, function(req, res){
 	dao.getNewProductAdmin(5, 0 , function(newProducts){
 		res.json(newProducts);
 	});
 });
 
 //Lấy ds user mới được thêm vào
-router.get("/new-users", isLoggedIn, function(req, res){
+router.get("/api/index/new-users", isLoggedIn, function(req, res){
 	dao.getNewUsers(5, 0, function(newUsers){
 		res.json(newUsers);
+	});
+});
+
+router.get("/api/search/products", isLoggedIn, function(req, res){
+	dao.getProductDetailByID(req.query.id, function(products){
+		res.json(products);
 	});
 });
 
@@ -141,10 +147,10 @@ router.get("/product", isLoggedIn, function(req, res){
 			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct){
 				//dao.getAllProduct(function(allProduct){
 					res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
-					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct, 
-					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct, 
+					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct,
+					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct,
 					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct});
-				//});	
+				//});
 			});
 		});
 	});
@@ -179,7 +185,7 @@ router.get("/api/products", isLoggedIn, function(req, res){
 				res.json(products);
 			});
 			break;
-	}	
+	}
 });
 
 router.get("/product/add", isLoggedIn, (req, res) => {
@@ -213,16 +219,18 @@ router.get("/categories", isLoggedIn, function(req, res){
 router.get("/order", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getBaseInfoOrderAdmin(function(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek, 
+			getBaseInfoOrderAdmin(function(countBills, countBillNotPaid, countBillCanceled, countBillCanceled, revenueInWeek,
 										countBillNotDelivered, countBillDelivered, countBillPaid, countBillCompleted){
-				res.render("admin/order", {"header": header, "sidebar":sidebar, "countBills" :countBills, "countBillNotPaid" : countBillNotPaid, 
-					"countBillCanceled" : countBillCanceled, "countBillCanceled": countBillCanceled, "revenueInWeek": revenueInWeek, 
-					"countBillNotDelivered" : countBillNotDelivered, "countBillDelivered" :countBillDelivered, 
+				res.render("admin/order", {"header": header, "sidebar":sidebar, "countBills" :countBills, "countBillNotPaid" : countBillNotPaid,
+					"countBillCanceled" : countBillCanceled, "countBillCanceled": countBillCanceled, "revenueInWeek": revenueInWeek,
+					"countBillNotDelivered" : countBillNotDelivered, "countBillDelivered" :countBillDelivered,
 					"countBillPaid" : countBillPaid, "countBillCompleted" : countBillCompleted});
 			});
 		});
 	});
 });
+
+
 
 router.get("/api/bills", isLoggedIn, function(req, res){
 	switch (req.query.type) {
@@ -261,8 +269,7 @@ router.get("/api/bills", isLoggedIn, function(req, res){
 				res.json(bills);
 			});
 			break;
-
-	}	
+	}
 });
 
 
