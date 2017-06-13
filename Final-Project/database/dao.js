@@ -444,7 +444,7 @@ var dao = {
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string,
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
-	addUserLocal: function(args){
+	addUserLocal: function(args, role){
 		var userModel = this.getUserModel();
 		var user = new userModel({
 			"loginInfo": {
@@ -458,7 +458,7 @@ var dao = {
 				tel: args.sign_up_tel
 			},
 			role: {
-				name: "customer"
+				name: role
 			},
 			status: ""
 		});
@@ -560,7 +560,7 @@ var dao = {
 				dao.hadEmail(args.sign_up_email, function(hademail){
 				if(hademail || hadusername) callback(false);	// sign up thất bại
 				else {
-					dao.addUserLocal(args);
+					dao.addUserLocal(args, "customer");
 					callback(true);
 				}
 			});
@@ -864,7 +864,7 @@ var dao = {
 		if (catID == null)
 			var s = productModel.find({name: new RegExp(query, "i")})
 		else var s = productModel.find({name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
-		
+
 		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
@@ -885,7 +885,7 @@ var dao = {
 		if (catID == null)
 			var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i")})
 		else var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
-		
+
 		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
