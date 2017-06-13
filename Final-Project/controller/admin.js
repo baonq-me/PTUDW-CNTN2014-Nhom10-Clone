@@ -424,7 +424,7 @@ router.post("/categories/delete", isLoggedIn, function(req, res){
 	
 	for(i=0; i<categories.length; i++){
 		dao.deleteCategory(categories[i], function(result){
-			if (result == "fail" || i == categories.length - 1){
+			if ((result == "fail") || (i == categories.length - 1)){
 				res.json(result);
 			}
 		});

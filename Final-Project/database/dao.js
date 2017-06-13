@@ -1277,8 +1277,28 @@ username: username,
 		.select('name slug')
 		.exec(function(err, data){
 			if (err) throw err;
-			productModel.update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
-			.exec(function(err){
+			productModel.find({categorySlug: {$in: [data.slug]}})
+			.exec(function(err, data){
+				if (err) throw err;
+				for( i =0; i<data.length; i++){ 
+					data[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
+				}
+
+				categoryModel.remove({_id: id})
+				.exec(function(err){
+					if (err) {
+						callback("fail");
+					}
+					else{
+						callback("success");
+					}
+				});
+			
+			});
+		});
+	},
+			//update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
+			/*.exec(function(err){
 				if (err) {
 					callback("fail");
 				}
@@ -1295,7 +1315,7 @@ username: username,
 				}
 			});
 		})
-	},
+	},*/
 
 	getCountProductBySlugR: function(slug, callback){
 		var productModel = this.getProductModel();
