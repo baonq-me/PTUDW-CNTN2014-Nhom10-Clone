@@ -72,7 +72,7 @@ var dao = {
 	  	var UserSchema = this.mongoose.Schema({
 			loginInfo: {
 				typeLg: String,
-				socialLoginId : { facebook: String, google: String, twitter: String },
+				socialLoginId : { typeS: String, id: String },
 				localLogin: { username: String, password: String }
 			},
 			baseInfo: {
