@@ -100,6 +100,7 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 	res.redirect("/admin");
 });
 
+
 // Default route is dashboard page
 router.get("/", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
@@ -112,6 +113,7 @@ router.get("/", isLoggedIn, function(req, res){
 		});
 	});
 });
+
 
 //Lấy ds sản phẩm hết hàng
 router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
@@ -305,10 +307,8 @@ router.get("/account", isLoggedIn, function(req, res){
 	});
 });
 
-var a = 5;
-
 // Add accounts
-router.get("/account/api/add", isLoggedIn, function(req, res){
+router.post("/api/account/add", isLoggedIn, function(req, res){
 	res.json({'12':'12'});
 });
 
