@@ -56,7 +56,10 @@
 	</div>	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			setCookie("carts", "[]", 0);
+			$.ajax({
+				url: "/api/cart-info/all",
+				type: "delete"
+			})
 			$(".cart .cart-count").text(0);
 		});
 	</script>
