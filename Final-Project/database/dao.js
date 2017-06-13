@@ -447,7 +447,7 @@ var dao = {
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string,
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
-	addUserLocal: function(args){
+	addUserLocal: function(args, role){
 		var userModel = this.getUserModel();
 		var user = new userModel({
 			"loginInfo": {
@@ -461,7 +461,7 @@ var dao = {
 				tel: args.sign_up_tel
 			},
 			role: {
-				name: "customer"
+				name: role
 			},
 			status: ""
 		});
@@ -469,6 +469,49 @@ var dao = {
 			if(err) throw err;
 		});
 	},
+
+/*
+username: username,
+          fullname: fullname,
+          email: email,
+          phone: phone,
+          role: role,
+          password: password1
+					*/
+	fuck_addUserLocal_and_signup: function(regInfo, callback) {
+		var userModel = this.getUserModel();
+		dao.getUser(regInfo.username, function(userExist){
+			if (userExist == null)	// check if username is exist
+			{
+				var user = new userModel({
+					"loginInfo": {
+						typeLg: "local",
+						localLogin: {
+							username: regInfo.username,
+							password: dao.passwordHash.generate("Abcdef1234")
+						}
+					},
+					baseInfo: {
+						fullName: regInfo.fullname,
+						email: regInfo.email,
+						tel: regInfo.phone
+					},
+					role: {
+						name: regInfo.role
+					},
+					status: ""
+				}).save(function(err, data){
+					if(err)
+					{
+						throw err;
+						callback(false);			// unknown error
+					} else callback(true); // added
+				});
+			}
+			else callback(false);	// false if username is exist
+		});
+	},
+
 	/* Hàm kiểm tra thông tin username và password khi đăng nhập
 	* @username: username người dùng nhập vào
 	* @password: Password người dùng nhập vào
@@ -496,6 +539,14 @@ var dao = {
 	getUser: function(username, callback){
 		var userModel = this.getUserModel();
 		userModel.findOne({"loginInfo.localLogin.username":username}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	getAllUser: function(callback){
+		var userModel = this.getUserModel();
+		userModel.find({}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -563,7 +614,7 @@ var dao = {
 				dao.hadEmail(args.sign_up_email, function(hademail){
 				if(hademail || hadusername) callback(false);	// sign up thất bại
 				else {
-					dao.addUserLocal(args);
+					dao.addUserLocal(args, "customer");
 					callback(true);
 				}
 			});
@@ -716,11 +767,14 @@ var dao = {
 	*   data: mảng các object
 	*   mỗi object là thông tin sản phẩm hết hàng gồm id, tên sản phẩm
 	*/
-	getOutOfProduct : function(count, skip , callback){
+	getOutOfProduct : function(count, skip, query, catID, callback){
 		var productModel= this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}], name: new RegExp(query, "i")})
+		else var s = productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}], name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({$and:[{"quality" : 0}, {"status": "Đang bán"}]})
-		.skip(skip)
+		s.skip(skip)
 		.limit(count)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -858,11 +912,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getAllProduct: function(count, skip, callback){
+	getAllProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({name: new RegExp(query, "i")})
+		else var s = productModel.find({name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({})
-		.limit(count)
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -876,11 +933,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStockProduct: function(count, skip, callback){
+	getStockProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i")})
+		else var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({quality: {$gt: 0}, status: "Đang bán"})
-		.limit(count)
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;
@@ -905,11 +965,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getStopSellProduct: function(count, skip, callback){
+	getStopSellProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({status: "Ngừng bán", name: new RegExp(query, "i")})
+		else var s = productModel.find({status: "Ngừng bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({status: "Ngừng bán"})
-		.exec(function(err, data){
+		s.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -933,11 +996,14 @@ var dao = {
 	* @param thực hiện sau khi lấy sản phẩm
 	* data trả về là mảng các object sản phẩm
 	*/
-	getDeletedProduct: function(count, skip, callback){
+	getDeletedProduct: function(count, skip, query, catID, callback){
 		var productModel = this.getProductModel();
+		query = (query == null) ? "" : query;
+		if (catID == null)
+			var s = productModel.find({status: "Đã xóa", name: new RegExp(query, "i")})
+		else var s = productModel.find({status: "Đã xóa", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
 
-		productModel.find({status: "Đã xóa"})
-		.limit(count)
+		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
 			if (err) throw err;

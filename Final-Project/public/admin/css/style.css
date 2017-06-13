@@ -298,6 +298,10 @@ tr td img.img-thumbnail
 }
 .profile-detail .info { color: #666 }
 
+
 #category-add  ul li{
 	padding-left: 20px;
 }
+
+.filter-product.active { font-weight: bold; }
+
