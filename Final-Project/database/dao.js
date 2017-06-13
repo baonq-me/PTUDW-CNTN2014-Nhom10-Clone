@@ -1269,6 +1269,34 @@ username: username,
 		});
 	},
 
+	deleteCategory: function(id, callback){
+		categoryModel= this.getCategoryModel();
+		productModel = this.getProductModel();
+
+		categoryModel.find({_id: id})
+		.select('name slug')
+		.exec(function(err, data){
+			if (err) throw err;
+			productModel.update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
+			.exec(function(err){
+				if (err) {
+					callback("fail");
+				}
+				else{
+					categoryModel.remove({_id: id})
+					.exec(function(err){
+						if (err) {
+							callback("fail");
+						}
+						else{
+							callback("success");
+						}
+					});
+				}
+			});
+		})
+	},
+
 	getCountProductBySlugR: function(slug, callback){
 		var productModel = this.getProductModel();
 		productModel.count({"slug": { $regex: new RegExp("^" + slug + "$", "i") }}, function(err, count){
@@ -1316,7 +1344,7 @@ username: username,
 		productModel.update({_id: productID}, {$set: {"status": status}}, function(err, products){
 			callback(err, products);
 		})
-	},
+	}
 
 
 };

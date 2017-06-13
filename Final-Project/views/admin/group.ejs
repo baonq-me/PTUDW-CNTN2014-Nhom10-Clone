@@ -10,10 +10,10 @@
 
 						<div class="product-info">
 
-							<a href="admin.products.html" class="float-left"><h2>All (<%= countCategories %>)</h2></a>
+							<a href="#" class="float-left"><h2>All (<%= countCategories %>)</h2></a>
 
 							<div class="form-group">
-								<a href="admin.products.html" class="btn btn-primary float-right">Tìm kiếm</a>
+								<a href="#" class="btn btn-primary float-right">Tìm kiếm</a>
 								<div class="col-xs-2 float-right">
 									<input type="search" id="product-search" class="form-control">
 								</div>
@@ -21,14 +21,9 @@
 						</div>
 
 						<div class="clear"></div>
-
-						<a href="admin.products.html" class="btn btn-default float-right">2</a>
-						<a href="admin.products.html" class="btn btn-default float-right">1</a>
-
-						<div class="clear"></div>
 						<div class="btn btn-default">Xử lí loạt</a></div>
 						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Xoá</button>
+							<button type="button" class="btn btn-primary" id="delete-category">Xoá</button>
 						</div>
 					</div>
 					<div class="box-content">
@@ -38,10 +33,11 @@
 							<table>
 								<thead>
 									<tr>
-										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
-										<td style="width: 35%">Tên nhóm sản phẩm</td>
-										<td style="width: 30%">Slug</td>
-										<td style="width: 35%">Số sản phẩm</td>
+										<td style="width: 1%"><div class="checkbox"><label><input id="check-all" type="checkbox" value=""></label></div></td>
+										<td style="width: 25%">Tên nhóm sản phẩm</td>
+										<td style="width: 25%">Slug</td>
+										<td style="width: 25%">Icon</td>
+										<td style="width: 25%">Số sản phẩm</td>
 										
 									</tr>
 								</thead>
