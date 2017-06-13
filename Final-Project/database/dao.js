@@ -362,7 +362,7 @@ var dao = {
 			});
 		}
 	},
-	getCountProductBySearch: function(searchInfo, callback){
+	getCountProductBySlugBySearch: function(searchInfo, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
