@@ -9,7 +9,7 @@ $(document).ready(function(){
 		}
 
 		$.ajax({
-			url: '/admin/out-of-products', //URL lay du lieu
+			url: '/admin/api/index/out-of-products', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		}
 
 		$.ajax({
-			url: '/admin/new-products', //URL lay du lieu
+			url: '/admin/api/index/new-products', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
@@ -44,19 +44,22 @@ $(document).ready(function(){
 
 	function loadNewUsers() {
 		function addRow(fullName, username, dateAdded) {
-			alert(fullName);
+			//alert(fullName);
 			var row = '<tr><td> ' + fullName + ' </td><td> <b> ' + username + ' </b></td><td> ' + dateAdded + ' </td></tr>';
 			$('#new-users').append(row);
 		};
 
 		$.ajax({
-			url: '/admin/new-users', //URL lay du lieu
+			url: '/admin/api/index/new-users', //URL lay du lieu
 			type: 'GET',
 			data: {},
 			success: function(res) {
 				for (i = 0; i < res.length; ++i) {
-					addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);
-					  
+					if (res[i].loginInfo && res[i].loginInfo.typeLg == "social")
+						addRow(res[i].baseInfo.fullName, 'External auth (' + res[i].loginInfo.socialLoginId.typeS + ')', res[i].dateAdded);
+					else
+						addRow(res[i].baseInfo.fullName, res[i].loginInfo.localLogin.username, res[i].dateAdded);
+
 				}
 			}
 		});
