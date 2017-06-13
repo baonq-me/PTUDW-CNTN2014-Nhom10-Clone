@@ -90,8 +90,8 @@ function setSidebar(req, res, next){
 *		}
 */
 var getContentHome = function(callback){
-	dao.getNewProduct(0, 6, function(newProducts){
-		dao.getPromotionProduct(0, 6, function(promotionProducts){
+	dao.getNewProductSelling(0, 6, function(newProducts){
+		dao.getPromotionProductSelling(0, 6, function(promotionProducts){
 			callback ({"newProducts": newProducts, "promotionProducts": promotionProducts});
 		});
 	});
@@ -195,7 +195,7 @@ var setContentProductDetail = function(slug, callback){
 			callback(null);
 			return;
 		}
-		dao.getProductsByCategory(product.categorySlug, 0, 8, function(relatedProducts){
+		dao.getProductsSellingByCategory(product.categorySlug, 0, 8, function(relatedProducts){
 			callback({"product": product, "relatedProducts": relatedProducts});
 		});
 	});
@@ -250,7 +250,7 @@ router.get("/san-pham-moi", setHeader, setFooter, setSidebar,function(req, res){
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
 
-	dao.getNewProduct(start, step, function(products){
+	dao.getNewProductSelling(start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.countProducts(function(countProduct){
@@ -297,7 +297,7 @@ router.get("/san-pham-khuyen-mai", setHeader, setFooter, setSidebar,function(req
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
 
-	dao.getPromotionProduct(start, step, function(products){
+	dao.getPromotionProductSelling(start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.getCountPromotionProduct(function(countProduct){
@@ -343,7 +343,7 @@ router.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, re
 	var catSlug = req.params.slug;
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
-	dao.getProductsByCategory([catSlug], start, step, function(products){
+	dao.getProductsSellingByCategory([catSlug], start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.getCatName(catSlug, function(catName){
@@ -581,7 +581,7 @@ router.get("/cart-info", setHeader, setFooter, (req, res) => {
 	var user = getCustomer(req);
 	//if(user == null) res.redirect("/login");
 	//else {
-	dao.getNewProduct(0, 8, function(newProducts){
+	dao.getNewProductSelling(0, 8, function(newProducts){
 		res.render("cart-info", {"content": {"newProducts": newProducts}});
 	});
 	//}
