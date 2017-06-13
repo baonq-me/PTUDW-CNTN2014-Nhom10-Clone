@@ -19,10 +19,11 @@ var getUser = function(req){
 }
 // Kiểm tra đăng nhập
 var isLoggedIn = (req, res, next) => {
-	var user = getUser(req);
-	if (user == null)
-		res.redirect("/admin/login");
-	else next();
+	//var user = getUser(req);
+	//if (user == null)
+	//	res.redirect("/admin/login");
+	//else next();
+	next();
 }
 
 //Lấy header
@@ -207,9 +208,9 @@ router.get("/product/add", isLoggedIn, (req, res) => {
 router.get("/group", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			dao.countCategories(function(countCategories){
-				res.render("admin/group", {"header": header, "sidebar":sidebar, "countCategories": countCategories});
-			});
+			//getBaseInfoOrderAdmin(function(countProducts, countBills, countUsers){
+				res.render("admin/group", {"header": header, "sidebar":sidebar});
+			//});
 		});
 	});
 });
@@ -302,6 +303,13 @@ router.get("/account", isLoggedIn, function(req, res){
 			});
 		});
 	});
+});
+
+var a = 5;
+
+// Add accounts
+router.get("/account/api/add", isLoggedIn, function(req, res){
+	res.json({'12':'12'});
 });
 
 // Setting
