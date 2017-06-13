@@ -5,6 +5,7 @@
 
 var router = require("express").Router();
 var dao = require('../database/dao.js');
+var async = require('async');
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -49,7 +50,62 @@ var getContentHomeAdmin = function(callback){
 
 //Lấy thông tin cơ bản trang quản lý SP admin
 var getBaseInfoProductsAdmin = function(callback){
-	dao.countCategories(function(countCategories){
+	async.parallel({
+		countCategories: function(callback){
+			dao.countCategories(function(countCategories){
+				callback(null, countCategories);
+			});
+		},
+		countNewProduct: function(callback){
+			dao.countNewProductInWeek (function(countNewProduct){
+				callback(null, countNewProduct);
+			})
+		},
+		countPromotionProduct: function(callback){
+			dao.countPromotionProduct(function(countPromotionProduct){
+				callback(null, countPromotionProduct);
+			});
+		},
+		bestSellProduct: function(callback){
+			dao.getBestSellProduct(function(bestSellProduct){
+				callback(null, bestSellProduct);
+			});
+		},
+		countProduct: function(callback){
+			dao.countProducts(function(countProduct){
+				callback(null, countProduct);
+			});
+		},
+		countOutOfProduct: function(callback){
+			dao.countOutOfProduct(function(countOutOfProduct){
+				callback(null, countOutOfProduct);
+			});
+		},
+		countStockProduct: function(callback){
+			dao.countStockProduct(function(countStockProduct){
+				callback(null, countStockProduct);
+			});
+		},
+		countDeletedProduct: function(callback){
+			dao.countDeletedProduct(function(countDeletedProduct){
+				callback(null, countDeletedProduct);
+			});
+		},
+		countStopSellProduct: function(callback){
+			dao.countStopSellProduct(function(countStopSellProduct){
+				callback(null, countStopSellProduct);
+			});
+		},
+		categories: function(callback){
+			dao.getAllCategory(function(categories){
+				callback(null, categories);
+			});
+		}
+	},
+	function(err, results){
+		callback(results);
+	});
+	/*dao.countCategories(function(countCategories){
 		dao.countNewProductInWeek (function(countNewProduct){
 			dao.countPromotionProduct(function(countPromotionProduct){
 				dao.getBestSellProduct(function(bestSellProduct){
@@ -72,7 +128,7 @@ var getBaseInfoProductsAdmin = function(callback){
 				});
 			});
 		});
-	});
+	});*/
 }
 
 //Lấy thông tin cơ bản của trang Quản lý Đơn hàng Admin
@@ -155,12 +211,12 @@ router.get("/api/search/products", isLoggedIn, function(req, res){
 router.get("/product", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories){
+			getBaseInfoProductsAdmin(function(results){
+				results.header = header;
+				results.sidebar = sidebar;
+			//getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories){
 				//dao.getAllProduct(function(allProduct){
-					res.render("admin/product", {"header": header, "sidebar":sidebar, "countCategories": countCategories,
-					"countNewProduct": countNewProduct, "countPromotionProduct": countPromotionProduct, "bestSellProduct": bestSellProduct,
-					"countProduct": countProduct, "countOutOfProduct": countOutOfProduct, "countStockProduct": countStockProduct,
-					"countDeletedProduct": countDeletedProduct, "countStopSellProduct": countStopSellProduct, "categories": categories});
+					res.render("admin/product", results);
 				//});
 			});
 		});

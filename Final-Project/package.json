@@ -9,6 +9,7 @@
   "author": "NVH",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.4.1",
     "body-parser": "^1.17.1",
     "braintree": "^2.1.1",
     "captchapng": "0.0.1",
