@@ -5,7 +5,7 @@
 
 		<% include includes/sidebar.ejs %>
 
-		<div class="content-footer">
+		<div class="content-footer" id="add-product">
 			<div class="content">
 				<div class="box">
 					<div class="box-title">
@@ -20,22 +20,43 @@
 								<tbody>
 									<tr>
 										<th><label for="product-add-name">Tên sản phẩm</label></th>
-										<td><input class="form-control" type="text" id="product-add-name" value=""></td>
+										<td>
+											<input name="name" class="form-control" type="text" id="product-add-name" value="">
+											<div style="color: red; display: none" id="err_name">Tên sản phẩm đã tồn tại</div>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="product-add-name">Slug</label></th>
+										<td>
+											<input name="slug" class="form-control" type="text" id="product-add-name" value="">
+											<div style="color: red; display: none" id="err_slug">Slug đã tồn tại</div>
+										</td>
+									</tr>
+									<tr>
+										<th><label for="product-add-name">Đơn giá</label></th>
+										<td><input name="price" class="form-control" type="text" id="product-add-name" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-name">Giá khuyến mãi</label></th>
+										<td><input name="newPrice" class="form-control" type="text" id="product-add-name" value=""></td>
+									</tr>
+									<tr>
+										<th><label for="product-add-quantity">Số lượng</label></th>
+										<td><input class="form-control" type="text" id="product-add-quantity" value=""></td>
 									</tr>
 									<tr>
 										<th><label for="product-add-groups">Nhóm</label></th>
 										<td>
-											<div class="btn-group">
-											  <button id="product-add-groups" type="button" class="btn btn-default">Hoa thường</button>
-											  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											    <span class="caret"></span>
-											  </button>
-											  <ul class="dropdown-menu" role="menu">
-											    <li><a href="#">Hoa tình yêu</a></li>
-											    <li><a href="#">Hoa Tết</a></li>
-													<li><a href="#">Hoa trang trí</a></li>
-													<li><a href="#">Hoa cưới</a></li>
-											  	</ul>
+											<select name="cat_0" class="category cat-group form-control">
+												<option value="0">---</option>
+												<% categories.forEach(function(category){ %>
+													<option value="<%= category.slug %>"><%= category.name %></option>
+												<% }) %>
+											</select>
+											<input type="hidden" name="count_cat" value="1">
+											<div style="text-align: center;">
+												<div id="del_cat"> Xóa</div>
+												<div id="add_cat"> Thêm</div>
 											</div>
 										</td>
 									</tr>
@@ -48,14 +69,6 @@
 										<th><label for="product-add-description">Mô tả</label></th>
 										<td><input class="form-control" type="text" id="product-add-description" value=""></td>
 									</tr>
-									<tr>
-										<th><label for="product-add-sku">SKU</label></th>
-										<td><input class="form-control" type="text" id="product-add-sku" value=""></td>
-									</tr>
-									<tr>
-										<th><label for="product-add-quantity">Số lượng</label></th>
-										<td><input class="form-control" type="text" id="product-add-quantity" value=""></td>
-									</tr>
 
 								</tbody>
 							</table>
@@ -66,6 +79,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="/admin/js/admin.product.js"></script>
+	<script type="text/javascript" src="/admin/js/admin.product.add.js"></script>
 </body>
 </html>

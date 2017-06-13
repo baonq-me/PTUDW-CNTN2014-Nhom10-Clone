@@ -1269,6 +1269,21 @@ username: username,
 		});
 	},
 
+	getCountProductByName: function(name, callback){
+		var productModel = this.getProductModel();
+		productModel.count({"name":  { $regex: new RegExp("^" + name.toLowerCase() + "$", "i") } }, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	getCountProductBySlug: function(slug, callback){
+		var productModel = this.getProductModel();
+		productModel.count({"slug": { $regex: new RegExp("^" + slug.toLowerCase() + "$", "i") }}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
