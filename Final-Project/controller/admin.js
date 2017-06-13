@@ -304,6 +304,13 @@ router.get("/account", isLoggedIn, function(req, res){
 	});
 });
 
+var a = 5;
+
+// Add accounts
+router.get("/account/api/add", isLoggedIn, function(req, res){
+	res.json({'12':'12'});
+});
+
 // Setting
 router.get("/setting", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
