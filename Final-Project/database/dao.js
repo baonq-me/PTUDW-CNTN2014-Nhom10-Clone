@@ -1267,7 +1267,7 @@ username: username,
 			if (err) throw err;
 			callback(data);
 		});
-	}
+	},
 
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model
@@ -1275,7 +1275,7 @@ username: username,
 		productModel.update({_id: productID}, {$set: {"status": status}}, function(err, products){
 			callback(err, products);
 		})
-	}
+	},
 
 
 };
