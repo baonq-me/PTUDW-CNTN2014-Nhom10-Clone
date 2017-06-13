@@ -277,9 +277,27 @@ router.post("/api/products", isLoggedIn, function(req, res){
 router.get("/product/add", isLoggedIn, (req, res) => {
 	getHeaderAdmin(function(header){
 		getSidebarAdmin(function(sidebar){
-			res.render("admin/product-add", {"header": header, "sidebar": sidebar})
+			dao.getAllCategory(function (categories){
+				res.render("admin/product-add", {"header": header, "sidebar": sidebar, categories: categories})
+			})
 		})
 	});
+});
+router.get("/api/product/add", isLoggedIn, (req, res) => {
+	var data = req.query.data;
+	var type = req.query.type;
+	switch(type){
+		case "name":
+			dao.getCountProductByName(data, function(count){
+				return res.json(count == 0)
+			});
+			break;
+		case "slug":
+			dao.getCountProductBySlug(data, function(count){
+				return res.json(count == 0)
+			});
+			break;
+	}
 });
 
 // Group
