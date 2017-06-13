@@ -13,36 +13,42 @@
 						<a href="/admin/product" class="btn btn-primary">Quản lí sản phẩm</a>
 					</div>
 					<div class="box-content">
+						<% if (message != "") { %>
+							<div class="alert alert-danger fade in alert-dismissable">
+							    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+							    <strong>Lỗi!</strong> <%= message %>
+							</div>
+						<% } %>
 						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
 						<!-- Responsive table -->
-						<form id="account-profile" action="admin.products.html" method="post">
+						<form id="account-profile" action="/admin/product/add" method="post" enctype="multipart/form-data">
 							<table>
 								<tbody>
 									<tr>
 										<th><label for="product-add-name">Tên sản phẩm</label></th>
 										<td>
-											<input name="name" class="form-control" type="text" id="product-add-name" value="">
+											<input name="name" class="form-control" type="text" id="product-add-name" value="" required>
 											<div style="color: red; display: none" id="err_name">Tên sản phẩm đã tồn tại</div>
 										</td>
 									</tr>
 									<tr>
 										<th><label for="product-add-name">Slug</label></th>
 										<td>
-											<input name="slug" class="form-control" type="text" id="product-add-name" value="">
+											<input name="slug" class="form-control" type="text" id="product-add-name" value="" required>
 											<div style="color: red; display: none" id="err_slug">Slug đã tồn tại</div>
 										</td>
 									</tr>
 									<tr>
 										<th><label for="product-add-name">Đơn giá</label></th>
-										<td><input name="price" class="form-control" type="text" id="product-add-name" value=""></td>
+										<td><input name="price" class="form-control" min="1" type="number" id="product-add-name" value="" required></td>
 									</tr>
 									<tr>
 										<th><label for="product-add-name">Giá khuyến mãi</label></th>
-										<td><input name="newPrice" class="form-control" type="text" id="product-add-name" value=""></td>
+										<td><input name="newPrice" class="form-control" min="1" type="number" id="product-add-name" value=""></td>
 									</tr>
 									<tr>
 										<th><label for="product-add-quantity">Số lượng</label></th>
-										<td><input class="form-control" type="text" id="product-add-quantity" value=""></td>
+										<td><input name="number" class="form-control" type="number" min="1" id="product-add-quantity" value="" required></td>
 									</tr>
 									<tr>
 										<th><label for="product-add-groups">Nhóm</label></th>
@@ -62,12 +68,12 @@
 									</tr>
 									<tr>
 										<th><label for="product-add-image">Hình ảnh</label></th>
-										<td><input id="image-upload" maxlength="20000" class="form-control" accept="image/*" type="file" id="product-add-image" value="">
-										<div style="text-align: center; display: none;" id="display-image-upload"><img style="height: 100px" src=""></div></td>
+										<td><input type="file" name="image" accept="image/*" id="image-upload" class="form-control">
+										<div style="text-align: center; display: none;" id="display-image-upload"><img style="height: 100px; margin-top: 10px; margin-bottom: 10px; border: 2px solid rgba(0,0,0,0.2); border-radius: 5px;" src="" id="view-img"></div></td>
 									</tr>
 									<tr>
 										<th><label for="product-add-description">Mô tả</label></th>
-										<td><input class="form-control" type="text" id="product-add-description" value=""></td>
+										<td><input name="detail" class="form-control" required type="text" id="product-add-description" value=""></td>
 									</tr>
 
 								</tbody>

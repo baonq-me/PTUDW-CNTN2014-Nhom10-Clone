@@ -30,7 +30,7 @@ var router = express.Router();
  app.use(bodyParser.urlencoded({extended: true}));
 
  //Chọn đường dẫn thư mục public, chứa những file static
- app.use(express.static(__dirname + '/public')); 
+ app.use(express.static(__dirname + '/public'));
 
 controller(app);
 
