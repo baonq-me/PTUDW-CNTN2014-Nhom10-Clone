@@ -165,7 +165,7 @@ var dao = {
 	*			- slug: đường dẫn tới category (không chứa root - localhost:3000)
 	*			- icon: icon cho category
 	*/
-	getAllCategory: function(count, skip, callback){
+	getAllCategory: function(callback, count, skip){
 		//Lấy category model
 		var categoryModel = this.getCategoryModel();
 

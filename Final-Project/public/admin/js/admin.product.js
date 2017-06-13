@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+	
 	/******** Admin product **************/
 	// 0: all
 	// 1: stock

@@ -262,7 +262,6 @@ router.post("/api/products", isLoggedIn, function(req, res){
 	var products = req.body.products;
 	var status = req.body.status;
 	var fQuery = [];
-	console.log(products);
 	var i = 0;
 	products.forEach(function(product){
 		fQuery.push(function(callback){
@@ -332,9 +331,9 @@ router.post("/group-add", isLoggedIn, function(req, res){
 // Lấy categories
 
 router.get("/categories", isLoggedIn, function(req, res){
-	dao.getAllCategory(req.query.count, req.query.skip, function(categories){
+	dao.getAllCategory(function(categories){
 			res.json(categories);
-	});
+	}, req.query.count, req.query.skip);
 });
 
 //Kiếm tra tên nhóm sản phẩm đã tồn tại hay chưa?
