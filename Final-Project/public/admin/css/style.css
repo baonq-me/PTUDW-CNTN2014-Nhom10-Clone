@@ -297,3 +297,7 @@ tr td img.img-thumbnail
 	color: #555
 }
 .profile-detail .info { color: #666 }
+
+#category-add  ul li{
+	padding-left: 20px;
+}

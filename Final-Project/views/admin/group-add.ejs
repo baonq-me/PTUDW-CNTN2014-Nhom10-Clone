@@ -1,0 +1,77 @@
+	<% include includes/header.ejs %>
+	
+	<div class="clearfix"></div>
+		<div id="site-container" class="menu-full">
+
+		<% include includes/sidebar.ejs %>
+
+		<div class="content-footer">
+			<div class="content">
+				<div class="box">
+					<div class="box-title">
+						<h1>Thêm nhóm sản phẩm</h1>
+						<a href="/admin/group" class="btn btn-primary">Quản lí nhóm sản phẩm</a>
+					</div>
+					<div class="box-content">
+						<!-- https://ps.w.org/woocommerce/assets/screenshot-2.png?rev=1063946 -->
+						<!-- Responsive table -->
+						<form  name="category-add" id="category-add" action="/admin/group-add" method="post">
+							<table>
+								<tbody>
+									<tr>
+										<th><label for="category-add-name">Tên nhóm sản phẩm</label></th>
+										<td><input class="form-control" type="text" id="category-add-name" name="category_add_name" value=""></td>
+										
+									</tr>
+									<tr>
+										<th><label for=""></label></th>
+										<td><span id="msgNameCat" style="color: red"></span></td>
+									</tr>
+									<tr>
+										<th><label for="category-add-slug">Slug</label></th>
+										<td>
+											<input class="form-control" type="text" id="category-add-slug" name="category_add_slug" value="">
+										</td>
+									</tr>
+									<tr>
+										<th><label for=""></label></th>
+										<td><span id="msgSlugCat" style="color: red"></span></td>
+									</tr>
+
+									<tr>
+										<th><label for="category-add-icon">Icon</label></th>
+										<td>
+											<select class="form-control glyphicon" name="category_add_icon">
+												
+												<option value="glyphicon glyphicon-music"></i>&#xe002;</option>
+												<option value="glyphicon glyphicon-asterisk"></i>&#x2a;</option>
+												<option value="glyphicon glyphicon-heart"></i>&#xe005;</option>
+												<option value="glyphicon glyphicon-star"></i>&#xe006;</option>
+												<option value="glyphicon glyphicon-star-empty"></i>&#xe007;</option>
+												<option value="glyphicon glyphicon-flag"></i>&#xe034;</option>
+												<option value="glyphicon glyphicon-tint"></i>&#xe064;</option>
+												<option value="glyphicon glyphicon-fire"></i>&#xe104;</option>
+												<option value="glyphicon glyphicon-tree-conifer"></i>&#xe199;</option>
+												<option value="glyphicon glyphicon-education"></i>&#xe233;</option>
+
+											</select>
+
+										</td>
+									</tr>
+									<tr>
+										<th><label for=""></label></th>
+										<td><span id="msgSlugCat" style="color: red"><%= message %></span></td>
+									</tr>
+
+								</tbody>
+							</table>
+							<input type="submit" class="btn btn-primary" value="Thêm nhóm sản phẩm">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="/admin/js/admin.group-add.js"></script>
+</body>
+</html>

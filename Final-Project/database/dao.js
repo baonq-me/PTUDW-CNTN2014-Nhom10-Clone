@@ -54,7 +54,7 @@ var dao = {
 	  		detail: String,
 	  		quality: Number,
 	  		dateAdded :{ type: Date, default: Date.now },
-	  		status: String
+	  		status: String    	//Ngừng bán, Đang bán, Đã xóa, 
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -165,12 +165,15 @@ var dao = {
 	*			- slug: đường dẫn tới category (không chứa root - localhost:3000)
 	*			- icon: icon cho category
 	*/
-	getAllCategory: function(callback){
+	getAllCategory: function(count, skip, callback){
 		//Lấy category model
 		var categoryModel = this.getCategoryModel();
 
 		//Câu truy vấn lấy tất cả category
-		categoryModel.find(function(err, data){
+		categoryModel.find()
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -1140,6 +1143,61 @@ var dao = {
 		.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	/****** Thêm nhóm sản phẩm**********/
+	/*
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* @param : tên nhóm sản phẩm cần kiểm tra
+	* @param: thực hiện sau khi kiểm tra
+	*/
+	hadNameCategory: function(name, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		categoryModel.findOne({"name" : name}, function(err, data){
+			if(err) throw err;
+			if(data != null){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
+	},
+	/*
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* @param : tên nhóm sản phẩm cần kiểm tra
+	* @param: thực hiện sau khi kiểm tra
+	*/
+	hadSlugCategory: function(slug, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		categoryModel.findOne({"slug" : slug}, function(err, data){
+			if(err) throw err;
+			if(data != null){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
+	},
+	/*
+	* Thêm nhóm sản phẩm 
+	* @param : tên nhóm sản phẩm 
+	* @param: slug
+	* @param: icon nhóm sản phẩm
+	*/
+	addCategory: function(name, slug, icon, callback){
+		categoryModel= this.getCategoryModel();
+
+		category = new categoryModel ({name: name, slug: slug, icon: icon, countProduct: 0});
+		category.save(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
