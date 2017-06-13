@@ -54,7 +54,7 @@ var dao = {
 	  		detail: String,
 	  		quality: Number,
 	  		dateAdded :{ type: Date, default: Date.now },
-	  		status: String
+	  		status: String    	//Ngừng bán, Đang bán, Đã xóa, 
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -165,12 +165,15 @@ var dao = {
 	*			- slug: đường dẫn tới category (không chứa root - localhost:3000)
 	*			- icon: icon cho category
 	*/
-	getAllCategory: function(callback){
+	getAllCategory: function(count, skip, callback){
 		//Lấy category model
 		var categoryModel = this.getCategoryModel();
 
 		//Câu truy vấn lấy tất cả category
-		categoryModel.find(function(err, data){
+		categoryModel.find()
+		.limit(count)
+		.skip(skip)
+		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -444,7 +447,7 @@ var dao = {
 	*	args {name: string, sign_up_email: string, sign_up_username: string, sign_up_password: string,
 	*		sign_up_addr: string, sign_up_tel: string}
 	*/
-	addUserLocal: function(args){
+	addUserLocal: function(args, role){
 		var userModel = this.getUserModel();
 		var user = new userModel({
 			"loginInfo": {
@@ -458,7 +461,7 @@ var dao = {
 				tel: args.sign_up_tel
 			},
 			role: {
-				name: "customer"
+				name: role
 			},
 			status: ""
 		});
@@ -466,6 +469,49 @@ var dao = {
 			if(err) throw err;
 		});
 	},
+
+/*
+username: username,
+          fullname: fullname,
+          email: email,
+          phone: phone,
+          role: role,
+          password: password1
+					*/
+	fuck_addUserLocal_and_signup: function(regInfo, callback) {
+		var userModel = this.getUserModel();
+		dao.getUser(regInfo.username, function(userExist){
+			if (userExist == null)	// check if username is exist
+			{
+				var user = new userModel({
+					"loginInfo": {
+						typeLg: "local",
+						localLogin: {
+							username: regInfo.username,
+							password: dao.passwordHash.generate("Abcdef1234")
+						}
+					},
+					baseInfo: {
+						fullName: regInfo.fullname,
+						email: regInfo.email,
+						tel: regInfo.phone
+					},
+					role: {
+						name: regInfo.role
+					},
+					status: ""
+				}).save(function(err, data){
+					if(err)
+					{
+						throw err;
+						callback(false);			// unknown error
+					} else callback(true); // added
+				});
+			}
+			else callback(false);	// false if username is exist
+		});
+	},
+
 	/* Hàm kiểm tra thông tin username và password khi đăng nhập
 	* @username: username người dùng nhập vào
 	* @password: Password người dùng nhập vào
@@ -493,6 +539,14 @@ var dao = {
 	getUser: function(username, callback){
 		var userModel = this.getUserModel();
 		userModel.findOne({"loginInfo.localLogin.username":username}, function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	getAllUser: function(callback){
+		var userModel = this.getUserModel();
+		userModel.find({}, function(err, data){
 			if (err) throw err;
 			callback(data);
 		});
@@ -560,7 +614,7 @@ var dao = {
 				dao.hadEmail(args.sign_up_email, function(hademail){
 				if(hademail || hadusername) callback(false);	// sign up thất bại
 				else {
-					dao.addUserLocal(args);
+					dao.addUserLocal(args, "customer");
 					callback(true);
 				}
 			});
@@ -864,7 +918,7 @@ var dao = {
 		if (catID == null)
 			var s = productModel.find({name: new RegExp(query, "i")})
 		else var s = productModel.find({name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
-		
+
 		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
@@ -885,7 +939,7 @@ var dao = {
 		if (catID == null)
 			var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i")})
 		else var s = productModel.find({quality: {$gt: 0}, status: "Đang bán", name: new RegExp(query, "i"), categorySlug: {$in: [catID] }});
-		
+
 		s.limit(count)
 		.skip(skip)
 		.exec(function(err, data){
@@ -1159,6 +1213,61 @@ var dao = {
 			callback(data);
 		});
 	},
+
+	/****** Thêm nhóm sản phẩm**********/
+	/*
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* @param : tên nhóm sản phẩm cần kiểm tra
+	* @param: thực hiện sau khi kiểm tra
+	*/
+	hadNameCategory: function(name, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		categoryModel.findOne({"name" : name}, function(err, data){
+			if(err) throw err;
+			if(data != null){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
+	},
+	/*
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* @param : tên nhóm sản phẩm cần kiểm tra
+	* @param: thực hiện sau khi kiểm tra
+	*/
+	hadSlugCategory: function(slug, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		categoryModel.findOne({"slug" : slug}, function(err, data){
+			if(err) throw err;
+			if(data != null){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
+	},
+	/*
+	* Thêm nhóm sản phẩm 
+	* @param : tên nhóm sản phẩm 
+	* @param: slug
+	* @param: icon nhóm sản phẩm
+	*/
+	addCategory: function(name, slug, icon, callback){
+		categoryModel= this.getCategoryModel();
+
+		category = new categoryModel ({name: name, slug: slug, icon: icon, countProduct: 0});
+		category.save(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	}
 
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model

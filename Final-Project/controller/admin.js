@@ -118,7 +118,7 @@ var getBaseInfoProductsAdmin = function(callback){
 											callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
 											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories);
 										})
-										
+
 									});
 								});
 							});
@@ -159,6 +159,7 @@ router.get("/dashboard", isLoggedIn, function(req, res){
 	res.redirect("/admin");
 });
 
+
 // Default route is dashboard page
 router.get("/", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
@@ -171,6 +172,7 @@ router.get("/", isLoggedIn, function(req, res){
 		});
 	});
 });
+
 
 //Lấy ds sản phẩm hết hàng
 router.get("/api/index/out-of-products", isLoggedIn, function(req, res){
@@ -292,11 +294,60 @@ router.get("/group", isLoggedIn, function(req, res){
 	});
 });
 
+// Group
+router.get("/group-add", isLoggedIn, function(req, res){
+	var errorAddCat = (req.session.errorAddCat == undefined) ?  false : req.session.errorAddCat;
+	req.session.errorAddCat = false;
+	var message = (errorAddCat) ? "Thêm sản phẩm không thành công!" : "";
+	getHeaderAdmin(function(header) {
+		getSidebarAdmin(function(sidebar){
+			//dao.countCategories(function(countCategories){
+				res.render("admin/group-add", {"header": header, "sidebar":sidebar, message: message});
+			//});
+		});
+	});
+});
+
+// Group
+router.post("/group-add", isLoggedIn, function(req, res){
+	var name = req.body.category_add_name;
+	var slug = req.body.category_add_slug;
+	var icon = req.body.category_add_icon;
+
+	dao.hadNameCategory(name, function(hadName){
+		dao.hadSlugCategory(slug, function(hadSlug){
+			if(hadName || hadSlug){
+				req.session.errorAddCat = true;
+				res.redirect("/admin/group-add");
+			}
+			else{
+				dao.addCategory(name, slug, icon, function(){
+					res.redirect("/admin/group");
+				});	
+			}
+		});
+	});
+});
+
 // Lấy categories
 
 router.get("/categories", isLoggedIn, function(req, res){
-	dao.getAllCategory(function(categories){
+	dao.getAllCategory(req.query.count, req.query.skip, function(categories){
 			res.json(categories);
+	});
+});
+
+//Kiếm tra tên nhóm sản phẩm đã tồn tại hay chưa?
+router.post("/categories/add/checkName", isLoggedIn, function(req, res){
+	dao.hadNameCategory(req.body.name, function(result){
+		res.json(result);
+	});
+});
+
+//Kiếm tra slug nhóm sản phẩm đã tồn tại hay chưa?
+router.post("/categories/add/checkSlug", isLoggedIn, function(req, res){
+	dao.hadSlugCategory(req.body.slug, function(result){
+		res.json(result);
 	});
 });
 
@@ -314,7 +365,6 @@ router.get("/order", isLoggedIn, function(req, res){
 		});
 	});
 });
-
 
 
 router.get("/api/bills", isLoggedIn, function(req, res){
@@ -382,11 +432,26 @@ router.get("/account", isLoggedIn, function(req, res){
 	});
 });
 
-var a = 5;
-
 // Add accounts
-router.get("/account/api/add", isLoggedIn, function(req, res){
-	res.json({'12':'12'});
+router.post("/api/account/add", isLoggedIn, function(req, res){
+	dao.fuck_addUserLocal_and_signup({
+		username: req.body.username,
+		fullname: req.body.fullname,
+		email: req.body.email,
+		phone: req.body.phone,
+		role: req.body.role
+	}, function(ok){
+		if (ok)
+			res.status(200).send("Done");
+		else
+			res.status(400).send("Fail to add user");
+		});
+});
+
+router.get("/api/account/get/all", isLoggedIn, function(req, res){
+	dao.getAllUser(function(data){
+		res.json(data);
+	});
 });
 
 // Setting
