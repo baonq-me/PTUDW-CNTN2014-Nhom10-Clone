@@ -280,9 +280,11 @@ $(document).ready(function(){
 	// Thêm product
 	$(".add-cart").click(function(){
 		var id = $(this).data("id");
-		addProductToCart(id, 1);
-		setCountCart();
-		alert("Đã thêm vào giỏ hàng");
+		if(addProductToCart(id, 1)){
+			alert("Đã thêm sản phẩm vào giỏ hàng");
+			setCountCart();
+		}
+		else alert("Thêm sản phẩm vào giỏ hàng thất bại");
 	});
 	if($(".product_detail").length > 0){
 		$("input[name=quantity]").change(function(){
@@ -427,45 +429,61 @@ function setBillingInfo(){
 
 /********************** CART ******************/
 function getProductFromCart(){
-	var json = getCookie("carts");
-	if(json == "") return [];
-	return JSON.parse(json);
+	var result = [];
+
+	$.ajax({
+		url: "/api/cart-info",
+		type: "get",
+		async: false,
+		success: function(res, status){
+			if(status == "success")
+				result = res;
+		}
+	});
+	return result;
 }
 function setProductCount(productID, count){
-	var products = getProductFromCart();
-	var product = products.find(function(product){ return product.productID == productID });
-	if(product == undefined)
-		products.unshift(product);
-	else {
-		var index = products.indexOf(product);
-		products[index].count = count;
-	}
-	setCookie("carts", JSON.stringify(products), 7);
+	$.ajax({
+		url: "/api/cart-info",
+		type: "put",
+		data: {
+			"productID": productID,
+			"count": count
+		},
+		async: false,
+		success: function(res, status){
+			return status == "success";
+		}
+	});
 }
 function addProductToCart(productID, count){
-	var products = getProductFromCart();
-	var product = products.find(function(product){ return product.productID == productID });
-	if(product == undefined)
-		product = {"productID": productID, "count": count};
-	else {
-		var index = products.indexOf(product);
-		products.splice(index,1);
-		product.count += count;
-	}
-	products.unshift(product);
-	setCookie("carts", JSON.stringify(products), 7);
+	$.ajax({
+		url: "/api/cart-info",
+		type: "post",
+		data: {
+			"productID": productID,
+			"count": count
+		},
+		async: false,
+		success: function(res, status){
+			return status == "success";
+		}
+	});
 }
 // count = -1 -> remove tất cả
 function removeProductFromCart(productID, count){
-	var products = getProductFromCart();
-	var product = products.find(function(product){ return product.productID == productID });
-	if(product == undefined)
-		return;
-	var index = products.indexOf(product);
-	product.count = (count < 0) ? 0 : product.count - count;
-	if(product.count <= 0)
-		products.splice(index,1);
-	setCookie("carts", JSON.stringify(products), 7);
+	$.ajax({
+		url: "/api/cart-info",
+		type: "delete",
+		data: {
+			"productID": productID,
+			"count": count
+		},
+		async: false,
+		success: function(res, status){
+			return status == "success";
+		}
+	});
 }
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();

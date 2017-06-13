@@ -586,6 +586,90 @@ router.get("/cart-info", setHeader, setFooter, (req, res) => {
 	});
 	//}
 });
+// thêm một product vào cart info
+router.post("/api/cart-info", function(req, res){
+	var productID = req.body.productID;
+	var count = req.body.count;
+	dao.getProductDetailByID(productID, function(product){
+		var price = (product.newPrice) ? product.newPrice : product.price;
+		var productName = product.name;
+		if(req.session.cartInfo){
+			var products = req.session.cartInfo;
+			var product = products.find(function(product){ return product.productID == productID });
+			if(product == undefined)
+				req.session.cartInfo.push({"productID": productID, "count": count, "unitPrice": price, "productName": productName});
+			else {
+				var index = products.indexOf(product);
+				req.session.cartInfo[index].count += count;
+			}
+		}else req.session.cartInfo = [{"productID": productID, "count": count, "unitPrice": price, "productName": productName}];
+		res.json({});
+	});
+});// xóa một product vào cart info
+router.delete("/api/cart-info", function(req, res){
+	var productID = req.body.productID;
+	var count = req.body.count;
+	if(req.session.cartInfo){
+		var products = req.session.cartInfo;
+		var product = products.find(function(product){ return product.productID == productID });
+		if(product) {
+			var index = products.indexOf(product);
+			if(count < 0)
+				req.session.cartInfo[index].count = 0;
+			else {
+				req.session.cartInfo[index].count -= count;
+			}
+			if(req.session.cartInfo[index].count <= 0)
+				req.session.cartInfo.splice(index, 1);
+		}
+	}
+	res.json({});
+});
+// update một product vào cart info
+router.put("/api/cart-info", function(req, res){
+	var productID = req.body.productID;
+	var count = req.body.count;
+	dao.getProductDetailByID(productID, function(product){
+		var price = (product.newPrice) ? product.newPrice : product.price;
+		var productName = product.name;
+		if(req.session.cartInfo){
+			var products = req.session.cartInfo;
+			var product = products.find(function(product){ return product.productID == productID });
+			if(product == undefined)
+				req.session.cartInfo.push({"productID": productID, "count": count, "unitPrice": price, "productName": productName});
+			else {
+				var index = products.indexOf(product);
+				req.session.cartInfo[index].count = count;
+			}
+		}else req.session.cartInfo = [{"productID": productID, "count": count, "unitPrice": price, "productName": productName}];
+		res.json({});
+	});
+});
+// Lấy danh sách sản phẩm
+router.get("/api/cart-info", function(req, res){
+	var cartinfo = (req.session.cartInfo) ? req.session.cartInfo : [];
+	res.json(cartinfo);
+});
+// Lấy thông tin product
+router.get("/api/cart-info", isLoggedIn, function(req, res){
+	var productID = req.body.productID;
+	var count = req.body.count;
+	dao.getProductDetailByID(productID, function(product){
+		var price = (product.newPrice) ? product.newPrice : product.price;
+		var productName = product.name;
+		if(req.session.cartInfo){
+			var products = req.session.cartInfo;
+			var product = products.find(function(product){ return product.productID == productID });
+			if(product == undefined)
+				req.session.cartInfo.push({"productID": productID, "count": count, "unitPrice": price, "productName": productName});
+			else {
+				var index = products.indexOf(product);
+				req.session.cartInfo[index].count += count;
+			}
+		}else req.session.cartInfo = [{"productID": productID, "count": count, "unitPrice": price, "productName": productName}];
+		res.json({});
+	});
+});
 // Lấy thông tin product trong cart
 router.get("/product-in-cart", (req, res) => {
 	productID = req.query.productID;
@@ -676,7 +760,7 @@ router.post("/pay/billing-info", isLoggedIn, isComplateReceiverInfo, (req, res, 
 		if (billingInfo.pay_method != "by-online"){
 			var payInfo = req.session.payinfo;
 			var cartInfo = req.session.cartInfo;
-			dao.addBill({userID: getCustomer(req)._id,"payInfo": payInfo, cartInfo: cartInfo},
+			dao.addBill({userID: getCustomer(req)._id,"payInfo": payInfo, cartInfo: cartInfo, "status": {delivered: 0, paid: 0, canceled: 0} },
 				function(){
 					return res.redirect("/pay/done");
 				});
@@ -726,7 +810,7 @@ router.post('/paypal_checkout',function(req, res, next) {
 	}, function(req, res, next){
 		var payInfo = req.session.payinfo;
 		var cartInfo = req.body.cartInfo;
-		dao.addBill({userID: getCustomer(req)._id, "payInfo": payInfo, "cartInfo": cartInfo}, 
+		dao.addBill({userID: getCustomer(req)._id, "payInfo": payInfo, "cartInfo": cartInfo, "status": {delivered: 0, paid: 1, canceled: 0}}, 
 			function(){
 				return res.redirect("/pay/done");
 			});
