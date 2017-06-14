@@ -1362,7 +1362,7 @@ username: username,
 		.select('name slug')
 		.exec(function(err, data){
 			if (err) throw err;
-			productModel.find({categorySlug: {$in: [data.slug]}})
+			productModel.find({categorySlug: {$in: [data[0].slug]}})
 			.exec(function(err, data){
 				//console.log(data);
 				if (err) throw err;
