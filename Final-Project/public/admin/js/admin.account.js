@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-
+  // Display a notification
   function notify(type, message)
   {
     $.notify(message,
@@ -13,9 +13,10 @@ $(document).ready(function(){
     });
   }
 
+  // Add user to account table by adding html
   function addUser(username, fullname, email, role, date, avatar)
   {
-    $('.account-table tbody:last-child').append('<tr id=' + username + '>\
+    $('.account-table tbody:last-child').append('<tr id="' + username + '" class="' + role + '">\
     <td><div class="checkbox"><label><input type="checkbox" value="' + username + '"></label></div></td> \
     <td><img src="' + avatar + '" class="img-thumbnail"><a class="account-' + role + '" href="#"> ' + username + '</a> \
     <td>' + fullname + '</td> \
@@ -25,6 +26,7 @@ $(document).ready(function(){
     </tr>');
   }
 
+  // Load user into account table
   $(".account-table").ready(function() {
       $.ajax({
   			url: '/admin/api/account/get/all',
@@ -53,6 +55,7 @@ $(document).ready(function(){
       });
   });
 
+  // Submit form
   $('#form-add-account').submit(function(e) {
       e.preventDefault();
 
@@ -98,8 +101,8 @@ $(document).ready(function(){
                 document.getElementById('form-add-account-close').click();
                 addUser(username, fullname, email, role, "Now");
               },
-              400: function() {
-                notify("error", "Can't add this account !");
+              400: function(data) {
+                notify("error", data.responseText);
               }
             }
     		});
@@ -162,4 +165,19 @@ $(document).ready(function(){
         }
     });
   });
+
+  window.filter = function(mode, val)
+  {
+    $("tbody").find("tr").css("display", "none");
+    if (mode == "showAll")
+    {
+      $("tbody").find("tr").css("display", "table-row");
+    } else if (mode == "showGroup")
+    {
+      $("tbody").find($("tr." + val)).css("display", "table-row");
+    } else if (mode == "showUser")
+    {
+      $("tbody").find($("#" + $("#product-search").val())).css("display", "table-row");
+    }
+  }
 });

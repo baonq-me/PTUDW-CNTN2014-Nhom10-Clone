@@ -505,7 +505,7 @@ router.get("/categories", isLoggedIn, function(req, res){
 		dao.countCategories(function(quality){
 			res.json({categories, quality});
 		});
-			
+
 	}, Number(req.query.count), Number(req.query.skip));
 });
 
@@ -558,7 +558,7 @@ router.get("/group/edit", isLoggedIn, (req, res) => {
 		if(cate == null) return res.redirect("/admin/group");
 		getHeaderAdmin(function(header){
 			getSidebarAdmin(function(sidebar){
-				res.render("admin/group-edit", {"header": header, "sidebar": sidebar, message: message, cate:cate})		
+				res.render("admin/group-edit", {"header": header, "sidebar": sidebar, message: message, cate:cate})
 			});
 		});
 	})
@@ -584,7 +584,7 @@ router.post("/group/edit", isLoggedIn, (req, res) => {
 		});
 	});
 });
-	
+
 
 /*
 	var productID = req.fields.productID;
@@ -740,19 +740,21 @@ router.get("/account", isLoggedIn, function(req, res){
 
 // Add accounts
 router.post("/api/account/add", isLoggedIn, function(req, res){
-	dao.fuck_addUserLocal_and_signup({
-		username: req.body.username,
-		fullname: req.body.fullname,
-		email: req.body.email,
-		phone: req.body.phone,
-		role: req.body.role,
-		address: req.body.address,
-		password: req.body.passwordCo
-	}, function(ok){
+	dao.fuck_addUserLocal_and_signup(
+		true,
+		{
+			username: req.body.username,
+			fullname: req.body.fullname,
+			email: req.body.email,
+			phone: req.body.phone,
+			role: req.body.role,
+			address: req.body.address,
+			password: req.body.passwordCo
+		}, function(ok){
 		if (ok)
-			res.status(200).send("Done");
+			res.status(200).send("Account " + req.body.username + " is added !");
 		else
-			res.status(400).send("Fail to add user");
+			res.status(400).send("Could not add account (" + req.body.username + ") because of duplicate username.");
 		});
 });
 

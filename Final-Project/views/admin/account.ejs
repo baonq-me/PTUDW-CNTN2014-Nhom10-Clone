@@ -18,7 +18,6 @@
 						        <h4 class="modal-title">Thêm tài khoản</h4>
 						      </div>
 						      <div class="modal-body">
-
 											<h2>Thông tin tài khoản</h2>
 											<table>
 												<tbody>
@@ -95,18 +94,18 @@
 						</div>
 						<h1>
 							Tài khoản
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#account-modal">Thêm</button>
+							<button type="button" class="btn btn-default" id="add-account" data-toggle="modal" data-target="#account-modal">Thêm</button>
 							<button type="button" class="btn btn-default" id="delete-account">Xóa</button>
 							<button type="button" class="btn btn-default" id="edit-account" data-toggle="modal" data-target="#account-modal">Sửa</button>
 						</h1>
 						<hr/>
 						<div class="product-info">
-							<button type="button" class="btn btn-default">Tất cả</button>
-							<button type="button" class="btn btn-default">Quản trị</button>
-							<button type="button" class="btn btn-default">Mua hàng</button>
-							<button type="button" class="btn btn-default">Bán hàng</button>
+							<button type="button" class="btn btn-default" onclick="filter('showAll', 0);">Tất cả</button>
+							<button type="button" class="btn btn-default" onclick="filter('showGroup', 'admin');">Quản trị</button>
+							<button type="button" class="btn btn-default" onclick="filter('showGroup', 'customer');">Mua hàng</button>
+							<button type="button" class="btn btn-default" onclick="filter('showGroup', 'seller');">Bán hàng</button>
 
-							<a href="admin.account.html" class="btn btn-default float-right">Tìm kiếm</a>
+							<button type="button"  class="btn btn-default float-right" onclick="filter('showUser', 0);">Tìm kiếm</button>
 							<div class="col-xs-2 float-right">
 								<input type="search" id="product-search" class="form-control">
 							</div>
