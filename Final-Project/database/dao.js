@@ -226,7 +226,7 @@ var dao = {
 		var productModel = this.getProductModel();
 
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
-		productModel.find({status: "Đang bán"})
+		productModel.find({status: "Đang bán", newPrice: {$gt: 0}})
 		.exists('newPrice', true)
 		.limit(step)
 		.skip(start)
@@ -240,7 +240,7 @@ var dao = {
 	getCountPromotionProduct: function(callback){
 		var productModel = this.getProductModel();
 
-		productModel.count().exists('newPrice', true).exec(function(err, count){
+		productModel.count({status: "Đang bán", newPrice: {$gt: 0}}).exists('newPrice', true).exec(function(err, count){
 			if (err) throw err;
 			callback(count);
 		});
@@ -1371,6 +1371,24 @@ username: username,
 
 			})
 		})
+	},
+	editProduct: function (productInfo, callback){
+		console.log(productInfo);
+		var productModel = this.getProductModel();
+		productModel.findByIdAndUpdate(productInfo.productID, {$set: {
+			name: productInfo.name,
+			imgPath: productInfo.imgPath,
+			slug: productInfo.slug,		//Đường dẫn đến sản phẩm
+			price: productInfo.price,
+			categorySlug : productInfo.categories,	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
+			newPrice: productInfo.newPrice,
+			detail: productInfo.detail,
+			quality: productInfo.quality,
+			status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa,
+		}}, function(err, data){
+			if (err) throw err;
+			return callback(true);
+		});
 	},
 
 	setStatusProduct: function(productID, status, callback){
