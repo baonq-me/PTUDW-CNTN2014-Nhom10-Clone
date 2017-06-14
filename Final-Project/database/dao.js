@@ -1124,7 +1124,27 @@ username: username,
 
 	/***************** TRANG ADMIN ORDER *******************************/
 	getRevenueInWeek: function(callback){
-		callback(1200000);
+
+		var productModel = this.getProductModel();
+		var billModel = this.getBillsModel();
+
+		//var count = 0 ;
+		var revenue = 0;
+
+		billModel.find()
+		.exec(function(err, bills){
+			if (err) throw err;
+			bills.forEach(function(bill){
+				var offset = new Date().getTime() - bill.dateAdded.getTime();	//Độ lệch giữa 2 mốc thời gian, đơn vị milisecond
+				var totalDays = Math.round(offset/1000/60/60/24);
+				if( totalDays <= 7){
+					bill.cartInfo.forEach(function(product){
+						revenue += product.count* product.unitPrice;
+					});
+				}
+			});
+			callback(revenue);
+		}); 
 	},
 
 	/*
