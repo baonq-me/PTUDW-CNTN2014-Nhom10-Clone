@@ -505,7 +505,7 @@ router.get("/categories", isLoggedIn, function(req, res){
 		dao.countCategories(function(quality){
 			res.json({categories, quality});
 		});
-			
+
 	}, Number(req.query.count), Number(req.query.skip));
 });
 
@@ -565,7 +565,7 @@ router.get("/group/edit", isLoggedIn, (req, res) => {
 		if(cate == null) return res.redirect("/admin/group");
 		getHeaderAdmin(function(header){
 			getSidebarAdmin(function(sidebar){
-				res.render("admin/group-edit", {"header": header, "sidebar": sidebar, message: message, cate:cate})		
+				res.render("admin/group-edit", {"header": header, "sidebar": sidebar, message: message, cate:cate})
 			});
 		});
 	})
@@ -605,7 +605,7 @@ router.post("/group/edit", isLoggedIn, (req, res) => {
 
 	
 });
-	
+
 
 
 // Order
@@ -625,39 +625,41 @@ router.get("/order", isLoggedIn, function(req, res){
 
 
 router.get("/api/bills", isLoggedIn, function(req, res){
+	var count = parseInt(req.query.count);
+	var skip = parseInt(req.query.skip);
 	switch (req.query.type) {
 		case '0':
-			dao.getAllBill(10, 0, function(bills){
+			dao.getAllBill(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '1':
-			dao.getBillDelivered(10, 0, function(bills){
+			dao.getBillDelivered(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '2':
-			dao.getBillNotDelivered(10, 0, function(bills){
+			dao.getBillNotDelivered(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '3':
-			dao.getBillPaid(10, 0, function(bills){
+			dao.getBillPaid(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '4':
-			dao.getBillNotPaid(10, 0, function(bills){
+			dao.getBillNotPaid(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '5':
-			dao.getBillCompleted(10, 0, function(bills){
+			dao.getBillCompleted(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '6':
-			dao.getBillCanceled(10, 0, function(bills){
+			dao.getBillCanceled(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
@@ -691,19 +693,21 @@ router.get("/account", isLoggedIn, function(req, res){
 
 // Add accounts
 router.post("/api/account/add", isLoggedIn, function(req, res){
-	dao.fuck_addUserLocal_and_signup({
-		username: req.body.username,
-		fullname: req.body.fullname,
-		email: req.body.email,
-		phone: req.body.phone,
-		role: req.body.role,
-		address: req.body.address,
-		password: req.body.passwordCo
-	}, function(ok){
+	dao.fuck_addUserLocal_and_signup(
+		true,
+		{
+			username: req.body.username,
+			fullname: req.body.fullname,
+			email: req.body.email,
+			phone: req.body.phone,
+			role: req.body.role,
+			address: req.body.address,
+			password: req.body.passwordCo
+		}, function(ok){
 		if (ok)
-			res.status(200).send("Done");
+			res.status(200).send("Account " + req.body.username + " is added !");
 		else
-			res.status(400).send("Fail to add user");
+			res.status(400).send("Could not add account (" + req.body.username + ") because of duplicate username.");
 		});
 });
 

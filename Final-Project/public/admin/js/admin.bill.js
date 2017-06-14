@@ -8,8 +8,9 @@ $(document).ready(function(){
 	// 4: not paid
 	// 5: completed
 	// 6: canceled
-
-	function loadBills(type) {
+	var count = 3;
+	var skip = 0;
+	function loadBills(isEmpty) {
 		function addRow(id, userID, name, phone, address, district, city, cartInfo, totalMoney, dateAdd, payMethod, status) {
 			var row = '<tr><td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td> \
 								<td> Người đặt: ' + userID + ' <br/> Đơn hàng: ' + id + '</td> \
@@ -25,15 +26,25 @@ $(document).ready(function(){
 								<td> ' + status + '</td> ';
 			$('#bills').append(row);
 		}
-
+		$(".order-table").css("opacity", "0.5");
+		var type = bills["#" + $(".bills-filter a.active").attr("id")];
+		if(isEmpty) skip = 0;
 		$.ajax({
 			url: '/admin/api/bills', //URL lay du lieu
 			type: 'GET',
 			data: {
-				type: type
+				type: type,
+				count: count,
+				skip: skip
 			},
 			success: function(res) {
-				$('#bills').empty();
+				if(isEmpty)
+					$('#bills').empty();
+				skip+= res.length;
+				if(res.length < count)
+					$("#viewmore").parent().css("display", "none");
+				else
+					$("#viewmore").parent().css("display", "block");
 				var status, pay_method;
 				for (i = 0; i < res.length; ++i) {
 						pay_method = res[i].billingInfo.pay_method;
@@ -70,19 +81,23 @@ $(document).ready(function(){
 							res[i].receiverInfo.address, res[i].receiverInfo.district, res[i].receiverInfo.city,
 							products , totalMoney, res[i].dateAdded.substring(0, 10), pay_method, status);
 				}
+				$(".order-table").css("opacity", "1");
 			}
 		});
 	}
 
-	var bills = ['#bill-all', '#bill-delivered', '#bill-not-delivered',
-							'#product-paid', '#product-not-paid', '#product-completed', '#product-canceled'];
-	for (i = 0; i < 6; i++)
-	{
-		$(bills[i]).on('click', function(e) {
+	var bills = {'#bill-all': 0, '#bill-delivered': 1, '#bill-not-delivered': 2, '#bill-paid': 3, '#bill-not-paid': 4, '#bill-completed': 5, '#bill-canceled': 6};
+	for (var key in bills){
+		$(key).click(function(e){
+			$(".bills-filter a").removeClass("active");
+			$(this).addClass("active");
 			e.preventDefault();
-			loadBills(i);
-		});
+			loadBills(true);
+		})
 	}
+	$("#viewmore").click(function(){
+		loadBills(false);
+	})
 
-	loadBills(0);
+	loadBills(true);
 })
