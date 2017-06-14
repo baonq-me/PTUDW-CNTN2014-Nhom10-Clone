@@ -513,6 +513,7 @@ username: username,
 		});
 	},
 
+
 	deleteUser: function(username)
 	{
 		var userModel = this.getUserModel();

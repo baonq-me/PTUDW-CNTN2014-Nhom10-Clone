@@ -10,6 +10,16 @@
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 
+	<!--Start of Zendesk Chat Script-->
+	<script type="text/javascript">
+	window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+	d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+	_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+	$.src="https://v2.zopim.com/?4ssKZ0KQJE3RHIVW65pSCnCh70oUqJiu";z.t=+new Date;$.
+	type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+	</script>
+	<!--End of Zendesk Chat Script-->
+
 	<script type="text/javascript" src="/js/jquery-3.2.0.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/js/moment-with-locales.js"></script>
@@ -26,7 +36,7 @@
 					<a href="tel:0123456789"><span class="glyphicon glyphicon-earphone"></span> 0123456789</a>
 					<a href="mailto:nhom10@gmail.com"><span class="glyphicon glyphicon-envelope"></span>nhom10@gmail.com</a>
 				</div>
-				
+
 				<ul class="sign-in">
 					<% if(typeof(header.login) === "undefined"){ %>
 					<li><a href="/sign-up"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
@@ -47,7 +57,7 @@
 							<div id="logout">Đăng xuất</div>
 						</div>
 					</div>
-					
+
 					<% } %>
 				</ul>
 			</div>
@@ -61,7 +71,7 @@
 					      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 					        	<span class="icon-bar"></span>
 					        	<span class="icon-bar"></span>
-					        	<span class="icon-bar"></span> 
+					        	<span class="icon-bar"></span>
 					      	</button>
 						    <div class="logo">
 						    	<a href="/" title="Shop hoa tươi Khoa Học Tự Nhiên"><img src="/images/logo.png"></a>
@@ -69,8 +79,8 @@
 					    </div>
 
 					    <div class="collapse navbar-collapse" id="myNavbar">
-					      
-					      
+
+
 					      <form action="search" class="search-form clearfix pull-right visible-sm visible-md visible-lg" method="GET">
 			                <div class="form-group has-feedback">
 			            		<label for="search" class="sr-only">Tìm kiếm</label>
@@ -78,7 +88,7 @@
 			              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
 			            	</div>
 			            </form>
-					     
+
 					      <ul class="nav navbar-nav" id="main-menu">
 					        <li><a href="/">Trang chủ</a></li>
 					        <li class="dropdown">
@@ -90,8 +100,8 @@
 						        	<% }); %>
 						        </ul>
 						     </li>
-					        <li><a href="/meaning-flowers">Hoa và cuộc sống</a></li> 
-					        <li><a href="/#contact">Liên hệ</a></li> 
+					        <li><a href="/meaning-flowers">Hoa và cuộc sống</a></li>
+					        <li><a href="/#contact">Liên hệ</a></li>
 					      </ul>
 					    </div>
 					  </div>
