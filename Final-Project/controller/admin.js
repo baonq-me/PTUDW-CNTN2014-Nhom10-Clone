@@ -278,7 +278,7 @@ router.post("/api/products", isLoggedIn, function(req, res){
 // Routing thêm sản phẩm
 router.get("/product/add", isLoggedIn, (req, res) => {
 	var addProductFail = (req.session.addProductFail == undefined) ? false : req.session.addProductFail;
-	req.session.addProductFail = true;
+	req.session.addProductFail = false;
 	var message = (addProductFail) ? "Thên sản phẩm thất bại" : "";
 	getHeaderAdmin(function(header){
 		getSidebarAdmin(function(sidebar){
@@ -306,7 +306,7 @@ router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
 	var name = req.fields.name;
 	var slug = req.fields.slug;
 	var price = parseInt(req.fields.price);
-	var newPrice = (req.fields.newPrice == "") ? undefined : parseInt(req.fields.newPrice);
+	var newPrice = (req.fields.newPrice == "") ? -1 : parseInt(req.fields.newPrice);
 	var number = parseInt(req.fields.number);
 	var detail = req.fields.detail;
 	var categories = [];
@@ -344,6 +344,95 @@ router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
 			req.session.addProductFail = true;
 			res.redirect("/admin/product/add")
 		}
+	}
+
+});
+// Routing thêm sản phẩm
+router.get("/product/edit", isLoggedIn, (req, res) => {
+	var productID = req.query.id;
+	if(productID == undefined) return res.redirect("/admin/product")
+	var editProductFail = (req.session.editProductFail == undefined) ? false : req.session.editProductFail;
+	req.session.editProductFail = false;
+	var message = (editProductFail) ? "Sửa sản phẩm thất bại" : "";
+	dao.getProductDetailByID(productID, function(product){
+		if(product == null) return res.redirect("/admin/product")
+		product.newPrice = (product.newPrice && product.newPrice > 0) ? product.newPrice : "";
+		getHeaderAdmin(function(header){
+			getSidebarAdmin(function(sidebar){
+				dao.getAllCategory(function (categories){
+					res.render("admin/product-edit", {"header": header, "sidebar": sidebar, "categories": categories, message: message, product: product})
+				})
+			})
+		});
+	})
+});
+router.post("/product/edit", formidable(), isLoggedIn, (req, res) => {
+	var productID = req.fields.productID;
+	var editImg	= req.fields.edit_img == "true";
+	var name = req.fields.name;
+	var slug = req.fields.slug;
+	var price = parseInt(req.fields.price);
+	if(req.fields.newPrice == "") console.log("ok");
+	var newPrice = (req.fields.newPrice == "") ? -1 : parseInt(req.fields.newPrice);
+	var number = parseInt(req.fields.number);
+	var detail = req.fields.detail;
+	var categories = [];
+	var numCat = parseInt(req.fields.count_cat);
+	var imageUrl = req.fields.imgPath;
+	for (i = 0; i < numCat; i++){
+		var cat = req.fields["cat_"+i];
+		if (cat && cat != "0")
+			categories.push(cat);
+	}
+	if(editImg && req.files.image.path){
+		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
+		var imagePath = "./public" + imageUrl;
+		var data = fs.readFileSync(req.files.image.path);
+		if(fs.writeFileSync(imagePath, data) == undefined){
+			// thành công
+			dao.editProduct({
+				productID: productID,
+				name: name,
+				slug: slug,
+				price: price,
+				newPrice: newPrice,
+				quality: number,
+				imgPath: imageUrl,
+				categories: categories,
+				detail: detail,
+				status: "Đang bán"
+			}, function(isSuccess){
+				if(isSuccess)
+					res.redirect("/admin/product")
+				else {
+					req.session.editProductFail = true;
+					res.redirect("/admin/product/edit?id="+productID)
+				}
+			})
+		}else {
+			req.session.editProductFail = true;
+			res.redirect("/admin/product/edit?id="+productID)
+		}
+	}else {
+		dao.editProduct({
+			productID: productID,
+			name: name,
+			slug: slug,
+			price: price,
+			newPrice: newPrice,
+			quality: number,
+			imgPath: imageUrl,
+			categories: categories,
+			detail: detail,
+			status: "Đang bán"
+		}, function(isSuccess){
+			if(isSuccess)
+				res.redirect("/admin/product")
+			else {
+				req.session.editProductFail = true;
+				res.redirect("/admin/product/edit?id="+productID)
+			}
+		})
 	}
 
 });
