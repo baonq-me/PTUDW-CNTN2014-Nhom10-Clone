@@ -721,7 +721,7 @@ router.post("/order/add", isLoggedIn, (req, res) => {
 	async.parallel(functionCartsInfo, function(err, cartInfo){
 		var user = getUser(req);
 		dao.addBill({
-			userID: "111",//user._id,
+			userID: user._id,
 			payInfo:  {
 				billingInfo: { recieve: "in-store", pay_method: "face-to-face" },
 				receiverInfo: { name: name, address: address, district: "", city: "" }
