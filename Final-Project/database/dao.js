@@ -1077,6 +1077,7 @@ username: username,
 		billModel.find({})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1107,6 +1108,7 @@ username: username,
 		billModel.find({"status.delivered" : 1, "status.canceled" : 0})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1138,6 +1140,7 @@ username: username,
 		billModel.find({"status.delivered" : 0})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1168,6 +1171,7 @@ username: username,
 		billModel.find({"status.paid" : 1})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1193,6 +1197,7 @@ username: username,
 		billModel.find({"status.paid" : 0})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1219,6 +1224,7 @@ username: username,
 		billModel.find({"status.delivered" : 1, "status.paid" : 1})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -1244,6 +1250,7 @@ username: username,
 		billModel.find({"status.canceled" : 1})
 		.limit(count)
 		.skip(skip)
+		.sort({"dateAdded":-1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
