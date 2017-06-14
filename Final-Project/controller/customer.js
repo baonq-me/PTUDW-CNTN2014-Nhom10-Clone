@@ -817,11 +817,19 @@ router.get("/profile", isLoggedIn, setHeader, setFooter, function(req, res){
 		address: (user.baseInfo.address) ? user.baseInfo.address : "Chưa biết",
 		phone: (user.baseInfo.tel) ? user.baseInfo.tel : "Chưa biết",
 		dateAdded: (user.dateAdded) ? stringDate(user.dateAdded) : "Chưa biết",
+		hasPassword: user.loginInfo.typeLg == "local",
+		username: (user.loginInfo.localLogin) ? user.loginInfo.localLogin.username : ""
 	}});
 })
-// Routing profile 
-router.post("/profile/:type", isLoggedIn, setHeader, setFooter, function(req, res){
-	var type = req.params.type;
+// Routing load bill in profile 
+router.get("/profile/bill", isLoggedIn, function(req, res){
+	var user = getCustomer(req);
+	var userID = user._id;
+	var count = parseInt(req.query.count);
+	var skip = parseInt(req.query.skip);
+	dao.getBillByUser(userID, count, skip, bills => {
+		res.json(bills);
+	})
 })
 
 // Routing cho trang 404

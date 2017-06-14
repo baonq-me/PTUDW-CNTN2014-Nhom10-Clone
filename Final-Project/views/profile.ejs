@@ -11,6 +11,17 @@
 					<h2><%= content.name %></h2>
 					<br>
 					<div class="profile-detail">
+						<% if(content.hasPassword) { %>
+						<div class="item no-fix">
+							<div class="col-xs-3 title">Tên đăng nhập:</div>
+							<div class="col-xs-9 info"><i><%= content.username %></i></div>
+						</div>
+						<div class="item">
+							<div class="edit" data-info><a href="/change-password"><i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+							<div class="col-xs-3 title">Mật khẩu:</div>
+							<div class="col-xs-9 info"><i>**************</i></div>
+						</div>
+						<% } %>
 						<div class="item">
 							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
 							<div class="col-xs-3 title">Email:</div>
@@ -50,26 +61,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="product-info" >
-								<td class="stt">0</td>
-								<td class="info">123</td>
-								<td>12/12/2017</td>
-								<td>
-									<p>ádfs ad fasf</p>
-									<p>ádfas ádfas df ád f</p>
-								</td>
-								<td class="total-cost">150,000 đ</td>
-								<td style="text-align: center;">
-									<i class="fa fa-check-square-o" aria-hidden="true"></i>
-								</td>
-								<td style="text-align: center;">
-									<i class="fa fa-square-o" aria-hidden="true"></i>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div style="text-align: center"><a href="/pay/receiver-info" id="to-receiver-info" class="next-step" style="float: none">Xem thêm</a></div>
+				<div style="text-align: center"><a href="#" id="viewmore" class="next-step" style="float: none">Xem thêm</a></div>
 			</div>
 		</div>
 	</div>	
