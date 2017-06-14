@@ -72,6 +72,7 @@ $(document).ready(function(){
 				}
 				if(fails == 0 ){
 					alert(success + ' Nhóm sản phẩm được xóa thành công! ');
+
 				}
 				else if(success ==0 ){
 					alert(fails  + ' Nhóm sản phẩm không được xóa thành công! ');
@@ -79,11 +80,10 @@ $(document).ready(function(){
 				else
 					alert(success + ' Nhóm sản phẩm được xóa thành công! ' + fails+  ' Nhóm sản phẩm không được xóa thành công!');
 				
+				loadCategories(10, 0, true);
 			}
 
 		});
 	});
 
-	//Sửa thông tin category
-	//$("category ")
 });

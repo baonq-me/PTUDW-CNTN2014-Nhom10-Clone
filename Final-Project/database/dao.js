@@ -211,10 +211,10 @@ var dao = {
 		});
 	},
 
-	updateCategory: function(id, name, slug, icon, callback){
+	updateCategory: function(id, name, slug, oldSlug, icon, callback){
 		//Lấy category model
 		var categoryModel = this.getCategoryModel();
-		console.log(id);
+		var productModel = this.getProductModel();
 
 		categoryModel.findOne({_id: id})
 		.exec(function(err, data){
@@ -222,12 +222,22 @@ var dao = {
 			data.name = name;
 			data.slug = slug;
 			data.icon = icon;
-			data.save(function(err, updateData){
+
+			data.save(function(err){
 				if (err) throw err;
-				callback(updateData);
-			});
-			
+				productModel.find({categorySlug: {$in: [oldSlug]}})
+				.exec(function(err, products){
+					if (err) throw err;
+					for( i =0; i<products.length; i++){
+						products[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
+						products[i].save();
+					}
+				});
+				callback();
+			});	
 		});
+
+		
 	},
 
 	/*	Lấy sản phẩm mới
@@ -1354,9 +1364,11 @@ username: username,
 			if (err) throw err;
 			productModel.find({categorySlug: {$in: [data.slug]}})
 			.exec(function(err, data){
+				//console.log(data);
 				if (err) throw err;
 				for( i =0; i<data.length; i++){
 					data[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
+					data[i].save();
 				}
 
 				categoryModel.remove({_id: id})
@@ -1372,25 +1384,6 @@ username: username,
 			});
 		});
 	},
-			//update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
-			/*.exec(function(err){
-				if (err) {
-					callback("fail");
-				}
-				else{
-					categoryModel.remove({_id: id})
-					.exec(function(err){
-						if (err) {
-							callback("fail");
-						}
-						else{
-							callback("success");
-						}
-					});
-				}
-			});
-		})
-	},*/
 
 	getCountProductBySlugR: function(slug, callback){
 		var productModel = this.getProductModel();

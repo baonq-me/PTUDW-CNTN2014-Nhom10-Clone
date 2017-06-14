@@ -535,6 +535,10 @@ router.post("/categories/delete", isLoggedIn, function(req, res){
 //Kiếm tra tên nhóm sản phẩm đã tồn tại hay chưa?
 router.post("/categories/add/checkName", isLoggedIn, function(req, res){
 	dao.hadNameCategory(req.body.name, function(result){
+		if(result)
+			req.session.editGroupFail = true;
+		else
+			req.session.editGroupFail = false;
 		res.json(result);
 	});
 });
@@ -542,6 +546,10 @@ router.post("/categories/add/checkName", isLoggedIn, function(req, res){
 //Kiếm tra slug nhóm sản phẩm đã tồn tại hay chưa?
 router.post("/categories/add/checkSlug", isLoggedIn, function(req, res){
 	dao.hadSlugCategory(req.body.slug, function(result){
+		if(result)
+			req.session.editGroupFail = true;
+		else
+			req.session.editGroupFail = false;
 		res.json(result);
 	});
 });
@@ -549,7 +557,6 @@ router.post("/categories/add/checkSlug", isLoggedIn, function(req, res){
 //Xử lý router sửa thông tin nhóm sản phẩm
 router.get("/group/edit", isLoggedIn, (req, res) => {
 	var cateID = req.query.id;
-	console.log(cateID);
 	if(cateID == undefined) return res.redirect("admin/group");
 	var editGroupFail = (req.session.editGroupFail == undefined) ? false : req.session.editGroupFail;
 	req.session.editGroupFail = false;
@@ -568,93 +575,37 @@ router.post("/group/edit", isLoggedIn, (req, res) => {
 	var name = req.body.category_add_name;
 	var id = req.body.cateID;
 	var slug = req.body.category_add_slug;
+	var oldSlug = req.body.oldSlug;
 	var icon = req.body.category_add_icon;
 
-	dao.hadNameCategory(name, function(hadName){
+	if(req.session.editGroupFail){
+		res.redirect("/admin/group/edit?id=" + id);
+	}
+	else{
+		dao.updateCategory(id, name, slug, oldSlug, icon, function(){
+					res.redirect("/admin/group");
+		});
+	}
+
+	/*dao.hadNameCategory(name, function(hadName){
 		dao.hadSlugCategory(slug, function(hadSlug){
 			if(hadName || hadSlug){
+				console.log("Sai rồi!");
 				req.session.errorAddCat = true;
 				res.redirect("/admin/group/edit?id=" + id);
 			}
 			else{
-				dao.updateCategory(id, name, slug, icon, function(){
+				console.log("Dúng  rồi!");
+				dao.updateCategory(id, name, slug, oldSlug, icon, function(){
 					res.redirect("/admin/group");
 				});
 			}
 		});
-	});
+	});*/
+
+	
 });
 
-
-/*
-	var productID = req.fields.productID;
-	var editImg	= req.fields.edit_img == "true";
-	var name = req.fields.name;
-	var slug = req.fields.slug;
-	var price = parseInt(req.fields.price);
-	if(req.fields.newPrice == "") console.log("ok");
-	var newPrice = (req.fields.newPrice == "") ? -1 : parseInt(req.fields.newPrice);
-	var number = parseInt(req.fields.number);
-	var detail = req.fields.detail;
-	var categories = [];
-	var numCat = parseInt(req.fields.count_cat);
-	var imageUrl = req.fields.imgPath;
-	for (i = 0; i < numCat; i++){
-		var cat = req.fields["cat_"+i];
-		if (cat && cat != "0")
-			categories.push(cat);
-	}
-	if(editImg && req.files.image.path){
-		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
-		var imagePath = "./public" + imageUrl;
-		var data = fs.readFileSync(req.files.image.path);
-		if(fs.writeFileSync(imagePath, data) == undefined){
-			// thành công
-			dao.editProduct({
-				productID: productID,
-				name: name,
-				slug: slug,
-				price: price,
-				newPrice: newPrice,
-				quality: number,
-				imgPath: imageUrl,
-				categories: categories,
-				detail: detail,
-				status: "Đang bán"
-			}, function(isSuccess){
-				if(isSuccess)
-					res.redirect("/admin/product")
-				else {
-					req.session.editProductFail = true;
-					res.redirect("/admin/product/edit?id="+productID)
-				}
-			})
-		}else {
-			req.session.editProductFail = true;
-			res.redirect("/admin/product/edit?id="+productID)
-		}
-	}else {
-		dao.editProduct({
-			productID: productID,
-			name: name,
-			slug: slug,
-			price: price,
-			newPrice: newPrice,
-			quality: number,
-			imgPath: imageUrl,
-			categories: categories,
-			detail: detail,
-			status: "Đang bán"
-		}, function(isSuccess){
-			if(isSuccess)
-				res.redirect("/admin/product")
-			else {
-				req.session.editProductFail = true;
-				res.redirect("/admin/product/edit?id="+productID)
-			}
-		})
-	}
-	*/
 
 
 // Order
