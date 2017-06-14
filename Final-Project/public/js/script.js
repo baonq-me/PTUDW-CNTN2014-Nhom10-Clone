@@ -38,9 +38,14 @@ $(document).ready(function(){
 	var path = window.location.pathname;
 	var selector = "a[href|='" + path + "']";
 	$(selector).parent().addClass("active");
+
 	if(path.startsWith("/category"))
 		$("a[href|='/category']").parent().addClass("active");
 
+	$(".left-menu a").each(function(){
+		if(path.startsWith($(this).attr("href")))
+			$(this).parent().addClass("active");
+	})
 	// Focus search
 	$(".search-form .form-group input").focusin(function(){
 		$(".search-form .form-group").css("width", "150%");

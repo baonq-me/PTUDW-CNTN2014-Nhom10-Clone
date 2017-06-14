@@ -15,6 +15,9 @@ $(document).ready(function(){
 	var selector = "a[href|='" + path + "']";
 	$(selector).parent().addClass("active");
 
-	
+	$(".left-menu a").each(function(){
+		if(path.startsWith($(this).attr("href")))
+			$(this).parent().addClass("active");
+	})
 
 })
