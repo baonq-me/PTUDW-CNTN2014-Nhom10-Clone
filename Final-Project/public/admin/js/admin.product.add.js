@@ -85,6 +85,8 @@ $(document).ready(function(){
 			};
 			reader.readAsDataURL($(this)[0].files[0]);
 			$('#display-image-upload').css("display", "block")
+			if($("input[name='edit_img']").length > 0)
+				$("input[name='edit_img']").val("true");
 		}
 	});
 

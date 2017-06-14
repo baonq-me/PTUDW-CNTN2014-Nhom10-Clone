@@ -1,7 +1,7 @@
 <%
 	// Giá trị truyền vào là product	
-  var price = (typeof(product.newPrice) == "undefined") ? (product.price + " đồng") : (product.newPrice + " đồng");
-  var oldPrice = (typeof(product.newPrice) == "undefined") ? "" : (product.price + " đồng");
+  var price = (typeof(product.newPrice) == "undefined" || product.newPrice <= 0) ? (product.price + " đồng") : (product.newPrice + " đồng");
+  var oldPrice = (typeof(product.newPrice) == "undefined" || product.newPrice <= 0) ? "" : (product.price + " đồng");
 %>
 <div class="thumbnail product-item">
   	<a href="/product/<%= product.slug %>">

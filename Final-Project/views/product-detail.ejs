@@ -9,7 +9,7 @@
 
 			<div class="col-md-7 col-lg-7" id="thong_tin">
 				<h2><%= content.product.name %></h2>
-				<% if(typeof(content.product.newPrice) !== "undefined"){ %>
+				<% if(typeof(content.product.newPrice) !== "undefined" && content.product.newPrice > 0){ %>
 					<h4 style="color: #ed0f69; font-size: 32px"><%= content.product.newPrice %> đồng</h4>
 					<h4><del><%= content.product.price %> đồng</del></h4>
 				<% } else { %>

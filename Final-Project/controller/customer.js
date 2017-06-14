@@ -590,7 +590,7 @@ router.post("/api/cart-info", function(req, res){
 	var productID = req.body.productID;
 	var count = req.body.count;
 	dao.getProductDetailByID(productID, function(product){
-		var price = (product.newPrice) ? product.newPrice : product.price;
+		var price = (product.newPrice && product.newPrice > 0) ? product.newPrice : product.price;
 		var productName = product.name;
 		if(req.session.cartInfo){
 			var products = req.session.cartInfo;
@@ -629,7 +629,7 @@ router.put("/api/cart-info", function(req, res){
 	var productID = req.body.productID;
 	var count = req.body.count;
 	dao.getProductDetailByID(productID, function(product){
-		var price = (product.newPrice) ? product.newPrice : product.price;
+		var price = (product.newPrice && product.newPrice > 0) ? product.newPrice : product.price;
 		var productName = product.name;
 		if(req.session.cartInfo){
 			var products = req.session.cartInfo;

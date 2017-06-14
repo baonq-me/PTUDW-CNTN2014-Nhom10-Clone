@@ -15,7 +15,7 @@ $(document).ready(function(){
 		var query = $("#product-search").val();
 		var catID = $("select[name='category'] option:selected").val();
 		function addRow(product) {
-			var row = '<tr><td><div class="checkbox"><label><input data-id="' + product._id + '" type="checkbox" value=""></label></div></td><td><img src="' + product.imgPath + '" class="img-thumbnail"></td><td>' + product.name + '</td><td>' + product.quality + '</td><td>' + product.price + '</td><td>' + product.newPrice+ '</td><td>' + product.categorySlug+ '</td><td>' + product.dateAdded+ '</td><td>' + product.status+ '</td></tr>';
+			var row = '<tr><td><div class="checkbox"><label><input data-id="' + product._id + '" type="checkbox" value=""></label></div></td><td><img src="' + product.imgPath + '" class="img-thumbnail"></td><td><a href="/admin/product/edit?id=' + product._id + '"><strong>' + product.name + '</strong></a></td><td>' + product.quality + '</td><td>' + product.price + '</td><td>' + product.newPrice+ '</td><td>' + product.categorySlug+ '</td><td>' + product.dateAdded+ '</td><td>' + product.status+ '</td></tr>';
 			$('#products').append(row);
 		}
 
