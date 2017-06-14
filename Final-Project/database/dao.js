@@ -1560,6 +1560,15 @@ username: username,
 			callback()
 		});
 	},
+	getAllBillsComplate: function(month, year, callback){
+		var billModel = this.getBillsModel();
+		billModel.find({$and: [{dateAdded: {$gte: new Date(year, month, 1)}},
+				{dateAdded: {$lt: new Date(year, month+1, 1)}}]})
+		.exec(function(err, data){
+			if(err) throw err;
+			callback(data);
+		})
+	},
 
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model

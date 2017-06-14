@@ -738,11 +738,47 @@ router.post("/order/add", isLoggedIn, (req, res) => {
 });
 
 // Statistic
+var getContentStatisticAdmin = function(callback){
+	var revenue;
+	var dates = [];
+
+	var date = new Date();
+	var cMonth = date.getMonth();
+	var cYear = date.getYear() + 1900;
+	for (var i = 0; i < 12; i ++){
+		if(cMonth == 0){
+			cMonth = 12;
+			cYear --;
+		}
+		dates.splice(0, 0, {month: cMonth, year: cYear})
+		cMonth --;
+	}
+
+	var revenuesFunction = {};
+	dates.forEach(function(date){
+		revenuesFunction[""+date.month+"-"+date.year] = function(callback){
+			dao.getAllBillsComplate(date.month, date.year, function(bills){
+				var sum = 0;
+				bills.forEach(bill => {
+					bill.cartInfo.forEach(product => {
+						sum += parseInt(product.unitPrice) * parseInt(product.count);
+					})
+				})
+				callback(null, sum);
+			})
+		}
+	});
+	async.parallel(revenuesFunction, function(err, result){
+		if (err) throw err;
+		callback({revenue: result, dates: dates});
+	})
+
+}
 router.get("/statistic", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			getContentHomeAdmin(function(countProducts, countBills, countUsers, outOfProducts, newProducts){
-				res.render("admin/statistic", {"header": header, "sidebar":sidebar});
+			getContentStatisticAdmin(function(data){
+				res.render("admin/statistic", {"header": header, "sidebar":sidebar, statistic: data});
 			});
 		});
 	});
