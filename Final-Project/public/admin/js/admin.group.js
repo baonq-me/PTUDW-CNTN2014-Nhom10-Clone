@@ -16,13 +16,13 @@ $(document).ready(function(){
 			type: 'GET',
 			data: {count: count, skip: skip},
 			success: function(res) {
-				alert('ok');
 				if(isEmpty)
 					$('#categories').empty();
 				setQuality(res.quality);
 				for (i = 0; i < res.categories.length; ++i) {
 					addRow(res.categories[i]);
 				}
+
 				if(res.categories.length <= count){					
 					$(".view-more").hide();
 				}
@@ -51,11 +51,9 @@ $(document).ready(function(){
 
 	//Xóa category
 	$("#delete-category").click(function(){
-		alert(123);
 		var categories = [];
 		$('#categories .checkbox input:checked').each(function(){
 			categories.push($(this).data("id"));
-			console.log(categories);
 		});
 		$.ajax({
 			url: '/admin/categories/delete',
@@ -64,17 +62,23 @@ $(document).ready(function(){
 				categories:categories
 			},
 			success: function(results){
-				console.log(results);
+				var fails = 0, success = 0;
 				for (i=0; i<results.length; i++){
-					if(results[i] == "success"){
-						alert( 'đã được xóa thành công');
-						loadCategories(10, 0);
+					if(results[i] == "fail"){
+						fails++;
 					}
 					else
-					{
-						alert( 'không được xóa thành công');
-					}
+						success++;
 				}
+				if(fails == 0 ){
+					alert(success + ' Nhóm sản phẩm được xóa thành công! ');
+				}
+				else if(success ==0 ){
+					alert(fails  + ' Nhóm sản phẩm không được xóa thành công! ');
+				}
+				else
+					alert(success + ' Nhóm sản phẩm được xóa thành công! ' + fails+  ' Nhóm sản phẩm không được xóa thành công!');
+				
 			}
 
 		});

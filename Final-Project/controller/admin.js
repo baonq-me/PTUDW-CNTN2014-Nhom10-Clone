@@ -548,7 +548,8 @@ router.post("/categories/add/checkSlug", isLoggedIn, function(req, res){
 
 //Xử lý router sửa thông tin nhóm sản phẩm
 router.get("/group/edit", isLoggedIn, (req, res) => {
-	var cateID = req.query._id;
+	var cateID = req.query.id;
+	console.log(cateID);
 	if(cateID == undefined) return res.redirect("admin/group");
 	var editGroupFail = (req.session.editGroupFail == undefined) ? false : req.session.editGroupFail;
 	req.session.editGroupFail = false;
@@ -562,7 +563,30 @@ router.get("/group/edit", isLoggedIn, (req, res) => {
 		});
 	})
 });
-router.post("/group/edit", formidable(), isLoggedIn, (req, res) => {
+router.post("/group/edit", isLoggedIn, (req, res) => {
+
+	var name = req.body.category_add_name;
+	var id = req.body.cateID;
+	var slug = req.body.category_add_slug;
+	var icon = req.body.category_add_icon;
+
+	dao.hadNameCategory(name, function(hadName){
+		dao.hadSlugCategory(slug, function(hadSlug){
+			if(hadName || hadSlug){
+				req.session.errorAddCat = true;
+				res.redirect("/admin/group/edit?id=" + id);
+			}
+			else{
+				dao.updateCategory(id, name, slug, icon, function(){
+					res.redirect("/admin/group");
+				});
+			}
+		});
+	});
+});
+	
+
+/*
 	var productID = req.fields.productID;
 	var editImg	= req.fields.edit_img == "true";
 	var name = req.fields.name;
@@ -630,8 +654,7 @@ router.post("/group/edit", formidable(), isLoggedIn, (req, res) => {
 			}
 		})
 	}
-
-});
+	*/
 
 
 // Order

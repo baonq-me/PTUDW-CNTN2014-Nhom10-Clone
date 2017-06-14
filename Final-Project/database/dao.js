@@ -198,6 +198,38 @@ var dao = {
 		});
 	},
 
+	getCateIDBySlug: function(slug, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		//Câu truy vấn lấy tất cả category
+		categoryModel.findOne({slug: slug})
+		.select('id')
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
+
+	updateCategory: function(id, name, slug, icon, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+		console.log(id);
+
+		categoryModel.findOne({_id: id})
+		.exec(function(err, data){
+			if (err) throw err;
+			data.name = name;
+			data.slug = slug;
+			data.icon = icon;
+			data.save(function(err, updateData){
+				if (err) throw err;
+				callback(updateData);
+			});
+			
+		});
+	},
+
 	/*	Lấy sản phẩm mới
 	*	@start vị trí product đầi tiên (tính từ 0)
 	*	@step số lượng product cần lấy
