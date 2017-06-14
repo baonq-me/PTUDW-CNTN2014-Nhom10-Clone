@@ -587,39 +587,40 @@ router.get("/order", isLoggedIn, function(req, res){
 router.get("/api/bills", isLoggedIn, function(req, res){
 	var count = parseInt(req.query.count);
 	var skip = parseInt(req.query.skip);
+	var query = req.query.query;
 	switch (req.query.type) {
 		case '0':
-			dao.getAllBill(count, skip, function(bills){
+			dao.getAllBill(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '1':
-			dao.getBillDelivered(count, skip, function(bills){
+			dao.getBillDelivered(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '2':
-			dao.getBillNotDelivered(count, skip, function(bills){
+			dao.getBillNotDelivered(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '3':
-			dao.getBillPaid(count, skip, function(bills){
+			dao.getBillPaid(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '4':
-			dao.getBillNotPaid(count, skip, function(bills){
+			dao.getBillNotPaid(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '5':
-			dao.getBillCompleted(count, skip, function(bills){
+			dao.getBillCompleted(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '6':
-			dao.getBillCanceled(count, skip, function(bills){
+			dao.getBillCanceled(query, count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
@@ -693,6 +694,7 @@ router.get("/order/add", isLoggedIn, (req, res) => {
 router.post("/order/add", isLoggedIn, (req, res) => {
 	var name = req.body.name;
 	var address = req.body.address;
+	var phone = req.body.phone;
 	var paid = (req.body.paid == "on") ? 1 : 0;
 	var delivered = (req.body.delivered == "on") ? 1 : 0;
 	var products = [];
@@ -724,7 +726,7 @@ router.post("/order/add", isLoggedIn, (req, res) => {
 			userID: user._id,
 			payInfo:  {
 				billingInfo: { recieve: "in-store", pay_method: "face-to-face" },
-				receiverInfo: { name: name, address: address, district: "", city: "" }
+				receiverInfo: { name: name, phone: phone, address: address, district: "", city: "" }
 			},
 			cartInfo: cartInfo,
 			status: {paid: paid, delivered: delivered, canceled: 0}

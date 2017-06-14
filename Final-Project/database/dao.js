@@ -1167,10 +1167,10 @@ username: username,
 	*	@param thực hiện sau khi đếm số lượng đơn hàng
 	*   count: số lượng đơn hàng được trả về
 	*/
-	getAllBill : function(count, skip, callback){
+	getAllBill : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({})
+		billModel.find({"receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1198,10 +1198,10 @@ username: username,
 	*	@param thực hiện sau khi đếm số lượng đơn hàng
 	*   count: số lượng đơn hàng được trả về
 	*/
-	getBillDelivered : function(count, skip, callback){
+	getBillDelivered : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({"status.delivered" : 1, "status.canceled" : 0})
+		billModel.find({"status.delivered" : 1, "status.canceled" : 0, "receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1230,10 +1230,10 @@ username: username,
 	*	@param thực hiện sau khi đếm số lượng đơn hàng
 	*   count: số lượng đơn hàng được trả về
 	*/
-	getBillNotDelivered : function(count, skip, callback){
+	getBillNotDelivered : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({"status.delivered" : 0})
+		billModel.find({"status.delivered" : 0, "receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1261,10 +1261,10 @@ username: username,
 	*	@param thực hiện sau khi đếm số lượng đơn hàng
 	*   count: số lượng đơn hàng được trả về
 	*/
-	getBillPaid : function(count, skip, callback){
+	getBillPaid : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({"status.paid" : 1})
+		billModel.find({"status.paid" : 1, "receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1287,10 +1287,10 @@ username: username,
 		});
 	},
 
-	getBillNotPaid : function(count, skip, callback){
+	getBillNotPaid : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({"status.paid" : 0})
+		billModel.find({"status.paid" : 0, "receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1314,10 +1314,10 @@ username: username,
 		});
 	},
 
-	getBillCompleted : function(count, skip, callback){
+	getBillCompleted : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
-		billModel.find({"status.delivered" : 1, "status.paid" : 1})
+		billModel.find({"status.delivered" : 1, "status.paid" : 1, "receiverInfo.name": new RegExp(query, "i")})
 		.limit(count)
 		.skip(skip)
 		.sort({"dateAdded":-1})
@@ -1340,7 +1340,7 @@ username: username,
 		});
 	},
 
-	getBillCanceled : function(count, skip, callback){
+	getBillCanceled : function(query, count, skip, callback){
 		var billModel = this.getBillsModel();
 
 		billModel.find({"status.canceled" : 1})

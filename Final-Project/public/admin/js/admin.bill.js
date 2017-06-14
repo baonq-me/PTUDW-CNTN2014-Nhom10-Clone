@@ -87,6 +87,9 @@ $(document).ready(function(){
 			}
 		});
 	}
+	$("#bills-search").change(function(){
+		loadBills(true);
+	})
 
 	var bills = {'#bill-all': 0, '#bill-delivered': 1, '#bill-not-delivered': 2, '#bill-paid': 3, '#bill-not-paid': 4, '#bill-completed': 5, '#bill-canceled': 6};
 	for (var key in bills){
