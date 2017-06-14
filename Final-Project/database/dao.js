@@ -239,17 +239,13 @@ var dao = {
 								console.log(product.categorySlug[0]);
 							});
 						})
-						callback(true);
-											
+						callback(true);					
 					});	
 				}
 				else 
 					callback(true);
-				
 			});	
 		});
-
-		
 	},
 
 	/*	Lấy sản phẩm mới
@@ -969,7 +965,21 @@ username: username,
 	*   count: số lượng sản phẩm được trả về
 	*/
 	countNewProductInWeek : function(callback){
-		callback(10);
+		var productModel = this.getProductModel();
+		var count = 0 ;
+
+		productModel.find()
+		.exec(function(err, products){
+			if (err) throw err;
+			products.forEach(function(product){
+				var offset = new Date().getTime() - product.dateAdded.getTime();	//Độ lệch giữa 2 mốc thời gian, đơn vị milisecond
+				var totalDays = Math.round(offset/1000/60/60/24);
+				if( totalDays <= 7){
+					count++;
+				}
+			})
+			callback(count);
+		}); 
 	},
 
 
