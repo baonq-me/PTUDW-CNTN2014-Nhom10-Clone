@@ -36,7 +36,7 @@ $(document).ready(function(){
 				if(isEmpty)
 					$('#products').empty();
 				for (i = 0; i < res.length; ++i) {
-					if (res[i].newPrice == undefined)
+					if (res[i].newPrice == undefined || res[i].newPrice < 1)
 						res[i].newPrice = '';
 					addRow(res[i]);
 				}
