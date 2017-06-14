@@ -319,6 +319,7 @@ tr td img.img-thumbnail
 #add-product .category{
 	margin-bottom: 10px;
 }
+.bills-filter a.active{ font-weight: bold; }
 #add-product .cat-group .delete{
 	color: red;
 	font-weight: bold;

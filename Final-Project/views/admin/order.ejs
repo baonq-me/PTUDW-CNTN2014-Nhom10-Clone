@@ -63,79 +63,27 @@
 					<div class="box-title">
 						<h1>Đơn hàng <a href="admin.orders.html" class="btn btn-primary">Thêm</a></h1>
 
-						<div class="product-info">
+					<div class="bills-filter" style="overflow: auto; margin-bottom: 20px">
 
-						<a href="#" class="float-left" id="bill-all"><h2>Tất cả (<%= countBills %>)</h2></a>
+						<a href="#" class="float-left active" id="bill-all">Tất cả (<%= countBills %>)</a>
 						<a href="#" class="float-left" id="bill-delivered">Đã giao hàng (<%= countBillDelivered %>)</a>
 						<a href="#" class="float-left" id="bill-not-delivered">Chưa giao hàng (<%= countBillNotDelivered %>)</a>
 						<a href="#" class="float-left" id="bill-paid">Đã thanh toán (<%= countBillPaid %>)</a>
 						<a href="#" class="float-left" id="bill-not-paid">Chưa thanh toán (<%= countBillNotPaid %>)</a>
-						<a href="#" class="float-left" id="bill-complete">Đã hoàn tất (<%= countBillCompleted %>)</a>
+						<a href="#" class="float-left" id="bill-completed">Đã hoàn tất (<%= countBillCompleted %>)</a>
 						<a href="#" class="float-left" id="bill-canceled">Đã huỷ (<%= countBillCanceled %>)</a>
+					</div>
+					<div class="clear"></div>
 						<div class="form-group">
-							<a href="admin.orders.html" class="btn btn-primary float-right">Tìm kiếm</a>
-							<div class="col-xs-2 float-right">
-							<input type="search" id="product-search" class="form-control">
+							<div class="col-xs-3 float-right">
+							<input type="search" id="bills-search" placeholder="Từ khóa tìm kiếm" class="form-control">
 							</div>
 						</div>
-					</div>
 
-					<div class="clear"></div>
 
-						<div class="btn btn-default">Xử lí loạt</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tác vụ</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Bỏ vào thùng rác đơn hàng</a></li>
-						    <li><a href="#">Đánh dấu Chờ thanh toán</a></li>
-								<li><a href="#">Đánh dấu Huỷ</a></li>
-								<li><a href="#">Đánh dấu Chờ giao hàng</a></li>
-								<li><a href="#">Đánh dấu Hoàn tiền</a></li>
-								<li><a href="#">Đánh dấu COD</a></li>
-								<li><a href="#">Đánh dấu Chờ xử lí</a></li>
-						  </ul>
-						</div>
-
-						<div class="btn btn-default">Thời gian</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tất cả</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Tháng 4, 2017</a></li>
-						    <li><a href="#">Tháng 3, 2017</a></li>
-								<li><a href="#">Tháng 2, 2017</a></li>
-								<li><a href="#">Tháng 1, 2017</a></li>
-								<li><a href="#">Tháng 12, 2017</a></li>
-						  </ul>
-						</div>
-
-						<div class="btn btn-default">Phân loại</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-primary">Tất cả</button>
-						  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Hoa tình yêu</a></li>
-						    <li><a href="#">Hoa Tết</a></li>
-								<li><a href="#">Hoa cưới</a></li>
-								<li><a href="#">Hoa thường</a></li>
-								<li><a href="#">Hoa trang trí</a></li>
-								<li><a href="#">Hoa cưa gái</a></li>
-						  </ul>
-						</div>
-
-						<a href="admin.orders.html" class="btn btn-default float-right">Trang tiếp</a>
-						<a href="admin.orders.html" class="btn btn-default float-right">10</a>
-						<a href="admin.orders.html" class="btn btn-default float-right">......</a>
-						<a href="admin.orders.html" class="btn btn-default float-right">3</a>
-						<a href="admin.orders.html" class="btn btn-default float-right">2</a>
-						<a href="admin.orders.html" class="btn btn-default float-right">1</a>
+						<div class="btn btn-primary">Xóa</a></div>
+						<div class="btn btn-primary">Sửa</a></div>
+						<div class="btn btn-primary">Thanh toán</a></div>
 
 						<div class="clear"></div>
 					</div>
@@ -161,6 +109,7 @@
 
 								</tbody>
 							</table>
+							<div style="text-align: center;"><div style="display: inline-block; padding: 5px 30px; border: 1px solid rgba(0,0,0,0.3); cursor: pointer;" id="viewmore">Xem thêm</div></div>
 						</div>
 					</div>
 				</div>
