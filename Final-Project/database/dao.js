@@ -982,6 +982,16 @@ username: username,
 	*/
 
 	getBestSellProduct: function(callback){
+		/*var productModel = this.getProductModel();
+		var billModel = this.getBillsModel();
+
+		billModel.find()
+		.where(dateAdded).
+		.exec(function(err, data){
+
+		})*/
+
+
 		callback("Hoa tình yêu 1");
 	},
 
