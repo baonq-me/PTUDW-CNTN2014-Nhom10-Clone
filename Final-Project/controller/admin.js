@@ -674,39 +674,41 @@ router.get("/order", isLoggedIn, function(req, res){
 
 
 router.get("/api/bills", isLoggedIn, function(req, res){
+	var count = parseInt(req.query.count);
+	var skip = parseInt(req.query.skip);
 	switch (req.query.type) {
 		case '0':
-			dao.getAllBill(10, 0, function(bills){
+			dao.getAllBill(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '1':
-			dao.getBillDelivered(10, 0, function(bills){
+			dao.getBillDelivered(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '2':
-			dao.getBillNotDelivered(10, 0, function(bills){
+			dao.getBillNotDelivered(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '3':
-			dao.getBillPaid(10, 0, function(bills){
+			dao.getBillPaid(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '4':
-			dao.getBillNotPaid(10, 0, function(bills){
+			dao.getBillNotPaid(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '5':
-			dao.getBillCompleted(10, 0, function(bills){
+			dao.getBillCompleted(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
 		case '6':
-			dao.getBillCanceled(10, 0, function(bills){
+			dao.getBillCanceled(count, skip, function(bills){
 				res.json(bills);
 			});
 			break;
