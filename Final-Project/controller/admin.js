@@ -542,6 +542,94 @@ router.post("/categories/add/checkSlug", isLoggedIn, function(req, res){
 	});
 });
 
+//Xử lý router sửa thông tin nhóm sản phẩm
+router.get("/group/edit", isLoggedIn, (req, res) => {
+	var cateID = req.query._id;
+	if(cateID == undefined) return res.redirect("admin/group");
+	var editGroupFail = (req.session.editGroupFail == undefined) ? false : req.session.editGroupFail;
+	req.session.editGroupFail = false;
+	var message = (editGroupFail) ? "Sửa nhóm sản phẩm thất bại" : "";
+	dao.getCategoryByID(cateID, function(cate){
+		if(cate == null) return res.redirect("/admin/group");
+		getHeaderAdmin(function(header){
+			getSidebarAdmin(function(sidebar){
+				res.render("admin/group-edit", {"header": header, "sidebar": sidebar, message: message, cate:cate})		
+			});
+		});
+	})
+});
+router.post("/group/edit", formidable(), isLoggedIn, (req, res) => {
+	var productID = req.fields.productID;
+	var editImg	= req.fields.edit_img == "true";
+	var name = req.fields.name;
+	var slug = req.fields.slug;
+	var price = parseInt(req.fields.price);
+	if(req.fields.newPrice == "") console.log("ok");
+	var newPrice = (req.fields.newPrice == "") ? -1 : parseInt(req.fields.newPrice);
+	var number = parseInt(req.fields.number);
+	var detail = req.fields.detail;
+	var categories = [];
+	var numCat = parseInt(req.fields.count_cat);
+	var imageUrl = req.fields.imgPath;
+	for (i = 0; i < numCat; i++){
+		var cat = req.fields["cat_"+i];
+		if (cat && cat != "0")
+			categories.push(cat);
+	}
+	if(editImg && req.files.image.path){
+		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
+		var imagePath = "./public" + imageUrl;
+		var data = fs.readFileSync(req.files.image.path);
+		if(fs.writeFileSync(imagePath, data) == undefined){
+			// thành công
+			dao.editProduct({
+				productID: productID,
+				name: name,
+				slug: slug,
+				price: price,
+				newPrice: newPrice,
+				quality: number,
+				imgPath: imageUrl,
+				categories: categories,
+				detail: detail,
+				status: "Đang bán"
+			}, function(isSuccess){
+				if(isSuccess)
+					res.redirect("/admin/product")
+				else {
+					req.session.editProductFail = true;
+					res.redirect("/admin/product/edit?id="+productID)
+				}
+			})
+		}else {
+			req.session.editProductFail = true;
+			res.redirect("/admin/product/edit?id="+productID)
+		}
+	}else {
+		dao.editProduct({
+			productID: productID,
+			name: name,
+			slug: slug,
+			price: price,
+			newPrice: newPrice,
+			quality: number,
+			imgPath: imageUrl,
+			categories: categories,
+			detail: detail,
+			status: "Đang bán"
+		}, function(isSuccess){
+			if(isSuccess)
+				res.redirect("/admin/product")
+			else {
+				req.session.editProductFail = true;
+				res.redirect("/admin/product/edit?id="+productID)
+			}
+		})
+	}
+
+});
+
+
 // Order
 router.get("/order", isLoggedIn, function(req, res){
 	getHeaderAdmin(function(header) {

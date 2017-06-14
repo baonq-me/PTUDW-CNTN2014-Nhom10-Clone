@@ -3,7 +3,7 @@ $(document).ready(function(){
 	function loadCategories(count, skip, isEmpty = true) {
 
 		function addRow(category) {
-			var row = '<tr><td><div class="checkbox"><label><input data-id="'+ category._id + '" type="checkbox" value=""></label></div></td><td><a href="admin/category/edit" data-id=' + category._id + '>' + category.name + '</a></td><td>' + category.slug + '</td><td>' + category.icon + '</td><td>' + category.countProduct + '</td></tr>';
+			var row = '<tr><td><div class="checkbox"><label><input data-id="'+ category._id + '" type="checkbox" value=""></label></div></td><td><a href="/admin/group/edit?id=' + category._id + '"><strong>' + category.name + '</strong></a></td><td>' + category.slug + '</td><td>' + category.icon + '</td><td>' + category.countProduct + '</td></tr>';
 			$('#categories').append(row);
 		}
 

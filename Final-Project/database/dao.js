@@ -178,6 +178,25 @@ var dao = {
 			callback(data);
 		});
 	},
+	/*	Lấy category theo ID
+	*	@param callback(data) được gọi khi lất tất cả category xong
+	*		output là data: mảng thông tin các category
+	*		với mỗi category có các thông tin sau:
+	*			- name: tên category
+	*			- slug: đường dẫn tới category (không chứa root - localhost:3000)
+	*			- icon: icon cho category
+	*/
+	getCategoryByID: function(id, callback){
+		//Lấy category model
+		var categoryModel = this.getCategoryModel();
+
+		//Câu truy vấn lấy tất cả category
+		categoryModel.findOne({_id: id})
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
 
 	/*	Lấy sản phẩm mới
 	*	@start vị trí product đầi tiên (tính từ 0)
