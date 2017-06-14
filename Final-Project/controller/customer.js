@@ -831,6 +831,32 @@ router.get("/profile/bill", isLoggedIn, function(req, res){
 		res.json(bills);
 	})
 })
+router.post("/profile/update", isLoggedIn, function(req, res){
+	let field = req.body.field;
+	let value = req.body.value;
+	let userID = getCustomer(req)._id;
+	switch(field){
+		case "email":
+			dao.hadEmail(value,function(result){
+				if(result)
+					return res.json({success: false, status: "Email đã có người xử dụng"});
+				dao.updateEmailProfile(userID, value, function(){
+					res.json({success: true});
+				})
+			});
+			break;
+		case "phone":
+			dao.updatePhoneProfile(userID, value, function(){
+				res.json({success: true});
+			})
+			break;
+		case "address":
+			dao.updateAddressProfile(userID, value, function(){
+				res.json({success: true});
+			})
+			break;
+	}
+})
 
 // Routing cho trang 404
 router.get("*", function(req, res){

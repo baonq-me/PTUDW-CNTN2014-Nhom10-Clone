@@ -1539,6 +1539,27 @@ username: username,
 			return callback(true);
 		});
 	},
+	updateEmailProfile: function(userID, email, callback){
+		var userModel = this.getUserModel();
+
+		userModel.findByIdAndUpdate(userID, {$set: {"baseInfo.email": email}}, function(){
+			callback()
+		});
+	},
+	updatePhoneProfile: function(userID, phone, callback){
+		var userModel = this.getUserModel();
+
+		userModel.findByIdAndUpdate(userID, {$set: {"baseInfo.tel": phone}}, function(){
+			callback()
+		});
+	},
+	updateAddressProfile: function(userID, address, callback){
+		var userModel = this.getUserModel();
+
+		userModel.findByIdAndUpdate(userID, {$set: {"baseInfo.address": address}}, function(){
+			callback()
+		});
+	},
 
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model
