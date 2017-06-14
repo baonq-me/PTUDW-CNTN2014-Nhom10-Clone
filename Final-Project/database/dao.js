@@ -173,6 +173,7 @@ var dao = {
 		categoryModel.find()
 		.limit(count)
 		.skip(skip)
+		.sort({dateAdded: -1})
 		.exec(function(err, data){
 			if (err) throw err;
 			callback(data);
@@ -225,19 +226,26 @@ var dao = {
 
 			data.save(function(err){
 				if (err) throw err;
-				productModel.find({categorySlug: {$in: [oldSlug]}})
-				.exec(function(err, products){
-					if (err) throw err;
-					for( i =0; i<products.length; i++){
-						products[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
-						products[i].save();
-					}
-				});
-				callback();
+				//Cập nhật lại những sản phẩm liên quan
+				if(slug != oldSlug){
+					productModel.find({categorySlug: {$in: [oldSlug]}})
+					.exec(function(err, products){
+						console.log(products);
+						if (err) throw err;
+						products.forEach(function(product){
+							product.categorySlug[product.categorySlug.indexOf(oldSlug)] = slug;
+
+							product.save(function(err){
+								console.log(product.categorySlug[0]);
+							});
+						})
+						callback(true);					
+					});	
+				}
+				else 
+					callback(true);
 			});	
 		});
-
-		
 	},
 
 	/*	Lấy sản phẩm mới
@@ -313,7 +321,7 @@ var dao = {
 			callback(data);
 		});
 	},
-	getCountPromotionProduct: function(callback){
+	countPromotionProduct: function(callback){
 		var productModel = this.getProductModel();
 
 		productModel.count({status: "Đang bán", newPrice: {$gt: 0}}).exists('newPrice', true).exec(function(err, count){
@@ -972,23 +980,24 @@ username: username,
 	*   count: số lượng sản phẩm được trả về
 	*/
 	countNewProductInWeek : function(callback){
-		callback(10);
-	},
-
-	/*
-	* Đếm số sản phẩm khuyến mãi hiện có
-	* @param thực hiện sau khi đếm số lượng sản phẩm
-	*   count: số lượng sản phẩm được trả về
-	*/
-
-	countPromotionProduct: function(callback){
 		var productModel = this.getProductModel();
+		var count = 0 ;
 
-		productModel.count({categorySlug: {"$in": ["san-pham-khuyen-mai"]}, status: "Đang bán"}, function(err, count){
+		productModel.find()
+		.exec(function(err, products){
 			if (err) throw err;
+			products.forEach(function(product){
+				var offset = new Date().getTime() - product.dateAdded.getTime();	//Độ lệch giữa 2 mốc thời gian, đơn vị milisecond
+				var totalDays = Math.round(offset/1000/60/60/24);
+				if( totalDays <= 7){
+					count++;
+				}
+			})
 			callback(count);
-		});
+		}); 
 	},
+
+
 
 	/*
 	* Lấy sản phẩm bán chạy nhất (Được mua nhiều nhất)
@@ -997,6 +1006,16 @@ username: username,
 	*/
 
 	getBestSellProduct: function(callback){
+		/*var productModel = this.getProductModel();
+		var billModel = this.getBillsModel();
+
+		billModel.find()
+		.where(dateAdded).
+		.exec(function(err, data){
+
+		})*/
+
+
 		callback("Hoa tình yêu 1");
 	},
 
@@ -1120,7 +1139,27 @@ username: username,
 
 	/***************** TRANG ADMIN ORDER *******************************/
 	getRevenueInWeek: function(callback){
-		callback(1200000);
+
+		var productModel = this.getProductModel();
+		var billModel = this.getBillsModel();
+
+		//var count = 0 ;
+		var revenue = 0;
+
+		billModel.find()
+		.exec(function(err, bills){
+			if (err) throw err;
+			bills.forEach(function(bill){
+				var offset = new Date().getTime() - bill.dateAdded.getTime();	//Độ lệch giữa 2 mốc thời gian, đơn vị milisecond
+				var totalDays = Math.round(offset/1000/60/60/24);
+				if( totalDays <= 7){
+					bill.cartInfo.forEach(function(product){
+						revenue += product.count* product.unitPrice;
+					});
+				}
+			});
+			callback(revenue);
+		}); 
 	},
 
 	/*

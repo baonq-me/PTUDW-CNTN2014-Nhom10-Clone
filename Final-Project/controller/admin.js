@@ -107,30 +107,6 @@ var getBaseInfoProductsAdmin = function(callback){
 	function(err, results){
 		callback(results);
 	});
-	/*dao.countCategories(function(countCategories){
-		dao.countNewProductInWeek (function(countNewProduct){
-			dao.countPromotionProduct(function(countPromotionProduct){
-				dao.getBestSellProduct(function(bestSellProduct){
-					dao.countProducts(function(countProduct){
-						dao.countOutOfProduct(function(countOutOfProduct){
-							dao.countStockProduct(function(countStockProduct){
-								dao.countDeletedProduct(function(countDeletedProduct){
-									dao.countStopSellProduct(function(countStopSellProduct){
-										dao.getAllCategory(function(categories){
-											callback(countCategories, countNewProduct, countPromotionProduct, bestSellProduct,
-											countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories);
-										})
-
-									});
-								});
-							});
-						});
-					});
-
-				});
-			});
-		});
-	});*/
 }
 
 //Lấy thông tin cơ bản của trang Quản lý Đơn hàng Admin
@@ -218,10 +194,7 @@ router.get("/product", isLoggedIn, function(req, res){
 			getBaseInfoProductsAdmin(function(results){
 				results.header = header;
 				results.sidebar = sidebar;
-			//getBaseInfoProductsAdmin(function(countCategories, countNewProduct, countPromotionProduct, bestSellProduct, countProduct, countOutOfProduct, countStockProduct, countDeletedProduct, countStopSellProduct, categories){
-				//dao.getAllProduct(function(allProduct){
-					res.render("admin/product", results);
-				//});
+				res.render("admin/product", results);
 			});
 		});
 	});
@@ -582,28 +555,15 @@ router.post("/group/edit", isLoggedIn, (req, res) => {
 		res.redirect("/admin/group/edit?id=" + id);
 	}
 	else{
-		dao.updateCategory(id, name, slug, oldSlug, icon, function(){
-					res.redirect("/admin/group");
-		});
-	}
-
-	/*dao.hadNameCategory(name, function(hadName){
-		dao.hadSlugCategory(slug, function(hadSlug){
-			if(hadName || hadSlug){
-				console.log("Sai rồi!");
-				req.session.errorAddCat = true;
+		dao.updateCategory(id, name, slug, oldSlug, icon, function(success){
+			if(success)
+				res.redirect("/admin/group");
+			else{
+				req.session.editGroupFail = true;
 				res.redirect("/admin/group/edit?id=" + id);
 			}
-			else{
-				console.log("Dúng  rồi!");
-				dao.updateCategory(id, name, slug, oldSlug, icon, function(){
-					res.redirect("/admin/group");
-				});
-			}
 		});
-	});*/
-
-	
+	}
 });
 
 
