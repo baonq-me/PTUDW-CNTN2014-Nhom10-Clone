@@ -230,14 +230,14 @@ var dao = {
 				if(slug != oldSlug){
 					productModel.find({categorySlug: {$in: [oldSlug]}})
 					.exec(function(err, products){
-						console.log(products);
 						if (err) throw err;
 						products.forEach(function(product){
 							product.categorySlug[product.categorySlug.indexOf(oldSlug)] = slug;
+							var slugs = product.categorySlug;
 
-							product.save(function(err){
-								console.log(product.categorySlug[0]);
-							});
+							productModel.findByIdAndUpdate(product._id, {$set: {categorySlug: slugs}},function(err, data){
+								if(err) throw err;
+							})
 						})
 						callback(true);					
 					});	
