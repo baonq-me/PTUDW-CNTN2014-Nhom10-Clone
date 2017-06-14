@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	//Kiểm tra tên nhóm sản phẩm đã tồn tại hay chưa
-	$("#category-add-name").focusout(function(){
+	$("#category-add-name").change(function(){
 		var name = $(this).val();
 		if (name == "") return;
 		$.ajax({
@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 
 	//Kiểm tra slug nhóm sản phẩm đã tồn tại hay chưa
-	$("#category-add-slug").focusout(function(){
+	$("#category-add-slug").change(function(){
 		var slug = $(this).val();
 		if (slug == "") return;
 		$.ajax({
