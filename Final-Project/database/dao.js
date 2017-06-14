@@ -1367,6 +1367,17 @@ username: username,
 			callback(count);
 		});
 	},
+	getBillByUser: function(userID, count, skip, callback){
+		var billModel = this.getBillsModel();
+		billModel.find({userID: userID})
+		.limit(count)
+		.skip(skip)
+		.sort({"dateAdded":-1})
+		.exec(function(err, bills){
+			if (err) throw err;
+			callback(bills);
+		})
+	},
 	addProduct: function (productInfo, callback){
 		var productModel = this.getProductModel();
 		dao.getCountProductByName(productInfo.name, function(countProductByName){
