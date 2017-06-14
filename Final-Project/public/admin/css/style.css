@@ -302,7 +302,9 @@ tr td img.img-thumbnail
 
 
 #add-product #add_cat,
-#add-product #del_cat {
+#add-product #del_cat,
+#add-product #add_product,
+#add-product #del_product {
 	padding: 5px 20px;
 	cursor: pointer;
 	text-align: center;
@@ -310,9 +312,11 @@ tr td img.img-thumbnail
 	font-size: 15px;
 	display: inline-block;
 }
-#add-product #del_cat {
+#add-product #del_cat,
+#add-product #del_product {
 	color: red;
 }
+#add-product #add_product,
 #add-product #add_cat {
 	color: #337ab7;
 }

@@ -666,8 +666,114 @@ router.get("/api/bills", isLoggedIn, function(req, res){
 	}
 });
 
+router.post("/api/bills", isLoggedIn, function(req, res){
+	var action = req.body.action;
+	var billsID = req.body.billsID;
+	switch(action){
+		case "cancel":
+			var cancelsFunction = [];
+			billsID.forEach(billID => {
+				cancelsFunction.push(function(callback){
+					dao.cancelBill(billID, callback);
+				})
+			})
+			async.parallel(cancelsFunction, function(err, data){
+				res.json(true);
+			})
+			break;
+		case "uncancel":
+			var uncancelsFunction = [];
+			billsID.forEach(billID => {
+				uncancelsFunction.push(function(callback){
+					dao.uncancelBill(billID, callback);
+				})
+			})
+			async.parallel(uncancelsFunction, function(err, data){
+				res.json(true);
+			})
+			break;
+		case "pay":
+			var paysFunction = [];
+			billsID.forEach(billID => {
+				paysFunction.push(function(callback){
+					dao.payBill(billID, callback);
+				})
+			})
+			async.parallel(paysFunction, function(err, data){
+				res.json(true);
+			})
+			break;
+		case "delivered":
+			var deliveredsFunction = [];
+			billsID.forEach(billID => {
+				deliveredsFunction.push(function(callback){
+					dao.deliveredBill(billID, callback);
+				})
+			})
+			async.parallel(deliveredsFunction, function(err, data){
+				res.json(true);
+			})
+			break;
+		default:
+			res.json(false)
+	}
+})
+router.get("/order/add", isLoggedIn, (req, res) => {
+	var addProductFail = (req.session.addProductFail == undefined) ? false : req.session.addProductFail;
+	req.session.addProductFail = false;
+	var message = (addProductFail) ? "Thên sản phẩm thất bại" : "";
+	getHeaderAdmin(function(header){
+		getSidebarAdmin(function(sidebar){
+			dao.getNewProductSellingSortName(0, undefined, function (products){
+				res.render("admin/order-add", {"header": header, "sidebar": sidebar, products: products, message: message})
+			})
+		})
+	});
+});
+router.post("/order/add", isLoggedIn, (req, res) => {
+	var name = req.body.name;
+	var address = req.body.address;
+	var paid = (req.body.paid == "on") ? 1 : 0;
+	var delivered = (req.body.delivered == "on") ? 1 : 0;
+	var products = [];
+	var numProducts = parseInt(req.body.count_line);
+	for (i = 0; i < numProducts; i++){
+		var product = req.body["product_"+i];
+		var countProduct = req.body["count_product_"+i];
+		if (product && product != "0" && countProduct > 0)
+			products.push({productID: product, count: countProduct});
+	}
+	
+	var functionCartsInfo = [];
+	products.forEach(function(product){
+		functionCartsInfo.push(function(callback){
+			dao.getProductDetailByID(product.productID, function(product1){
+				var price = (product1.newPrice && product1.newPrice > 0) ? product1.newPrice : product1.price;
+				callback(null, {
+					productID: product.productID,
+					count: product.count,
+					unitPrice: price,
+					productName: product1.name
+				})
+			})
+		})
+	})
+	async.parallel(functionCartsInfo, function(err, cartInfo){
+		var user = getUser(req);
+		dao.addBill({
+			userID: "111",//user._id,
+			payInfo:  {
+				billingInfo: { recieve: "in-store", pay_method: "face-to-face" },
+				receiverInfo: { name: name, address: address, district: "", city: "" }
+			},
+			cartInfo: cartInfo,
+			status: {paid: paid, delivered: delivered, canceled: 0}
+		}, function(){
+			res.redirect("/admin/order")
+		})
+	})
 
-
+});
 
 // Statistic
 router.get("/statistic", isLoggedIn, function(req, res){
