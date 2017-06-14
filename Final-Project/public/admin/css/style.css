@@ -299,3 +299,28 @@ tr td img.img-thumbnail
 }
 
 .filter-product.active { font-weight: bold; }
+
+
+#add-product #add_cat,
+#add-product #del_cat {
+	padding: 5px 20px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: bold;
+	font-size: 15px;
+	display: inline-block;
+}
+#add-product #del_cat {
+	color: red;
+}
+#add-product #add_cat {
+	color: #337ab7;
+}
+#add-product .category{
+	margin-bottom: 10px;
+}
+#add-product .cat-group .delete{
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+}

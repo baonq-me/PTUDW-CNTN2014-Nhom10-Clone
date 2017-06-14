@@ -192,12 +192,12 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getNewProduct: function(start, step, callback){
+	getNewProductSelling: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
 		//Truy vấn DB lấy product có category là "san-pham-moi"
-		var data = productModel.find()
+		var data = productModel.find({status: "Đang bán"})
 		.limit(step)
 		.sort({"dateAdded":-1})
 		.skip(start)
@@ -221,12 +221,12 @@ var dao = {
 	*			- price: giá sản phẩm (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getPromotionProduct: function(start, step, callback){
+	getPromotionProductSelling: function(start, step, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
 		//Truy vấn DB lấy product có category là "san-pham-khuyen-mai"
-		productModel.find()
+		productModel.find({status: "Đang bán"})
 		.exists('newPrice', true)
 		.limit(step)
 		.skip(start)
@@ -260,7 +260,7 @@ var dao = {
 	*			- newPrice: giá khuyến mãi (đơn vị đông - kiểu number)
 	*			- slug: đường dẫn tới sản phẩm (không chứa root - localhost:3000)
 	*/
-	getProductsByCategory: function(slugs, skip, count, callback){
+	getProductsSellingByCategory: function(slugs, skip, count, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
@@ -273,7 +273,7 @@ var dao = {
 		*/
 
 		//Truy vấn DB lấy product có categorySlug là slugs
-		productModel.find({categorySlug: {"$in": slugs}})
+		productModel.find({categorySlug: {"$in": slugs}, status: "Đang bán"})
 		.limit(count)
 		.skip(skip)
 		.select('id name imgPath price newPrice slug')
@@ -362,7 +362,7 @@ var dao = {
 			});
 		}
 	},
-	getCountProductBySearch: function(searchInfo, callback){
+	getCountProductBySlugBySearch: function(searchInfo, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 
@@ -1270,13 +1270,102 @@ username: username,
 		});
 	},
 
+	deleteCategory: function(id, callback){
+		categoryModel= this.getCategoryModel();
+		productModel = this.getProductModel();
+
+		categoryModel.find({_id: id})
+		.select('name slug')
+		.exec(function(err, data){
+			if (err) throw err;
+			productModel.find({categorySlug: {$in: [data.slug]}})
+			.exec(function(err, data){
+				if (err) throw err;
+				for( i =0; i<data.length; i++){ 
+					data[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
+				}
+
+				categoryModel.remove({_id: id})
+				.exec(function(err){
+					if (err) {
+						callback("fail");
+					}
+					else{
+						callback("success");
+					}
+				});
+			
+			});
+		});
+	},
+			//update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
+			/*.exec(function(err){
+				if (err) {
+					callback("fail");
+				}
+				else{
+					categoryModel.remove({_id: id})
+					.exec(function(err){
+						if (err) {
+							callback("fail");
+						}
+						else{
+							callback("success");
+						}
+					});
+				}
+			});
+		})
+	},*/
+
+	getCountProductBySlugR: function(slug, callback){
+		var productModel = this.getProductModel();
+		productModel.count({"slug": { $regex: new RegExp("^" + slug + "$", "i") }}, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	getCountProductByName: function(name, callback){
+		var productModel = this.getProductModel();
+		productModel.count({"name":  { $regex: new RegExp("^" + name + "$", "i") } }, function(err, count){
+			if (err) throw err;
+			callback(count);
+		});
+	},
+	addProduct: function (productInfo, callback){
+		var productModel = this.getProductModel();
+		dao.getCountProductByName(productInfo.name, function(countProductByName){
+			dao.getCountProductBySlugR(productInfo.slug, function(countProductBySlug){
+				if(countProductByName > 0 || countProductBySlug > 0)
+					return callback(false);
+				var product = new productModel({
+					name: productInfo.name,
+					imgPath: productInfo.imgPath,
+					slug: productInfo.slug,		//Đường dẫn đến sản phẩm
+					price: productInfo.price,
+					categorySlug : productInfo.categories,	//Đường dẫn của loại sản phẩm, 1 sản phẩm có thể có nhiều loại sản phẩm
+					newPrice: productInfo.newPrice,
+					detail: productInfo.detail,
+					quality: productInfo.quality,
+					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa, 
+				});
+
+				product.save(function(err, data){
+					if (err) throw err;
+					return callback(true);
+				})
+
+			})
+		})
+	},
+
 	setStatusProduct: function(productID, status, callback){
 		//Lấy category model và product model
 		var productModel = this.getProductModel();
 		productModel.update({_id: productID}, {$set: {"status": status}}, function(err, products){
 			callback(err, products);
 		})
-	},
+	}
 
 
 };

@@ -6,8 +6,7 @@
 var router = require("express").Router();
 var dao = require('../database/dao.js');
 var async = require('async');
-fileUpload = require('express-fileupload');
-
+var formidable = require("express-formidable");
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -275,13 +274,94 @@ router.post("/api/products", isLoggedIn, function(req, res){
 		res.json({});
 	});
 });
-
+// Routing thêm sản phẩm
 router.get("/product/add", isLoggedIn, (req, res) => {
+	var addProductFail = (req.session.addProductFail == undefined) ? false : req.session.addProductFail;
+	req.session.addProductFail = true;
+	var message = (addProductFail) ? "Thên sản phẩm thất bại" : "";
 	getHeaderAdmin(function(header){
 		getSidebarAdmin(function(sidebar){
-			res.render("admin/product-add", {"header": header, "sidebar": sidebar})
+			dao.getAllCategory(function (categories){
+				res.render("admin/product-add", {"header": header, "sidebar": sidebar, categories: categories, message: message})
+			})
 		})
 	});
+});
+// Nhân request submit form
+Date.prototype.yyyymmddhhmmss = function() {
+	var yyyy = this.getFullYear();
+	var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+	var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+	var hh = this.getHours() < 10 ? "0" + this.getHours() : this.getHours();
+	var min = this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
+	var ss = this.getSeconds() < 10 ? "0" + this.getSeconds() : this.getSeconds();
+	return "".concat(yyyy).concat(mm).concat(dd).concat(hh).concat(min).concat(ss);
+};
+function getFilePath(name, path){
+	var date = new Date();
+	return path+date.yyyymmddhhmmss() + "-" +name;
+}
+router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
+	var name = req.fields.name;
+	var slug = req.fields.slug;
+	var price = parseInt(req.fields.price);
+	var newPrice = (req.fields.newPrice == "") ? undefined : parseInt(req.fields.newPrice);
+	var number = parseInt(req.fields.number);
+	var detail = req.fields.detail;
+	var categories = [];
+	var numCat = parseInt(req.fields.count_cat);
+	for (i = 0; i < numCat; i++){
+		var cat = req.fields["cat_"+i];
+		if (cat && cat != "0")
+			categories.push(cat);
+	}
+	if(req.files.image.path){
+		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
+		var imagePath = "./public" + imageUrl;
+		var data = fs.readFileSync(req.files.image.path);
+		if(fs.writeFileSync(imagePath, data) == undefined){
+			// thành công
+			dao.addProduct({
+				name: name,
+				slug: slug,
+				price: price,
+				newPrice: newPrice,
+				quality: number,
+				imgPath: imageUrl,
+				categories: categories,
+				detail: detail,
+				status: "Đang bán"
+			}, function(isSuccess){
+				if(isSuccess)
+					res.redirect("/admin/product")
+				else {
+					req.session.addProductFail = true;
+					res.redirect("/admin/product/add")
+				}
+			})
+		}else {
+			req.session.addProductFail = true;
+			res.redirect("/admin/product/add")
+		}
+	}
+
+});
+
+router.get("/api/product/add", isLoggedIn, (req, res) => {
+	var data = req.query.data;
+	var type = req.query.type;
+	switch(type){
+		case "name":
+			dao.getCountProductByName(data, function(count){
+				return res.json(count == 0)
+			});
+			break;
+		case "slug":
+			dao.getCountProductBySlugR(data, function(count){
+				return res.json(count == 0)
+			});
+			break;
+	}
 });
 
 // Group
@@ -302,9 +382,7 @@ router.get("/group-add", isLoggedIn, function(req, res){
 	var message = (errorAddCat) ? "Thêm sản phẩm không thành công!" : "";
 	getHeaderAdmin(function(header) {
 		getSidebarAdmin(function(sidebar){
-			//dao.countCategories(function(countCategories){
 				res.render("admin/group-add", {"header": header, "sidebar":sidebar, message: message});
-			//});
 		});
 	});
 });
@@ -335,8 +413,23 @@ router.post("/group-add", isLoggedIn, function(req, res){
 router.get("/categories", isLoggedIn, function(req, res){
 	dao.getAllCategory(function(categories){
 			res.json(categories);
-	}, req.query.count, req.query.skip);
+	}, Number(req.query.count), Number(req.query.skip));
 });
+
+//Xóa category
+router.post("/categories/delete", isLoggedIn, function(req, res){
+	//Mảng các id của các categories cần xóa
+	var categories = req.body.categories;
+
+	for(i=0; i<categories.length; i++){
+		dao.deleteCategory(categories[i], function(result){
+			if ((result == "fail") || (i == categories.length - 1)){
+				res.json(result);
+			}
+		});
+	}
+});
+
 
 //Kiếm tra tên nhóm sản phẩm đã tồn tại hay chưa?
 router.post("/categories/add/checkName", isLoggedIn, function(req, res){

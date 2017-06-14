@@ -90,8 +90,8 @@ function setSidebar(req, res, next){
 *		}
 */
 var getContentHome = function(callback){
-	dao.getNewProduct(0, 6, function(newProducts){
-		dao.getPromotionProduct(0, 6, function(promotionProducts){
+	dao.getNewProductSelling(0, 6, function(newProducts){
+		dao.getPromotionProductSelling(0, 6, function(promotionProducts){
 			callback ({"newProducts": newProducts, "promotionProducts": promotionProducts});
 		});
 	});
@@ -195,7 +195,7 @@ var setContentProductDetail = function(slug, callback){
 			callback(null);
 			return;
 		}
-		dao.getProductsByCategory(product.categorySlug, 0, 8, function(relatedProducts){
+		dao.getProductsSellingByCategory(product.categorySlug, 0, 8, function(relatedProducts){
 			callback({"product": product, "relatedProducts": relatedProducts});
 		});
 	});
@@ -250,7 +250,7 @@ router.get("/san-pham-moi", setHeader, setFooter, setSidebar,function(req, res){
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
 
-	dao.getNewProduct(start, step, function(products){
+	dao.getNewProductSelling(start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.countProducts(function(countProduct){
@@ -297,7 +297,7 @@ router.get("/san-pham-khuyen-mai", setHeader, setFooter, setSidebar,function(req
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
 
-	dao.getPromotionProduct(start, step, function(products){
+	dao.getPromotionProductSelling(start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.getCountPromotionProduct(function(countProduct){
@@ -343,7 +343,7 @@ router.get("/category/:slug", setHeader, setSidebar, setFooter, function(req, re
 	var catSlug = req.params.slug;
 	var start = (req.query.start) ? parseInt(req.query.start) : 0;
 	if (start < 0) return set404(req, res, function(){});
-	dao.getProductsByCategory([catSlug], start, step, function(products){
+	dao.getProductsSellingByCategory([catSlug], start, step, function(products){
 		if(products.length < 1)
 			return set404(req, res, function(){});
 		dao.getCatName(catSlug, function(catName){
@@ -519,7 +519,6 @@ router.post("/forget-password",
 router.post("/send-email", function(req, res){
 	let username = req.body.username;
 	dao.getMail(username, function(mailTo){
-		console.log(mailTo);
 		if(mailTo == null){
 			res.json({success: false});
 			return;
@@ -581,7 +580,7 @@ router.get("/cart-info", setHeader, setFooter, (req, res) => {
 	var user = getCustomer(req);
 	//if(user == null) res.redirect("/login");
 	//else {
-	dao.getNewProduct(0, 8, function(newProducts){
+	dao.getNewProductSelling(0, 8, function(newProducts){
 		res.render("cart-info", {"content": {"newProducts": newProducts}});
 	});
 	//}
@@ -650,25 +649,10 @@ router.get("/api/cart-info", function(req, res){
 	var cartinfo = (req.session.cartInfo) ? req.session.cartInfo : [];
 	res.json(cartinfo);
 });
-// Lấy thông tin product
-router.get("/api/cart-info", isLoggedIn, function(req, res){
-	var productID = req.body.productID;
-	var count = req.body.count;
-	dao.getProductDetailByID(productID, function(product){
-		var price = (product.newPrice) ? product.newPrice : product.price;
-		var productName = product.name;
-		if(req.session.cartInfo){
-			var products = req.session.cartInfo;
-			var product = products.find(function(product){ return product.productID == productID });
-			if(product == undefined)
-				req.session.cartInfo.push({"productID": productID, "count": count, "unitPrice": price, "productName": productName});
-			else {
-				var index = products.indexOf(product);
-				req.session.cartInfo[index].count += count;
-			}
-		}else req.session.cartInfo = [{"productID": productID, "count": count, "unitPrice": price, "productName": productName}];
-		res.json({});
-	});
+// Lấy danh sách sản phẩm
+router.delete("/api/cart-info/all", function(req, res){
+	req.session.cartInfo = [];
+	res.json(req.session.cartInfo);
 });
 // Lấy thông tin product trong cart
 router.get("/product-in-cart", (req, res) => {
@@ -751,7 +735,6 @@ router.post("/pay/billing-info", isLoggedIn, isComplateReceiverInfo, (req, res, 
 		// Viết dữ liệu vào session
 		req.session.payinfo.billingInfo = billingInfo;
 		req.session.cartInfo = JSON.parse(req.body.cart_info);
-		console.log(req.session.cartInfo);
 		next();
 
 	},isComplateBillingInfo,
@@ -782,7 +765,6 @@ router.get('/paypal_client_token',isLoggedIn,isComplateReceiverInfo,isComplateBi
 });
 
 router.post('/paypal_checkout',function(req, res, next) {
-		console.log(req.body.amount);
 		var saleRequest = {
 			amount: req.body.amount,			// Số lượng tiền
 			paymentMethodNonce: req.body.nonce, // Nonce từ client
