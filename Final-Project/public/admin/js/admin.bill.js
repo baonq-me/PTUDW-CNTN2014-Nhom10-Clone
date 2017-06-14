@@ -60,10 +60,15 @@ $(document).ready(function(){
 						else if (status.delivered == 0 && status.paid == 0 && status.canceled == 0){
 							status = "Đang chờ giao hàng và thanh toán";
 						}
-						
+						var totalMoney = 0;
+						var products = "";
+						res[i].cartInfo.forEach(function(p){
+							totalMoney += parseInt(p.count) * parseInt(p.unitPrice);
+							products += "<p>" + p.productName + "(" + p.count + ")" + "</p>";
+						})
 						addRow(res[i]._id, res[i].userID, res[i].receiverInfo.name, res[i].receiverInfo.phone,
 							res[i].receiverInfo.address, res[i].receiverInfo.district, res[i].receiverInfo.city,
-							res[i].cartInfo[0].productName + ' (count: ' + res[i].cartInfo[0].count + ')', res[i].totalMoney, res[i].dateAdded.substring(0, 10), pay_method, status);
+							products , totalMoney, res[i].dateAdded.substring(0, 10), pay_method, status);
 				}
 			}
 		});
