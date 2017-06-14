@@ -515,16 +515,20 @@ router.post("/categories/delete", isLoggedIn, function(req, res){
 	var categories = req.body.categories;
 	var results = [];
 
-	for(i=0; i<categories.length; i++){
-		dao.deleteCategory(categories[i], function(result){
-			results.push(result);
-			if(i == categories.length -1 ){
-				console.log(results);
-				res.json(results);
-
-			}
+	var catFunction = [];
+	categories.forEach(function(category){
+		catFunction.push(function(callback){
+			dao.deleteCategory(category, function(result){
+				callback(null, result);
+			});
 		});
-	}
+	})
+	async.parallel(catFunction,function(err, results){
+		if(err) throw err;
+		console.log(results)
+		res.json(results);
+	});
+
 });
 
 

@@ -499,6 +499,7 @@ username: username,
 					*/
 	fuck_addUserLocal_and_signup: function(regInfo, callback) {
 		var userModel = this.getUserModel();
+		console.log(regInfo)
 		dao.getUser(regInfo.username, function(userExist){
 			if (userExist == null)	// check if username is exist
 			{
