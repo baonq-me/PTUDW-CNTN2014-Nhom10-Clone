@@ -276,6 +276,21 @@ var dao = {
 			callback(data);
 		});
 	},
+	getNewProductSellingSortName: function(start, step, callback){
+		//Lấy category model và product model
+		var productModel = this.getProductModel();
+
+		//Truy vấn DB lấy product có category là "san-pham-moi"
+		var data = productModel.find({status: "Đang bán"})
+		.limit(step)
+		.sort({name:1})
+		.skip(start)
+		.select('id name imgPath price newPrice slug')
+		.exec(function(err, data){
+			if (err) throw err;
+			callback(data);
+		});
+	},
 
 		/*	Lấy sản phẩm khuyến mãi
 	*	@start vị trí product đầi tiên (tính từ 0)
@@ -1336,6 +1351,37 @@ username: username,
 			if (err) throw err;
 			callback(data);
 		});
+	},
+
+	cancelBill: function(billID, callback){
+		console.log(billID);
+		var billModel = this.getBillsModel();
+		billModel.findByIdAndUpdate (billID, {$set: {"status.canceled": 1}}, function(err, data){
+			if (err) throw err;
+			callback(null, data);
+		})
+	},
+	uncancelBill: function(billID, callback){
+		console.log(billID);
+		var billModel = this.getBillsModel();
+		billModel.findByIdAndUpdate (billID, {$set: {"status.canceled": 0}}, function(err, data){
+			if (err) throw err;
+			callback(null, data);
+		})
+	},
+	payBill: function(billID, callback){
+		var billModel = this.getBillsModel();
+		billModel.findByIdAndUpdate (billID, {$set: {"status.paid": 1}}, function(err, data){
+			if (err) throw err;
+			callback(null, data);
+		})
+	},
+	deliveredBill: function(billID, callback){
+		var billModel = this.getBillsModel();
+		billModel.findByIdAndUpdate (billID, {$set: {"status.delivered": 1}}, function(err, data){
+			if (err) throw err;
+			callback(null, data);
+		})
 	},
 
 	/****** Thêm nhóm sản phẩm**********/

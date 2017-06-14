@@ -8,11 +8,11 @@ $(document).ready(function(){
 	// 4: not paid
 	// 5: completed
 	// 6: canceled
-	var count = 3;
+	var count = 10;
 	var skip = 0;
 	function loadBills(isEmpty) {
 		function addRow(id, userID, name, phone, address, district, city, cartInfo, totalMoney, dateAdd, payMethod, status) {
-			var row = '<tr><td><div class="checkbox"><label><input id="product-select-all-btn" type="checkbox" value=""></label></div></td> \
+			var row = '<tr><td><div class="checkbox"><label><input type="checkbox" value="" data-id="' + id + '"></label></div></td> \
 								<td> Người đặt: ' + userID + ' <br/> Đơn hàng: ' + id + '</td> \
 								<td><div class="ho-ten"><b> '+ name + '</b></div> \
 								<div class="phone"> 0'+ phone + ' </div></td> \
@@ -28,6 +28,7 @@ $(document).ready(function(){
 		}
 		$(".order-table").css("opacity", "0.5");
 		var type = bills["#" + $(".bills-filter a.active").attr("id")];
+		var query = $("#bills-search").val();
 		if(isEmpty) skip = 0;
 		$.ajax({
 			url: '/admin/api/bills', //URL lay du lieu
@@ -35,7 +36,8 @@ $(document).ready(function(){
 			data: {
 				type: type,
 				count: count,
-				skip: skip
+				skip: skip,
+				query: query
 			},
 			success: function(res) {
 				if(isEmpty)
@@ -59,14 +61,14 @@ $(document).ready(function(){
 						}
 
 						status = res[i].status;
-						if (status.delivered == 1 && status.paid == 1){
+						if (status.canceled == 1){
+							status = "Đã hủy";
+						}
+						else if (status.delivered == 1 && status.paid == 1){
 							status = "Đã hoàn tất";
 						}
 						else if (status.delivered == 0 && status.paid == 1){
 							status = "Đã thanh toán, Chờ giao hàng";
-						}
-						else if (status.canceled == 1){
-							status = "Đã hủy";
 						}
 						else if (status.delivered == 0 && status.paid == 0 && status.canceled == 0){
 							status = "Đang chờ giao hàng và thanh toán";
@@ -100,4 +102,40 @@ $(document).ready(function(){
 	})
 
 	loadBills(true);
+
+	// Hủy và thanh toán đơn hàng
+	// action = "pay" | "cancel" | uncancel
+	function editStatusBill(status){
+		var billsID = [];
+		var billsChecked = $(".order-table #bills input[type='checkbox']:checked");
+		billsChecked.each(function(){
+			billsID.push($(this).data("id"));
+		});
+		$.ajax({
+			url: "/admin/api/bills",
+			type: "post",
+			data: {
+				action: status,
+				billsID: billsID
+			},
+			success: function(data, status){
+				if(status == "success" && data){
+					loadBills(true);
+				}else alert("Thao tác thất bại")
+			}
+		})
+
+	}
+	$("#bill-cancel").click(function(){
+		editStatusBill("cancel");
+	})
+	$("#bill-uncancel").click(function(){
+		editStatusBill("uncancel");
+	})
+	$("#bill-pay").click(function(){
+		editStatusBill("pay");
+	})
+	$("#bill-delivery").click(function(){
+		editStatusBill("delivered");
+	})
 })
