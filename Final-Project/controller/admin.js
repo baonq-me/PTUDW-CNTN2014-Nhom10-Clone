@@ -7,7 +7,7 @@ var router = require("express").Router();
 var dao = require('../database/dao.js');
 var async = require('async');
 var formidable = require("express-formidable");
-var fs = require('fs');
+var fs = require("fs");
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -345,7 +345,7 @@ router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
 			res.redirect("/admin/product/add")
 		}
 	}
-	
+
 });
 
 router.get("/api/product/add", isLoggedIn, (req, res) => {
@@ -403,7 +403,7 @@ router.post("/group-add", isLoggedIn, function(req, res){
 			else{
 				dao.addCategory(name, slug, icon, function(){
 					res.redirect("/admin/group");
-				});	
+				});
 			}
 		});
 	});
@@ -421,10 +421,10 @@ router.get("/categories", isLoggedIn, function(req, res){
 router.post("/categories/delete", isLoggedIn, function(req, res){
 	//Mảng các id của các categories cần xóa
 	var categories = req.body.categories;
-	
+
 	for(i=0; i<categories.length; i++){
 		dao.deleteCategory(categories[i], function(result){
-			if (result == "fail" || i == categories.length - 1){
+			if ((result == "fail") || (i == categories.length - 1)){
 				res.json(result);
 			}
 		});
@@ -534,13 +534,24 @@ router.post("/api/account/add", isLoggedIn, function(req, res){
 		fullname: req.body.fullname,
 		email: req.body.email,
 		phone: req.body.phone,
-		role: req.body.role
+		role: req.body.role,
+		address: req.body.address,
+		password: req.body.passwordCo
 	}, function(ok){
 		if (ok)
 			res.status(200).send("Done");
 		else
 			res.status(400).send("Fail to add user");
 		});
+});
+
+// Add accounts
+router.get("/api/account/delete", isLoggedIn, function(req, res){
+	console.log(req.query.users);
+	req.query.users.forEach(function(user) {
+    dao.deleteUser(user);
+	});
+	res.status(200).send("");
 });
 
 router.get("/api/account/get/all", isLoggedIn, function(req, res){

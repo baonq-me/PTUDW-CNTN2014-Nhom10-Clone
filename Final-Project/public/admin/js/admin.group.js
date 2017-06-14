@@ -58,13 +58,15 @@ $(document).ready(function(){
 				categories:categories
 			},
 			success: function(status){
-				if (status=="success")
+				if (status=="success"){
+					console.log(status);
+					alert('Xóa nhóm sản phẩm thành công');
 					loadCategories(10, 0);
+				}
 				else
-					alert('Xóa không thành công!');
+					alert('Xóa nhóm sản phẩm không thành công!');
 
 			}
-
 
 		});
 	});

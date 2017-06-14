@@ -54,7 +54,7 @@ var dao = {
 	  		detail: String,
 	  		quality: Number,
 	  		dateAdded :{ type: Date, default: Date.now },
-	  		status: String    	//Ngừng bán, Đang bán, Đã xóa, 
+	  		status: String    	//Ngừng bán, Đang bán, Đã xóa,
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -488,13 +488,14 @@ username: username,
 						typeLg: "local",
 						localLogin: {
 							username: regInfo.username,
-							password: dao.passwordHash.generate("Abcdef1234")
+							password: dao.passwordHash.generate(regInfo.password)
 						}
 					},
 					baseInfo: {
 						fullName: regInfo.fullname,
 						email: regInfo.email,
-						tel: regInfo.phone
+						tel: regInfo.phone,
+						address: regInfo.address
 					},
 					role: {
 						name: regInfo.role
@@ -509,6 +510,20 @@ username: username,
 				});
 			}
 			else callback(false);	// false if username is exist
+		});
+	},
+
+	deleteUser: function(username)
+	{
+		var userModel = this.getUserModel();
+		userModel.findOneAndRemove({"loginInfo.localLogin.username": username}).exec(function(err, item){
+			//console.log(err);
+			//console.log(item);
+			if (!item)
+				userModel.findOneAndRemove({"loginInfo.socialLoginId.idS": username.replace(/[^0-9]/g, '')}).exec(function(err, item){
+					//console.log(err);
+					//console.log(item);
+				});
 		});
 	},
 
@@ -1216,7 +1231,7 @@ username: username,
 
 	/****** Thêm nhóm sản phẩm**********/
 	/*
-	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa?
 	* @param : tên nhóm sản phẩm cần kiểm tra
 	* @param: thực hiện sau khi kiểm tra
 	*/
@@ -1235,7 +1250,7 @@ username: username,
 		});
 	},
 	/*
-	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa?
 	* @param : tên nhóm sản phẩm cần kiểm tra
 	* @param: thực hiện sau khi kiểm tra
 	*/
@@ -1254,8 +1269,8 @@ username: username,
 		});
 	},
 	/*
-	* Thêm nhóm sản phẩm 
-	* @param : tên nhóm sản phẩm 
+	* Thêm nhóm sản phẩm
+	* @param : tên nhóm sản phẩm
 	* @param: slug
 	* @param: icon nhóm sản phẩm
 	*/
@@ -1277,8 +1292,28 @@ username: username,
 		.select('name slug')
 		.exec(function(err, data){
 			if (err) throw err;
-			productModel.update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
-			.exec(function(err){
+			productModel.find({categorySlug: {$in: [data.slug]}})
+			.exec(function(err, data){
+				if (err) throw err;
+				for( i =0; i<data.length; i++){
+					data[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
+				}
+
+				categoryModel.remove({_id: id})
+				.exec(function(err){
+					if (err) {
+						callback("fail");
+					}
+					else{
+						callback("success");
+					}
+				});
+
+			});
+		});
+	},
+			//update({categorySlug: {$in: [data.slug]}}, {$set: {"categorySlug": categorySlug.splice(categorySlug.indexOf(data.slug), 1)}})
+			/*.exec(function(err){
 				if (err) {
 					callback("fail");
 				}
@@ -1295,7 +1330,7 @@ username: username,
 				}
 			});
 		})
-	},
+	},*/
 
 	getCountProductBySlugR: function(slug, callback){
 		var productModel = this.getProductModel();
@@ -1326,7 +1361,7 @@ username: username,
 					newPrice: productInfo.newPrice,
 					detail: productInfo.detail,
 					quality: productInfo.quality,
-					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa, 
+					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa,
 				});
 
 				product.save(function(err, data){

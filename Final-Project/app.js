@@ -25,7 +25,7 @@ var router = express.Router();
  app.use(flash());
  app.use(passport.initialize());
  app.use(passport.session());
- 
+
  //Import body-parser cho app
  app.use(bodyParser.urlencoded({extended: true}));
 
@@ -39,5 +39,3 @@ controller(app);
 app.listen(3000, function(){
 	console.log("localhost:3000");
 });
-
-

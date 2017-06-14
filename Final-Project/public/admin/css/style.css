@@ -252,11 +252,6 @@ a:hover {
     color: white;
 }
 
-.product-info
-{
-	margin-bottom: 60px;
-}
-
 .box-title .btn-group
 {
 	margin-right: 25px;
@@ -304,6 +299,7 @@ tr td img.img-thumbnail
 }
 
 .filter-product.active { font-weight: bold; }
+
 
 #add-product #add_cat,
 #add-product #del_cat {

@@ -6,12 +6,12 @@
 			<div class="content">
 				<div class="box">
 					<div class="box-title">
-
 						<!-- Modal box for adding new accounts -->
-						<div id="myModal" class="modal fade" role="dialog">
+						<div id="account-modal" class="modal fade" role="dialog">
 						  <div class="modal-dialog">
 
 						    <!-- Modal content-->
+								<form method="post" id="form-add-account" onsubmit="return false;" enctype="multipart/form-data" novalidate>
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -19,19 +19,26 @@
 						      </div>
 						      <div class="modal-body">
 
-										<form id="form-add-account" onsubmit="return false;">
-											<h2>Tên</h2>
+											<h2>Thông tin tài khoản</h2>
 											<table>
 												<tbody>
 													<tr>
-														<th>Username (*)</th>
+														<th><label for="username">Username (*)</label></th>
 														<td>
-															<input class="form-control" type="text" id="username" value="" required><br/>
+															<input class="form-control" type="text" id="username" name="username" value="" required><br/>
 														</td>
 													</tr>
 													<tr>
-														<th><label for="account-add-name">Tên người dùng</label></th>
-														<td><input class="form-control" type="text" id="fullname" value=""></td>
+														<th><label for="fullname">Tên người dùng</label></th>
+														<td><input class="form-control" type="text" id="fullname" name="fullname" value=""></td>
+													</tr>
+													<tr>
+														<th><label for="avatar">Ảnh đại diện</label></th>
+														<td>
+															<div class="kv-avatar center-block text-center" style="width:200px">
+																	<input id="avatar" name="avatar" type="file" class="file-loading" data-url="/admin/api/account/avatar/upload" multiple required>
+															</div>
+														</td>
 													</tr>
 												</tbody>
 											</table>
@@ -39,12 +46,16 @@
 											<table>
 												<tbody>
 													<tr>
-														<th><label for="account-add-email">Email (*)</label></th>
-														<td><input class="form-control" type="text" id="email" value="" required></td>
+														<th><label for="email">Email (*)</label></th>
+														<td><input class="form-control" type="text" id="email" name="email" value="" required></td>
 													</tr>
 													<tr>
-														<th><label for="account-add-phone">Điện thoại</label></th>
-														<td><input class="form-control" type="text" id="phone" value=""></td>
+														<th><label for="phone">Điện thoại</label></th>
+														<td><input class="form-control" type="text" id="phone" name="phone" value=""></td>
+													</tr>
+													<tr>
+														<th><label for="address">Địa chỉ</label></th>
+														<td><input class="form-control" type="text" id="address" name="address" value=""></td>
 													</tr>
 												</tbody>
 											</table>
@@ -52,10 +63,10 @@
 											<table>
 												<tbody>
 													<tr>
-														<th><label>Vai trò (*)</label></th>
+														<th><label for="role">Vai trò</label></th>
 														<td>
 															<div class="form-group">
-															  <select class="form-control" id="role">
+															  <select class="form-control" id="role" name="role">
 															    <option value="admin">Quản trị</option>
 															    <option value="seller">Bán hàng</option>
 															    <option value="customer">Mua hàng</option>
@@ -64,79 +75,55 @@
 														</td>
 													</tr>
 													<tr>
-														<th><label>Mật khẩu (*)</label></th>
+														<th><label for="password1">Mật khẩu (*)</label></th>
 														<td>
-															<p><input type="password" class="form-control" id="password1" placeholder="Mật khẩu" required></p>
+															<p><input type="password" class="form-control" id="password1" name="password" placeholder="Mật khẩu" required></p>
 															<p><input type="password" class="form-control" id="password2" placeholder="Nhập lại mật khẩu" required></p>
 														</td>
 													</tr>
 												</tbody>
 											</table>
-											<input type="submit" id="form-add-account-submit" style="display: none">
 										</form>
 						      </div>
 						      <div class="modal-footer">
-										<button class="btn btn-primary" onclick="document.getElementById('form-add-account-submit').click();">Thêm tài khoản</button>
-						        <button type="button" class="btn btn-default" data-dismiss="modal" id="form-add-account-close">Đóng</button>
+										<button class="btn btn-primary" type="submit">Thêm tài khoản</button>
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 						      </div>
 						    </div>
+								</form>
 						  </div>
 						</div>
-
-						<h1>Tài khoản<a type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Thêm</a></h1>
-
+						<h1>
+							Tài khoản
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#account-modal">Thêm</button>
+							<button type="button" class="btn btn-default" id="delete-account">Xóa</button>
+							<button type="button" class="btn btn-default" id="edit-account" data-toggle="modal" data-target="#account-modal">Sửa</button>
+						</h1>
+						<hr/>
 						<div class="product-info">
-							<a href="admin.account.html" class="float-left"><h2>Tất cả  (12)</h2></a>
-							<a href="admin.account.html" class="float-left">Quản trị (1)</a>
-							<a href="admin.account.html" class="float-left">Bán hàng (2)</a>
-							<a href="admin.account.html" class="float-left">Mua hàng (9)</a>
+							<button type="button" class="btn btn-default">Tất cả</button>
+							<button type="button" class="btn btn-default">Quản trị</button>
+							<button type="button" class="btn btn-default">Mua hàng</button>
+							<button type="button" class="btn btn-default">Bán hàng</button>
 
-							<div class="form-group">
-								<a href="admin.account.html" class="btn btn-default float-right">Tìm kiếm</a>
-								<div class="col-xs-2 float-right">
+							<a href="admin.account.html" class="btn btn-default float-right">Tìm kiếm</a>
+							<div class="col-xs-2 float-right">
 								<input type="search" id="product-search" class="form-control">
-								</div>
 							</div>
 						</div>
 
-						<div class="btn btn-default">Xử lí loạt</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-default">Tác vụ</button>
-						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Xoá</a></li>
-								<li><a href="#">Khoá tài khoản</a></li>
-								<li><a href="#">Mở tài khoản</a></li>
-						  </ul>
-						</div>
-
-						<div class="btn btn-default">Lọc</a></div>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-default">Lọc tài khoản</button>
-						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#">Quản trị</a></li>
-						    <li><a href="#">Bán hàng</a></li>
-								<li><a href="#">Mua hàng</a></li>
-						  </ul>
-						</div>
-
 						<!--<a href="admin.account.html" class="btn btn-default float-right">3</a>
-						<a href="admin.account.html" class="btn btn-default float-right">2</a>-->
-						<a href="admin.account.html" class="btn btn-default float-right">1</a>
-
+						<a href="admin.account.html" class="btn btn-default float-right">2</a>
+						<a href="admin.account.html" class="btn btn-default float-right">1</a>-->
 						<div class="clear"></div>
 					</div>
+
 					<div class="box-content">
 						<div style="overflow-x:auto;">
 							<table class="account-table">
 								<thead>
 									<tr>
-										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" value=""></label></div></td>
+										<td style="width: 1%"><div class="checkbox"><label><input type="checkbox" id="checkAll"></label></div></td>
 										<td style="width: 15%">Tài khoản</td>
 										<td style="width: 15%">Tên đầy đủ</td>
 										<td style="width: 5%">Email</td>
@@ -152,9 +139,11 @@
 				</div>
 			</div>
 		</div>
-	<script type="text/javascript" src="/admin/js/notify.min.js"></script>
-	<script type="text/javascript" src="/admin/js/admin.account.js"></script>
 
+	<script type="text/javascript" src="/admin/js/notify.min.js"></script>
+	<script type="text/javascript" src="/admin/js/fileinput.min.js"></script>
+	<script type="text/javascript" src="/admin/js/jquery-confirm.min.js"></script>
+	<script type="text/javascript" src="/admin/js/admin.account.js"></script>
 	</div>
 </body>
 </html>

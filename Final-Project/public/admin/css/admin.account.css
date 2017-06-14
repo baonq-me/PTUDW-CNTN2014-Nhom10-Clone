@@ -1,3 +1,6 @@
+@import url("jquery-confirm.min.css");
+@import url("fileinput.min.css");
+
 .account-table tbody tr td img
 {
 	margin-right: 20px;
@@ -21,6 +24,10 @@
 	color: orange;
 }
 
+label {
+	display: block;
+}
+
 #account-profile table tbody tr th
 {
 	width: 170px;
@@ -36,4 +43,22 @@
 {
 	width: 400px;
 	resize: vertical;
+}
+
+
+.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+.kv-avatar .file-input {
+    display: table-cell;
+    max-width: 220px;
+}
+.kv-reqd {
+    color: red;
+    font-family: monospace;
+    font-weight: normal;
 }
