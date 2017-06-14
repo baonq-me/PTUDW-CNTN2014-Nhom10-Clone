@@ -513,6 +513,20 @@ username: username,
 		});
 	},
 
+	deleteUser: function(username)
+	{
+		var userModel = this.getUserModel();
+		userModel.findOneAndRemove({"loginInfo.localLogin.username": username}).exec(function(err, item){
+			//console.log(err);
+			//console.log(item);
+			if (!item)
+				userModel.findOneAndRemove({"loginInfo.socialLoginId.idS": username.replace(/[^0-9]/g, '')}).exec(function(err, item){
+					//console.log(err);
+					//console.log(item);
+				});
+		});
+	},
+
 	/* Hàm kiểm tra thông tin username và password khi đăng nhập
 	* @username: username người dùng nhập vào
 	* @password: Password người dùng nhập vào
@@ -1281,7 +1295,7 @@ username: username,
 			productModel.find({categorySlug: {$in: [data.slug]}})
 			.exec(function(err, data){
 				if (err) throw err;
-				for( i =0; i<data.length; i++){ 
+				for( i =0; i<data.length; i++){
 					data[i].categorySlug = data[i].categorySlug.splice(data[i].categorySlug.indexOf(data.slug), 1);
 				}
 
@@ -1294,7 +1308,7 @@ username: username,
 						callback("success");
 					}
 				});
-			
+
 			});
 		});
 	},
@@ -1347,7 +1361,7 @@ username: username,
 					newPrice: productInfo.newPrice,
 					detail: productInfo.detail,
 					quality: productInfo.quality,
-					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa, 
+					status: productInfo.status    	//Ngừng bán, Đang bán, Đã xóa,
 				});
 
 				product.save(function(err, data){

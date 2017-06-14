@@ -7,6 +7,7 @@ var router = require("express").Router();
 var dao = require('../database/dao.js');
 var async = require('async');
 var formidable = require("express-formidable");
+var fs = require("fs");
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -528,8 +529,6 @@ router.get("/account", isLoggedIn, function(req, res){
 
 // Add accounts
 router.post("/api/account/add", isLoggedIn, function(req, res){
-	console.log(req.body);
-
 	dao.fuck_addUserLocal_and_signup({
 		username: req.body.username,
 		fullname: req.body.fullname,
@@ -547,10 +546,12 @@ router.post("/api/account/add", isLoggedIn, function(req, res){
 });
 
 // Add accounts
-router.post("/api/account/avatar/upload", isLoggedIn, function(req, res){
-	console.log(req.avatar);
-	console.log(req.body);
-	res.send("abc");
+router.get("/api/account/delete", isLoggedIn, function(req, res){
+	console.log(req.query.users);
+	req.query.users.forEach(function(user) {
+    dao.deleteUser(user);
+	});
+	res.status(200).send("");
 });
 
 router.get("/api/account/get/all", isLoggedIn, function(req, res){
