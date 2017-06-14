@@ -7,17 +7,23 @@ $(document).ready(function(){
 			$('#categories').append(row);
 		}
 
+		function setQuality(quality){
+			$("#quality").text (quality);
+		}
+
 		$.ajax({
 			url: '/admin/categories', //URL lay du lieu
 			type: 'GET',
 			data: {count: count, skip: skip},
 			success: function(res) {
+				alert('ok');
 				if(isEmpty)
 					$('#categories').empty();
-				for (i = 0; i < res.length; ++i) {
-					addRow(res[i]);
+				setQuality(res.quality);
+				for (i = 0; i < res.categories.length; ++i) {
+					addRow(res.categories[i]);
 				}
-				if(res.length <= count){					
+				if(res.categories.length <= count){					
 					$(".view-more").hide();
 				}
 				else{
@@ -45,7 +51,7 @@ $(document).ready(function(){
 
 	//Xóa category
 	$("#delete-category").click(function(){
-		//alert(123);
+		alert(123);
 		var categories = [];
 		$('#categories .checkbox input:checked').each(function(){
 			categories.push($(this).data("id"));
@@ -57,15 +63,18 @@ $(document).ready(function(){
 			data: {
 				categories:categories
 			},
-			success: function(status){
-				if (status=="success"){
-					console.log(status);
-					alert('Xóa nhóm sản phẩm thành công');
-					loadCategories(10, 0);
+			success: function(results){
+				console.log(results);
+				for (i=0; i<results.length; i++){
+					if(results[i] == "success"){
+						alert( 'đã được xóa thành công');
+						loadCategories(10, 0);
+					}
+					else
+					{
+						alert( 'không được xóa thành công');
+					}
 				}
-				else
-					alert('Xóa nhóm sản phẩm không thành công!');
-
 			}
 
 		});

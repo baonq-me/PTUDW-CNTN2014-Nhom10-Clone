@@ -412,7 +412,10 @@ router.post("/group-add", isLoggedIn, function(req, res){
 
 router.get("/categories", isLoggedIn, function(req, res){
 	dao.getAllCategory(function(categories){
-			res.json(categories);
+		dao.countCategories(function(quality){
+			res.json({categories, quality});
+		});
+			
 	}, Number(req.query.count), Number(req.query.skip));
 });
 
@@ -420,11 +423,15 @@ router.get("/categories", isLoggedIn, function(req, res){
 router.post("/categories/delete", isLoggedIn, function(req, res){
 	//Mảng các id của các categories cần xóa
 	var categories = req.body.categories;
+	var results = [];
 
 	for(i=0; i<categories.length; i++){
 		dao.deleteCategory(categories[i], function(result){
-			if ((result == "fail") || (i == categories.length - 1)){
-				res.json(result);
+			results.push(result);
+			if(i == categories.length -1 ){
+				console.log(results);
+				res.json(results);
+
 			}
 		});
 	}
