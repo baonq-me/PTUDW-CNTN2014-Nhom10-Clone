@@ -6,6 +6,8 @@
 var router = require("express").Router();
 var dao = require('../database/dao.js');
 var async = require('async');
+fileUpload = require('express-fileupload');
+
 // Mở kết nối cho db
 
 // Nếu muốn dùng thirt party
@@ -322,7 +324,7 @@ router.post("/group-add", isLoggedIn, function(req, res){
 			else{
 				dao.addCategory(name, slug, icon, function(){
 					res.redirect("/admin/group");
-				});	
+				});
 			}
 		});
 	});
@@ -433,18 +435,29 @@ router.get("/account", isLoggedIn, function(req, res){
 
 // Add accounts
 router.post("/api/account/add", isLoggedIn, function(req, res){
+	console.log(req.body);
+
 	dao.fuck_addUserLocal_and_signup({
 		username: req.body.username,
 		fullname: req.body.fullname,
 		email: req.body.email,
 		phone: req.body.phone,
-		role: req.body.role
+		role: req.body.role,
+		address: req.body.address,
+		password: req.body.passwordCo
 	}, function(ok){
 		if (ok)
 			res.status(200).send("Done");
 		else
 			res.status(400).send("Fail to add user");
 		});
+});
+
+// Add accounts
+router.post("/api/account/avatar/upload", isLoggedIn, function(req, res){
+	console.log(req.avatar);
+	console.log(req.body);
+	res.send("abc");
 });
 
 router.get("/api/account/get/all", isLoggedIn, function(req, res){

@@ -54,7 +54,7 @@ var dao = {
 	  		detail: String,
 	  		quality: Number,
 	  		dateAdded :{ type: Date, default: Date.now },
-	  		status: String    	//Ngừng bán, Đang bán, Đã xóa, 
+	  		status: String    	//Ngừng bán, Đang bán, Đã xóa,
 	  	});
 
 	  	//Tạo model từ productSchema và có tên collection là 'products'
@@ -488,13 +488,14 @@ username: username,
 						typeLg: "local",
 						localLogin: {
 							username: regInfo.username,
-							password: dao.passwordHash.generate("Abcdef1234")
+							password: dao.passwordHash.generate(regInfo.password)
 						}
 					},
 					baseInfo: {
 						fullName: regInfo.fullname,
 						email: regInfo.email,
-						tel: regInfo.phone
+						tel: regInfo.phone,
+						address: regInfo.address
 					},
 					role: {
 						name: regInfo.role
@@ -1216,7 +1217,7 @@ username: username,
 
 	/****** Thêm nhóm sản phẩm**********/
 	/*
-	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa?
 	* @param : tên nhóm sản phẩm cần kiểm tra
 	* @param: thực hiện sau khi kiểm tra
 	*/
@@ -1235,7 +1236,7 @@ username: username,
 		});
 	},
 	/*
-	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa? 
+	* Kiếm tra đã tồn tài tên nhóm sản phẩm hay chưa?
 	* @param : tên nhóm sản phẩm cần kiểm tra
 	* @param: thực hiện sau khi kiểm tra
 	*/
@@ -1254,8 +1255,8 @@ username: username,
 		});
 	},
 	/*
-	* Thêm nhóm sản phẩm 
-	* @param : tên nhóm sản phẩm 
+	* Thêm nhóm sản phẩm
+	* @param : tên nhóm sản phẩm
 	* @param: slug
 	* @param: icon nhóm sản phẩm
 	*/

@@ -25,12 +25,12 @@ var router = express.Router();
  app.use(flash());
  app.use(passport.initialize());
  app.use(passport.session());
- 
+
  //Import body-parser cho app
  app.use(bodyParser.urlencoded({extended: true}));
 
  //Chọn đường dẫn thư mục public, chứa những file static
- app.use(express.static(__dirname + '/public')); 
+ app.use(express.static(__dirname + '/public'));
 
 controller(app);
 
@@ -39,5 +39,3 @@ controller(app);
 app.listen(3000, function(){
 	console.log("localhost:3000");
 });
-
-
