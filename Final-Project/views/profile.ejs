@@ -23,17 +23,35 @@
 						</div>
 						<% } %>
 						<div class="item">
-							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="edit" data-info>
+								<div class="form" id="edit-email" style="display: none;">
+									<input type="email" name="email" placeholder="Email mới" class="form-control" style="display: inline-block; width: auto;">
+									<button style="background: #00b0ff; color: #fff; border: none; border-radius: 2px; height: 32px; width: 50px">Đổi</button>
+								</div>
+								<i class="fa fa-pencil icon-click" aria-hidden="true"></i>
+							</div>
 							<div class="col-xs-3 title">Email:</div>
 							<div class="col-xs-9 info"><i><%= content.email %></i></div>
 						</div>
 						<div class="item">
-							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="edit" data-info>
+								<div class="form" id="edit-phone" style="display: none;">
+									<input type="phone" name="phone" placeholder="Số điện thoại" class="form-control" style="display: inline-block; width: auto;">
+									<button style="background: #00b0ff; color: #fff; border: none; border-radius: 2px; height: 32px; width: 50px">Đổi</button>
+								</div>
+								<i class="fa fa-pencil icon-click" aria-hidden="true"></i>
+							</div>
 							<div class="col-xs-3 title">Số điện thoại:</div>
 							<div class="col-xs-9 info"><i><%= content.phone %></i></div>
 						</div>
 						<div class="item">
-							<div class="edit" data-info><i class="fa fa-pencil" aria-hidden="true"></i></div>
+							<div class="edit" data-info>
+								<div class="form" id="edit-addr" style="display: none;">
+									<input type="text" name="addr" placeholder="Địa chỉ" class="form-control" style="display: inline-block; width: auto;">
+									<button style="background: #00b0ff; color: #fff; border: none; border-radius: 2px; height: 32px; width: 50px">Đổi</button>
+								</div>
+								<i class="fa fa-pencil icon-click" aria-hidden="true"></i>
+							</div>
 							<div class="col-xs-3 title">Địa chỉ:</div>
 							<div class="col-xs-9 info"><i><%= content.address %></i></div>
 						</div>
@@ -47,6 +65,7 @@
 		</div>
 		<div class="cart-pay">
 			<div class="container">
+				<h2>Lịch sử mua hàng</h2>
 				<div class="table-responsive list-cart">
 					<table class="table table-hover bill-history">
 						<thead>

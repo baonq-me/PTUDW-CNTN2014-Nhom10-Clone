@@ -1132,7 +1132,7 @@ form[name=change_pass] .form-control, form[name=change_pass] .input-group-addon 
 }
 /****************** Profile *************/
 .profile-detail{ }
-.profile-detail .item { margin-bottom: 25px; overflow: auto; position: relative; min-height: 30px }
+.profile-detail .item { margin-bottom: 15px; overflow: auto; position: relative; min-height: 40px }
 .profile-detail .title {
 	font-weight: bold;
 	color: #555
