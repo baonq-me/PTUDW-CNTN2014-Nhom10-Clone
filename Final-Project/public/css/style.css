@@ -152,6 +152,9 @@ body{
 	color:  #FF1493;
 }
 
+#primary-menu .dropdown-menu>.active>a, #primary-menu .dropdown-menu>.active>a:focus, #primary-menu .dropdown-menu>.active>a:hover{
+	background-color: #00b0ff;
+}
 
 
 /*Search*/
