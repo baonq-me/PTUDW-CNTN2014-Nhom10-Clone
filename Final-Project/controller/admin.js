@@ -290,7 +290,7 @@ router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
 	}
 	if(req.files.image.path){
 		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
-		var imagePath = "./public" + imageUrl;
+		var imagePath = "./Final-Project/public" + imageUrl;
 		var data = fs.readFileSync(req.files.image.path);
 		if(fs.writeFileSync(imagePath, data) == undefined){
 			// thành công
