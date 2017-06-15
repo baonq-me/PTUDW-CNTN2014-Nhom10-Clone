@@ -22,11 +22,10 @@ var getUser = function(req){
 }
 // Kiểm tra đăng nhập
 var isLoggedIn = (req, res, next) => {
-	//var user = getUser(req);
-	//if (user == null)
-	//	res.redirect("/admin/login");
-	//else next();
-	next();
+	var user = getUser(req);
+	if (user == null)
+		res.redirect("/admin/login");
+	else next();
 }
 
 //Lấy header
@@ -705,7 +704,7 @@ router.post("/order/add", isLoggedIn, (req, res) => {
 		if (product && product != "0" && countProduct > 0)
 			products.push({productID: product, count: countProduct});
 	}
-	
+
 	var functionCartsInfo = [];
 	products.forEach(function(product){
 		functionCartsInfo.push(function(callback){

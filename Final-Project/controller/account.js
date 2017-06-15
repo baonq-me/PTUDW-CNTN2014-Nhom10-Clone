@@ -24,7 +24,7 @@ var router = require("express").Router();
 	});
 	// Routing login local admin
 	router.post("/admin/auth/local", passport.authenticate('local-admin', {successRedirect: "/admin", failureRedirect:"/admin/login"}));
-	
+
 	// Cấu hình routing login facebook
 	router.get("/auth/fb", passport.authenticate('facebook', {scope:["email", "user_location"]}));
 	router.get("/auth/fb/cb", function(req, res, next) {
@@ -73,9 +73,9 @@ var router = require("express").Router();
 		{
 			clientID: "801495239999622",
 			clientSecret: "e15683384ec8ca903271d0b20add0b7c",
-			callbackURL: "http://localhost:3000/auth/fb/cb",
+			callbackURL: "http://localhost:80/auth/fb/cb",
 			profileFields: ["email", "picture.type(large)", "displayName", "location"]
-		}, 
+		},
 		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial({typeS: "facebook", idS: profile._json.id}, function(user){
 				if(user != null) return done(null, user);
@@ -105,8 +105,8 @@ var router = require("express").Router();
 		{
 			clientID: "844347689148-l9j7jcpi4desba3u8q2ui6u443eu03l6.apps.googleusercontent.com",
 			clientSecret: "gElzK3xqALTiR5cSDaCQbGw0",
-			callbackURL: "http://localhost:3000/auth/gg/cb",
-		}, 
+			callbackURL: "http://localhost:80/auth/gg/cb",
+		},
 		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial({typeS: "google", idS: profile.id}, function(user){
 				if(user != null) return done(null, user);
