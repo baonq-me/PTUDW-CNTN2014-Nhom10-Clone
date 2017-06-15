@@ -289,8 +289,8 @@ router.post("/product/add", formidable(), isLoggedIn, (req, res) => {
 			categories.push(cat);
 	}
 	if(req.files.image.path){
-		var imageUrl = getFilePath(req.files.image.name, "/");
-		var imagePath = "." + imageUrl;
+		var imageUrl = getFilePath(req.files.image.name, "/uploads/");
+		var imagePath = "./public" + imageUrl;
 		var data = fs.readFileSync(req.files.image.path);
 		if(fs.writeFileSync(imagePath, data) == undefined){
 			// thành công
