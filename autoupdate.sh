@@ -1,5 +1,11 @@
 #!/bin/bash
 
-killall node
-git pull
-node Final-Project/app.js
+nodemon -e js,ejs Final-Project/app.js &
+while [ : ]
+do
+	git pull
+	git add *
+	git commit -m "File uploaded by users"
+	git push
+	sleep 10
+done
