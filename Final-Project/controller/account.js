@@ -73,7 +73,7 @@ var router = require("express").Router();
 		{
 			clientID: "801495239999622",
 			clientSecret: "e15683384ec8ca903271d0b20add0b7c",
-			callbackURL: "http://localhost:80/auth/fb/cb",
+			callbackURL: "http://nhom10.gomakers.vn/auth/fb/cb",
 			profileFields: ["email", "picture.type(large)", "displayName", "location"]
 		},
 		function (accessToken, refreshToken, profile, done){
@@ -105,7 +105,7 @@ var router = require("express").Router();
 		{
 			clientID: "844347689148-l9j7jcpi4desba3u8q2ui6u443eu03l6.apps.googleusercontent.com",
 			clientSecret: "gElzK3xqALTiR5cSDaCQbGw0",
-			callbackURL: "http://localhost:80/auth/gg/cb",
+			callbackURL: "http://nhom10.gomakers.vn/auth/gg/cb",
 		},
 		function (accessToken, refreshToken, profile, done){
 			dao.getUserSocial({typeS: "google", idS: profile.id}, function(user){
