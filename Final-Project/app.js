@@ -36,6 +36,6 @@ controller(app);
 
 
 // Server
-app.listen(3000, function(){
-	console.log("localhost:3000");
+app.listen(80, function(){
+	console.log("LISTENING AT PORT 80/HTTP");
 });
